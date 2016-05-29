@@ -12,18 +12,13 @@ class Chart extends Component {
       <div>
       {
         React.createElement(NVD3Chart, {
-          type: this.state.type,
-          height: this.state.height,
-          x: (d) => d[0],
-          y: (d) => d[1],
-          datum: this.state.datum,
-          margin: {
-            bottom: 150,
-            left: 150,
-          },
-          legend: {
-            padding: 27,
-          },
+          type: this.props.data.options.type,
+          height: this.props.data.options.height,
+          x: (d) => d.label,
+          y: (d) => d.value,
+          showLegend: false,
+          showLabels: false,
+          datum: this.props.data.data,
         })
       }
       </div>
