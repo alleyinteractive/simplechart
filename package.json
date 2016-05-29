@@ -53,6 +53,7 @@
     "d3": "^3.5.16",
     "mori": "^0.3.2",
     "react": "^0.14.6",
+    "react-addons-update": "^15.1.0",
     "react-autocomplete": "^0.2.1",
     "react-dom": "^0.14.6",
     "react-nvd3": "^0.5.7",

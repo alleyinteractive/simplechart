@@ -14,11 +14,15 @@
  */
 
 import { RECEIVE_DATA } from '../constants';
+import update from 'react-addons-update';
 
-export default function dataReducer(state = [], action) {
+export default function dataReducer(state = {}, action) {
   switch (action.type) {
-    case RECEIVE_DATA:
-      return action.data;
+    case RECEIVE_DATA: {
+      const receivedData = {};
+      receivedData[action.data.widget] = action.data.data;
+      return update(state, { $merge: receivedData });
+    }
     default:
       return state;
   }

@@ -10,9 +10,11 @@ class App extends Component {
   }
 
   _renderChart() {
-    if (this.props.data.data.options) {
+    if (this.props.data.data[this.props.widget] &&
+      this.props.data.data[this.props.widget].options
+    ) {
       return (
-        <Chart data={this.props.data.data} />
+        <Chart data={this.props.data.data[this.props.widget]} />
       );
     }
     return (
@@ -31,6 +33,7 @@ class App extends Component {
 
 App.propTypes = {
   data: React.PropTypes.object,
+  widget: React.PropTypes.string,
 };
 
 // Which props to inject from the global atomic state

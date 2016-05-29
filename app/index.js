@@ -6,10 +6,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { bootstrapData } from './actions';
 
-// Array.prototype.find polyfill for IE11
-import FindPolyfill from 'array.prototype.find';
-FindPolyfill.shim();
-
 // Import components
 import App from './components/App';
 
@@ -21,8 +17,6 @@ const store = createStore(rootReducer, compose(
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
 
-store.dispatch(bootstrapData());
-
 // Make reducers hot reloadable, see http://stackoverflow.com/questions/34243684/make-redux-reducers-and-other-non-components-hot-loadable
 if (module.hot) {
   module.hot.accept('./reducers/rootReducer', () => {
@@ -31,10 +25,18 @@ if (module.hot) {
   });
 }
 
-// Set up routes for pages that are wrapped in the App component
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('app')
-);
+// Render each widget on the page
+const widgets = document.querySelectorAll('.simplechart-widget');
+if (widgets.length) {
+  for (let i = 0; i < widgets.length; ++i) {
+    store.dispatch(
+      bootstrapData(widgets[i].id, widgets[i].getAttribute('data-url'))
+    );
+    ReactDOM.render(
+      <Provider store={store}>
+        <App widget={widgets[i].id} />
+      </Provider>,
+      widgets[i]
+    );
+  }
+}

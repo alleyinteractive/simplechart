@@ -1,5 +1,4 @@
 import {
-  REQUEST_DATA,
   RECEIVE_DATA,
 } from '../constants';
 
@@ -7,15 +6,15 @@ export default function actionTrigger(type, data) {
   return { type, data };
 }
 
-export function bootstrapData() {
+export function bootstrapData(widgetId, fetchUrl) {
   return function(dispatch) {
-    dispatch(actionTrigger(REQUEST_DATA));
-
     /**
      * async data request
      */
-    return fetch('/static/sampleData.json')
+    return fetch(fetchUrl)
       .then((response) => response.json())
-      .then((json) => dispatch(actionTrigger(RECEIVE_DATA, json)));
+      .then((json) => dispatch(
+        actionTrigger(RECEIVE_DATA, { widget: widgetId, data: json }))
+      );
   };
 }
