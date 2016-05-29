@@ -1,0 +1,14 @@
+/* https://standards.usa.gov/visual-style/#typography */
+:root {
+  --serif: 'Merriweather', 'Georgia', serif;
+  --sans-serif: 'Source Sans Pro', 'Helvetica', 'Arial', sans-serif;
+  --sans-serif-bold: 'Source Sans Pro Bold', var(--font-body);
+  --h1: 700 2.5em/calc(45/40) var(--serif);
+  --h2: 700 1.5em/calc(30/24) var(--serif);
+  --h3: 700 1.25em/calc(30/20) var(--serif);
+  --h4: 700 1.125em/calc(27/18) var(--serif);
+  --h5: 700 1em/calc(24/16) var(--serif);
+  --h6: 700 1em/calc(24/16) var(--serif);
+  --body: 400 1em/calc(24/16) var(--sans-serif);
+  --chartlabel-font-size: 1.25em;
+}
