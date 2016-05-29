@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Chart from './Chart';
 import '../css/base.css';
 
-class App extends Component {
+class Widget extends Component {
   constructor() {
     super();
     this._renderChart = this._renderChart.bind(this);
@@ -31,7 +31,7 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
+Widget.propTypes = {
   data: React.PropTypes.object,
   widget: React.PropTypes.string,
 };
@@ -41,4 +41,4 @@ export default connect((state) =>
   ({
     data: state,
   })
-)(App);
+)(Widget);
