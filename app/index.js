@@ -5,8 +5,6 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { bootstrapData } from './actions';
-
-// Import components
 import App from './components/App';
 
 // Create the store with redux-thunk middleware, which allows us to
@@ -32,6 +30,10 @@ if (widgets.length) {
     store.dispatch(
       bootstrapData(widgets[i].id, widgets[i].getAttribute('data-url'))
     );
+    /**
+     * @todo change App props to like data={store[widgets[i].id]}
+     * so every chart isn't re-rendered after each AJAX response
+     */
     ReactDOM.render(
       <Provider store={store}>
         <App widget={widgets[i].id} />
