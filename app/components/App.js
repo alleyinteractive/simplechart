@@ -16,9 +16,6 @@ class App extends Component {
       );
     }
     return (
-      /**
-       * @todo Spinner here instead of index.html
-       */
       <span>waiting for data</span>
     );
   }

@@ -12,7 +12,7 @@ export function bootstrapData() {
     dispatch(actionTrigger(REQUEST_DATA));
 
     /**
-     * AJAX data request
+     * async data request
      */
     return fetch('/static/sampleData.json')
       .then((response) => response.json())

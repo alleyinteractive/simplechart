@@ -31,10 +31,6 @@ if (module.hot) {
   });
 }
 
-if (window.spinner) {
-  window.spinner.stop();
-}
-
 // Set up routes for pages that are wrapped in the App component
 ReactDOM.render(
   <Provider store={store}>

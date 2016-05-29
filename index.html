@@ -16,35 +16,6 @@
     <header>
         <h1>Simplechart React</h1>
     </header>
-    <!-- preload spinner -->
-    <script src="static/spin.min.js"></script>
-    <div id="preload-spin"></div>
-    <script>
-      window.spinner = new Spinner({
-        lines: 13,
-        length: 22,
-        width: 10,
-        radius: 40,
-        scale: 1,
-        corners: 0.4,
-        color: '#0071bc', /* --primary */
-        opacity: 0.25,
-        rotate: 0,
-        direction: 1,
-        speed: 1,
-        trail: 60,
-        fps: 20,
-        zIndex: 2e9,
-        className: 'spinner',
-        top: '350px',
-        left: '50%',
-        shadow: false,
-        hwaccel: false,
-        position: 'absolute',
-      }).spin(document.getElementById('preload-spin'));
-    </script>
-    <!-- /preload spinner -->
-
     <div id='app'></div>
     <script src="/static/bundle.js"></script>
   </body>
