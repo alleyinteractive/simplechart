@@ -1,26 +1,32 @@
-/* eslint max-len:0 */
-/* eslint-disable no-console */
-/* eslint-disable no-param-reassign */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import NVD3Chart from 'react-nvd3';
+import PieChart from './ChartTypes/PieChart/';
 
 class Chart extends Component {
+
+  constructor() {
+    super();
+    this._renderChartType = this._renderChartType.bind(this);
+  }
+
+  _renderChartType() {
+    switch (this.props.data.options.type) {
+      case 'pieChart':
+        return (
+          <PieChart data={this.props.data} />
+        );
+
+      default:
+        return (
+          <span>Unknown chart type: {this.props.data.options.type}</span>
+        );
+    }
+  }
 
   render() {
     return (
       <div>
-      {
-        React.createElement(NVD3Chart, {
-          type: this.props.data.options.type,
-          height: this.props.data.options.height,
-          x: (d) => d.label,
-          y: (d) => d.value,
-          showLegend: false,
-          showLabels: false,
-          datum: this.props.data.data,
-        })
-      }
+        {this._renderChartType()}
       </div>
     );
   }
