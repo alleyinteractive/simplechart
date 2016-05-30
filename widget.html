@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title>Simplechart React</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css"/>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <style>
+        header > h1 {
+            text-align: center;
+            font-family: sans-serif;
+        }
+    </style>
+  </head>
+  <body>
+    <header>
+        <h1>Simplechart async widget examples</h1>
+    </header>
+
+    <h2>Widget 1 - pie chart</h2>
+    <div
+      id='widget1'
+      class='simplechart-widget'
+      data-url='/static/sampleData1.json'
+    ></div>
+
+    <h2>Widget 2 - pie chart</h2>
+    <div
+      id='widget2'
+      class='simplechart-widget'
+      data-url='/static/sampleData2.json'
+    ></div>
+
+    <script src="/static/widget.js"></script>
+  </body>
+</html>

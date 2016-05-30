@@ -10,7 +10,20 @@ var postcssLost = require('lost');
 var stylelint = require('stylelint');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var entry = ['./app/index'];
+var entry = [];
+var output = {
+  path: path.join(__dirname, 'static'),
+  publicPath: '/static/'
+};
+
+if (process.env.WIDGET) {
+  entry.push('./app/widget');
+  output.filename = 'widget.js';
+} else {
+  entry.push('./app/index');
+  output.filename = 'bundle.js';
+}
+
 var jsLoaders = ['babel'];
 
 if (process.env.DEVELOPMENT) {
@@ -27,15 +40,10 @@ var plugins = process.env.DEVELOPMENT ?
   [new webpack.HotModuleReplacementPlugin()] :
   [];
 
-
 module.exports = {
   devtool: 'source-map',
   entry: entry,
-  output: {
-    path: path.join(__dirname, 'static'),
-    filename: 'bundle.js',
-    publicPath: '/static/'
-  },
+  output: output,
   plugins: plugins,
   postcss: function(webpack) {
     return [
