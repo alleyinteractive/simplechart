@@ -3,3 +3,11 @@
   width: 100%;
   display: block;
 }
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}

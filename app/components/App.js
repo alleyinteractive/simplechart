@@ -9,7 +9,10 @@ class App extends Component {
   render() {
     return (
       <div>
-        <DataInput rawData={this.props.state.rawData} />
+        <DataInput
+          rawData={this.props.state.rawData}
+          dataStatus={this.props.state.dataSatus}
+        />
       </div>
     );
   }

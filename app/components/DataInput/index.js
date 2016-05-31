@@ -1,19 +1,49 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as styles from '../../css/components.css';
-import { textarea } from './DataInput.css';
+import { appComponent } from '../../css/components.css';
+import * as styles from './DataInput.css';
+import { RECEIVE_RAW_DATA } from '../../constants';
+import actionTrigger from '../../actions';
 
 class DataInput extends Component {
 
+  constructor() {
+    super();
+    this._handleClick = this._handleClick.bind(this);
+  }
+
+  _handleClick() {
+    this.props.dispatch(
+      actionTrigger(RECEIVE_RAW_DATA, this.refs.dataInput.value)
+    );
+  }
+
   render() {
+    let dataStatus = 'Waiting for data input';
+    let dataStatusClass = 'default';
+
+    if (this.props.dataStatus) {
+      if (this.props.dataStatus.message) {
+        dataStatus = this.props.dataStatus.message;
+      }
+
+      if (this.props.dataStatus.status) {
+        dataStatusClass = this.props.dataStatus.status;
+      }
+    }
+
     return (
-      <div className={styles.component}>
+      <div className={appComponent}>
         <textarea
           id="DataInput"
-          className={textarea}
+          className={styles.textarea}
           value={this.props.rawData}
+          ref="dataInput"
         />
         <button onClick={this._handleClick}>Go</button>
+        <span className={styles[dataStatusClass]}>
+          {dataStatus}
+        </span>
       </div>
     );
   }
@@ -22,6 +52,8 @@ class DataInput extends Component {
 
 DataInput.propTypes = {
   rawData: React.PropTypes.string,
+  dataStatus: React.PropTypes.object,
+  dispatch: React.PropTypes.func,
 };
 
 export default connect()(DataInput);
