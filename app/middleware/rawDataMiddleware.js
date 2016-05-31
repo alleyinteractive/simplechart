@@ -3,6 +3,7 @@ import {
   PARSE_RAW_DATA,
 } from '../constants';
 import actionTrigger from '../actions';
+import dsv from 'd3-dsv';
 
 export default function rawDataMiddleware() {
   return (next) => (action) => {
@@ -18,6 +19,5 @@ export default function rawDataMiddleware() {
 }
 
 function _parseRawData(rawData) {
-  console.log(rawData, '_parseRawData');
-  return rawData;
+  return dsv.csvParse(rawData);
 }

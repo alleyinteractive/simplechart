@@ -6,8 +6,10 @@
 import { combineReducers } from 'redux';
 import dataReducer from './dataReducer';
 import rawDataReducer from './rawDataReducer';
+import parsedDataReducer from './parsedDataReducer';
 
 export default combineReducers({
   data: dataReducer,
   rawData: rawDataReducer,
+  parsedData: parsedDataReducer,
 });
