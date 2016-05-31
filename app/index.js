@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import rawDataMiddleware from './middleware/rawDataMiddleware';
 import { bootstrapAppData } from './actions';
 import App from './components/App';
 
@@ -11,7 +12,7 @@ import App from './components/App';
 // do asyncronous things in the actions
 import rootReducer from './reducers/rootReducer';
 const store = createStore(rootReducer, compose(
-  applyMiddleware(thunk),
+  applyMiddleware(thunk, rawDataMiddleware),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
 

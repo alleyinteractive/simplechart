@@ -10,12 +10,20 @@ class DataInput extends Component {
   constructor() {
     super();
     this._handleClick = this._handleClick.bind(this);
+    this._updateValue = this._updateValue.bind(this);
+    this.state = {
+      rawData: null,
+    };
   }
 
   _handleClick() {
     this.props.dispatch(
       actionTrigger(RECEIVE_RAW_DATA, this.refs.dataInput.value)
     );
+  }
+
+  _updateValue(evt) {
+    this.setState({ rawData: evt.target.value });
   }
 
   render() {
@@ -32,12 +40,15 @@ class DataInput extends Component {
       }
     }
 
+    const rawData = this.state.rawData || this.props.rawData;
+
     return (
       <div className={appComponent}>
         <textarea
           id="DataInput"
           className={styles.textarea}
-          value={this.props.rawData}
+          value={rawData}
+          onChange={this._updateValue}
           ref="dataInput"
         />
         <button onClick={this._handleClick}>Go</button>
