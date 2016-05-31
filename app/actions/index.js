@@ -1,4 +1,5 @@
 import {
+  RECEIVE_RAW_DATA,
   RECEIVE_DATA,
 } from '../constants';
 
@@ -6,13 +7,18 @@ export default function actionTrigger(type, data) {
   return { type, data };
 }
 
-export function bootstrapData(widgetId, fetchUrl) {
+export function bootstrapAppData() {
   return function(dispatch) {
     /**
      * @todo check for app being in iframe and listen for postMessage
      * i.e. when editing a previously built chart
      */
+    dispatch(actionTrigger(RECEIVE_RAW_DATA, ''));
+  };
+}
 
+export function bootstrapWidgetData(widgetId, fetchUrl) {
+  return function(dispatch) {
     /**
      * async data request
      */

@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { bootstrapData } from './actions';
+import { bootstrapAppData } from './actions';
 import App from './components/App';
 
 // Create the store with redux-thunk middleware, which allows us to
@@ -15,7 +15,7 @@ const store = createStore(rootReducer, compose(
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
 
-store.dispatch(bootstrapData());
+store.dispatch(bootstrapAppData());
 
 // Make reducers hot reloadable, see http://stackoverflow.com/questions/34243684/make-redux-reducers-and-other-non-components-hot-loadable
 if (module.hot) {

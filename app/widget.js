@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { bootstrapData } from './actions';
+import { bootstrapWidgetData } from './actions';
 import Widget from './components/Widget';
 
 // Create the store with redux-thunk middleware, which allows us to
@@ -28,7 +28,7 @@ const widgets = document.querySelectorAll('.simplechart-widget');
 if (widgets.length) {
   for (let i = 0; i < widgets.length; ++i) {
     store.dispatch(
-      bootstrapData(widgets[i].id, widgets[i].getAttribute('data-url'))
+      bootstrapWidgetData(widgets[i].id, widgets[i].getAttribute('data-url'))
     );
     /**
      * @todo change Widget props to like data={store[widgets[i].id]}
