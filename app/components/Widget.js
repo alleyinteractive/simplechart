@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Chart from './Chart';
-import '../css/base.css';
 
 class Widget extends Component {
   constructor() {

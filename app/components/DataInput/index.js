@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as styles from './DataInput.css';
+import * as styles from '../../css/components.css';
+import { textarea } from './DataInput.css';
 
 class DataInput extends Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.component}>
         <textarea
           id="DataInput"
-          className={styles.DataInput}
+          className={textarea}
           value={this.props.rawData}
         />
         <button onClick={this._handleClick}>Go</button>
