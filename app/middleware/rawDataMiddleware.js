@@ -30,7 +30,7 @@ export default function rawDataMiddleware() {
       if (parsedData[2].length) {
         statusObj = {
           status: 'error',
-          message: parsedData[1].join('; '),
+          message: parsedData[2].join('; '),
         };
       } else {
         statusObj = {
@@ -53,6 +53,7 @@ export default function rawDataMiddleware() {
 function _parseRawData(rawData) {
   const parsed = Papa.parse(rawData, {
     header: true,
+    skipEmptyLines: true,
   });
 
   const errors = [];
