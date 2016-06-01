@@ -14,6 +14,9 @@ class ChartTypeSelector extends Component {
     this._testChartTypes();
   }
 
+  /**
+   * @todo Why does this take 2 clicks?
+   */
   componentWillReceiveProps() {
     this._testChartTypes();
   }
@@ -30,6 +33,19 @@ class ChartTypeSelector extends Component {
   render() {
     return (
       <div className={appComponent}>
+        <h3>Available Chart Types</h3>
+        <ul>
+        {Object.keys(this.state).map((type) =>
+          !this.state[type] ?
+            (<li>{type}</li>) :
+            (<li><a
+              href="#0"
+              onClick={this._handleClick}
+              data-type={type}
+            >{type}</a></li>)
+          )
+        }
+        </ul>
       </div>
     );
   }
