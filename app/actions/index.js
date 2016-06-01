@@ -1,6 +1,6 @@
 import {
   RECEIVE_RAW_DATA,
-  RECEIVE_DATA,
+  RECEIVE_API_DATA,
 } from '../constants';
 
 export default function actionTrigger(type, data) {
@@ -25,7 +25,7 @@ export function bootstrapWidgetData(widgetId, fetchUrl) {
     return fetch(fetchUrl)
       .then((response) => response.json())
       .then((json) => dispatch(
-        actionTrigger(RECEIVE_DATA, { widget: widgetId, data: json }))
+        actionTrigger(RECEIVE_API_DATA, { widget: widgetId, data: json }))
       );
   };
 }

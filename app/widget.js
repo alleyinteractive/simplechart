@@ -9,7 +9,7 @@ import Widget from './components/Widget';
 
 // Create the store with redux-thunk middleware, which allows us to
 // do asyncronous things in the actions
-import rootReducer from './reducers/rootReducer';
+import rootReducer from './reducers/widget/rootReducer';
 const store = createStore(rootReducer, compose(
   applyMiddleware(thunk),
   window.devToolsExtension ? window.devToolsExtension() : f => f
@@ -17,8 +17,8 @@ const store = createStore(rootReducer, compose(
 
 // Make reducers hot reloadable, see http://stackoverflow.com/questions/34243684/make-redux-reducers-and-other-non-components-hot-loadable
 if (module.hot) {
-  module.hot.accept('./reducers/rootReducer', () => {
-    const nextRootReducer = require('./reducers/rootReducer').default;
+  module.hot.accept('./reducers/widget/rootReducer', () => {
+    const nextRootReducer = require('./reducers/widget/rootReducer').default;
     store.replaceReducer(nextRootReducer);
   });
 }
