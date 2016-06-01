@@ -11,7 +11,7 @@ class App extends Component {
       <div>
         <DataInput
           rawData={this.props.state.rawData}
-          dataStatus={this.props.state.dataSatus}
+          dataStatus={this.props.state.dataStatus}
         />
       </div>
     );

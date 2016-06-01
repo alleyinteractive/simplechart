@@ -2,3 +2,4 @@ export const REQUEST_DATA = 'REQUEST_DATA';
 export const RECEIVE_DATA = 'RECEIVE_DATA';
 export const RECEIVE_RAW_DATA = 'RECEIVE_RAW_DATA';
 export const PARSE_RAW_DATA = 'PARSE_RAW_DATA';
+export const PARSE_DATA_STATUS = 'PARSE_DATA_STATUS';
