@@ -1,8 +1,8 @@
-import { PARSE_RAW_DATA } from '../constants';
+import { RECEIVE_CHART_DATA } from '../constants';
 
 export default function parsedDataReducer(state = '', action) {
   switch (action.type) {
-    case PARSE_RAW_DATA: {
+    case RECEIVE_CHART_DATA: {
       return action.data;
     }
     default:

@@ -1,6 +1,6 @@
 import {
   RECEIVE_RAW_DATA,
-  PARSE_RAW_DATA,
+  RECEIVE_CHART_DATA,
   PARSE_DATA_STATUS,
 } from '../constants';
 import actionTrigger from '../actions';
@@ -14,7 +14,7 @@ export default function rawDataMiddleware() {
 
       // send parser result to store
       next(actionTrigger(
-        PARSE_RAW_DATA,
+        RECEIVE_CHART_DATA,
         parsedData[0]
       ));
 
@@ -56,5 +56,5 @@ function _parseRawData(rawData) {
       )
     );
   }
-  return [parsed, errors];
+  return [parsed.data, errors];
 }
