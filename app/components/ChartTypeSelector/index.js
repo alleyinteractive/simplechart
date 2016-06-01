@@ -37,10 +37,11 @@ class ChartTypeSelector extends Component {
         <ul>
         {Object.keys(this.state).map((type) =>
           !this.state[type] ?
-            (<li>{type}</li>) :
+            (<li key={type}>{type}</li>) :
             (<li><a
               href="#0"
               onClick={this._handleClick}
+              key={type}
               data-type={type}
             >{type}</a></li>)
           )
