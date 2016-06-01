@@ -1,10 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DataInput from './DataInput';
-// import ChartTypeSelector from './ChartTypeSelector';
+import ChartTypeSelector from './ChartTypeSelector';
 // import ChartBuilder from './ChartBuilder';
 
 class App extends Component {
+
+  constructor() {
+    super();
+    this._renderChartTypeSelector = this._renderChartTypeSelector.bind(this);
+  }
+
+  _renderChartTypeSelector() {
+    if (this.props.state.dataStatus.status !== 'success') {
+      return '';
+    }
+    return (
+      <ChartTypeSelector
+        data={this.props.state.data}
+        fields={this.props.state.fields}
+      />
+    );
+  }
 
   render() {
     return (
@@ -13,6 +30,7 @@ class App extends Component {
           rawData={this.props.state.rawData}
           dataStatus={this.props.state.dataStatus}
         />
+        {this._renderChartTypeSelector()}
       </div>
     );
   }
