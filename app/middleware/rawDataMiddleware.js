@@ -3,12 +3,12 @@ import {
   PARSE_RAW_DATA,
 } from '../constants';
 import actionTrigger from '../actions';
-import dsv from 'd3-dsv';
+import Papa from '../vendor/papaparse.4.1.2';
 
 export default function rawDataMiddleware() {
   return (next) => (action) => {
     const store = next(action);
-    if (action.type === RECEIVE_RAW_DATA) {
+    if (action.type === RECEIVE_RAW_DATA && action.data.length) {
       next(actionTrigger(
         PARSE_RAW_DATA,
         _parseRawData(action.data)
@@ -19,5 +19,9 @@ export default function rawDataMiddleware() {
 }
 
 function _parseRawData(rawData) {
-  return dsv.csvParse(rawData);
+  const parsed = Papa.parse(rawData, {
+    header: true,
+  });
+  console.log(parsed);
+  return parsed;
 }

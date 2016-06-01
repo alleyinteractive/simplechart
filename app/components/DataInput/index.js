@@ -44,6 +44,7 @@ class DataInput extends Component {
 
     return (
       <div className={appComponent}>
+        <p>Enter comma or tab delimited text here. A header row is required.</p>
         <textarea
           id="DataInput"
           className={styles.textarea}
