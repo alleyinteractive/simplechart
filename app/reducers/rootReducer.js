@@ -7,9 +7,11 @@ import { combineReducers } from 'redux';
 import rawDataReducer from './rawDataReducer';
 import parsedDataReducer from './parsedDataReducer';
 import dataStatusReducer from './dataStatusReducer';
+import fieldsReducer from './fieldsReducer';
 
 export default combineReducers({
   rawData: rawDataReducer,
-  parsedData: parsedDataReducer,
+  data: parsedDataReducer,
   dataStatus: dataStatusReducer,
+  fields: fieldsReducer,
 });

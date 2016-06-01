@@ -2,6 +2,7 @@ import {
   RECEIVE_RAW_DATA,
   RECEIVE_CHART_DATA,
   PARSE_DATA_STATUS,
+  RECEIVE_CHART_FIELDS,
 } from '../constants';
 import actionTrigger from '../actions';
 import Papa from '../vendor/papaparse.4.1.2';
@@ -12,15 +13,21 @@ export default function rawDataMiddleware() {
     if (action.type === RECEIVE_RAW_DATA && action.data.length) {
       const parsedData = _parseRawData(action.data);
 
-      // send parser result to store
+      // send parsed data to store
       next(actionTrigger(
         RECEIVE_CHART_DATA,
         parsedData[0]
       ));
 
-      // send parse status
+      // send data fields array to store
+      next(actionTrigger(
+        RECEIVE_CHART_FIELDS,
+        parsedData[1]
+      ));
+
+      // send parse status to store
       let statusObj;
-      if (parsedData[1].length) {
+      if (parsedData[2].length) {
         statusObj = {
           status: 'error',
           message: parsedData[1].join('; '),
@@ -56,5 +63,6 @@ function _parseRawData(rawData) {
       )
     );
   }
-  return [parsed.data, errors];
+  const fields = parsed.meta.fields || [];
+  return [parsed.data, fields, errors];
 }

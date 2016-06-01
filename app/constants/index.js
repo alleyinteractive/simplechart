@@ -7,6 +7,7 @@ export const RECEIVE_API_DATA = 'RECEIVE_API_DATA';
 export const RECEIVE_RAW_DATA = 'RECEIVE_RAW_DATA';
 export const PARSE_DATA_STATUS = 'PARSE_DATA_STATUS';
 export const RECEIVE_CHART_DATA = 'RECEIVE_CHART_DATA';
+export const RECEIVE_CHART_FIELDS = 'RECEIVE_CHART_FIELDS';
 
 // setting options and metadata
 export const RECEIVE_CHART_OPTIONS = 'RECEIVE_CHART_DATA';
