@@ -8,10 +8,12 @@ import rawDataReducer from './rawDataReducer';
 import parsedDataReducer from './parsedDataReducer';
 import dataStatusReducer from './dataStatusReducer';
 import fieldsReducer from './fieldsReducer';
+import chartOptionsReducer from './chartOptionsReducer';
 
 export default combineReducers({
   rawData: rawDataReducer,
   data: parsedDataReducer,
   dataStatus: dataStatusReducer,
   fields: fieldsReducer,
+  chartOptions: chartOptionsReducer,
 });
