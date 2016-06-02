@@ -59,10 +59,9 @@ class ChartTypeSelector extends Component {
            */
           !this.state[type] ?
             (<li key={type}>{type}</li>) :
-            (<li><a
+            (<li key={type}><a
               href="#0"
               onClick={this._handleClick}
-              key={type}
               data-type={type}
             >{type}</a></li>)
           )
