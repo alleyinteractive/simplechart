@@ -1,5 +1,6 @@
-import pieChart from '../components/Chart/ChartTypes/PieChart/dataTransformer';
+import labelValue from '../utils/labelValueTransformer';
 
 export const dataTransformers = {
-  pieChart,
+  pieChart: labelValue,
+  discreteBarChart: labelValue,
 };
