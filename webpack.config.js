@@ -75,7 +75,7 @@ module.exports = {
       },
       {
         test: /\.csv$/,
-        loader: 'dsv',
+        loader: 'raw',
       },
       {
         test: /\.(png|jpg)$/,
