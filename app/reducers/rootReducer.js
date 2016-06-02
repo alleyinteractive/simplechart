@@ -10,6 +10,7 @@ import dataStatusReducer from './dataStatusReducer';
 import fieldsReducer from './fieldsReducer';
 import chartOptionsReducer from './chartOptionsReducer';
 import chartDataReducer from './chartDataReducer';
+import chartMetadataReducer from './chartMetadataReducer';
 
 export default combineReducers({
   rawData: rawDataReducer,
@@ -18,5 +19,5 @@ export default combineReducers({
   dataFields: fieldsReducer,
   chartOptions: chartOptionsReducer,
   chartData: chartDataReducer,
-  //chartMetadata: chartMetadataReducer,
+  chartMetadata: chartMetadataReducer,
 });
