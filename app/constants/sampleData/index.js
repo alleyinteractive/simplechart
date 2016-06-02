@@ -1,4 +1,4 @@
-import alleyDepartments from './alleyDepartments.csv';
+import alleyDepartments from 'raw!./alleyDepartments.csv';
 
 export const sampleData = [
   {

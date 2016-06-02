@@ -74,10 +74,6 @@ module.exports = {
         loader: 'style!css?modules&localIdentName=[name]__[local]___[hash:base64:5]!postcss',
       },
       {
-        test: /\.csv$/,
-        loader: 'raw',
-      },
-      {
         test: /\.(png|jpg)$/,
         loader: 'url?limit=25000',
       }
