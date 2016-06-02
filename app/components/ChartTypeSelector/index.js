@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { appComponent } from '../../css/components.css';
 import { dataTransformers } from '../../constants/dataTransformers';
-import { RECEIVE_CHART_OPTIONS } from '../../constants';
+import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_DATA } from '../../constants';
 import actionTrigger from '../../actions';
 
 class ChartTypeSelector extends Component {
@@ -29,6 +29,11 @@ class ChartTypeSelector extends Component {
     this.props.dispatch(actionTrigger(
       RECEIVE_CHART_OPTIONS,
       { type }
+    ));
+
+    this.props.dispatch(actionTrigger(
+      RECEIVE_CHART_DATA,
+      this.state[type]
     ));
   }
 

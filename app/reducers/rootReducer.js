@@ -9,11 +9,14 @@ import parsedDataReducer from './parsedDataReducer';
 import dataStatusReducer from './dataStatusReducer';
 import fieldsReducer from './fieldsReducer';
 import chartOptionsReducer from './chartOptionsReducer';
+import chartDataReducer from './chartDataReducer';
 
 export default combineReducers({
   rawData: rawDataReducer,
-  data: parsedDataReducer,
+  parsedData: parsedDataReducer,
   dataStatus: dataStatusReducer,
-  fields: fieldsReducer,
+  dataFields: fieldsReducer,
   chartOptions: chartOptionsReducer,
+  chartData: chartDataReducer,
+  //chartMetadata: chartMetadataReducer,
 });

@@ -17,8 +17,8 @@ class App extends Component {
     }
     return (
       <ChartTypeSelector
-        data={this.props.state.data}
-        fields={this.props.state.fields}
+        data={this.props.state.parsedData}
+        fields={this.props.state.dataFields}
       />
     );
   }

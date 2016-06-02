@@ -1,8 +1,8 @@
 import {
   RECEIVE_RAW_DATA,
-  RECEIVE_CHART_DATA,
+  PARSE_RAW_DATA,
   PARSE_DATA_STATUS,
-  RECEIVE_CHART_FIELDS,
+  PARSE_DATA_FIELDS,
 } from '../constants';
 import actionTrigger from '../actions';
 import Papa from '../vendor/papaparse.4.1.2';
@@ -15,13 +15,13 @@ export default function rawDataMiddleware() {
 
       // send parsed data to store
       next(actionTrigger(
-        RECEIVE_CHART_DATA,
+        PARSE_RAW_DATA,
         parsedData[0]
       ));
 
       // send data fields array to store
       next(actionTrigger(
-        RECEIVE_CHART_FIELDS,
+        PARSE_DATA_FIELDS,
         parsedData[1]
       ));
 
