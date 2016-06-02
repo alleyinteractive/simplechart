@@ -10,15 +10,18 @@ class Chart extends Component {
   }
 
   _renderChartType() {
-    switch (this.props.data.options.type) {
+    switch (this.props.options.type) {
       case 'pieChart':
         return (
-          <PieChart data={this.props.data} />
+          <PieChart
+            data={this.props.data}
+            options={this.props.options}
+          />
         );
 
       default:
         return (
-          <span>Unknown chart type: {this.props.data.options.type}</span>
+          <span>Unknown chart type: {this.props.options.type}</span>
         );
     }
   }
@@ -33,7 +36,8 @@ class Chart extends Component {
 }
 
 Chart.propTypes = {
-  data: React.PropTypes.object,
+  data: React.PropTypes.array,
+  options: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 };
 

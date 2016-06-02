@@ -20,11 +20,11 @@ class PieChart extends Component {
   render() {
     // Merge passed options into defaults
     const args = update(this.defaultOptions, {
-      $merge: this.props.data.options,
+      $merge: this.props.options,
     });
 
     // Add chart data
-    args.datum = this.props.data.data;
+    args.datum = this.props.data;
 
     return (
       <div>
@@ -35,7 +35,8 @@ class PieChart extends Component {
 }
 
 PieChart.propTypes = {
-  data: React.PropTypes.object,
+  data: React.PropTypes.array,
+  options: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 };
 

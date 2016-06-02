@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DataInput from './DataInput';
 import ChartTypeSelector from './ChartTypeSelector';
-// import ChartBuilder from './ChartBuilder';
+import ChartBuilder from './ChartBuilder';
 
 class App extends Component {
 
   constructor() {
     super();
     this._renderChartTypeSelector = this._renderChartTypeSelector.bind(this);
+    this._renderChartBuilder = this._renderChartBuilder.bind(this);
   }
 
   _renderChartTypeSelector() {
@@ -23,6 +24,21 @@ class App extends Component {
     );
   }
 
+  _renderChartBuilder() {
+    if (this.props.state.dataStatus.status !== 'success' ||
+      !this.props.state.chartOptions ||
+      !this.props.state.chartOptions.type
+    ) {
+      return '';
+    }
+    return (
+      <ChartBuilder
+        data={this.props.state.chartData}
+        options={this.props.state.chartOptions}
+        metadata={this.props.state.chartMetadata}
+      />
+    );
+  }
   render() {
     return (
       <div>
@@ -31,6 +47,7 @@ class App extends Component {
           dataStatus={this.props.state.dataStatus}
         />
         {this._renderChartTypeSelector()}
+        {this._renderChartBuilder()}
       </div>
     );
   }
