@@ -10,7 +10,7 @@ class ChartTypeSelector extends Component {
   constructor() {
     super();
     this._testChartTypes = this._testChartTypes.bind(this);
-    this._handleClick = this._handleClick.bind(this);
+    this._selectChartType = this._selectChartType.bind(this);
   }
 
   componentWillMount() {
@@ -24,13 +24,16 @@ class ChartTypeSelector extends Component {
     this._testChartTypes();
   }
 
-  _handleClick(evt) {
+  _selectChartType(evt) {
     const type = evt.target.getAttribute('data-type');
+
+    // send selected chart type  to store options
     this.props.dispatch(actionTrigger(
       RECEIVE_CHART_OPTIONS,
       { type }
     ));
 
+    // send data to store, already transformed for selected chart type
     this.props.dispatch(actionTrigger(
       RECEIVE_CHART_DATA,
       this.state[type]
@@ -61,7 +64,7 @@ class ChartTypeSelector extends Component {
             (<li key={type}>{type}</li>) :
             (<li key={type}><a
               href="#0"
-              onClick={this._handleClick}
+              onClick={this._selectChartType}
               data-type={type}
             >{type}</a></li>)
           )
