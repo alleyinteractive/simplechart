@@ -13,7 +13,10 @@ class Widget extends Component {
       this.props.data.data[this.props.widget].options
     ) {
       return (
-        <Chart data={this.props.data.data[this.props.widget]} />
+        <Chart
+          data={this.props.data.data[this.props.widget].data}
+          options={this.props.data.data[this.props.widget].options}
+        />
       );
     }
     return (
