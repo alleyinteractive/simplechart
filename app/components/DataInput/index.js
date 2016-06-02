@@ -14,6 +14,11 @@ class DataInput extends Component {
     this.state = {
       rawData: null,
     };
+    this.inputRules = [
+      'Enter comma or tab delimited text here.',
+      'A header row is required.',
+      'The label for each row must be in the first column.',
+    ];
   }
 
   _handleClick() {
@@ -45,8 +50,9 @@ class DataInput extends Component {
     return (
       <div className={appComponent}>
         <ul>
-          <li>Enter comma or tab delimited text here.</li>
-          <li>A header row is required.</li>
+          {this.inputRules.map((rule, i) =>
+            (<li key={i}>{rule}</li>)
+          )}
         </ul>
         <textarea
           id="DataInput"
