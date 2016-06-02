@@ -34,12 +34,12 @@
     }
   ],
   "options": {
-    "type": "pieChart",
+    "type": "discreteBarChart",
     "height": 500
   },
   "metadata": {
-    "title": "Sample Pie Chart",
-    "caption": "An example of the NVD3 pie chart",
-    "credit": "D. Machat"
+    "title": "Sample Bart Chart",
+    "caption": "An example of the NVD3 discreteBarChart",
+    "credit": "Alley Interactive"
   }
 }

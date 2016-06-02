@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PieChart from './ChartTypes/PieChart/';
+import DiscreteBarChart from './ChartTypes/DiscreteBarChart/';
 
 class Chart extends Component {
 
@@ -14,6 +15,14 @@ class Chart extends Component {
       case 'pieChart':
         return (
           <PieChart
+            data={this.props.data}
+            options={this.props.options}
+          />
+        );
+
+      case 'discreteBarChart':
+        return (
+          <DiscreteBarChart
             data={this.props.data}
             options={this.props.options}
           />
