@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PieChart from './ChartTypes/PieChart/';
 import DiscreteBarChart from './ChartTypes/DiscreteBarChart/';
+import LineChart from './ChartTypes/LineChart/';
 
 class Chart extends Component {
 
@@ -23,6 +24,14 @@ class Chart extends Component {
       case 'discreteBarChart':
         return (
           <DiscreteBarChart
+            data={this.props.data}
+            options={this.props.options}
+          />
+        );
+
+      case 'lineChart':
+        return (
+          <LineChart
             data={this.props.data}
             options={this.props.options}
           />
