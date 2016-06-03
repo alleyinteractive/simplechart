@@ -1,24 +1,22 @@
 {
-  "name": "nsf-interactive-reports",
+  "name": "simplechart-react",
   "version": "1.0.0",
-  "description": "NSF Interactive Reports",
+  "description": "Simplechart React",
   "scripts": {
     "start": "DEVELOPMENT=true node server.js",
     "lint": "eslint src",
-    "storybook": "start-storybook -p 9001",
     "build": "webpack -p --progress"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alleyinteractive/nsf-interactive-reports.git"
+    "url": "git+https://github.com/alleyinteractive/simplechart-react.git"
   },
-  "author": "Drew Machat",
+  "author": "Josh Kadis",
   "bugs": {
-    "url": "https://github.com/alleyinteractive/nsf-interactive-reports/issues"
+    "url": "https://github.com/alleyinteractive/simplechart-react/issues"
   },
-  "homepage": "https://github.com/alleyinteractive/nsf-interactive-reports",
+  "homepage": "https://github.com/alleyinteractive/simplechart-react",
   "devDependencies": {
-    "@kadira/storybook": "^1.6.0",
     "babel-core": "^6.0.20",
     "babel-eslint": "^4.1.3",
     "babel-loader": "^6.0.1",
