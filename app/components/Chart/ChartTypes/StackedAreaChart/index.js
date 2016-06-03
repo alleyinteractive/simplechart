@@ -14,6 +14,10 @@ class StackedAreaChart extends Component {
     };
   }
 
+  componentWillMount() {
+    this.setState({ data: this.props.data });
+  }
+
   render() {
     // Merge passed options into defaults
     const args = update(this.defaultOptions, {
@@ -21,7 +25,7 @@ class StackedAreaChart extends Component {
     });
 
     // Add chart data
-    args.datum = this.props.data;
+    args.datum = this.state.data;
 
     return (
       <div>
