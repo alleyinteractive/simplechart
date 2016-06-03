@@ -4,54 +4,40 @@ import PieChart from './ChartTypes/PieChart/';
 import DiscreteBarChart from './ChartTypes/DiscreteBarChart/';
 import LineChart from './ChartTypes/LineChart/';
 import StackedAreaChart from './ChartTypes/StackedAreaChart/';
+import InvalidChartType from './ChartTypes/InvalidChartType/';
 
 class Chart extends Component {
 
   constructor() {
     super();
-    this._renderChartType = this._renderChartType.bind(this);
+    this._getChartTypeComponent = this._getChartTypeComponent.bind(this);
   }
 
-  _renderChartType() {
+  _getChartTypeComponent() {
     switch (this.props.options.type) {
       case 'pieChart':
-        return (
-          <PieChart
-            data={this.props.data}
-            options={this.props.options}
-          />
-        );
+        return PieChart;
 
       case 'discreteBarChart':
-        return (
-          <DiscreteBarChart
-            data={this.props.data}
-            options={this.props.options}
-          />
-        );
+        return DiscreteBarChart;
 
       case 'lineChart':
-        return (
-          <LineChart
-            data={this.props.data}
-            options={this.props.options}
-          />
-        );
+        return LineChart;
 
       case 'stackedAreaChart':
-        return React.createElement(StackedAreaChart, this.props);
+        return StackedAreaChart;
 
       default:
-        return (
-          <span>Unknown chart type: {this.props.options.type}</span>
-        );
+        return InvalidChartType;
     }
   }
 
   render() {
     return (
       <div>
-        {this._renderChartType()}
+        {React.createElement(
+          this._getChartTypeComponent(), this.props
+        )}
       </div>
     );
   }
