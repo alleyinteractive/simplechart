@@ -5,4 +5,5 @@ export const dataTransformers = {
   pieChart: labelValue,
   discreteBarChart: labelValue,
   lineChart: series,
+  stackedAreaChart: series,
 };

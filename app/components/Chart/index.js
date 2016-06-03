@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PieChart from './ChartTypes/PieChart/';
 import DiscreteBarChart from './ChartTypes/DiscreteBarChart/';
 import LineChart from './ChartTypes/LineChart/';
+import StackedAreaChart from './ChartTypes/StackedAreaChart/';
 
 class Chart extends Component {
 
@@ -36,6 +37,9 @@ class Chart extends Component {
             options={this.props.options}
           />
         );
+
+      case 'stackedAreaChart':
+        return React.createElement(StackedAreaChart, this.props);
 
       default:
         return (
