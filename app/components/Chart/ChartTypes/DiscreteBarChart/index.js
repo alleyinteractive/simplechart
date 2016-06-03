@@ -38,7 +38,6 @@ class DiscreteBarChart extends Component {
 DiscreteBarChart.propTypes = {
   data: React.PropTypes.array,
   options: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
 };
 
 // Redux connection

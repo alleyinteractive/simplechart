@@ -37,7 +37,6 @@ class PieChart extends Component {
 PieChart.propTypes = {
   data: React.PropTypes.array,
   options: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
 };
 
 // Redux connection
