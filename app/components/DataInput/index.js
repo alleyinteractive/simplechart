@@ -10,7 +10,7 @@ class DataInput extends Component {
 
   constructor() {
     super();
-    this._handleClick = this._handleClick.bind(this);
+    this._submitData = this._submitData.bind(this);
     this._updateValue = this._updateValue.bind(this);
     this._updateValue = this._updateValue.bind(this);
     this._loadSampleData = this._loadSampleData.bind(this);
@@ -24,9 +24,9 @@ class DataInput extends Component {
     ];
   }
 
-  _handleClick() {
+  _submitData() {
     this.props.dispatch(
-      actionTrigger(RECEIVE_RAW_DATA, this.refs.dataInput.value)
+      actionTrigger(RECEIVE_RAW_DATA, this.state.rawData)
     );
   }
 
@@ -85,7 +85,7 @@ class DataInput extends Component {
           onChange={this._updateValue}
           ref="dataInput"
         />
-        <button onClick={this._handleClick}>Go</button>
+        <button onClick={this._submitData}>Go</button>
         <span className={styles[dataStatusClass]}>
           {dataStatus}
         </span>
