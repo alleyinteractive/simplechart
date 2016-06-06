@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Chart from '../Chart/';
+import ChartMetadata from '../ChartMetadata/';
 import { appComponent } from '../../css/components.css';
 
 class ChartBuilder extends Component {
@@ -8,6 +9,7 @@ class ChartBuilder extends Component {
   render() {
     return (
       <div className={appComponent}>
+        <ChartMetadata metadata={this.props.metadata} />
         <Chart
           data={this.props.data}
           options={this.props.options}
