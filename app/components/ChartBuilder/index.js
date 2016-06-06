@@ -13,6 +13,7 @@ class ChartBuilder extends Component {
         <Chart
           data={this.props.data}
           options={this.props.options}
+          metadata={this.props.metadata}
         />
       </div>
     );
