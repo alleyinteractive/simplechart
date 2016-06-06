@@ -9,11 +9,11 @@ class ChartBuilder extends Component {
   render() {
     return (
       <div className={appComponent}>
-        <ChartMetadata metadata={this.props.metadata} />
+        <ChartMetadata metadata={this.props.state.chartMetadata} />
         <Chart
-          data={this.props.data}
-          options={this.props.options}
-          metadata={this.props.metadata}
+          data={this.props.state.chartData}
+          options={this.props.state.chartOptions}
+          metadata={this.props.state.chartMetadata}
         />
       </div>
     );
@@ -21,9 +21,7 @@ class ChartBuilder extends Component {
 }
 
 ChartBuilder.propTypes = {
-  data: React.PropTypes.array,
-  options: React.PropTypes.object,
-  metadata: React.PropTypes.object,
+  state: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 };
 
