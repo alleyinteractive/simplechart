@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Chart from '../Chart/';
 import ChartMetadata from '../ChartMetadata/';
+import SaveChart from '../SaveChart/';
 import { appComponent } from '../../css/components.css';
 
 class ChartBuilder extends Component {
@@ -15,6 +16,7 @@ class ChartBuilder extends Component {
           options={this.props.state.chartOptions}
           metadata={this.props.state.chartMetadata}
         />
+        <SaveChart state={this.props.state} />
       </div>
     );
   }
