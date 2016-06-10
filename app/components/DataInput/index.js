@@ -15,13 +15,21 @@ class DataInput extends Component {
     this._updateValue = this._updateValue.bind(this);
     this._loadSampleData = this._loadSampleData.bind(this);
     this.state = {
-      rawData: null,
+      rawData: '',
     };
     this.inputRules = [
       'Enter comma or tab delimited text here.',
       'A header row is required.',
       'The label for each row must be in the first column.',
     ];
+  }
+
+  componentWillMount() {
+    this.setState({ rawData: this.props.rawData });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ rawData: nextProps.rawData });
   }
 
   _submitData() {
@@ -55,8 +63,6 @@ class DataInput extends Component {
       }
     }
 
-    const rawData = this.state.rawData || this.props.rawData;
-
     return (
       <div className={appComponent}>
         <ul>
@@ -81,7 +87,7 @@ class DataInput extends Component {
         <textarea
           id="DataInput"
           className={styles.textarea}
-          value={rawData}
+          value={this.state.rawData}
           onChange={this._updateValue}
           ref="dataInput"
         />
