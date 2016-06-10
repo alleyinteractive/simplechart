@@ -22,15 +22,14 @@ export function bootstrapAppData() {
         return;
       }
 
-      const rawData = evt.data.rawData || '';
-      const chartData = evt.data.chartData || [];
-      const chartOptions = evt.data.chartOptions || {};
-      const chartMetadata = evt.data.chartMetadata || {};
-
-      dispatch(actionTrigger(RECEIVE_RAW_DATA, rawData));
-      dispatch(actionTrigger(RECEIVE_CHART_DATA, chartData));
-      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, chartOptions));
-      dispatch(actionTrigger(RECEIVE_CHART_METADATA, chartMetadata));
+      dispatch(actionTrigger(
+        RECEIVE_RAW_DATA, evt.data.rawData || ''));
+      dispatch(actionTrigger(
+        RECEIVE_CHART_DATA, evt.data.chartData || []));
+      dispatch(actionTrigger(
+        RECEIVE_CHART_OPTIONS, evt.data.chartOptions || {}));
+      dispatch(actionTrigger(
+        RECEIVE_CHART_METADATA, evt.data.chartMetadata || {}));
     }
 
     window.addEventListener('message', (evt) =>
