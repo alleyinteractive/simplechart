@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RECEIVE_CHART_METADATA } from '../../constants';
 import actionTrigger from '../../actions';
-import update from 'react-addons-update';
 
 class ChartMetadata extends Component {
   constructor() {
@@ -21,6 +20,14 @@ class ChartMetadata extends Component {
     };
   }
 
+  componentWillMount() {
+    this.setState(this.props.metadata);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(nextProps.metadata);
+  }
+
   _updateState(evt) {
     this.setState({
       [evt.target.name]: evt.target.value,
@@ -35,12 +42,9 @@ class ChartMetadata extends Component {
   }
 
   render() {
-    // overwrite component state with newly received props after store is updated
-    // but allow empty state to serve as default on initial render when props metadata is empty
-    const values = update(this.state, { $merge: this.props.metadata });
     return (
       <div>
-        {Object.keys(values).map((key) =>
+        {Object.keys(this.state).map((key) =>
           (<div key={key}>
             <label htmlFor={key} >
               {this.labels[key]}
@@ -48,6 +52,7 @@ class ChartMetadata extends Component {
                 name={key}
                 onChange={this._updateState}
                 onBlur={this._submitField}
+                value={this.state[key]}
               />
             </label>
           </div>)

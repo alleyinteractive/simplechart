@@ -20,5 +20,60 @@
     <div id='app'></div>
 
     <script src="/static/bundle.js"></script>
+    <script>
+      /**
+       * Mock postMessage from parent window
+       */
+       window.postMessage({
+        rawData: "Department,Head Count\nEmerging,3\nOperations,3\nPartners,5\nProject Management,5\nQA,1\nSales/Marketing,3\nUX/Design,4\nUX Devs,6\nWP Devs,22",
+        chartOptions: {
+          type: 'pieChart'
+        },
+        chartMetadata: {
+          title: 'Our teams',
+          caption: 'Alley by the numbers',
+          credit: 'Namely'
+        },
+        chartData: [
+          {
+            label: 'Emerging',
+            value: 3
+          },
+          {
+            label: 'Operations',
+            value: 3
+          },
+          {
+            label: 'Partners',
+            value: 5
+          },
+          {
+            label: 'Project Management',
+            value: 5
+          },
+          {
+            label: 'QA',
+            value: 1
+          },
+          {
+            label: 'Sales/Marketing',
+            value: 3
+          },
+          {
+            label: '"UX/Design"',
+            value: 3
+          },
+          {
+            label: 'UX Devs',
+            value: 3
+          },
+          {
+            label: 'WP Devs',
+            value: 22
+          }
+        ],
+        messageType: 'bootstrapAppData'
+       }, '*');
+    </script>
   </body>
 </html>

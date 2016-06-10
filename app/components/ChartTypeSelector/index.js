@@ -14,14 +14,11 @@ class ChartTypeSelector extends Component {
   }
 
   componentWillMount() {
-    this._testChartTypes();
+    this._testChartTypes(this.props);
   }
 
-  /**
-   * @todo Why does this take 2 clicks?
-   */
-  componentWillReceiveProps() {
-    this._testChartTypes();
+  componentWillReceiveProps(nextProps) {
+    this._testChartTypes(nextProps);
   }
 
   _selectChartType(evt) {
@@ -40,11 +37,11 @@ class ChartTypeSelector extends Component {
     ));
   }
 
-  _testChartTypes() {
+  _testChartTypes(props) {
     const types = Object.keys(dataTransformers);
     types.forEach((type) =>
       this.setState({
-        [type]: dataTransformers[type](this.props.data, this.props.fields),
+        [type]: dataTransformers[type](props.data, props.fields),
       })
     );
   }

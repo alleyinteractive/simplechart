@@ -1,5 +1,8 @@
 import {
   RECEIVE_RAW_DATA,
+  RECEIVE_CHART_DATA,
+  RECEIVE_CHART_METADATA,
+  RECEIVE_CHART_OPTIONS,
   RECEIVE_API_DATA,
 } from '../constants';
 
@@ -9,11 +12,29 @@ export default function actionTrigger(type, data) {
 
 export function bootstrapAppData() {
   return function(dispatch) {
-    /**
-     * @todo check for app being in iframe and listen for postMessage
-     * i.e. when editing a previously built chart
-     */
-    dispatch(actionTrigger(RECEIVE_RAW_DATA, ''));
+    function handleMessage(evt) {
+      if (evt.origin !== window.location.origin) {
+        throw new Error(`Illegal postMessage from ${evt.origin}`);
+      }
+
+      if (!evt.data.messageType ||
+        evt.data.messageType !== 'bootstrapAppData') {
+        return;
+      }
+
+      dispatch(actionTrigger(
+        RECEIVE_RAW_DATA, evt.data.rawData || ''));
+      dispatch(actionTrigger(
+        RECEIVE_CHART_DATA, evt.data.chartData || []));
+      dispatch(actionTrigger(
+        RECEIVE_CHART_OPTIONS, evt.data.chartOptions || {}));
+      dispatch(actionTrigger(
+        RECEIVE_CHART_METADATA, evt.data.chartMetadata || {}));
+    }
+
+    window.addEventListener('message', (evt) =>
+      handleMessage(evt)
+    );
   };
 }
 

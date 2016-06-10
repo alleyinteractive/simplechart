@@ -33,9 +33,7 @@ class App extends Component {
     }
     return (
       <ChartBuilder
-        data={this.props.state.chartData}
-        options={this.props.state.chartOptions}
-        metadata={this.props.state.chartMetadata}
+        state={this.props.state}
       />
     );
   }
