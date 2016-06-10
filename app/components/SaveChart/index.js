@@ -46,6 +46,9 @@ class SaveChart extends Component {
     return new XMLSerializer().serializeToString(copyEl);
   }
 
+  /**
+   * h/t to https://bl.ocks.org/biovisualize/8187844
+   */
   _renderPreviewImage() {
     // Set up elements and svg
     const chartEl = document.getElementsByClassName('nv-chart')[0];
