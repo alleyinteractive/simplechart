@@ -6,15 +6,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css"/>
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <style>
-        header > h1 {
-            text-align: center;
-            font-family: sans-serif;
+        header {
+          text-align: center;
         }
     </style>
   </head>
   <body>
     <header>
         <h1>Simplechart-React prototype</h1>
+        <button onclick="mockParentMessage()">Mock parent window postMessage</button>
     </header>
 
     <div id='app'></div>
@@ -24,56 +24,58 @@
       /**
        * Mock postMessage from parent window
        */
-       window.postMessage({
-        rawData: "Department,Head Count\nEmerging,3\nOperations,3\nPartners,5\nProject Management,5\nQA,1\nSales/Marketing,3\nUX/Design,4\nUX Devs,6\nWP Devs,22",
-        chartOptions: {
-          type: 'pieChart'
-        },
-        chartMetadata: {
-          title: 'Our teams',
-          caption: 'Alley by the numbers',
-          credit: 'Namely'
-        },
-        chartData: [
-          {
-            label: 'Emerging',
-            value: 3
+       function mockParentMessage() {
+         window.postMessage({
+          rawData: "Department,Head Count\nEmerging,3\nOperations,3\nPartners,5\nProject Management,5\nQA,1\nSales/Marketing,3\nUX/Design,4\nUX Devs,6\nWP Devs,22",
+          chartOptions: {
+            type: 'pieChart'
           },
-          {
-            label: 'Operations',
-            value: 3
+          chartMetadata: {
+            title: 'Our teams',
+            caption: 'Alley by the numbers',
+            credit: 'Namely'
           },
-          {
-            label: 'Partners',
-            value: 5
-          },
-          {
-            label: 'Project Management',
-            value: 5
-          },
-          {
-            label: 'QA',
-            value: 1
-          },
-          {
-            label: 'Sales/Marketing',
-            value: 3
-          },
-          {
-            label: '"UX/Design"',
-            value: 3
-          },
-          {
-            label: 'UX Devs',
-            value: 3
-          },
-          {
-            label: 'WP Devs',
-            value: 22
-          }
-        ],
-        messageType: 'bootstrapAppData'
-       }, '*');
+          chartData: [
+            {
+              label: 'Emerging',
+              value: 3
+            },
+            {
+              label: 'Operations',
+              value: 3
+            },
+            {
+              label: 'Partners',
+              value: 5
+            },
+            {
+              label: 'Project Management',
+              value: 5
+            },
+            {
+              label: 'QA',
+              value: 1
+            },
+            {
+              label: 'Sales/Marketing',
+              value: 3
+            },
+            {
+              label: '"UX/Design"',
+              value: 3
+            },
+            {
+              label: 'UX Devs',
+              value: 3
+            },
+            {
+              label: 'WP Devs',
+              value: 22
+            }
+          ],
+          messageType: 'bootstrapAppData'
+         }, '*');
+        }
     </script>
   </body>
 </html>
