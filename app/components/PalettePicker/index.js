@@ -13,59 +13,70 @@ import actionTrigger from '../../actions';
 class PalettePicker extends Component {
   constructor() {
     super();
-    this._mapDataSwatches = this._mapDataSwatches.bind(this);
+    this._getSeriesNames = this._getSeriesNames.bind(this);
+    this._seriesChange = this._seriesChange.bind(this);
+    this._pickerChange = this._pickerChange.bind(this);
+
     this.state = {
-      map: [],
+      seriesNames: [],
+      currentSeries: 0,
     };
   }
 
   componentWillMount() {
-    this.setState({ map: this._mapDataSwatches(this.props) });
+    this.setState({
+      seriesNames: this._getSeriesNames(this.props),
+      colors: this.props.options.color || null,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ map: this._mapDataSwatches(nextProps) });
+    this.setState({
+      seriesNames: this._getSeriesNames(nextProps),
+      colors: this.props.options.color || null,
+    });
   }
 
-  onChange(key) {
-    const newColor = this.refs[`picker${key}`].state.color.hex;
+  _pickerChange() {
+    // debouncing messes with the function args, so get current color this way
+    const newColor = this.refs.picker.state.color.hex;
     const options = update(this.props.options, { $merge: {} });
-    if (options.color && options.color.length > key) {
-      options.color[key] = `#${newColor}`;
+    if (options.color && options.color[this.state.currentSeries]) {
+      options.color[this.state.currentSeries] = `#${newColor}`;
       this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, options));
     }
   }
 
-  _mapDataSwatches(props) {
-    if (!props.data.length || !props.options.color) {
+  _getSeriesNames(props) {
+    if (!props.data.length) {
       return [];
     }
 
-    // Setup map of
-    const map = [];
-    function setMap(series, index) {
-      // if key contains a char like '/', it might have leading/trailing quotes
-      // so strip those
-      const key = /^"?(.*?)"?$/i.exec(series.key || series.label)[1];
-      map.push({ key, color: props.options.color[index] });
-    }
-    props.data.forEach((series, index) =>
-      setMap(series, index)
+    // if key contains a char like '/', it might have leading/trailing quotes
+    // so strip those
+    return props.data.map((series) =>
+      /^"?(.*?)"?$/i.exec(series.key || series.label)[1]
     );
-    return map;
+  }
+
+  _seriesChange(evt) {
+    this.setState({ currentSeries: evt.target.value });
   }
 
   render() {
     return (
       <div>
-        {this.state.map.map((series, index) =>
-          React.createElement(ColorPicker, {
-            value: series.color,
-            key: index,
-            onChange: debounce(this.onChange.bind(this, index), 200),
-            ref: `picker${index}`,
-          })
-        )}
+        <select onChange={this._seriesChange} >
+          {this.state.seriesNames.map((name, index) =>
+            (<option key={index} value={index}>{name}</option>)
+          )}
+        </select>
+        {React.createElement(ColorPicker, {
+          value: this.state.colors[this.state.currentSeries],
+          onChange: debounce(this._pickerChange, 200),
+          reset: false,
+          ref: 'picker',
+        })}
       </div>
     );
   }
