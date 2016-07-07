@@ -6,6 +6,9 @@ import ColorPicker from 'react-colorpickr';
 import * as ColorPickrStyles
   from 'style!raw!react-colorpickr/dist/colorpickr.css';
 import { debounce } from '../../utils/misc';
+import update from 'react-addons-update';
+import { RECEIVE_CHART_OPTIONS } from '../../constants';
+import actionTrigger from '../../actions';
 
 class PalettePicker extends Component {
   constructor() {
@@ -25,8 +28,12 @@ class PalettePicker extends Component {
   }
 
   onChange(key) {
-    const color = this.refs[`picker${key}`].state.color.hex;
-    console.log(color, key);
+    const newColor = this.refs[`picker${key}`].state.color.hex;
+    const options = update(this.props.options, { $merge: {} });
+    if (options.color && options.color.length > key) {
+      options.color[key] = `#${newColor}`;
+      this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, options));
+    }
   }
 
   _mapDataSwatches(props) {
