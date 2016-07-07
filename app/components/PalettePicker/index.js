@@ -16,30 +16,50 @@ class PalettePicker extends Component {
     this._getSeriesNames = this._getSeriesNames.bind(this);
     this._seriesChange = this._seriesChange.bind(this);
     this._pickerChange = this._pickerChange.bind(this);
+    this._setOriginalColors = this._setOriginalColors.bind(this);
+    this._handleProps = this._handleProps.bind(this);
 
     this.state = {
       seriesNames: [],
       currentSeries: 0,
+      originalColors: [],
     };
   }
 
   componentWillMount() {
-    this.setState({
-      seriesNames: this._getSeriesNames(this.props),
-      colors: this.props.options.color || null,
-    });
+    this._handleProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
+    this._handleProps(nextProps);
+  }
+
+  _handleProps(props) {
     this.setState({
-      seriesNames: this._getSeriesNames(nextProps),
-      colors: this.props.options.color || null,
+      seriesNames: this._getSeriesNames(props),
+      colors: props.options.color || null,
     });
+    this._setOriginalColors(props);
+  }
+
+  // Set the original colors once then leave them alone
+  _setOriginalColors(props) {
+    if (
+      !this.state.originalColors.length
+      && props.options.color
+      && props.options.color.length
+    ) {
+      this.setState({
+        originalColors: update(props.options.color, { $merge: {} }),
+      });
+    }
   }
 
   _pickerChange() {
     // debouncing messes with the function args, so get current color this way
     const newColor = this.refs.picker.state.color.hex;
+
+    // clone chart options object and update the data store
     const options = update(this.props.options, { $merge: {} });
     if (options.color && options.color[this.state.currentSeries]) {
       options.color[this.state.currentSeries] = `#${newColor}`;
@@ -52,7 +72,7 @@ class PalettePicker extends Component {
       return [];
     }
 
-    // if key contains a char like '/', it might have leading/trailing quotes
+    // if key contains a non-alphanumeric char, it might have leading/trailing quotes
     // so strip those
     return props.data.map((series) =>
       /^"?(.*?)"?$/i.exec(series.key || series.label)[1]
@@ -60,10 +80,27 @@ class PalettePicker extends Component {
   }
 
   _seriesChange(evt) {
-    this.setState({ currentSeries: evt.target.value });
+    const newValue = parseInt(evt.target.value, 10);
+    if (isNaN(newValue)) {
+      return;
+    }
+
+    this.setState({ currentSeries: newValue });
+
+    // set the color picker's revert option to the original color for this data series
+    if (this.state.originalColors) {
+      const newOriginalValue = this.state.originalColors[newValue];
+      this.refs.picker.setState({
+        originalValue: newOriginalValue,
+      });
+    }
   }
 
   render() {
+    if (!this.state.colors || !this.state.colors.length) {
+      return (<span>Waiting for colors...</span>);
+    }
+
     return (
       <div>
         <select onChange={this._seriesChange} >
@@ -74,7 +111,6 @@ class PalettePicker extends Component {
         {React.createElement(ColorPicker, {
           value: this.state.colors[this.state.currentSeries],
           onChange: debounce(this._pickerChange, 200),
-          reset: false,
           ref: 'picker',
         })}
       </div>
