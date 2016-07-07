@@ -64,8 +64,7 @@ class ChartTypeSelector extends Component {
               onClick={this._selectChartType}
               data-type={type}
             >{type}</a></li>)
-          )
-        }
+        )}
         </ul>
       </div>
     );
