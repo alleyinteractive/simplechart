@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rawDataMiddleware from './middleware/rawDataMiddleware';
+import chartOptionsMiddleware from './middleware/chartOptionsMiddleware';
 import { bootstrapAppData } from './actions';
 import App from './components/App';
 
@@ -12,7 +13,7 @@ import App from './components/App';
 // do asyncronous things in the actions
 import rootReducer from './reducers/rootReducer';
 const store = createStore(rootReducer, compose(
-  applyMiddleware(thunk, rawDataMiddleware),
+  applyMiddleware(thunk, rawDataMiddleware, chartOptionsMiddleware),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
 
