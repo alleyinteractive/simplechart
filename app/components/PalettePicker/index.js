@@ -1,7 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // Use Mapbox's colorpickr component
 import ColorPicker from 'react-colorpickr';
+import * as ColorPickrStyles
+  from 'style!raw!react-colorpickr/dist/colorpickr.css';
+import { debounce } from '../../utils/misc';
 
 class PalettePicker extends Component {
   constructor() {
@@ -18,6 +22,11 @@ class PalettePicker extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({ map: this._mapDataSwatches(nextProps) });
+  }
+
+  onChange(key) {
+    const color = this.refs[`picker${key}`].state.color.hex;
+    console.log(color, key);
   }
 
   _mapDataSwatches(props) {
@@ -42,8 +51,13 @@ class PalettePicker extends Component {
   render() {
     return (
       <div>
-        {this.state.map.map((series) =>
-          (<p>{`${series.key} -> ${series.color}`}</p>)
+        {this.state.map.map((series, index) =>
+          React.createElement(ColorPicker, {
+            value: series.color,
+            key: index,
+            onChange: debounce(this.onChange.bind(this, index), 200),
+            ref: `picker${index}`,
+          })
         )}
       </div>
     );
