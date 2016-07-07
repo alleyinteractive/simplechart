@@ -51,6 +51,7 @@
     "react": "^0.14.6",
     "react-addons-update": "^15.1.0",
     "react-autocomplete": "^0.2.1",
+    "react-colorpickr": "^4.2.0",
     "react-dom": "^0.14.6",
     "react-nvd3": "^0.5.7",
     "react-redux": "^4.4.1",
