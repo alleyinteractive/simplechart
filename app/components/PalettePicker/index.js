@@ -9,6 +9,7 @@ import { debounce } from '../../utils/misc';
 import update from 'react-addons-update';
 import { RECEIVE_CHART_OPTIONS } from '../../constants';
 import actionTrigger from '../../actions';
+import * as styles from './PalettePicker.css';
 
 class PalettePicker extends Component {
   constructor() {
@@ -108,11 +109,13 @@ class PalettePicker extends Component {
             (<option key={index} value={index}>{name}</option>)
           )}
         </select>
-        {React.createElement(ColorPicker, {
-          value: this.state.colors[this.state.currentSeries],
-          onChange: debounce(this._pickerChange, 200),
-          ref: 'picker',
-        })}
+        <div className={styles.colorpickr}>
+          {React.createElement(ColorPicker, {
+            value: this.state.colors[this.state.currentSeries],
+            onChange: debounce(this._pickerChange, 200),
+            ref: 'picker',
+          })}
+        </div>
       </div>
     );
   }

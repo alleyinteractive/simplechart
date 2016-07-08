@@ -1,0 +1,9 @@
+/**
+ * Override styles from react-colorpickr
+ */
+
+.colorpickr {
+  :global(.cp-actions::after) {
+    content: 'Revert';
+  }
+}
