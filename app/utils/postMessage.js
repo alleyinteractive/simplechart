@@ -10,47 +10,62 @@ function _isLocalDev() {
 }
 
 /**
- * Check for being a child iframe
+ * Check for being a child iframe.
+ * Three cases: top window (true), same-origin iframe (false), cross-origin iframe (false)
  */
 function _isTopLevelWindow() {
   try {
-    // window.frameElement is null in top level window
-    return window.frameElement === null;
+    // presence of window.frameElement indicates a same-origin iframe
+    if (window.frameElement) {
+      return false;
+    }
+    // if we make it this far, this will throw an error
+    return !window.parent.location.hostname;
   } catch (err) {
-    // if we just tried to access a cross-origin parent window,
-    // catch the resulting error and assume we are an iframe
-    return false;
+    // will catch SecurityError if cross-origin iframe
+    // or TypeError if top level window
+    return err.name !== 'SecurityError';
   }
 }
+
+/**
+ * Setup postMessage receive callbacks
+ */
+const _callbacks = {};
+function _messageHandler(evt) {
+  // validate same-origin except if local dev server
+  if (evt.origin !== window.location.origin
+    && !_isLocalDev()) {
+    throw new Error(`Illegal postMessage from ${evt.origin}`);
+  }
+
+  if (!evt.data.messageType || !_callbacks[evt.data.messageType]) {
+    return;
+  }
+
+  // loop through callbacks for message type
+  _callbacks[evt.data.messageType].forEach((callback) =>
+    callback(evt)
+  );
+}
+
+// set up listener
+window.addEventListener('message', (evt) =>
+  _messageHandler(evt)
+);
 
 /**
  * Listen for a postMessage then do something with the event
  *
  * @param string messageType Message type checked against evt.data.messageType
- * @param function callback Callback function receiving the event
+ * @param function callback Callback function receiving the message event
  * @return none
  */
 export function receiveMessage(messageType, callback) {
-  function _handler(evt) {
-      // validate same-origin except if local dev server
-    if (evt.origin !== window.location.origin
-      && !_isLocalDev()) {
-      throw new Error(`Illegal postMessage from ${evt.origin}`);
-    }
-
-    // validate messageType
-    if (!evt.data.messageType ||
-      evt.data.messageType !== messageType) {
-      return;
-    }
-
-    // call the callback
-    callback(evt);
+  if (!_callbacks[messageType]) {
+    _callbacks[messageType] = [];
   }
-  // set up listener
-  window.addEventListener('message', (evt) =>
-    _handler(evt)
-  );
+  _callbacks[messageType].push(callback);
 }
 
 /**

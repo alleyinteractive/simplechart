@@ -8,7 +8,7 @@ import rawDataMiddleware from './middleware/rawDataMiddleware';
 import chartOptionsMiddleware from './middleware/chartOptionsMiddleware';
 import { bootstrapAppData } from './actions';
 import App from './components/App';
-import { sendMessage } from '../utils/postMessage';
+import { sendMessage } from './utils/postMessage';
 
 // Create the store with redux-thunk middleware, which allows us to
 // do asyncronous things in the actions
