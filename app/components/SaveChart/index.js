@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import update from 'react-addons-update';
 import * as styles from './SaveChart.css';
+import { sendMessage } from '../../utils/postMessage';
 
 class SaveChart extends Component {
   constructor() {
@@ -23,10 +24,7 @@ class SaveChart extends Component {
       }),
     });
 
-    /**
-     * @todo send postMessage to parent window
-     */
-    console.log(saveData);
+    sendMessage('saveData', saveData);
 
     this.setState({ sent: true });
   }
