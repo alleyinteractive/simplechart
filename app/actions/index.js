@@ -5,6 +5,7 @@ import {
   RECEIVE_CHART_OPTIONS,
   RECEIVE_API_DATA,
 } from '../constants';
+import { receiveMessage } from '../utils/postMessage';
 
 export default function actionTrigger(type, data) {
   return { type, data };
@@ -12,16 +13,7 @@ export default function actionTrigger(type, data) {
 
 export function bootstrapAppData() {
   return function(dispatch) {
-    function handleMessage(evt) {
-      if (evt.origin !== window.location.origin) {
-        throw new Error(`Illegal postMessage from ${evt.origin}`);
-      }
-
-      if (!evt.data.messageType ||
-        evt.data.messageType !== 'bootstrapAppData') {
-        return;
-      }
-
+    function handleBootstrapMessage(evt) {
       dispatch(actionTrigger(
         RECEIVE_RAW_DATA, evt.data.rawData || ''));
       dispatch(actionTrigger(
@@ -32,8 +24,8 @@ export function bootstrapAppData() {
         RECEIVE_CHART_METADATA, evt.data.chartMetadata || {}));
     }
 
-    window.addEventListener('message', (evt) =>
-      handleMessage(evt)
+    receiveMessage('bootstrapAppData', (evt) =>
+      handleBootstrapMessage(evt)
     );
   };
 }
