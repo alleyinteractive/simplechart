@@ -24,7 +24,10 @@ class SaveChart extends Component {
       }),
     });
 
-    sendMessage('saveData', saveData);
+    // send each element in saveData individually
+    Object.keys(saveData).forEach((key) =>
+      sendMessage(`save-${key}`, saveData[key])
+    );
 
     this.setState({ sent: true });
   }

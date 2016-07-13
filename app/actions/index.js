@@ -1,8 +1,8 @@
 import {
   RECEIVE_RAW_DATA,
   RECEIVE_CHART_DATA,
-  RECEIVE_CHART_METADATA,
   RECEIVE_CHART_OPTIONS,
+  RECEIVE_CHART_METADATA,
   RECEIVE_API_DATA,
 } from '../constants';
 import { receiveMessage } from '../utils/postMessage';
@@ -13,19 +13,20 @@ export default function actionTrigger(type, data) {
 
 export function bootstrapAppData() {
   return function(dispatch) {
-    function handleBootstrapMessage(evt) {
-      dispatch(actionTrigger(
-        RECEIVE_RAW_DATA, evt.data.rawData || ''));
-      dispatch(actionTrigger(
-        RECEIVE_CHART_DATA, evt.data.chartData || []));
-      dispatch(actionTrigger(
-        RECEIVE_CHART_OPTIONS, evt.data.chartOptions || {}));
-      dispatch(actionTrigger(
-        RECEIVE_CHART_METADATA, evt.data.chartMetadata || {}));
-    }
-
-    receiveMessage('bootstrapAppData', (evt) =>
-      handleBootstrapMessage(evt)
+    /**
+     * Send each data component to reducer
+     */
+    receiveMessage('bootstrap.rawData', (evt) =>
+      dispatch(actionTrigger(RECEIVE_RAW_DATA, evt.data.data || ''))
+    );
+    receiveMessage('bootstrap.chartData', (evt) =>
+      dispatch(actionTrigger(RECEIVE_CHART_DATA, evt.data.data || []))
+    );
+    receiveMessage('bootstrap.chartOptions', (evt) =>
+      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, evt.data.data || {}))
+    );
+    receiveMessage('bootstrap.chartMetadata', (evt) =>
+      dispatch(actionTrigger(RECEIVE_CHART_METADATA, evt.data.data || {}))
     );
   };
 }
