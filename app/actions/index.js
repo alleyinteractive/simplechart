@@ -33,11 +33,14 @@ export function bootstrapAppData() {
 
 export function bootstrapWidgetData(widgetId, fetchUrl) {
   return function(dispatch) {
+    function handleResponse(response) {
+      return response.status === 200 ? response.json() : {};
+    }
     /**
      * async data request
      */
     return fetch(fetchUrl)
-      .then((response) => response.json())
+      .then((response) => handleResponse(response))
       .then((json) => dispatch(
         actionTrigger(RECEIVE_API_DATA, { widget: widgetId, data: json }))
       );
