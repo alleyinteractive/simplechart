@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // Use Mapbox's colorpickr component
 import ColorPicker from 'react-colorpickr';
-import * as ColorPickrStyles
+import * as ColorPickrStyles // eslint-disable-line no-unused-vars
   from 'style!raw!react-colorpickr/dist/colorpickr.css';
 import { debounce } from '../../utils/misc';
 import update from 'react-addons-update';
