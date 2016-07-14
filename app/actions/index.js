@@ -5,13 +5,19 @@ import {
   RECEIVE_CHART_METADATA,
   RECEIVE_API_DATA,
 } from '../constants';
-import { receiveMessage } from '../utils/postMessage';
+import { receiveMessage, setupPostMessage } from '../utils/postMessage';
 
 export default function actionTrigger(type, data) {
   return { type, data };
 }
 
+/**
+ * Listen for data from parent window postMessage when building chart
+ */
 export function bootstrapAppData() {
+  // init postMessage connection with parent window
+  setupPostMessage();
+
   return function(dispatch) {
     /**
      * Send each data component to reducer
@@ -31,6 +37,9 @@ export function bootstrapAppData() {
   };
 }
 
+/**
+ * Get widget data from API
+ */
 export function bootstrapWidgetData(widgetId, fetchUrl) {
   return function(dispatch) {
     function handleResponse(response) {
