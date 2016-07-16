@@ -29,30 +29,36 @@ function _isTopLevelWindow() {
 }
 
 /**
- * Setup postMessage receive callbacks
+ * store for message handle callbacks
  */
 const _callbacks = {};
-function _messageHandler(evt) {
-  // validate same-origin except if local dev server
-  if (evt.origin !== window.location.origin
-    && !_isLocalDev()) {
-    throw new Error(`Illegal postMessage from ${evt.origin}`);
+
+/**
+ * Setup postMessage receive callbacks
+ */
+export function setupPostMessage() {
+  function _messageHandler(evt) {
+    // validate same-origin except if local dev server
+    if (evt.origin !== window.location.origin
+      && !_isLocalDev()) {
+      throw new Error(`Illegal postMessage from ${evt.origin}`);
+    }
+
+    if (!evt.data.messageType || !_callbacks[evt.data.messageType]) {
+      return;
+    }
+
+    // loop through callbacks for message type
+    _callbacks[evt.data.messageType].forEach((callback) =>
+      callback(evt)
+    );
   }
 
-  if (!evt.data.messageType || !_callbacks[evt.data.messageType]) {
-    return;
-  }
-
-  // loop through callbacks for message type
-  _callbacks[evt.data.messageType].forEach((callback) =>
-    callback(evt)
+  // set up listener
+  window.addEventListener('message', (evt) =>
+    _messageHandler(evt)
   );
 }
-
-// set up listener
-window.addEventListener('message', (evt) =>
-  _messageHandler(evt)
-);
 
 /**
  * Listen for a postMessage then do something with the event

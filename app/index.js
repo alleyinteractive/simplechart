@@ -9,6 +9,7 @@ import chartOptionsMiddleware from './middleware/chartOptionsMiddleware';
 import { bootstrapAppData } from './actions';
 import App from './components/App';
 import { sendMessage } from './utils/postMessage';
+import * as NVD3Styles from 'style!raw!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
 
 // Create the store with redux-thunk middleware, which allows us to
 // do asyncronous things in the actions
