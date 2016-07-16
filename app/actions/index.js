@@ -82,7 +82,7 @@ export function bootstrapWidgetData(widgetId, fetchUrl) {
      * async data request
      */
     return fetch(fetchUrl)
-      .then((response) => handleResponse(response))
-      .then((json) => handleJson(json));
+      .then(handleResponse)
+      .then(handleJson);
   };
 }
