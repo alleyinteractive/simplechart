@@ -1,80 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DataInput from './DataInput';
-import ChartTypeSelector from './ChartTypeSelector';
-import ChartMetadata from './ChartMetadata';
 import ChartBuilder from './ChartBuilder';
 import ProgressHeader from './Layout/ProgressHeader';
-import { Message } from 'rebass';
+import ErrorMessage from '../utils/ErrorMessage';
 
 class App extends Component {
 
   constructor() {
     super();
-    this._renderChartTypeSelector = this._renderChartTypeSelector.bind(this);
     this._renderChartBuilder = this._renderChartBuilder.bind(this);
-    this._renderCurrentStep = this._renderCurrentStep.bind(this);
-  }
-
-  _renderChartTypeSelector() {
-    if (this.props.state.dataStatus.status !== 'success') {
-      return '';
-    }
-    return (
-      <ChartTypeSelector
-        data={this.props.state.parsedData}
-        fields={this.props.state.dataFields}
-      />
-    );
+    this._renderAppComponent = this._renderAppComponent.bind(this);
   }
 
   _renderChartBuilder() {
-    if (this.props.state.dataStatus.status !== 'success' ||
-      !this.props.state.chartOptions ||
-      !this.props.state.chartOptions.type
-    ) {
-      return '';
+    if (this.props.state.dataStatus.status !== 'success') {
+      return new ErrorMessage('Invalid data. Please resubmit.');
     }
-    return (
-      <ChartBuilder
-        state={this.props.state}
-      />
-    );
+    return React.createElement(ChartBuilder, {
+      state: this.props.state,
+    });
   }
 
-  _renderCurrentStep() {
-    let toRender;
-    switch (this.props.state.currentStep) {
-      case 0:
-        toRender = React.createElement(DataInput, {
-          rawData: this.props.state.rawData,
-          dataStatus: this.props.state.dataStatus,
-        });
-        break;
-
-      case 1:
-        toRender = this._renderChartTypeSelector();
-        break;
-
-      case 2:
-        toRender = React.createElement(ChartMetadata, {
-          metadata: this.props.state.chartMetadata,
-        });
-        break;
-
-      case 3:
-        toRender = this._renderChartBuilder();
-        break;
-
-      default:
-        toRender = React.createElement(Message, {
-          inverted: true,
-          rounded: true,
-          theme: 'error',
-          style: { marginTop: '55px' },
-        }, 'An error occurred');
+  _renderAppComponent() {
+    if (this.props.state.currentStep === 0) {
+      return React.createElement(DataInput, {
+        rawData: this.props.state.rawData,
+        dataStatus: this.props.state.dataStatus,
+      });
+    } else if (this.props.state.currentStep <= 3) {
+      return this._renderChartBuilder();
     }
-    return toRender;
+    return new ErrorMessage();
   }
 
   render() {
@@ -82,7 +39,7 @@ class App extends Component {
       // set height 100% so child divs inherit it
       <div style={{ height: '100%' }}>
         <ProgressHeader currentStep={this.props.state.currentStep} />
-        {this._renderCurrentStep()}
+        {this._renderAppComponent()}
       </div>
     );
   }

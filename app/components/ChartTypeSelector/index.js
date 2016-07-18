@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import AppComponent from '../Layout/AppComponent';
 import { dataTransformers } from '../../constants/dataTransformers';
 import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_DATA } from '../../constants';
 import actionTrigger from '../../actions';
 
-class ChartTypeSelector extends AppComponent {
+class ChartTypeSelector extends Component {
 
   constructor() {
     super();
@@ -48,7 +47,7 @@ class ChartTypeSelector extends AppComponent {
 
   render() {
     return (
-      <div className={this.styles.appComponent}>
+      <div>
         <h3>Available Chart Types</h3>
         <ul>
         {Object.keys(this.state).map((type) =>

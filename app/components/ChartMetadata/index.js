@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RECEIVE_CHART_METADATA } from '../../constants';
 import actionTrigger from '../../actions';
-import AppComponent from '../Layout/AppComponent';
 
-class ChartMetadata extends AppComponent {
+class ChartMetadata extends Component {
   constructor() {
     super();
     this._submitField = this._submitField.bind(this);
@@ -44,7 +43,7 @@ class ChartMetadata extends AppComponent {
 
   render() {
     return (
-      <div className={this.styles.appComponent}>
+      <div>
         {Object.keys(this.state).map((key) =>
           (<div key={key}>
             <label htmlFor={key} >
