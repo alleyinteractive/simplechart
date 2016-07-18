@@ -11,3 +11,37 @@
 .success {
   color: green;
 }
+
+.initial {
+  color: gray;
+}
+
+.dataStatus {
+  position: absolute;
+  bottom: -25px;
+  right: 0;
+}
+
+.actionsContainer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: relative;
+}
+
+.sampleDataContainer {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  :global(.Select) {
+    flex-grow: 99;
+    margin-right: 10px;
+  }
+}
+
+.submitContainer {
+  max-width: 15%;
+}
