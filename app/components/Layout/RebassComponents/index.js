@@ -18,6 +18,6 @@ export class ListBlock extends Component {
   }
 }
 
-React.propTypes = {
+ListBlock.propTypes = {
   list: React.PropTypes.array,
 };

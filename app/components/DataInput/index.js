@@ -5,7 +5,7 @@ import * as styles from './DataInput.css';
 import { RECEIVE_RAW_DATA, UPDATE_CURRENT_STEP } from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
-import { Heading } from 'rebass';
+import { Heading, Select, Button } from 'rebass';
 import { ListBlock } from '../Layout/RebassComponents';
 
 class DataInput extends AppComponent {
@@ -16,8 +16,11 @@ class DataInput extends AppComponent {
     this._updateValue = this._updateValue.bind(this);
     this._updateValue = this._updateValue.bind(this);
     this._loadSampleData = this._loadSampleData.bind(this);
+    this._setSampleDataSet = this._setSampleDataSet.bind(this);
+
     this.state = {
       rawData: '',
+      sampleDataSet: 0,
     };
     this.inputRules = [
       'Enter comma or tab delimited text here.',
@@ -51,11 +54,26 @@ class DataInput extends AppComponent {
     this.setState({ rawData: evt.target.value });
   }
 
-  _loadSampleData(evt) {
-    const sampleIndex = parseInt(evt.target.getAttribute('data-key'), 10);
-    if (!isNaN(sampleIndex) && sampleData[sampleIndex]) {
-      this.setState({ rawData: sampleData[sampleIndex].data });
+  _loadSampleData() {
+    this.setState({ rawData: sampleData[this.state.sampleDataSet].data });
+  }
+
+  _sampleDataOptions() {
+    function getOpt(set, i) {
+      return {
+        children: set.label,
+        value: i,
+      };
     }
+    return sampleData.map((set, i) =>
+      getOpt(set, i)
+    );
+  }
+
+  _setSampleDataSet(evt) {
+    this.setState({
+      sampleDataSet: evt.target.value,
+    });
   }
 
   render() {
@@ -76,20 +94,6 @@ class DataInput extends AppComponent {
       <div className={this.styles.appComponent}>
         <Heading level={2}>Input CSV Data</Heading>
         <ListBlock list={this.inputRules} />
-        <p>Sample data sets:</p>
-        <ul>
-          {sampleData.map((sample, i) =>
-            (<li key={i}>
-              <a
-                onClick={this._loadSampleData}
-                data-key={i}
-                href="#0"
-              >
-                {sample.label}
-              </a>
-            </li>)
-          )}
-        </ul>
         <textarea
           id="DataInput"
           className={styles.textarea}
@@ -97,6 +101,19 @@ class DataInput extends AppComponent {
           onChange={this._updateValue}
           ref="dataInput"
         />
+        <div>
+          <Select
+            label="Use sample data"
+            name="sample-data-select"
+            options={this._sampleDataOptions()}
+            onChange={this._setSampleDataSet}
+          />
+          <Button
+            theme="primary"
+            onClick={this._loadSampleData}
+          >Load</Button>
+        </div>
+
         <button onClick={this._submitData}>Go</button>
         <span className={styles[dataStatusClass]}>
           {dataStatus}
