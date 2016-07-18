@@ -11,6 +11,7 @@ import fieldsReducer from './fieldsReducer';
 import chartOptionsReducer from './chartOptionsReducer';
 import chartDataReducer from './chartDataReducer';
 import chartMetadataReducer from './chartMetadataReducer';
+import currentStepReducer from './currentStepReducer';
 
 export default combineReducers({
   rawData: rawDataReducer,
@@ -20,4 +21,5 @@ export default combineReducers({
   chartOptions: chartOptionsReducer,
   chartData: chartDataReducer,
   chartMetadata: chartMetadataReducer,
+  currentStep: currentStepReducer,
 });

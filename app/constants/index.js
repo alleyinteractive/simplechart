@@ -2,6 +2,7 @@
  * General actions
  */
 export const REQUEST_DATA = 'REQUEST_DATA';
+export const UPDATE_CURRENT_STEP = 'UPDATE_CURRENT_STEP';
 
 /**
  * Widget actions

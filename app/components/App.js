@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import DataInput from './DataInput';
 import ChartTypeSelector from './ChartTypeSelector';
 import ChartBuilder from './ChartBuilder';
+import ProgressHeader from './Layout/ProgressHeader';
 
 class App extends Component {
 
@@ -39,7 +40,9 @@ class App extends Component {
   }
   render() {
     return (
-      <div>
+      // set height 100% so child divs inherit it
+      <div style={{ height: '100%' }}>
+        <ProgressHeader currentStep={this.props.state.currentStep} />
         <DataInput
           rawData={this.props.state.rawData}
           dataStatus={this.props.state.dataStatus}

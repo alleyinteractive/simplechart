@@ -1,0 +1,18 @@
+.inner {
+  display: flex;
+  justify-content: space-between;
+  height: 35px;
+  padding: 10px;
+  border-bottom: 2px solid gray;
+  background: white;
+}
+
+/**
+ * Specify positioning to account for bad SVG
+ */
+.logoContainer {
+  width: 80px;
+  position: relative;
+  left: -3.4px;
+  top: -9.9px;
+}
