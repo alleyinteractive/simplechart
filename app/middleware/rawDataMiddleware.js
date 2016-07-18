@@ -35,7 +35,7 @@ export default function rawDataMiddleware() {
       } else {
         statusObj = {
           status: 'success',
-          message: 'Data successfully parsed!',
+          message: 'Data input successful',
         };
       }
       next(actionTrigger(
