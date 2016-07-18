@@ -5,6 +5,8 @@ import * as styles from './DataInput.css';
 import { RECEIVE_RAW_DATA, UPDATE_CURRENT_STEP } from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
+import { Heading } from 'rebass';
+import { ListBlock } from '../Layout/RebassComponents';
 
 class DataInput extends AppComponent {
 
@@ -72,11 +74,8 @@ class DataInput extends AppComponent {
 
     return (
       <div className={this.styles.appComponent}>
-        <ul>
-          {this.inputRules.map((rule, i) =>
-            (<li key={i}>{rule}</li>)
-          )}
-        </ul>
+        <Heading level={2}>Input CSV Data</Heading>
+        <ListBlock list={this.inputRules} />
         <p>Sample data sets:</p>
         <ul>
           {sampleData.map((sample, i) =>
