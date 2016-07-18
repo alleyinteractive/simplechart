@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { appComponent } from '../../css/components.css';
+import AppComponent from '../Layout/AppComponent';
 import * as styles from './DataInput.css';
 import { RECEIVE_RAW_DATA, UPDATE_CURRENT_STEP } from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
 
-class DataInput extends Component {
+class DataInput extends AppComponent {
 
   constructor() {
     super();
@@ -71,7 +71,7 @@ class DataInput extends Component {
     }
 
     return (
-      <div className={appComponent}>
+      <div className={this.styles.appComponent}>
         <ul>
           {this.inputRules.map((rule, i) =>
             (<li key={i}>{rule}</li>)

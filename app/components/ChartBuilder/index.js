@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Chart from '../Chart/';
 import PalettePicker from '../PalettePicker/';
 import SaveChart from '../SaveChart/';
-import { appComponent } from '../../css/components.css';
+import AppComponent from '../Layout/AppComponent';
 
-class ChartBuilder extends Component {
+class ChartBuilder extends AppComponent {
 
   render() {
     return (
-      <div className={appComponent}>
+      <div className={this.styles.appComponent}>
         <PalettePicker
           data={this.props.state.chartData}
           options={this.props.state.chartOptions}
