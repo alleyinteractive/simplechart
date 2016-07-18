@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Chart from '../Chart/';
-import ChartMetadata from '../ChartMetadata/';
 import PalettePicker from '../PalettePicker/';
 import SaveChart from '../SaveChart/';
 import { appComponent } from '../../css/components.css';
@@ -11,7 +10,6 @@ class ChartBuilder extends Component {
   render() {
     return (
       <div className={appComponent}>
-        <ChartMetadata metadata={this.props.state.chartMetadata} />
         <PalettePicker
           data={this.props.state.chartData}
           options={this.props.state.chartOptions}

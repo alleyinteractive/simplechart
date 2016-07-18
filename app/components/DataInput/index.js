@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { appComponent } from '../../css/components.css';
 import * as styles from './DataInput.css';
-import { RECEIVE_RAW_DATA } from '../../constants';
+import { RECEIVE_RAW_DATA, UPDATE_CURRENT_STEP } from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
 
@@ -30,6 +30,13 @@ class DataInput extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({ rawData: nextProps.rawData });
+    if (nextProps.dataStatus &&
+      nextProps.dataStatus.status && nextProps.dataStatus.status === 'success'
+    ) {
+      this.props.dispatch(
+        actionTrigger(UPDATE_CURRENT_STEP, 1)
+      );
+    }
   }
 
   _submitData() {
