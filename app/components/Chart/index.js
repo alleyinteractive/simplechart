@@ -15,31 +15,40 @@ class Chart extends Component {
   }
 
   _getChartTypeComponent() {
+    // if no type has been chosen yet
+    if (!this.props.options.type) {
+      return '';
+    }
+
+    let chartType;
     switch (this.props.options.type) {
       case 'pieChart':
-        return PieChart;
+        chartType = PieChart;
+        break;
 
       case 'discreteBarChart':
-        return DiscreteBarChart;
+        chartType = DiscreteBarChart;
+        break;
 
       case 'lineChart':
-        return LineChart;
+        chartType = LineChart;
+        break;
 
       case 'stackedAreaChart':
-        return StackedAreaChart;
+        chartType = StackedAreaChart;
+        break;
 
       default:
-        return InvalidChartType;
+        chartType = InvalidChartType;
     }
+    return React.createElement(chartType, this.props);
   }
 
   render() {
     return (
       <div>
         <h3>{this.props.metadata.title}</h3>
-        {React.createElement(
-          this._getChartTypeComponent(), this.props
-        )}
+        {this._getChartTypeComponent()}
         <p>{this.props.metadata.caption}</p>
 
         {this.props.metadata.credit ?
