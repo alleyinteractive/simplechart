@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { RECEIVE_CHART_METADATA } from '../../constants';
 import actionTrigger from '../../actions';
 import { Input } from 'rebass';
-import { NextPrevButton } from '../Layout/RebassComponents/NextPrevButton';
+import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 
 class ChartMetadata extends Component {
   constructor() {
@@ -61,7 +61,6 @@ class ChartMetadata extends Component {
           copy="Next"
           currentStep={2}
           dir="next"
-          dispatch={this.props.dispatch}
         />
       </div>
     );

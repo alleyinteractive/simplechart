@@ -5,7 +5,7 @@ import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_DATA } from '../../constants';
 import actionTrigger from '../../actions';
 import { Radio } from 'rebass';
 import * as styles from './ChartTypeSelector.css';
-import { NextPrevButton } from '../Layout/RebassComponents/NextPrevButton';
+import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 
 class ChartTypeSelector extends Component {
 
@@ -80,7 +80,6 @@ class ChartTypeSelector extends Component {
           copy="Next"
           currentStep={1}
           dir="next"
-          dispatch={this.props.dispatch}
         />
       </div>
     );
