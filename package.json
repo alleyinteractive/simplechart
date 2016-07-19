@@ -46,21 +46,14 @@
     "webpack-dev-server": "1.12.1"
   },
   "dependencies": {
-    "array.prototype.find": "2.0.0",
-    "d3": "^3.5.16",
-    "react": "^0.14.6",
-    "react-addons-update": "^15.1.0",
-    "react-autocomplete": "^0.2.1",
-    "react-colorpickr": "^4.2.0",
-    "react-dom": "^0.14.6",
-    "react-nvd3": "^0.5.7",
-    "react-redux": "^4.4.1",
-    "react-router": "^2.0.1",
-    "react-router-redux": "^4.0.0",
-    "react-select": "^1.0.0-beta13",
-    "rebass": "^0.3.0",
-    "redux": "^3.3.1",
-    "redux-thunk": "^2.0.1",
-    "slug": "^0.9.1"
+    "react": "15.2.1",
+    "react-addons-update": "15.2.1",
+    "react-colorpickr": "4.2.0",
+    "react-dom": "15.2.1",
+    "react-nvd3": "0.5.7",
+    "react-redux": "4.4.5",
+    "rebass": "0.3.0",
+    "redux": "3.5.2",
+    "redux-thunk": "2.1.0"
   }
 }
