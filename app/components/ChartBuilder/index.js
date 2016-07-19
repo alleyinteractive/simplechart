@@ -41,7 +41,7 @@ class ChartBuilder extends AppComponent {
 
   render() {
     return (
-      <div className={this.styles.appComponent}>
+      <div className={this.parentStyles.appComponent}>
         {this._renderSubcomponent(this.props.state.currentStep)}
         <Chart
           data={this.props.state.chartData}

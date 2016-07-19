@@ -91,8 +91,8 @@ class DataInput extends AppComponent {
     }
 
     return (
-      <div className={this.styles.appComponent}>
         <Heading level={2}>Input CSV Data</Heading>
+      <div className={this.parentStyles.appComponent}>
         <ListBlock list={this.inputRules} />
         <textarea
           id="DataInput"
