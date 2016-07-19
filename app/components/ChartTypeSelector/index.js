@@ -48,7 +48,6 @@ class ChartTypeSelector extends Component {
   render() {
     return (
       <div>
-        <h3>Available Chart Types</h3>
         <ul>
         {Object.keys(this.state).map((type) =>
           /**

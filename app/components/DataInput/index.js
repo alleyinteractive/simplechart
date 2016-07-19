@@ -7,6 +7,7 @@ import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
 import { Heading, Select, Button, Text } from 'rebass';
 import { ListBlock } from '../Layout/RebassComponents';
+import { appSteps } from '../../constants/appSteps';
 
 class DataInput extends AppComponent {
 
@@ -91,8 +92,8 @@ class DataInput extends AppComponent {
     }
 
     return (
-        <Heading level={2}>Input CSV Data</Heading>
       <div className={this.parentStyles.appComponent}>
+        <Heading level={2}>{appSteps[0]}</Heading>
         <ListBlock list={this.inputRules} />
         <textarea
           id="DataInput"

@@ -7,6 +7,8 @@ import PalettePicker from '../PalettePicker/';
 import SaveChart from '../SaveChart/';
 import AppComponent from '../Layout/AppComponent';
 import ErrorMessage from '../../utils/ErrorMessage';
+import { Heading } from 'rebass';
+import { appSteps } from '../../constants/appSteps';
 
 class ChartBuilder extends AppComponent {
 
@@ -42,6 +44,7 @@ class ChartBuilder extends AppComponent {
   render() {
     return (
       <div className={this.parentStyles.appComponent}>
+        <Heading level={2}>{appSteps[this.props.state.currentStep]}</Heading>
         {this._renderSubcomponent(this.props.state.currentStep)}
         <Chart
           data={this.props.state.chartData}
