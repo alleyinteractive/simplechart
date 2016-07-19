@@ -8,6 +8,7 @@ import AppComponent from '../Layout/AppComponent';
 import ErrorMessage from '../../utils/ErrorMessage';
 import { Heading } from 'rebass';
 import { appSteps } from '../../constants/appSteps';
+import * as styles from './ChartBuilder.css';
 
 class ChartBuilder extends AppComponent {
 
@@ -44,12 +45,18 @@ class ChartBuilder extends AppComponent {
     return (
       <div className={this.parentStyles.appComponent}>
         <Heading level={2}>{appSteps[this.props.state.currentStep]}</Heading>
-        {this._renderSubcomponent(this.props.state.currentStep)}
-        <Chart
-          data={this.props.state.chartData}
-          options={this.props.state.chartOptions}
-          metadata={this.props.state.chartMetadata}
-        />
+        <div className={styles.builderContainer}>
+          <div className={styles.subcomponentContainer}>
+            {this._renderSubcomponent(this.props.state.currentStep)}
+          </div>
+          <div className={styles.chartContainer}>
+            <Chart
+              data={this.props.state.chartData}
+              options={this.props.state.chartOptions}
+              metadata={this.props.state.chartMetadata}
+            />
+          </div>
+        </div>
       </div>
     );
   }
