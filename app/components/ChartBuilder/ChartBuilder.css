@@ -1,5 +1,6 @@
 .builderContainer {
   display: flex;
+  margin-top: 30px;
 }
 
 .subcomponentContainer {
