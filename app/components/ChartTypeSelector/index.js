@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { dataTransformers } from '../../constants/dataTransformers';
 import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_DATA } from '../../constants';
 import actionTrigger from '../../actions';
+import { Radio } from 'rebass';
+import * as styles from './ChartTypeSelector.css';
+import { NextPrevButton } from '../Layout/RebassComponents/NextPrevButton';
 
 class ChartTypeSelector extends Component {
 
@@ -22,7 +25,7 @@ class ChartTypeSelector extends Component {
   }
 
   _selectChartType(evt) {
-    const type = evt.target.getAttribute('data-type');
+    const type = evt.target.value;
 
     // send selected chart type  to store options
     this.props.dispatch(actionTrigger(
@@ -51,25 +54,34 @@ class ChartTypeSelector extends Component {
    * and disable chart types where data is incompatible
    */
   _renderTypeOption(type) {
-    return (
-      !this.state[type] ?
-        (<li key={type}>{type}</li>) :
-        (<li key={type}><a
-          href="#0"
-          onClick={this._selectChartType}
-          data-type={type}
-        >{type}</a></li>)
-    );
+    const disabled = !this.state[type];
+    return React.createElement(Radio, {
+      key: type,
+      circle: true,
+      label: type,
+      name: 'chartTypeSelect',
+      value: type,
+      backgroundColor: !disabled ? 'primary' : 'secondary',
+      disabled,
+      checked: (type === this.props.type),
+      onChange: this._selectChartType,
+    });
   }
 
   render() {
     return (
       <div>
-        <ul>
-        {Object.keys(this.state).map((type) =>
-          this._renderTypeOption(type)
-        )}
+        <ul className={styles.list}>
+          {Object.keys(this.state).map((type) =>
+            this._renderTypeOption(type)
+          )}
         </ul>
+        <NextPrevButton
+          copy="Next"
+          currentStep={1}
+          dir="next"
+          dispatch={this.props.dispatch}
+        />
       </div>
     );
   }
@@ -78,6 +90,7 @@ class ChartTypeSelector extends Component {
 ChartTypeSelector.propTypes = {
   data: React.PropTypes.array,
   fields: React.PropTypes.array,
+  type: React.PropTypes.string,
   dispatch: React.PropTypes.func,
 };
 
