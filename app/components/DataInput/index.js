@@ -6,7 +6,8 @@ import { RECEIVE_RAW_DATA, UPDATE_CURRENT_STEP } from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
 import { Heading, Select, Button, Text } from 'rebass';
-import { ListBlock } from '../Layout/RebassComponents';
+import { ListBlock } from '../Layout/RebassComponents/ListBlock';
+import { appSteps } from '../../constants/appSteps';
 
 class DataInput extends AppComponent {
 
@@ -91,8 +92,8 @@ class DataInput extends AppComponent {
     }
 
     return (
-      <div className={this.styles.appComponent}>
-        <Heading level={2}>Input CSV Data</Heading>
+      <div className={this.parentStyles.appComponent}>
+        <Heading level={2}>{appSteps[0]}</Heading>
         <ListBlock list={this.inputRules} />
         <textarea
           id="DataInput"

@@ -1,8 +1,8 @@
 .appComponent {
   width: 100%;
   height: 100%;
-  max-width: 650px;
+  max-width: 1000px;
   margin: 55px auto 0 auto;
-  padding-top: 30px;
+  padding: 30px;
   box-sizing: border-box;
 }

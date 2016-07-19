@@ -1,0 +1,14 @@
+.builderContainer {
+  display: flex;
+}
+
+.subcomponentContainer {
+  width: 250px;
+}
+
+.chartContainer {
+  padding-left: 20px;
+  border-left: 1px solid gray;
+  margin-left: 20px;
+  flex-grow: 99;
+}

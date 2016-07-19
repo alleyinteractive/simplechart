@@ -4,9 +4,11 @@ import Chart from '../Chart/';
 import ChartTypeSelector from '../ChartTypeSelector/';
 import ChartMetadata from '../ChartMetadata/';
 import PalettePicker from '../PalettePicker/';
-import SaveChart from '../SaveChart/';
 import AppComponent from '../Layout/AppComponent';
 import ErrorMessage from '../../utils/ErrorMessage';
+import { Heading } from 'rebass';
+import { appSteps } from '../../constants/appSteps';
+import * as styles from './ChartBuilder.css';
 
 class ChartBuilder extends AppComponent {
 
@@ -17,6 +19,7 @@ class ChartBuilder extends AppComponent {
         subcomponent = React.createElement(ChartTypeSelector, {
           data: this.props.state.parsedData,
           fields: this.props.state.dataFields,
+          type: this.props.state.chartOptions.type || '',
         });
         break;
 
@@ -41,14 +44,20 @@ class ChartBuilder extends AppComponent {
 
   render() {
     return (
-      <div className={this.styles.appComponent}>
-        {this._renderSubcomponent(this.props.state.currentStep)}
-        <Chart
-          data={this.props.state.chartData}
-          options={this.props.state.chartOptions}
-          metadata={this.props.state.chartMetadata}
-        />
-        <SaveChart state={this.props.state} />
+      <div className={this.parentStyles.appComponent}>
+        <Heading level={2}>{appSteps[this.props.state.currentStep]}</Heading>
+        <div className={styles.builderContainer}>
+          <div className={styles.subcomponentContainer}>
+            {this._renderSubcomponent(this.props.state.currentStep)}
+          </div>
+          <div className={styles.chartContainer}>
+            <Chart
+              data={this.props.state.chartData}
+              options={this.props.state.chartOptions}
+              metadata={this.props.state.chartMetadata}
+            />
+          </div>
+        </div>
       </div>
     );
   }

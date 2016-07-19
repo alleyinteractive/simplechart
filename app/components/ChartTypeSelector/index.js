@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { dataTransformers } from '../../constants/dataTransformers';
 import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_DATA } from '../../constants';
 import actionTrigger from '../../actions';
+import { Radio } from 'rebass';
+import * as styles from './ChartTypeSelector.css';
+import { NextPrevButton } from '../Layout/RebassComponents/NextPrevButton';
 
 class ChartTypeSelector extends Component {
 
@@ -10,6 +13,7 @@ class ChartTypeSelector extends Component {
     super();
     this._testChartTypes = this._testChartTypes.bind(this);
     this._selectChartType = this._selectChartType.bind(this);
+    this._renderTypeOption = this._renderTypeOption.bind(this);
   }
 
   componentWillMount() {
@@ -21,7 +25,7 @@ class ChartTypeSelector extends Component {
   }
 
   _selectChartType(evt) {
-    const type = evt.target.getAttribute('data-type');
+    const type = evt.target.value;
 
     // send selected chart type  to store options
     this.props.dispatch(actionTrigger(
@@ -45,26 +49,39 @@ class ChartTypeSelector extends Component {
     );
   }
 
+  /**
+   * The idea is to enable chart types where data is compatible
+   * and disable chart types where data is incompatible
+   */
+  _renderTypeOption(type) {
+    const disabled = !this.state[type];
+    return React.createElement(Radio, {
+      key: type,
+      circle: true,
+      label: type,
+      name: 'chartTypeSelect',
+      value: type,
+      backgroundColor: !disabled ? 'primary' : 'secondary',
+      disabled,
+      checked: (type === this.props.type),
+      onChange: this._selectChartType,
+    });
+  }
+
   render() {
     return (
       <div>
-        <h3>Available Chart Types</h3>
-        <ul>
-        {Object.keys(this.state).map((type) =>
-          /**
-           * This will be its own component soon.
-           * The idea is to enable chart types where data is compatible
-           * and disable chart types where data is incompatible
-           */
-          !this.state[type] ?
-            (<li key={type}>{type}</li>) :
-            (<li key={type}><a
-              href="#0"
-              onClick={this._selectChartType}
-              data-type={type}
-            >{type}</a></li>)
-        )}
+        <ul className={styles.list}>
+          {Object.keys(this.state).map((type) =>
+            this._renderTypeOption(type)
+          )}
         </ul>
+        <NextPrevButton
+          copy="Next"
+          currentStep={1}
+          dir="next"
+          dispatch={this.props.dispatch}
+        />
       </div>
     );
   }
@@ -73,6 +90,7 @@ class ChartTypeSelector extends Component {
 ChartTypeSelector.propTypes = {
   data: React.PropTypes.array,
   fields: React.PropTypes.array,
+  type: React.PropTypes.string,
   dispatch: React.PropTypes.func,
 };
 
