@@ -4,7 +4,6 @@ import Chart from '../Chart/';
 import ChartTypeSelector from '../ChartTypeSelector/';
 import ChartMetadata from '../ChartMetadata/';
 import PalettePicker from '../PalettePicker/';
-import SaveChart from '../SaveChart/';
 import AppComponent from '../Layout/AppComponent';
 import ErrorMessage from '../../utils/ErrorMessage';
 import { Heading } from 'rebass';
@@ -51,7 +50,6 @@ class ChartBuilder extends AppComponent {
           options={this.props.state.chartOptions}
           metadata={this.props.state.chartMetadata}
         />
-        <SaveChart state={this.props.state} />
       </div>
     );
   }
