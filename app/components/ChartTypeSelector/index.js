@@ -10,6 +10,7 @@ class ChartTypeSelector extends Component {
     super();
     this._testChartTypes = this._testChartTypes.bind(this);
     this._selectChartType = this._selectChartType.bind(this);
+    this._renderTypeOption = this._renderTypeOption.bind(this);
   }
 
   componentWillMount() {
@@ -45,23 +46,28 @@ class ChartTypeSelector extends Component {
     );
   }
 
+  /**
+   * The idea is to enable chart types where data is compatible
+   * and disable chart types where data is incompatible
+   */
+  _renderTypeOption(type) {
+    return (
+      !this.state[type] ?
+        (<li key={type}>{type}</li>) :
+        (<li key={type}><a
+          href="#0"
+          onClick={this._selectChartType}
+          data-type={type}
+        >{type}</a></li>)
+    );
+  }
+
   render() {
     return (
       <div>
         <ul>
         {Object.keys(this.state).map((type) =>
-          /**
-           * This will be its own component soon.
-           * The idea is to enable chart types where data is compatible
-           * and disable chart types where data is incompatible
-           */
-          !this.state[type] ?
-            (<li key={type}>{type}</li>) :
-            (<li key={type}><a
-              href="#0"
-              onClick={this._selectChartType}
-              data-type={type}
-            >{type}</a></li>)
+          this._renderTypeOption(type)
         )}
         </ul>
       </div>
