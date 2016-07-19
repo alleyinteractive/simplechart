@@ -45,9 +45,6 @@
     "webpack": "1.12.2",
     "webpack-dev-server": "1.12.1"
   },
-  "peerDependencies": {
-    "react": "0.14.8"
-  },
   "dependencies": {
     "react": "15.2.1",
     "react-addons-update": "15.2.1",
