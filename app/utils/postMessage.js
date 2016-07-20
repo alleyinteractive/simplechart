@@ -19,11 +19,10 @@ function _isTopLevelWindow() {
     if (window.frameElement) {
       return false;
     }
-    // if we make it this far, this will throw an error
-    return !window.parent.location.hostname;
+    // this will be true or throw an error
+    return window.location.href === window.parent.location.href;
   } catch (err) {
-    // will catch SecurityError if cross-origin iframe
-    // or TypeError if top level window
+    // will catch SecurityError if we attempted to access a cross-origin iframe
     return err.name !== 'SecurityError';
   }
 }
@@ -81,7 +80,7 @@ export function receiveMessage(messageType, callback) {
  * @param any data Optional data to accompany message as evt.data.data
  * @return none
  */
-export function sendMessage(messageType, data) {
+export function sendMessage(messageType, data = null) {
   if (_isTopLevelWindow()) {
     if (!_isLocalDev()) {
       throw new Error(
