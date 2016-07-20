@@ -6,6 +6,6 @@ export default function ErrorMessage(msg = 'An error occurred.') {
     inverted: true,
     rounded: true,
     theme: 'error',
-    style: { marginTop: '55px' },
+    style: { marginTop: '65px' },
   }, msg);
 }

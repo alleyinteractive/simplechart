@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Fixed, Button, ButtonOutline } from 'rebass';
+import { Fixed, Button, SequenceMap } from 'rebass';
 import logoSvg from '!!raw!../../../img/simplechartLogo.svg';
 import * as styles from './ProgressHeader.css';
 import { appSteps } from '../../../constants/appSteps';
@@ -11,7 +11,7 @@ class ProgressHeader extends Component {
 
   constructor() {
     super();
-    this._progressButtons = this._progressButtons.bind(this);
+    this._sequenceMap = this._sequenceMap.bind(this);
   }
 
   componentWillMount() {
@@ -35,35 +35,19 @@ class ProgressHeader extends Component {
     ));
   }
 
-  _progressButtons() {
-    return appSteps.map((label, i) => {
-      const styleAttr = i > 0 ? { marginLeft: -1 } : {};
-      const isCurrent = i === this.state.currentStep;
-      let rounded;
-      if (i === 0) {
-        rounded = 'left';
-      } else if (i === (appSteps.length - 1)) {
-        rounded = 'right';
-      } else {
-        rounded = false;
-      }
+  _sequenceMap() {
+    const mapSteps = appSteps.map((label, i) => ({
+      children: label,
+      href: `#step-${i}`,
+      onClick: this._updateCurrentStep.bind(this, i),
+    }));
 
-      const props = {
-        rounded,
-        style: styleAttr,
-        color: 'primary',
-        key: i,
-        onClick: this._updateCurrentStep.bind(this, i),
-      };
-
-      if (isCurrent) {
-        props.style.backgroundColor = '#e4e3e3';
-      }
-
-      return (
-        React.createElement(ButtonOutline, props, label)
-      );
-    });
+    return (
+      <SequenceMap
+        active={this.state.currentStep}
+        steps={mapSteps}
+      />
+    );
   }
 
   render() {
@@ -75,8 +59,8 @@ class ProgressHeader extends Component {
             dangerouslySetInnerHTML={{ __html: logoSvg }}
           />
 
-          <div className={styles.progressContainer}>
-            {this._progressButtons()}
+          <div className={styles.sequenceContainer}>
+            {this._sequenceMap()}
           </div>
 
           <div className={styles.actionsContainer}>
