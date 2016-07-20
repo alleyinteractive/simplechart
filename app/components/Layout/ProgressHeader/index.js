@@ -8,6 +8,7 @@ import actionTrigger from '../../../actions';
 import { UPDATE_CURRENT_STEP } from '../../../constants';
 import SaveChart from '../../SaveChart';
 import { sendMessage } from '../../../utils/postMessage';
+import ErrorMessage from '../RebassComponents/ErrorMessage';
 
 class ProgressHeader extends Component {
 
@@ -15,13 +16,14 @@ class ProgressHeader extends Component {
     super();
     this._sequenceMap = this._sequenceMap.bind(this);
     this._cancelEdits = this._cancelEdits.bind(this);
+    this._renderUnsavedWarning = this._renderUnsavedWarning.bind(this);
   }
 
   componentWillMount() {
     this.setState({
       currentStep: this.props.currentStep || 0,
       steps: appSteps,
-      unsavedWarning: false,
+      showUnsavedWarning: false,
     });
   }
 
@@ -59,19 +61,35 @@ class ProgressHeader extends Component {
       sendMessage('closeApp');
       return;
     }
-    this.setState({ unsavedWarning: true });
+    this.setState({ showUnsavedWarning: true });
   }
 
-  _unsavedWarning(unsavedWarning) {
-    if (!unsavedWarning) {
+  _renderUnsavedWarning() {
+    if (!this.state.showUnsavedWarning) {
       return '';
     }
-    return '';
+
+    const discardChanges = function() {
+      sendMessage('closeApp');
+      this.setState({ showUnsavedWarning: false });
+    }.bind(this);
+
+    const closeWarning = function() {
+      this.setState({ showUnsavedWarning: false });
+    }.bind(this);
+
+    return (
+      <ErrorMessage>
+        You have unsaved changes.
+        <a href="#" onClick={discardChanges}>Discard changes</a> or
+        <a href="#" onClick={closeWarning}>cancel</a>.
+      </ErrorMessage>
+    );
   }
 
   render() {
     return (
-      <Fixed top left right>
+      <Fixed top left right style={{ zIndex: 99 }}>
         <div className={styles.inner}>
           <div
             className={styles.logoContainer}
@@ -92,10 +110,12 @@ class ProgressHeader extends Component {
               theme="error"
               rounded
               onClick={this._cancelEdits}
-            >Cancel</Button>
+            >Exit</Button>
           </div>
         </div>
-        {this._unsavedWarning(this.state.unsavedWarning)}
+        <div className={styles.unsavedWarning}>
+          {this._renderUnsavedWarning()}
+        </div>
       </Fixed>
     );
   }
