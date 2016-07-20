@@ -1,10 +1,15 @@
 .inner {
   display: flex;
   justify-content: space-between;
-  height: 35px;
+  height: 45px;
   padding: 10px;
   border-bottom: 2px solid gray;
   background: white;
+}
+
+.sequenceContainer {
+  flex-grow: 99;
+  margin: 0 20px;
 }
 
 /**
