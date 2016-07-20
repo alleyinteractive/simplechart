@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Rebass from 'rebass';
 
-export class ListBlock extends Component {
+export default class ListBlock extends Component {
   render() {
     return (
       <Rebass.Block

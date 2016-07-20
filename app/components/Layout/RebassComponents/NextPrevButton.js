@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import Rebass from 'rebass';
 import { UPDATE_CURRENT_STEP } from '../../../constants';
 import actionTrigger from '../../../actions';
+import { connect } from 'react-redux';
 
-export class NextPrevButton extends Component {
+class NextPrevButton extends Component {
   constructor() {
     super();
     this.changeStep = this.changeStep.bind(this);
@@ -35,3 +36,5 @@ NextPrevButton.propTypes = {
   dir: React.PropTypes.string,
   dispatch: React.PropTypes.func,
 };
+
+export default connect()(NextPrevButton);

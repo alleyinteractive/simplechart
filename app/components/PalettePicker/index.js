@@ -9,6 +9,7 @@ import update from 'react-addons-update';
 import { RECEIVE_CHART_OPTIONS } from '../../constants';
 import actionTrigger from '../../actions';
 import * as styles from './PalettePicker.css';
+import { Select } from 'rebass';
 
 class PalettePicker extends Component {
   constructor() {
@@ -96,6 +97,15 @@ class PalettePicker extends Component {
     }
   }
 
+  _selectOptions(optionsList) {
+    return optionsList.map((name, index) => (
+      {
+        children: name,
+        value: index,
+      }
+    ));
+  }
+
   render() {
     if (!this.state.colors || !this.state.colors.length) {
       return (<span>Waiting for colors...</span>);
@@ -103,11 +113,12 @@ class PalettePicker extends Component {
 
     return (
       <div>
-        <select onChange={this._seriesChange} >
-          {this.state.seriesNames.map((name, index) =>
-            (<option key={index} value={index}>{name}</option>)
-          )}
-        </select>
+        <Select
+          label="Select data series"
+          name="selectDataSeries"
+          options={this._selectOptions(this.state.seriesNames)}
+          onChange={this._seriesChange}
+        />
         <div className={styles.colorpickr}>
           {React.createElement(ColorPicker, {
             value: this.state.colors[this.state.currentSeries],

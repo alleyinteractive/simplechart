@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RECEIVE_CHART_METADATA } from '../../constants';
 import actionTrigger from '../../actions';
+import { Input } from 'rebass';
+import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 
 class ChartMetadata extends Component {
   constructor() {
@@ -46,17 +48,20 @@ class ChartMetadata extends Component {
       <div>
         {Object.keys(this.state).map((key) =>
           (<div key={key}>
-            <label htmlFor={key} >
-              {this.labels[key]}
-              <input
-                name={key}
-                onChange={this._updateState}
-                onBlur={this._submitField}
-                value={this.state[key]}
-              />
-            </label>
+            <Input
+              label={this.labels[key]}
+              name={key}
+              onChange={this._updateState}
+              onBlur={this._submitField}
+              value={this.state[key]}
+            />
           </div>)
         )}
+        <NextPrevButton
+          copy="Next"
+          currentStep={2}
+          dir="next"
+        />
       </div>
     );
   }

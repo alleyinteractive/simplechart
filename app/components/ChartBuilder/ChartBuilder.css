@@ -1,9 +1,10 @@
 .builderContainer {
   display: flex;
+  margin-top: 30px;
 }
 
 .subcomponentContainer {
-  width: 250px;
+  width: 330px; /* width of color picker */
 }
 
 .chartContainer {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Chart from '../Chart/';
 import ChartTypeSelector from '../ChartTypeSelector/';
 import ChartMetadata from '../ChartMetadata/';
-import PalettePicker from '../PalettePicker/';
+import ChartOptions from '../ChartOptions/';
 import AppComponent from '../Layout/AppComponent';
 import ErrorMessage from '../../utils/ErrorMessage';
 import { Heading } from 'rebass';
@@ -30,7 +30,7 @@ class ChartBuilder extends AppComponent {
         break;
 
       case 3:
-        subcomponent = React.createElement(PalettePicker, {
+        subcomponent = React.createElement(ChartOptions, {
           data: this.props.state.chartData,
           options: this.props.state.chartOptions,
         });
