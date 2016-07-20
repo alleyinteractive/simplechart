@@ -7,18 +7,21 @@ import { connect } from 'react-redux';
 import actionTrigger from '../../../actions';
 import { UPDATE_CURRENT_STEP } from '../../../constants';
 import SaveChart from '../../SaveChart';
+import { sendMessage } from '../../../utils/postMessage';
 
 class ProgressHeader extends Component {
 
   constructor() {
     super();
     this._sequenceMap = this._sequenceMap.bind(this);
+    this._cancelEdits = this._cancelEdits.bind(this);
   }
 
   componentWillMount() {
     this.setState({
       currentStep: this.props.currentStep || 0,
       steps: appSteps,
+      unsavedWarning: false,
     });
   }
 
@@ -51,6 +54,21 @@ class ProgressHeader extends Component {
     );
   }
 
+  _cancelEdits() {
+    if (!this.props.unsavedChanges) {
+      sendMessage('closeApp');
+      return;
+    }
+    this.setState({ unsavedWarning: true });
+  }
+
+  _unsavedWarning(unsavedWarning) {
+    if (!unsavedWarning) {
+      return '';
+    }
+    return '';
+  }
+
   render() {
     return (
       <Fixed top left right>
@@ -73,9 +91,11 @@ class ProgressHeader extends Component {
             <Button
               theme="error"
               rounded
+              onClick={this._cancelEdits}
             >Cancel</Button>
           </div>
         </div>
+        {this._unsavedWarning(this.state.unsavedWarning)}
       </Fixed>
     );
   }
