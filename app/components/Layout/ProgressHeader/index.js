@@ -6,6 +6,7 @@ import { appSteps } from '../../../constants/appSteps';
 import { connect } from 'react-redux';
 import actionTrigger from '../../../actions';
 import { UPDATE_CURRENT_STEP } from '../../../constants';
+import SaveChart from '../../SaveChart';
 
 class ProgressHeader extends Component {
 
@@ -64,11 +65,10 @@ class ProgressHeader extends Component {
           </div>
 
           <div className={styles.actionsContainer}>
-            <Button
-              theme="success"
-              rounded
-              style={{ marginRight: '10px' }}
-            >Save Chart</Button>
+            <SaveChart
+              saveData={this.props.saveData}
+              buttonStyleAttr={{ marginRight: '10px' }}
+            />
 
             <Button
               theme="error"
@@ -82,6 +82,7 @@ class ProgressHeader extends Component {
 }
 
 ProgressHeader.propTypes = {
+  saveData: React.PropTypes.object,
   currentStep: React.PropTypes.number,
   dispatch: React.PropTypes.func,
 };
