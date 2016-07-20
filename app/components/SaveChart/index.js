@@ -2,6 +2,9 @@
 import React, { Component } from 'react';
 import { sendMessage } from '../../utils/postMessage';
 import { Button } from 'rebass';
+import { connect } from 'react-redux';
+import actionTrigger from '../../actions';
+import { UNSAVED_CHANGES } from '../../constants';
 
 class SaveChart extends Component {
   constructor() {
@@ -15,6 +18,7 @@ class SaveChart extends Component {
     Object.keys(this.props.saveData).forEach((key) =>
       this._sendParentMessage(key)
     );
+    this.props.dispatch(actionTrigger(UNSAVED_CHANGES, false));
     sendMessage('closeApp');
   }
 
@@ -41,6 +45,7 @@ class SaveChart extends Component {
 SaveChart.propTypes = {
   saveData: React.PropTypes.object,
   buttonStyleAttr: React.PropTypes.object,
+  dispatch: React.PropTypes.func,
 };
 
-export default SaveChart;
+export default connect()(SaveChart);

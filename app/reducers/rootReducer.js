@@ -12,6 +12,7 @@ import chartOptionsReducer from './chartOptionsReducer';
 import chartDataReducer from './chartDataReducer';
 import chartMetadataReducer from './chartMetadataReducer';
 import currentStepReducer from './currentStepReducer';
+import unsavedChangesReducer from './unsavedChangesReducer';
 
 export default combineReducers({
   rawData: rawDataReducer,
@@ -22,4 +23,5 @@ export default combineReducers({
   chartData: chartDataReducer,
   chartMetadata: chartMetadataReducer,
   currentStep: currentStepReducer,
+  unsavedChanges: unsavedChangesReducer,
 });
