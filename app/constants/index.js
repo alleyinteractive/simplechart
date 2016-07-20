@@ -3,6 +3,7 @@
  */
 export const REQUEST_DATA = 'REQUEST_DATA';
 export const UPDATE_CURRENT_STEP = 'UPDATE_CURRENT_STEP';
+export const UNSAVED_CHANGES = 'UNSAVED_CHANGES';
 
 /**
  * Widget actions
@@ -29,3 +30,13 @@ export const RECEIVE_CHART_DATA = 'RECEIVE_CHART_DATA';
 export const RECEIVE_CHART_OPTIONS = 'RECEIVE_CHART_OPTIONS';
 // chart metadata
 export const RECEIVE_CHART_METADATA = 'RECEIVE_CHART_METADATA';
+
+/**
+ * Actions that affect chart data that we want to store
+ */
+export const CHART_ACTIONS = [
+  RECEIVE_RAW_DATA,
+  RECEIVE_CHART_DATA,
+  RECEIVE_CHART_OPTIONS,
+  RECEIVE_CHART_METADATA,
+];

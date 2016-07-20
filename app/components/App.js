@@ -57,6 +57,7 @@ class App extends Component {
         <ProgressHeader
           saveData={this._getSaveData()}
           currentStep={this.props.state.currentStep}
+          unsavedChanges={this.props.state.unsavedChanges}
         />
         {this._renderAppComponent()}
       </div>

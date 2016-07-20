@@ -6,6 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rawDataMiddleware from './middleware/rawDataMiddleware';
 import chartOptionsMiddleware from './middleware/chartOptionsMiddleware';
+import unsavedChangesMiddleware from './middleware/unsavedChangesMiddleware';
 import { bootstrapAppData } from './actions';
 import App from './components/App';
 import { sendMessage } from './utils/postMessage';
@@ -15,7 +16,12 @@ import * as NVD3Styles from 'style!raw!nvd3/build/nv.d3.css'; // eslint-disable-
 // do asyncronous things in the actions
 import rootReducer from './reducers/rootReducer';
 const store = createStore(rootReducer, compose(
-  applyMiddleware(thunk, rawDataMiddleware, chartOptionsMiddleware),
+  applyMiddleware(
+    thunk,
+    rawDataMiddleware,
+    chartOptionsMiddleware,
+    unsavedChangesMiddleware
+  ),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
 

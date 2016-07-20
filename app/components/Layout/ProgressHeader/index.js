@@ -85,6 +85,7 @@ ProgressHeader.propTypes = {
   saveData: React.PropTypes.object,
   currentStep: React.PropTypes.number,
   dispatch: React.PropTypes.func,
+  unsavedChanges: React.PropTypes.bool,
 };
 
 export default connect()(ProgressHeader);
