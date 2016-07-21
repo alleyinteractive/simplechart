@@ -40,7 +40,7 @@ export function bootstrapAppData() {
 /**
  * Get widget data from API
  */
-export function bootstrapWidgetData(widgetId, fetchUrl) {
+export function bootstrapWidgetData(widgetId, fetchUrl, headersAttr = null) {
   return function(dispatch) {
     function handleResponse(response) {
       return response.status === 200 ? response.json() : {};
@@ -81,7 +81,16 @@ export function bootstrapWidgetData(widgetId, fetchUrl) {
     /**
      * async data request
      */
-    return fetch(fetchUrl)
+    let headers = {};
+    if (headersAttr) {
+      try {
+        headers = JSON.parse(headersAttr);
+      } catch (err) {
+        console.log(`Invalid widget headers attr: ${headersAttr}`); // eslint-disable-line no-console
+        headers = {};
+      }
+    }
+    return fetch(fetchUrl, { headers })
       .then(handleResponse)
       .then(handleJson);
   };

@@ -30,7 +30,11 @@ function initWidgets() {
   if (widgets.length) {
     for (let i = 0; i < widgets.length; ++i) {
       store.dispatch(
-        bootstrapWidgetData(widgets[i].id, widgets[i].getAttribute('data-url'))
+        bootstrapWidgetData(
+          widgets[i].id,
+          widgets[i].getAttribute('data-url'),
+          widgets[i].getAttribute('data-headers')
+        )
       );
       /**
        * @todo change Widget props to like data={store[widgets[i].id]}
