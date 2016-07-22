@@ -3,9 +3,11 @@ import {
   PARSE_RAW_DATA,
   PARSE_DATA_STATUS,
   PARSE_DATA_FIELDS,
+  TRANSFORM_DATA,
 } from '../constants';
 import actionTrigger from '../actions';
 import Papa from '../vendor/papaparse.4.1.2';
+import { dataTransformers } from '../constants/dataTransformers';
 
 export default function rawDataMiddleware() {
   return (next) => (action) => {
@@ -17,6 +19,12 @@ export default function rawDataMiddleware() {
       next(actionTrigger(
         PARSE_RAW_DATA,
         parsedData[0]
+      ));
+
+      // transform data for chart types and send to store
+      next(actionTrigger(
+        TRANSFORM_DATA,
+        _transformParsedData(parsedData[0], parsedData[1])
       ));
 
       // send data fields array to store
@@ -66,4 +74,15 @@ function _parseRawData(rawData) {
   }
   const fields = parsed.meta.fields || [];
   return [parsed.data, fields, errors];
+}
+
+function _transformParsedData(parsedData, parsedFields) {
+  const transformed = {};
+  function setTransformed(type) {
+    transformed[type] = dataTransformers[type](parsedData, parsedFields);
+  }
+  Object.keys(dataTransformers).forEach((type) =>
+    setTransformed(type)
+  );
+  return transformed;
 }
