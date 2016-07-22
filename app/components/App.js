@@ -5,6 +5,7 @@ import update from 'react-addons-update';
 import ChartBuilder from './ChartBuilder';
 import ProgressHeader from './Layout/ProgressHeader';
 import ErrorMessage from '../utils/ErrorMessage';
+import * as rebassHover from '../styles/RebassHover.css'; // eslint-disable-line no-unused-vars
 
 class App extends Component {
 
