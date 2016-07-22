@@ -2,12 +2,7 @@
   --rebassHover: inset 0 0 0 999px rgba(255, 255, 255, 0.2);
 }
 
-:global(.Button) {
-  &:hover {
-    box-shadow: var(--rebassHover);
-  }
-}
-
+:global(.Button),
 :global(.SequenceMap_Step div) {
   &:hover {
     box-shadow: var(--rebassHover);
