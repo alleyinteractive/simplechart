@@ -2,20 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AppComponent from '../Layout/AppComponent';
 import * as styles from './DataInput.css';
-import { RECEIVE_RAW_DATA, UPDATE_CURRENT_STEP } from '../../constants';
+import { RECEIVE_RAW_DATA } from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
 import { Heading, Select, Button, Text } from 'rebass';
 import ListBlock from '../Layout/RebassComponents/ListBlock';
 import { appSteps } from '../../constants/appSteps';
+import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 
 class DataInput extends AppComponent {
 
   constructor() {
     super();
     this._submitData = this._submitData.bind(this);
-    this._updateValue = this._updateValue.bind(this);
-    this._updateValue = this._updateValue.bind(this);
     this._loadSampleData = this._loadSampleData.bind(this);
     this._setSampleDataSet = this._setSampleDataSet.bind(this);
 
@@ -36,27 +35,17 @@ class DataInput extends AppComponent {
 
   componentWillReceiveProps(nextProps) {
     this.setState({ rawData: nextProps.rawData });
-    if (nextProps.dataStatus &&
-      nextProps.dataStatus.status && nextProps.dataStatus.status === 'success'
-    ) {
-      this.props.dispatch(
-        actionTrigger(UPDATE_CURRENT_STEP, 1)
-      );
-    }
   }
 
-  _submitData() {
+  _submitData(data) {
     this.props.dispatch(
-      actionTrigger(RECEIVE_RAW_DATA, this.state.rawData)
+      actionTrigger(RECEIVE_RAW_DATA, data)
     );
-  }
-
-  _updateValue(evt) {
-    this.setState({ rawData: evt.target.value });
   }
 
   _loadSampleData() {
     this.setState({ rawData: sampleData[this.state.sampleDataSet].data });
+    this._submitData(sampleData[this.state.sampleDataSet].data);
   }
 
   _sampleDataOptions() {
@@ -91,17 +80,31 @@ class DataInput extends AppComponent {
       }
     }
 
+    const handleInputBlur = function() {
+      this._submitData(this.state.rawData);
+    }.bind(this);
+
+    const handleInputChange = function(evt) {
+      this.setState({ rawData: evt.target.value });
+    }.bind(this);
+
     return (
       <div className={this.parentStyles.appComponent}>
         <Heading level={2}>{appSteps[0]}</Heading>
         <ListBlock list={this.inputRules} />
-        <textarea
-          id="DataInput"
-          className={styles.textarea}
-          value={this.state.rawData}
-          onChange={this._updateValue}
-          ref="dataInput"
-        />
+        <div>
+          <textarea
+            id="DataInput"
+            className={styles.textarea}
+            value={this.state.rawData}
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
+            ref="dataInput"
+          />
+          <span className={styles[dataStatusClass]}>
+            <Text small>{dataStatus}</Text>
+          </span>
+        </div>
 
         <div className={styles.actionsContainer}>
           <div className={styles.sampleDataContainer}>
@@ -120,14 +123,11 @@ class DataInput extends AppComponent {
           </div>
 
           <div className={styles.submitContainer}>
-            <Button
-              theme="primary"
-              big
-              onClick={this._submitData}
-            >Submit</Button>
-            <span className={`${styles.dataStatus} ${styles[dataStatusClass]}`}>
-              <Text small>{dataStatus}</Text>
-            </span>
+            <NextPrevButton
+              copy="Next"
+              currentStep={0}
+              dir="next"
+            />
           </div>
         </div>
       </div>

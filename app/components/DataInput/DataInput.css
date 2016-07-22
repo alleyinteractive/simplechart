@@ -16,12 +16,6 @@
   color: gray;
 }
 
-.dataStatus {
-  position: absolute;
-  bottom: -25px;
-  right: 0;
-}
-
 .actionsContainer {
   margin-top: 20px;
   display: flex;
