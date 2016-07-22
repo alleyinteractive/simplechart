@@ -17,24 +17,28 @@ class PieChart extends Component {
       showLegend: false,
       showLabels: false,
     };
+    this.defaultsApplied = false;
   }
 
   componentWillMount() {
+    /**
+     * Send default options to store before initial render
+     */
     this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS,
       update(this.defaultOptions, { $merge: this.props.options })
     ));
+    this.defaultsApplied = true;
   }
 
   render() {
-    // Merge passed options into defaults
-
-    // Add chart data
-    args.datum = this.props.data;
+    if (!this.defaultsApplied) {
+      return null;
+    }
 
     return (
       <div>
         {React.createElement(NVD3Chart, update(
-          this.props.options, { $merge: { datum: this.props.data }}
+          this.props.options, { $merge: { datum: this.props.data } }
         ))}
       </div>
     );
