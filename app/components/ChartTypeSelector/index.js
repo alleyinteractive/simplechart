@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { dataTransformers } from '../../constants/dataTransformers';
 import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_DATA } from '../../constants';
 import actionTrigger from '../../actions';
 import { Radio } from 'rebass';
@@ -11,22 +10,17 @@ class ChartTypeSelector extends Component {
 
   constructor() {
     super();
-    this._testChartTypes = this._testChartTypes.bind(this);
     this._selectChartType = this._selectChartType.bind(this);
     this._renderTypeOption = this._renderTypeOption.bind(this);
   }
 
   componentWillMount() {
-    this._testChartTypes(this.props);
+    if (this.props.type) {
+      this._selectChartType(this.props.type);
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this._testChartTypes(nextProps);
-  }
-
-  _selectChartType(evt) {
-    const type = evt.target.value;
-
+  _selectChartType(type) {
     // send selected chart type  to store options
     this.props.dispatch(actionTrigger(
       RECEIVE_CHART_OPTIONS,
@@ -36,17 +30,8 @@ class ChartTypeSelector extends Component {
     // send data to store, already transformed for selected chart type
     this.props.dispatch(actionTrigger(
       RECEIVE_CHART_DATA,
-      this.state[type]
+      this.props.transformedData[type]
     ));
-  }
-
-  _testChartTypes(props) {
-    const types = Object.keys(dataTransformers);
-    types.forEach((type) =>
-      this.setState({
-        [type]: dataTransformers[type](props.data, props.fields),
-      })
-    );
   }
 
   /**
@@ -54,7 +39,7 @@ class ChartTypeSelector extends Component {
    * and disable chart types where data is incompatible
    */
   _renderTypeOption(type) {
-    const disabled = !this.state[type];
+    const disabled = !this.props.transformedData[type];
     return React.createElement(Radio, {
       key: type,
       circle: true,
@@ -64,7 +49,7 @@ class ChartTypeSelector extends Component {
       backgroundColor: !disabled ? 'primary' : 'secondary',
       disabled,
       checked: (type === this.props.type),
-      onChange: this._selectChartType,
+      onChange: (evt) => this._selectChartType(evt.target.value),
     });
   }
 
@@ -72,7 +57,7 @@ class ChartTypeSelector extends Component {
     return (
       <div>
         <ul className={styles.list}>
-          {Object.keys(this.state).map((type) =>
+          {Object.keys(this.props.transformedData).map((type) =>
             this._renderTypeOption(type)
           )}
         </ul>
@@ -87,7 +72,7 @@ class ChartTypeSelector extends Component {
 }
 
 ChartTypeSelector.propTypes = {
-  data: React.PropTypes.array,
+  transformedData: React.PropTypes.object,
   fields: React.PropTypes.array,
   type: React.PropTypes.string,
   dispatch: React.PropTypes.func,
