@@ -17,7 +17,7 @@ class ChartBuilder extends AppComponent {
     switch (step) {
       case 1:
         subcomponent = React.createElement(ChartTypeSelector, {
-          data: this.props.state.parsedData,
+          transformedData: this.props.state.transformedData,
           fields: this.props.state.dataFields,
           type: this.props.state.chartOptions.type || '',
         });

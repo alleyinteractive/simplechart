@@ -20,6 +20,8 @@ export const PARSE_RAW_DATA = 'PARSE_RAW_DATA';
 export const PARSE_DATA_FIELDS = 'PARSE_DATA_FIELDS';
 // error or success from parsing
 export const PARSE_DATA_STATUS = 'PARSE_DATA_STATUS';
+// transform parsed data for chart types
+export const TRANSFORM_DATA = 'TRANSFORM_DATA';
 
 /**
  * Chart rendering actions
