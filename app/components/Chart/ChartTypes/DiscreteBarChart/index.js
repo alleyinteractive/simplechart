@@ -14,13 +14,11 @@ class DiscreteBarChart extends BaseChart {
     };
   }
 
-  componentWillReceiveProps() {
-    this.setState({
-      data: [{
-        key: '',
-        values: this.props.data,
-      }],
-    });
+  _dataTransformer(data) {
+    return [{
+      key: '',
+      values: data,
+    }];
   }
 }
 
