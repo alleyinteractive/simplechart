@@ -15,6 +15,12 @@ class GlobalOptions extends Component {
       showLegend: this._boolHandler,
     };
     this.changeHandlers = {};
+
+    if (!this.childFields) {
+      this.childFields = () => '';
+    } else {
+      this.childFields = this.childFields.bind(this);
+    }
   }
 
   componentWillMount() {
@@ -70,6 +76,8 @@ class GlobalOptions extends Component {
           checked={this.props.options.showLegend}
           onChange={this._handleChange}
         />
+
+        {this.childFields()}
       </fieldset>
     );
   }
