@@ -46,6 +46,4 @@ BaseChart.propTypes = {
   dispatch: React.PropTypes.func,
 };
 
-// Redux connection
-
 export default BaseChart;

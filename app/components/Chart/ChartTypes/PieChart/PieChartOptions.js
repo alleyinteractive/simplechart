@@ -1,5 +1,13 @@
-import GlobalOptions from '../../../GlobalOptions';
+import React from 'react';
+import GlobalOptions from '../../../ChartOptions/GlobalOptions';
+import { connect } from 'react-redux';
 
-export default class PieChartOptions extends GlobalOptions {
+class PieChartOptions extends GlobalOptions {
 
 }
+
+PieChartOptions.propTypes = {
+  options: React.PropTypes.object,
+};
+
+export default connect()(PieChartOptions);
