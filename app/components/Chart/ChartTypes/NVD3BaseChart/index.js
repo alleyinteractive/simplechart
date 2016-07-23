@@ -20,6 +20,7 @@ class BaseChart extends Component {
       update(this.defaultOptions, { $merge: this.props.options })
     ));
     this.defaultsApplied = true;
+    this.setState(this.props);
   }
 
   render() {
@@ -30,7 +31,7 @@ class BaseChart extends Component {
     return (
       <div>
         {React.createElement(NVD3Chart, update(
-          this.props.options, { $merge: { datum: this.props.data } }
+          this.state.options, { $merge: { datum: this.state.data } }
         ))}
       </div>
     );
