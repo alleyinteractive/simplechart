@@ -3,7 +3,10 @@ import GlobalOptions from '../../../ChartOptions/GlobalOptions';
 import { connect } from 'react-redux';
 import { Checkbox } from 'rebass';
 import actionTrigger from '../../../../actions';
-import { RECEIVE_CHART_OPTIONS } from '../../../../constants';
+import {
+  RECEIVE_CHART_OPTIONS,
+  DELETE_CHART_OPTIONS,
+} from '../../../../constants';
 
 class PieChartOptions extends GlobalOptions {
   constructor() {
@@ -16,13 +19,13 @@ class PieChartOptions extends GlobalOptions {
 
   _handleDonutChange(evt) {
     this._handleChange(evt);
-    let donutRatio;
     if (this._boolHandler(evt.target.value, 'donut')) {
-      donutRatio = 0.5;
+      this.props.dispatch(actionTrigger(
+        RECEIVE_CHART_OPTIONS, { donutRatio: 0.5 }));
     } else {
-      donutRatio = 0;
+      this.props.dispatch(actionTrigger(
+        DELETE_CHART_OPTIONS, ['donutRatio', 'donut']));
     }
-    this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, { donutRatio }));
   }
 
   childFields() {
