@@ -22,6 +22,20 @@ class BaseChart extends Component {
     this.defaultsApplied = true;
   }
 
+  /**
+   * Delete chart SVG before re-rendering because React might not
+   * find diffs that are triggered by chart options changing
+   */
+  componentWillReceiveProps() {
+    if (!this.refs || !this.refs.chart) {
+      return;
+    }
+    const wrapEl = this.refs.chart.refs.root.querySelectorAll('g.nv-wrap');
+    if (wrapEl.length) {
+      wrapEl[0].parentNode.removeChild(wrapEl[0]);
+    }
+  }
+
   render() {
     if (!this.defaultsApplied) {
       return null;
@@ -33,7 +47,7 @@ class BaseChart extends Component {
     return (
       <div>
         {React.createElement(NVD3Chart, update(
-          this.props.options, { $merge: { datum } }
+          this.props.options, { $merge: { datum, ref: 'chart' } }
         ))}
       </div>
     );
