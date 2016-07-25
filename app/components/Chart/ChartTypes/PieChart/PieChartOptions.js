@@ -16,7 +16,7 @@ class Options extends BaseChartOptions {
         <Checkbox
           label="Donut chart"
           name="props-donut"
-          checked={this.props.options.donut}
+          checked={this.props.options.donut || false}
           onChange={this._handleChange}
         />
     );
