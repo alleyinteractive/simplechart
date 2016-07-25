@@ -15,7 +15,7 @@ class Options extends BaseChartOptions {
           value={this.props.options.height}
           onChange={this._handleChange}
         />
-        {this.childFields()}
+        {this.renderChildFields()}
       </fieldset>
     );
   }

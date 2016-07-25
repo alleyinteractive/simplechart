@@ -16,10 +16,10 @@ class GlobalOptions extends Component {
     };
     this.changeHandlers = {};
 
-    if (!this.childFields) {
-      this.childFields = () => '';
+    if (!this.renderChildFields) {
+      this.renderChildFields = () => '';
     } else {
-      this.childFields = this.childFields.bind(this);
+      this.renderChildFields = this.renderChildFields.bind(this);
     }
   }
 
@@ -77,7 +77,7 @@ class GlobalOptions extends Component {
           onChange={this._handleChange}
         />
 
-        {this.childFields()}
+        {this.renderChildFields()}
       </fieldset>
     );
   }

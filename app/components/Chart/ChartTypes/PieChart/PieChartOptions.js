@@ -11,7 +11,7 @@ class Options extends BaseChartOptions {
     };
   }
 
-  childFields() {
+  renderChildFields() {
     return (
         <Checkbox
           label="Donut chart"
