@@ -6,6 +6,7 @@ import ChartBuilder from './ChartBuilder';
 import ProgressHeader from './Layout/ProgressHeader';
 import ErrorMessage from '../utils/ErrorMessage';
 import * as rebassHover from '../styles/RebassHover.css'; // eslint-disable-line no-unused-vars
+import { appSteps } from '../constants/appSteps';
 
 class App extends Component {
 
@@ -45,7 +46,7 @@ class App extends Component {
         rawData: this.props.state.rawData,
         dataStatus: this.props.state.dataStatus,
       });
-    } else if (this.props.state.currentStep <= 3) {
+    } else if (this.props.state.currentStep < appSteps.length) {
       return this._renderChartBuilder();
     }
     return new ErrorMessage();

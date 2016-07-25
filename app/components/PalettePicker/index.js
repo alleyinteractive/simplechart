@@ -10,6 +10,7 @@ import { RECEIVE_CHART_OPTIONS } from '../../constants';
 import actionTrigger from '../../actions';
 import * as styles from './PalettePicker.css';
 import { Select } from 'rebass';
+import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 
 class PalettePicker extends Component {
   constructor() {
@@ -126,6 +127,11 @@ class PalettePicker extends Component {
             ref: 'picker',
           })}
         </div>
+        <NextPrevButton
+          copy="Next"
+          currentStep={3}
+          dir="next"
+        />
       </div>
     );
   }

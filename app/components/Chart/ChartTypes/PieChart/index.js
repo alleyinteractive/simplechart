@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import NVD3Chart from 'react-nvd3';
-import update from 'react-addons-update';
+import BaseChart from '../NVD3BaseChart';
 
-class PieChart extends Component {
-
+class PieChart extends BaseChart {
   constructor() {
     super();
     this.defaultOptions = {
@@ -16,29 +14,11 @@ class PieChart extends Component {
       showLabels: false,
     };
   }
-
-  render() {
-    // Merge passed options into defaults
-    const args = update(this.defaultOptions, {
-      $merge: this.props.options,
-    });
-
-    // Add chart data
-    args.datum = this.props.data;
-
-    return (
-      <div>
-        {React.createElement(NVD3Chart, args)}
-      </div>
-    );
-  }
 }
 
 PieChart.propTypes = {
   data: React.PropTypes.array,
   options: React.PropTypes.object,
 };
-
-// Redux connection
 
 export default connect()(PieChart);

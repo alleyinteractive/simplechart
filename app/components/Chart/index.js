@@ -41,7 +41,10 @@ class Chart extends Component {
       default:
         chartType = InvalidChartType;
     }
-    return React.createElement(chartType, this.props);
+    return React.createElement(chartType, {
+      data: this.props.data,
+      options: this.props.options,
+    });
   }
 
   render() {

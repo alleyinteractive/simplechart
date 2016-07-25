@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import NVD3Chart from 'react-nvd3';
-import update from 'react-addons-update';
+import BaseChart from '../NVD3BaseChart';
 
-class DiscreteBarChart extends Component {
+class DiscreteBarChart extends BaseChart {
 
   constructor() {
     super();
@@ -15,23 +14,11 @@ class DiscreteBarChart extends Component {
     };
   }
 
-  render() {
-    // Merge passed options into defaults
-    const args = update(this.defaultOptions, {
-      $merge: this.props.options,
-    });
-
-    // Add chart data
-    args.datum = [{
+  _dataTransformer(data) {
+    return [{
       key: '',
-      values: this.props.data,
+      values: data,
     }];
-
-    return (
-      <div>
-        {React.createElement(NVD3Chart, args)}
-      </div>
-    );
   }
 }
 

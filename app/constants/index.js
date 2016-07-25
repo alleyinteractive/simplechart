@@ -30,6 +30,8 @@ export const TRANSFORM_DATA = 'TRANSFORM_DATA';
 export const RECEIVE_CHART_DATA = 'RECEIVE_CHART_DATA';
 // chart options
 export const RECEIVE_CHART_OPTIONS = 'RECEIVE_CHART_OPTIONS';
+// delete specific keys from chart options
+export const DELETE_CHART_OPTIONS = 'DELETE_CHART_OPTIONS';
 // chart metadata
 export const RECEIVE_CHART_METADATA = 'RECEIVE_CHART_METADATA';
 
