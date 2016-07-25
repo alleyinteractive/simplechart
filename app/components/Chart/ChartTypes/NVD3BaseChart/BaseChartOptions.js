@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Checkbox } from 'rebass';
-import actionTrigger from '../../actions';
-import { RECEIVE_CHART_OPTIONS } from '../../constants';
+import actionTrigger from '../../../..//actions';
+import { RECEIVE_CHART_OPTIONS } from '../../../../constants';
 import update from 'react-addons-update';
 
 class GlobalOptions extends Component {
