@@ -10,6 +10,7 @@ class LineChart extends BaseChart {
       type: 'lineChart',
       height: 400,
       useInteractiveGuidline: true,
+      showLegend: true,
     };
   }
 }
