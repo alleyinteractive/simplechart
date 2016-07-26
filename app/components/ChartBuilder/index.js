@@ -62,6 +62,7 @@ class ChartBuilder extends AppComponent {
             <Chart
               data={this.props.state.chartData}
               options={this.props.state.chartOptions}
+              widget={false}
             />
           <p>{this.props.state.chartMetadata.caption}</p>
 

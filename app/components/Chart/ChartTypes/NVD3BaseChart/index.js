@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import actionTrigger from '../../../../actions';
-import { RECEIVE_CHART_OPTIONS } from '../../../../constants';
+import {
+  RECEIVE_CHART_OPTIONS,
+  RECEIVE_WIDGET_OPTIONS,
+} from '../../../../constants';
 import NVD3Chart from 'react-nvd3';
 import update from 'react-addons-update';
 
@@ -16,9 +19,15 @@ class BaseChart extends Component {
     /**
      * Send default options to store before initial render
      */
-    this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS,
-      update(this.defaultOptions, { $merge: this.props.options })
-    ));
+    const options = update(this.defaultOptions, { $merge: this.props.options });
+    if (this.props.widget) {
+      this.props.dispatch(actionTrigger(RECEIVE_WIDGET_OPTIONS, {
+        widget: this.props.widget,
+        options,
+      }));
+    } else {
+      this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, options));
+    }
     this.defaultsApplied = true;
   }
 
@@ -58,6 +67,10 @@ BaseChart.propTypes = {
   data: React.PropTypes.array,
   options: React.PropTypes.object,
   dispatch: React.PropTypes.func,
+  widget: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.bool,
+  ]),
 };
 
 export default BaseChart;

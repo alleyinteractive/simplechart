@@ -43,6 +43,7 @@ class Chart extends Component {
     return React.createElement(chartType, {
       data: this.props.data,
       options: this.props.options,
+      widget: this.props.widget,
     });
   }
 
@@ -59,6 +60,10 @@ Chart.propTypes = {
   data: React.PropTypes.array,
   options: React.PropTypes.object,
   dispatch: React.PropTypes.func,
+  widget: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.bool,
+  ]),
 };
 
 // Redux connection

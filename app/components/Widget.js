@@ -17,6 +17,7 @@ class Widget extends Component {
           data={this.props.data.data[this.props.widget].data}
           options={this.props.data.data[this.props.widget].options}
           metadata={this.props.data.data[this.props.widget].metadata}
+          widget={this.props.widget}
         />
       );
     }

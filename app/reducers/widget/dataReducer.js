@@ -13,7 +13,7 @@
  * add it in rootReducer.js.
  */
 
-import { RECEIVE_API_DATA } from '../../constants';
+import { RECEIVE_API_DATA, RECEIVE_WIDGET_OPTIONS } from '../../constants';
 import update from 'react-addons-update';
 
 export default function dataReducer(state = {}, action) {
@@ -23,6 +23,14 @@ export default function dataReducer(state = {}, action) {
       receivedData[action.data.widget] = action.data.data;
       return update(state, { $merge: receivedData });
     }
+
+    case RECEIVE_WIDGET_OPTIONS: {
+      return update(state, { $apply: (updated) => {
+        updated[action.data.widget].options = action.data.options; // eslint-disable-line no-param-reassign
+        return updated;
+      } });
+    }
+
     default:
       return state;
   }
