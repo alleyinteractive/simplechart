@@ -9,6 +9,7 @@ export const UNSAVED_CHANGES = 'UNSAVED_CHANGES';
  * Widget actions
  */
 export const RECEIVE_API_DATA = 'RECEIVE_API_DATA';
+export const RECEIVE_WIDGET_OPTIONS = 'RECEIVE_WIDGET_OPTIONS';
 
 /**
  * DataInput actions
