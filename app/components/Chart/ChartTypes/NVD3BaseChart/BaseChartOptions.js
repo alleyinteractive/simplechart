@@ -3,6 +3,7 @@ import { Input, Checkbox } from 'rebass';
 import actionTrigger from '../../../..//actions';
 import { RECEIVE_CHART_OPTIONS } from '../../../../constants';
 import update from 'react-addons-update';
+import Chart from '../../../Chart';
 
 class GlobalOptions extends Component {
 
@@ -150,6 +151,7 @@ class GlobalOptions extends Component {
 GlobalOptions.propTypes = {
   options: React.PropTypes.object,
   dispatch: React.PropTypes.func,
+  chart: React.PropTypes.instanceOf(Chart),
 };
 
 export default GlobalOptions;
