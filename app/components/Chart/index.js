@@ -5,7 +5,6 @@ import DiscreteBarChart from './ChartTypes/DiscreteBarChart/';
 import LineChart from './ChartTypes/LineChart/';
 import StackedAreaChart from './ChartTypes/StackedAreaChart/';
 import InvalidChartType from './ChartTypes/InvalidChartType/';
-import * as styles from './Chart.css';
 
 class Chart extends Component {
 
@@ -50,16 +49,7 @@ class Chart extends Component {
   render() {
     return (
       <div>
-        <h3>{this.props.metadata.title}</h3>
         {this._getChartTypeComponent()}
-        <p>{this.props.metadata.caption}</p>
-
-        {this.props.metadata.credit ?
-          (<p className={styles.credit}>
-            Credit: {this.props.metadata.credit}
-          </p>) :
-          ''
-        }
       </div>
     );
   }
@@ -68,7 +58,6 @@ class Chart extends Component {
 Chart.propTypes = {
   data: React.PropTypes.array,
   options: React.PropTypes.object,
-  metadata: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 };
 
