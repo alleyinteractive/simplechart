@@ -18,6 +18,7 @@ class GlobalOptions extends Component {
       height: parseInt,
       showLegend: this._boolHandler,
       xAxis: this._subkeyHandler,
+      yAxis: this._subkeyHandler,
     };
     this.changeHandlers = {};
 
@@ -107,6 +108,13 @@ class GlobalOptions extends Component {
           value={this._getSubkey('xAxis', 'axisLabel', '')}
           onChange={this._handleChange}
         />
+        <h3>Y Axis</h3>
+        <Input
+          label="Label"
+          name="props-yAxis.axisLabel"
+          value={this._getSubkey('yAxis', 'axisLabel', '')}
+          onChange={this._handleChange}
+        />
       </div>
     );
   }
@@ -114,6 +122,7 @@ class GlobalOptions extends Component {
   render() {
     return (
       <fieldset>
+        <h3>General</h3>
         <Input
           label="Height"
           name="props-height"
