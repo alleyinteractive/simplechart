@@ -1,11 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Chart from './Chart';
+import ReactDOM from 'react-dom';
 
 class Widget extends Component {
   constructor() {
     super();
     this._renderChart = this._renderChart.bind(this);
+  }
+
+  componentDidUpdate() {
+    let widget;
+    try {
+      widget = ReactDOM.findDOMNode(this).parentElement.parentElement;
+    } catch (err) {
+      return;
+    }
+    this._renderMetadata(widget, this.props.data.data[this.props.widget].metadata);
+  }
+
+  _renderMetadata(widget, metadata) {
+    Object.keys(metadata).forEach((key) => {
+      const el = widget.querySelectorAll('.simplechart-' + key);
+      if (!el.length) {
+        return;
+      }
+      el[0].innerText = metadata[key];
+    });
   }
 
   _renderChart() {

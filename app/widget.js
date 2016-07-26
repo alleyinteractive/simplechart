@@ -40,12 +40,15 @@ function initWidgets() {
        * @todo change Widget props to like data={store[widgets[i].id]}
        * so every chart isn't re-rendered after each AJAX response
        */
-      ReactDOM.render(
-        <Provider store={store}>
-          <Widget widget={widgets[i].id} />
-        </Provider>,
-        widgets[i]
-      );
+      const chartContainer = widgets[i].querySelectorAll('.simplechart-chart');
+      if (chartContainer.length) {
+        ReactDOM.render(
+          <Provider store={store}>
+            <Widget widget={widgets[i].id} />
+          </Provider>,
+          chartContainer[0]
+        );
+      }
     }
   }
 }
