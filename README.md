@@ -65,4 +65,4 @@ Note that our transformer changed the keys to `label` and `value`, and the value
 
 ### React component
 
-see the examples in `app/components/Chart/ChartTypes/`, TK TK
+see the examples in `app/components/Chart/ChartTypes/`, TK TK, TEST
