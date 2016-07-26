@@ -16,12 +16,13 @@ class Widget extends Component {
     } catch (err) {
       return;
     }
-    this._renderMetadata(widget, this.props.data.data[this.props.widget].metadata);
+    this._renderMetadata(widget,
+      this.props.data.data[this.props.widget].metadata);
   }
 
   _renderMetadata(widget, metadata) {
     Object.keys(metadata).forEach((key) => {
-      const el = widget.querySelectorAll('.simplechart-' + key);
+      const el = widget.querySelectorAll(`.simplechart-${key}`);
       if (!el.length) {
         return;
       }
