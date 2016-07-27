@@ -11,14 +11,17 @@ class GlobalOptions extends Component {
     super();
     this._handleChange = this._handleChange.bind(this);
     this._boolHandler = this._boolHandler.bind(this);
-    this._renderAxesFields = this._renderAxesFields.bind(this);
+    this._renderXAxis = this._renderXAxis.bind(this);
+    this._renderYAxis = this._renderYAxis.bind(this);
     this._getSubkey = this._getSubkey.bind(this);
     this._subkeyHandler = this._subkeyHandler.bind(this);
+    this._yDomainHandler = this._yDomainHandler.bind(this);
 
     this.defaultChangeHandlers = {
       showLegend: this._boolHandler,
       xAxis: this._subkeyHandler,
       yAxis: this._subkeyHandler,
+      yDomain: this._yDomainHandler,
     };
     this.changeHandlers = {};
 
@@ -55,6 +58,16 @@ class GlobalOptions extends Component {
       return keyVal;
     }
     return update(this.props.options[key], { $merge: keyVal });
+  }
+
+  _yDomainHandler(value, key, subkey) {
+    let yDomain;
+    if (subkey === 'min') {
+      yDomain = [parseFloat(value), this._getYDomain(1)];
+    } else if (subkey === 'max') {
+      yDomain = [this._getYDomain(0), parseFloat(value)];
+    }
+    return yDomain;
   }
 
   _handleChange(evt) {
@@ -105,7 +118,21 @@ class GlobalOptions extends Component {
     return this.props.options[key][subkey];
   }
 
-  _renderAxesFields() {
+  /**
+   * Get min or max of current yDomain value
+   *
+   * @param int index 0 for min, 1 for max
+   * @return number Current value
+   */
+  _getYDomain(index) {
+    if (this.props.options.yDomain &&
+      typeof this.props.options.yDomain[index] !== 'undefined') {
+      return this.props.options.yDomain[index];
+    }
+    return 0;
+  }
+
+  _renderXAxis() {
     return (
       <div>
         <h3>X Axis</h3>
@@ -123,12 +150,32 @@ class GlobalOptions extends Component {
           value={this._getSubkey('xAxis', 'rotateLabels', 0)}
           onChange={this._handleChange}
         />
+      </div>
+    );
+  }
 
+  _renderYAxis() {
+    return (
+      <div>
         <h3>Y Axis</h3>
         <Input
           label="Label"
           name="props-yAxis.axisLabel"
           value={this._getSubkey('yAxis', 'axisLabel', '')}
+          onChange={this._handleChange}
+        />
+        <Input
+          label="Y Min"
+          name="props-yDomain.min"
+          type="number"
+          value={this._getYDomain(0)}
+          onChange={this._handleChange}
+        />
+        <Input
+          label="Y Max"
+          name="props-yDomain.max"
+          type="number"
+          value={this._getYDomain(1)}
           onChange={this._handleChange}
         />
       </div>
@@ -155,7 +202,8 @@ class GlobalOptions extends Component {
           onChange={this._handleChange}
         />
 
-        {this.hasAxes ? this._renderAxesFields() : ''}
+        {this.hasXAxis ? this._renderXAxis() : ''}
+        {this.hasYAxis ? this._renderYAxis() : ''}
 
         {this.renderChildFields()}
       </fieldset>

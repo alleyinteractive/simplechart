@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 class Options extends BaseChartOptions {
   constructor() {
     super();
-    this.hasAxes = true;
+    this.hasXAxis = true;
+    this.hasYAxis = true;
   }
 }
 
