@@ -40,6 +40,7 @@ class ChartBuilder extends AppComponent {
       case 4:
         subcomponent = React.createElement(ChartOptions, {
           options: this.props.state.chartOptions,
+          chart: this.refs.chartComponent,
         });
         break;
 
@@ -63,6 +64,7 @@ class ChartBuilder extends AppComponent {
               data={this.props.state.chartData}
               options={this.props.state.chartOptions}
               widget={false}
+              ref="chartComponent"
             />
           <p>{this.props.state.chartMetadata.caption}</p>
 

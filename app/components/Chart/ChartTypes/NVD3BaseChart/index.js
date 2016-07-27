@@ -39,6 +39,20 @@ class BaseChart extends Component {
     if (!this.refs || !this.refs.chart) {
       return;
     }
+
+    // Send yDomain to store if needed
+    if (!this.props.options.yDomain) {
+      try {
+        const yDomain = this.refs.chart.chart.yAxis.domain();
+        if (yDomain && yDomain.length === 2) {
+          this.props.dispatch(actionTrigger(
+            RECEIVE_CHART_OPTIONS, { yDomain }));
+        }
+      } catch (err) {
+        // don't do anything
+      }
+    }
+
     const wrapEl = this.refs.chart.refs.root.querySelectorAll('g.nv-wrap');
     if (wrapEl.length) {
       wrapEl[0].parentNode.removeChild(wrapEl[0]);
