@@ -1,7 +1,6 @@
 import React from 'react';
 import BaseChartOptions from '../NVD3BaseChart/BaseChartOptions';
 import { connect } from 'react-redux';
-import { Input } from 'rebass';
 
 class Options extends BaseChartOptions {
   constructor() {
