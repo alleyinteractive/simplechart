@@ -16,7 +16,6 @@ class GlobalOptions extends Component {
     this._subkeyHandler = this._subkeyHandler.bind(this);
 
     this.defaultChangeHandlers = {
-      height: parseInt,
       showLegend: this._boolHandler,
       xAxis: this._subkeyHandler,
       yAxis: this._subkeyHandler,
@@ -82,10 +81,17 @@ class GlobalOptions extends Component {
     }
     const updateData = {};
 
+    // maybe convert value to float or int
+    let fieldValue = evt.target.value;
+    if (evt.target.type === 'number') {
+      fieldValue = parseInt(evt.target.step, 10) === 1 ?
+        parseInt(fieldValue, 10) : parseFloat(fieldValue, 10);
+    }
+
     if (this.changeHandlers[key]) {
-      updateData[key] = this.changeHandlers[key](evt.target.value, key, subkey);
+      updateData[key] = this.changeHandlers[key](fieldValue, key, subkey);
     } else {
-      updateData[key] = evt.target.value;
+      updateData[key] = fieldValue;
     }
 
     this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, updateData));
@@ -109,6 +115,15 @@ class GlobalOptions extends Component {
           value={this._getSubkey('xAxis', 'axisLabel', '')}
           onChange={this._handleChange}
         />
+        <Input
+          label="Rotation"
+          name="props-xAxis.rotateLabels"
+          type="number"
+          step="1"
+          value={this._getSubkey('xAxis', 'rotateLabels', 0)}
+          onChange={this._handleChange}
+        />
+
         <h3>Y Axis</h3>
         <Input
           label="Label"
