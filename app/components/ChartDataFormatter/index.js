@@ -52,8 +52,8 @@ class ChartDataFormatter extends Component {
 
     // Fall back to default x() and y() funcs if none provided in options
     const initial = {
-      x: this._getInitialFormatter('x'),
-      y: this._getInitialFormatter('y'),
+      x: defaultTickFormat,
+      y: defaultTickFormat,
     };
 
     const formatterDefaults = {
@@ -72,14 +72,6 @@ class ChartDataFormatter extends Component {
         y: formatterDefaults,
       },
     });
-  }
-
-  _getInitialFormatter(axis) {
-    if (this.props.options[`${axis}Axis`] &&
-      this.props.options[`${axis}Axis`].tickFormat) {
-      return this.props.options[`${axis}Axis`].tickFormat;
-    }
-    return defaultTickFormat;
   }
 
   /**
