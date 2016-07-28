@@ -1,35 +1,40 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { dataIsMultiSeries } from '../../utils/misc';
+import { multiXY, singleXY } from '../../constants/chartXYFuncs';
 
 class ChartDataFormatter extends Component {
   componentWillMount() {
-    const initial = {
-      x: this.props.options.x || null,
-      y: this.props.options.y || null,
-    };
-
-    /**
-     * Chart type must have specified default x() and y() funcs
-     * or we have nothing to revert to so we can skip this
-     */
-     // @todo Skip if !initial.x && !initial.y
-
+    const multiSeries = dataIsMultiSeries(this.props.data);
     const labels = {};
-    if (dataIsMultiSeries(this.props.data)) {
+    let defaultInitial = {};
+
+    if (multiSeries) {
       labels.x = 'X Axis Values';
       labels.y = 'Y Axis Values';
+      defaultInitial = multiXY;
     } else {
       labels.x = 'Labels';
       labels.y = 'Values';
+      defaultInitial = singleXY;
     }
 
-    this.setState({ initial, labels });
+    // Fall back to default x() and y() funcs if none provided in options
+    const initial = {
+      x: this.props.options.x || defaultInitial.x,
+      y: this.props.options.y || defaultInitial.y,
+    };
+
+    this.setState({ multiSeries, initial, labels });
   }
 
   render() {
     return (
-      <div>hi</div>
+      <div>
+        <h4>{this.state.labels.x}</h4>
+
+        <h4>{this.state.labels.y}</h4>
+      </div>
     );
   }
 }
