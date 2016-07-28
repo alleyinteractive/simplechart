@@ -59,7 +59,7 @@ class ChartMetadata extends Component {
         )}
         <NextPrevButton
           copy="Next"
-          currentStep={2}
+          currentStep={3}
           dir="next"
         />
       </div>
