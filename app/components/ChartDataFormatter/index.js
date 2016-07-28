@@ -6,6 +6,7 @@ import { multiXY, singleXY } from '../../constants/chartXYFuncs';
 import { RECEIVE_CHART_OPTIONS } from '../../constants';
 import { Button } from 'rebass';
 import update from 'react-addons-update';
+import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 
 class ChartDataFormatter extends Component {
   constructor() {
@@ -81,6 +82,11 @@ class ChartDataFormatter extends Component {
             onClick={revertY}
           >Revert to default</Button>
         </div>
+        <NextPrevButton
+          copy="Next"
+          currentStep={this.props.currentStep}
+          dir="next"
+        />
       </div>
     );
   }
