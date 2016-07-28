@@ -29,6 +29,7 @@ class ChartBuilder extends AppComponent {
         subcomponent = React.createElement(ChartDataFormatter, {
           data: this.props.state.chartData,
           options: this.props.state.chartOptions,
+          currentStep: this.props.state.currentStep,
         });
         break;
 
