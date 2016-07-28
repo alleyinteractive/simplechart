@@ -10,8 +10,6 @@ class StackedAreaChart extends BaseChart {
       height: 400,
       useInteractiveGuidline: true,
       showLegend: true,
-      x: (d) => d.x,
-      y: (d) => d.y,
     };
   }
 }
