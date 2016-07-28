@@ -107,20 +107,10 @@ class ChartDataFormatter extends Component {
   }
 
   render() {
-    const revertX = () => this._revert('x');
     const revertY = () => this._revert('y');
+
     return (
       <div>
-        {this.state.multiSeries ? ( // No formatting for single-series labels (e.g. pie chart)
-          <div>
-            <h4>{this.state.labels.x}</h4>
-            <Button
-              theme="warning"
-              rounded
-              onClick={revertX}
-            >Revert to default</Button>
-          </div>
-        ) : '' }
         <div className={styles.fieldgroup}>
           <h4>{this.state.labels.y}</h4>
 
