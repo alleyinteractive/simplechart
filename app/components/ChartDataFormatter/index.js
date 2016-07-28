@@ -62,13 +62,14 @@ class ChartDataFormatter extends Component {
       append: '',
     };
 
+    const tickFormatBuilder = this.props.options.tickFormatBuilder || {};
     this.setState({
       multiSeries,
       initial,
       labels,
       formatterSettings: {
-        x: formatterDefaults,
-        y: formatterDefaults,
+        x: tickFormatBuilder.xAxis || formatterDefaults,
+        y: tickFormatBuilder.yAxis || formatterDefaults,
       },
     });
   }
@@ -132,28 +133,28 @@ class ChartDataFormatter extends Component {
             label="Prepend"
             name="y.prepend"
             rounded
-            value={this.state.formatterSettings.prepend}
+            value={this.state.formatterSettings.y.prepend}
             onChange={this._handleChange}
           />
           <Input
             label="D3 Format"
             name="y.format"
             rounded
-            value={this.state.formatterSettings.format}
+            value={this.state.formatterSettings.y.format}
             onChange={this._handleChange}
           />
           <Input
             label="Multiplier"
             name="y.multiplier"
             type="number"
-            value={this.state.formatterSettings.multiplier}
+            value={this.state.formatterSettings.y.multiplier}
             rounded
             onChange={this._handleChange}
           />
           <Input
             label="Append"
             name="y.append"
-            value={this.state.formatterSettings.append}
+            value={this.state.formatterSettings.y.append}
             rounded
             onChange={this._handleChange}
           />
