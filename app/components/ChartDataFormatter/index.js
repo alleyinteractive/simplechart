@@ -79,17 +79,25 @@ class ChartDataFormatter extends Component {
    * @param string axis 'x' or 'y'
    * @param function formatter
    */
-  _update(axis, tickFormat) {
+  _update(axis, tickFormat, formatData) {
     const axisName = `${axis}Axis`;
     this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, {
+      // merge new tickFormat() into options, e.g. options.yAxis.tickFormat
       [axisName]: update(this.props.options[axisName] || {}, {
         $merge: { tickFormat },
+      }),
+      // merge format builder data, e.g. options.tickFormatBuilder.yAxis
+      tickFormatBuilder: update(this.props.options.tickFormatBuilder || {}, {
+        $apply: (builder) => {
+          builder[axisName] = formatData; // eslint-disable-line no-param-reassign
+          return builder;
+        },
       }),
     }));
   }
 
   _revert(axis) {
-    this._update(axis, this.state.initial[axis]);
+    this._update(axis, this.state.initial[axis], null);
   }
 
   _handleChange(evt) {
@@ -105,7 +113,11 @@ class ChartDataFormatter extends Component {
   }
 
   _applyFormatting(axis) {
-    this._update(axis, createFormatter(this.state.formatterSettings[axis]));
+    this._update(
+      axis,
+      createFormatter(this.state.formatterSettings[axis]),
+      this.state.formatterSettings[axis]
+    );
   }
 
   render() {
@@ -113,7 +125,7 @@ class ChartDataFormatter extends Component {
     const applyFormattingY = () => this._applyFormatting('y');
     return (
       <div>
-        <div className={styles.fieldgroup}>
+        <div className={styles.fieldGroup}>
           <h4>{this.state.labels.y}</h4>
 
           <Input
@@ -146,17 +158,19 @@ class ChartDataFormatter extends Component {
             onChange={this._handleChange}
           />
 
-          <Button
-            theme="success"
-            rounded
-            onClick={applyFormattingY}
-          >Apply formatting</Button>
+          <div className={styles.buttonContainer}>
+            <Button
+              theme="success"
+              rounded
+              onClick={applyFormattingY}
+            >Apply formatting</Button>
 
-          <Button
-            theme="warning"
-            rounded
-            onClick={revertY}
-          >Revert to default</Button>
+            <Button
+              theme="warning"
+              rounded
+              onClick={revertY}
+            >Revert to default</Button>
+          </div>
         </div>
         <NextPrevButton
           copy="Next"
