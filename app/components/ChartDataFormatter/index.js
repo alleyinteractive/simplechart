@@ -17,7 +17,6 @@ class ChartDataFormatter extends Component {
     this._update = this._update.bind(this);
     this._handleChange = this._handleChange.bind(this);
     this._applyFormatting = this._applyFormatting.bind(this);
-    this._getInitialFormatter = this._getInitialFormatter.bind(this);
     this.typeOptions = [
       {
         children: '',
@@ -105,18 +104,13 @@ class ChartDataFormatter extends Component {
     ) });
   }
 
-  _applyFormatting() {
-    this._update('y', createFormatter(
-      this.state.formatterSettings.y.prepend,
-      this.state.formatterSettings.y.format,
-      this.state.formatterSettings.y.multiplier,
-      this.state.formatterSettings.y.append
-    ));
+  _applyFormatting(axis) {
+    this._update(axis, createFormatter(this.state.formatterSettings[axis]));
   }
 
   render() {
     const revertY = () => this._revert('y');
-
+    const applyFormattingY = () => this._applyFormatting('y');
     return (
       <div>
         <div className={styles.fieldgroup}>
@@ -155,7 +149,7 @@ class ChartDataFormatter extends Component {
           <Button
             theme="success"
             rounded
-            onClick={this._applyFormatting}
+            onClick={applyFormattingY}
           >Apply formatting</Button>
 
           <Button
