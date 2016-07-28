@@ -4,15 +4,34 @@ import actionTrigger from '../../actions';
 import { dataIsMultiSeries } from '../../utils/misc';
 import { multiXY, singleXY } from '../../constants/chartXYFuncs';
 import { RECEIVE_CHART_OPTIONS } from '../../constants';
-import { Button } from 'rebass';
+import { Button, Select, Input } from 'rebass';
 import update from 'react-addons-update';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
+import createFormatter from '../../utils/createFormatter';
 
 class ChartDataFormatter extends Component {
   constructor() {
     super();
     this._revert = this._revert.bind(this);
     this._update = this._update.bind(this);
+    this.typeOptions = [
+      {
+        children: '',
+        value: null,
+      },
+      {
+        children: 'Number',
+        value: 'number',
+      },
+      {
+        children: 'Currency',
+        value: 'currency',
+      },
+      {
+        children: 'Percentage',
+        value: 'percentage',
+      },
+    ];
   }
 
   componentWillMount() {
@@ -75,6 +94,19 @@ class ChartDataFormatter extends Component {
         ) : '' }
         <div>
           <h4>{this.state.labels.y}</h4>
+
+          <Input
+            label="Prepend"
+            name="y.prepend"
+            rounded
+          />
+
+          <Select
+            label="Type"
+            name="y.type"
+            rounded
+            options={this.typeOptions}
+          />
 
           <Button
             theme="warning"
