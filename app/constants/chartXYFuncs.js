@@ -10,3 +10,5 @@ export const singleXY = {
   x: (d) => d.label,
   y: (d) => d.value,
 };
+
+export const defaultTickFormat = (d) => d;

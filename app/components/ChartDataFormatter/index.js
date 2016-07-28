@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import actionTrigger from '../../actions';
 import { dataIsMultiSeries } from '../../utils/misc';
-import { multiXY, singleXY } from '../../constants/chartXYFuncs';
+import { defaultTickFormat } from '../../constants/chartXYFuncs';
 import { RECEIVE_CHART_OPTIONS } from '../../constants';
 import { Button, Input } from 'rebass';
 import update from 'react-addons-update';
@@ -17,6 +17,7 @@ class ChartDataFormatter extends Component {
     this._update = this._update.bind(this);
     this._handleChange = this._handleChange.bind(this);
     this._applyFormatting = this._applyFormatting.bind(this);
+    this._getInitialFormatter = this._getInitialFormatter.bind(this);
     this.typeOptions = [
       {
         children: '',
@@ -40,22 +41,19 @@ class ChartDataFormatter extends Component {
   componentWillMount() {
     const multiSeries = dataIsMultiSeries(this.props.data);
     const labels = {};
-    let defaultInitial = {};
 
     if (multiSeries) {
       labels.x = 'X Axis Values';
       labels.y = 'Y Axis Values';
-      defaultInitial = multiXY;
     } else {
       labels.x = 'Labels';
       labels.y = 'Values';
-      defaultInitial = singleXY;
     }
 
     // Fall back to default x() and y() funcs if none provided in options
     const initial = {
-      x: this.props.options.x || defaultInitial.x,
-      y: this.props.options.y || defaultInitial.y,
+      x: this._getInitialFormatter('x'),
+      y: this._getInitialFormatter('y'),
     };
 
     const formatterDefaults = {
@@ -74,6 +72,14 @@ class ChartDataFormatter extends Component {
         y: formatterDefaults,
       },
     });
+  }
+
+  _getInitialFormatter(axis) {
+    if (this.props.options[`${axis}Axis`] &&
+      this.props.options[`${axis}Axis`].tickFormat) {
+      return this.props.options[`${axis}Axis`].tickFormat;
+    }
+    return defaultTickFormat;
   }
 
   /**
