@@ -9,8 +9,6 @@ class DiscreteBarChart extends BaseChart {
     this.defaultOptions = {
       type: 'discreteBarChart',
       height: 400,
-      x: (d) => d.label,
-      y: (d) => d.value,
     };
   }
 

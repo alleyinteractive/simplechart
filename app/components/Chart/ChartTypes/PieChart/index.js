@@ -8,8 +8,6 @@ class PieChart extends BaseChart {
     this.defaultOptions = {
       type: 'pieChart',
       height: 400,
-      x: (d) => d.label,
-      y: (d) => d.value,
       showLegend: false,
       showLabels: false,
     };

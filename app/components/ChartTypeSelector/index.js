@@ -5,6 +5,7 @@ import actionTrigger from '../../actions';
 import { Radio } from 'rebass';
 import * as styles from './ChartTypeSelector.css';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
+import { dataIsMultiSeries } from '../../utils/misc';
 
 class ChartTypeSelector extends Component {
 
@@ -21,16 +22,30 @@ class ChartTypeSelector extends Component {
   }
 
   _selectChartType(type) {
-    // send selected chart type  to store options
-    this.props.dispatch(actionTrigger(
-      RECEIVE_CHART_OPTIONS,
-      { type }
-    ));
-
     // send data to store, already transformed for selected chart type
     this.props.dispatch(actionTrigger(
       RECEIVE_CHART_DATA,
       this.props.transformedData[type]
+    ));
+
+    // Default x() and y() funcs
+    /**
+     * @todo Apply global defaults for chart type and/or data type here
+     */
+    let x;
+    let y;
+    if (dataIsMultiSeries(this.props.transformedData[type])) {
+      x = (d) => d.x;
+      y = (d) => d.y;
+    } else {
+      x = (d) => d.label;
+      y = (d) => d.value;
+    }
+
+    // send selected chart type  to store options
+    this.props.dispatch(actionTrigger(
+      RECEIVE_CHART_OPTIONS,
+      { type, x, y }
     ));
   }
 
