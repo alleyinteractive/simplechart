@@ -6,6 +6,7 @@ import {
 } from '../../../../constants';
 import NVD3Chart from 'react-nvd3';
 import update from 'react-addons-update';
+import createFormatter from '../../../../utils/createFormatter';
 
 class BaseChart extends Component {
 
@@ -21,6 +22,8 @@ class BaseChart extends Component {
      */
     const options = update(this.defaultOptions, { $merge: this.props.options });
     if (this.props.widget) {
+      options.xAxis = this._setTickFormat(options, 'xAxis');
+      options.yAxis = this._setTickFormat(options, 'yAxis');
       this.props.dispatch(actionTrigger(RECEIVE_WIDGET_OPTIONS, {
         widget: this.props.widget,
         options,
@@ -57,6 +60,21 @@ class BaseChart extends Component {
     if (wrapEl.length) {
       wrapEl[0].parentNode.removeChild(wrapEl[0]);
     }
+  }
+
+  /**
+   * Create tick formatter function from JSON data
+   *
+   * @param object options Options object
+   * @param string key 'xAxis' or 'yAxis'
+   */
+  _setTickFormat(options, key) {
+    if (options.tickFormatBuilder && options.tickFormatBuilder[key]) {
+      options[key] = update(options[key] || {}, { $merge: { // eslint-disable-line no-param-reassign
+        tickFormat: createFormatter(options.tickFormatBuilder[key]),
+      } });
+    }
+    return options;
   }
 
   render() {
