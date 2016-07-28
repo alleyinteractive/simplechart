@@ -5,11 +5,13 @@ import { dataIsMultiSeries } from '../../utils/misc';
 import { multiXY, singleXY } from '../../constants/chartXYFuncs';
 import { RECEIVE_CHART_OPTIONS } from '../../constants';
 import { Button } from 'rebass';
+import update from 'react-addons-update';
 
 class ChartDataFormatter extends Component {
   constructor() {
     super();
     this._revert = this._revert.bind(this);
+    this._update = this._update.bind(this);
   }
 
   componentWillMount() {
@@ -36,17 +38,30 @@ class ChartDataFormatter extends Component {
     this.setState({ multiSeries, initial, labels });
   }
 
-  _revert(axis) {
+  /**
+   * Send new tickFormat function to xAxis or yAxis, tooltip should inherit from yAxis.tickFormat
+   *
+   * @param string axis 'x' or 'y'
+   * @param function formatter
+   */
+  _update(axis, tickFormat) {
+    const axisName = `${axis}Axis`;
     this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, {
-      [axis]: this.state.initial[axis],
+      [axisName]: update(this.props.options[axisName] || {}, {
+        $merge: { tickFormat },
+      }),
     }));
+  }
+
+  _revert(axis) {
+    this._update(axis, this.state.initial[axis]);
   }
 
   render() {
     const revertX = () => this._revert('x');
     const revertY = () => this._revert('y');
     return (
-      <fieldset>
+      <div>
         {this.state.multiSeries ? ( // No formatting for single-series labels (e.g. pie chart)
           <div>
             <h4>{this.state.labels.x}</h4>
@@ -59,13 +74,14 @@ class ChartDataFormatter extends Component {
         ) : '' }
         <div>
           <h4>{this.state.labels.y}</h4>
+
           <Button
             theme="warning"
             rounded
             onClick={revertY}
           >Revert to default</Button>
         </div>
-      </fieldset>
+      </div>
     );
   }
 }
