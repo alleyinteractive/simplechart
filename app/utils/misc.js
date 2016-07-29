@@ -25,3 +25,14 @@ export function debounce(func, ...theArgs) {
     }
   };
 }
+
+/**
+ * Determine if data is multi-series or single series
+ *
+ * @param array data Data array
+ * @return bool True if multi-series, false if single-series
+ */
+export function dataIsMultiSeries(data) {
+  return (typeof data[0].key !== 'undefined'
+    && typeof data[0].values !== 'undefined');
+}

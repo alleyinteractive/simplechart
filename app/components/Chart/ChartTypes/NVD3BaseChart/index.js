@@ -6,6 +6,9 @@ import {
 } from '../../../../constants';
 import NVD3Chart from 'react-nvd3';
 import update from 'react-addons-update';
+import createFormatter from '../../../../utils/createFormatter';
+import { dataIsMultiSeries } from '../../../../utils/misc';
+import { singleXY, multiXY } from '../../../../constants/chartXYFuncs';
 
 class BaseChart extends Component {
 
@@ -20,7 +23,20 @@ class BaseChart extends Component {
      * Send default options to store before initial render
      */
     const options = update(this.defaultOptions, { $merge: this.props.options });
+    if (this._setTickFormat(options, 'xAxis')) {
+      options.xAxis = this._setTickFormat(options, 'xAxis');
+    }
+    if (this._setTickFormat(options, 'yAxis')) {
+      options.yAxis = this._setTickFormat(options, 'yAxis');
+    }
+
     if (this.props.widget) {
+      if (!options.x) {
+        options.x = dataIsMultiSeries(this.props.data) ? multiXY.x : singleXY.x;
+      }
+      if (!options.y) {
+        options.y = dataIsMultiSeries(this.props.data) ? multiXY.y : singleXY.y;
+      }
       this.props.dispatch(actionTrigger(RECEIVE_WIDGET_OPTIONS, {
         widget: this.props.widget,
         options,
@@ -57,6 +73,21 @@ class BaseChart extends Component {
     if (wrapEl.length) {
       wrapEl[0].parentNode.removeChild(wrapEl[0]);
     }
+  }
+
+  /**
+   * Create tick formatter function from JSON data
+   *
+   * @param object options Options object
+   * @param string key 'xAxis' or 'yAxis'
+   */
+  _setTickFormat(options, key) {
+    if (options.tickFormatBuilder && options.tickFormatBuilder[key]) {
+      return update(options[key] || {}, { $merge: {
+        tickFormat: createFormatter(options.tickFormatBuilder[key]),
+      } });
+    }
+    return null;
   }
 
   render() {

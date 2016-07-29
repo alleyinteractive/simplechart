@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Chart from '../Chart/';
 import ChartTypeSelector from '../ChartTypeSelector/';
+import ChartDataFormatter from '../ChartDataFormatter';
 import ChartMetadata from '../ChartMetadata/';
 import PalettePicker from '../PalettePicker/';
 import ChartOptions from '../ChartOptions/';
@@ -25,19 +26,27 @@ class ChartBuilder extends AppComponent {
         break;
 
       case 2:
+        subcomponent = React.createElement(ChartDataFormatter, {
+          data: this.props.state.chartData,
+          options: this.props.state.chartOptions,
+          currentStep: this.props.state.currentStep,
+        });
+        break;
+
+      case 3:
         subcomponent = React.createElement(ChartMetadata, {
           metadata: this.props.state.chartMetadata,
         });
         break;
 
-      case 3:
+      case 4:
         subcomponent = React.createElement(PalettePicker, {
           data: this.props.state.chartData,
           options: this.props.state.chartOptions,
         });
         break;
 
-      case 4:
+      case 5:
         subcomponent = React.createElement(ChartOptions, {
           options: this.props.state.chartOptions,
           chart: this.refs.chartComponent,

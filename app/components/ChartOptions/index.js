@@ -56,9 +56,6 @@ export default class ChartOptions extends Component {
     return (
       <div>
         {this._chartTypeOptions()}
-        <pre>
-          {JSON.stringify(this.props.options, null, '  ')}
-        </pre>
       </div>
     );
   }

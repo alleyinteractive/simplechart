@@ -129,7 +129,7 @@ class PalettePicker extends Component {
         </div>
         <NextPrevButton
           copy="Next"
-          currentStep={3}
+          currentStep={4}
           dir="next"
         />
       </div>
