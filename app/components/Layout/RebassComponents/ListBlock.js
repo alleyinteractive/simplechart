@@ -3,6 +3,7 @@ import Rebass from 'rebass';
 
 export default class ListBlock extends Component {
   render() {
+    const markup = (htmlString) => ({ __html: htmlString });
     return (
       <Rebass.Block
         borderLeft
@@ -10,7 +11,7 @@ export default class ListBlock extends Component {
       >
         <ul>
           {this.props.list.map((item, i) =>
-            (<li key={i}>{item}</li>)
+            (<li key={i} dangerouslySetInnerHTML={markup(item)}></li>)
           )}
         </ul>
       </Rebass.Block>
