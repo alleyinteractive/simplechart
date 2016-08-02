@@ -1,4 +1,4 @@
-# Simplechart-React
+# Simplechart
 
 ## Development modes
 
