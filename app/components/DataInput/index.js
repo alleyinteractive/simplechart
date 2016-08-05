@@ -23,7 +23,7 @@ class DataInput extends AppComponent {
       sampleDataSet: 0,
     };
     this.inputRules = [
-      'Enter comma-delimited text here.',
+      'Enter <em>clean</em> comma-delimited text here.',
       'A header row is required.',
       'See sample data sets for formatting examples',
     ];

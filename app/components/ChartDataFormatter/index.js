@@ -9,6 +9,7 @@ import update from 'react-addons-update';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 import createFormatter from '../../utils/createFormatter';
 import * as styles from './ChartDataFormatter.css';
+import ListBlock from '../Layout/RebassComponents/ListBlock';
 
 class ChartDataFormatter extends Component {
   constructor() {
@@ -17,23 +18,11 @@ class ChartDataFormatter extends Component {
     this._update = this._update.bind(this);
     this._handleChange = this._handleChange.bind(this);
     this._applyFormatting = this._applyFormatting.bind(this);
-    this.typeOptions = [
-      {
-        children: '',
-        value: null,
-      },
-      {
-        children: 'Number',
-        value: 'number',
-      },
-      {
-        children: 'Currency',
-        value: 'currency',
-      },
-      {
-        children: 'Percentage',
-        value: 'percentage',
-      },
+    this.formatGuidelines = [
+      'Formatting is applied to y-axis and tooltip labels.',
+      'Learn more about D3 formatting syntax <a href="'
+      + 'https://github.com/d3/d3-format/blob/master/README.md">here</a>.',
+      'Y-axis minimum and maximum range is set under Chart Options',
     ];
   }
 
@@ -126,9 +115,8 @@ class ChartDataFormatter extends Component {
     const applyFormattingY = () => this._applyFormatting('y');
     return (
       <div>
+        <ListBlock list={this.formatGuidelines} />
         <div className={styles.fieldGroup}>
-          <h4>{this.state.labels.y}</h4>
-
           <Input
             label="Prepend"
             name="y.prepend"
