@@ -10,27 +10,23 @@ var postcssLost = require('lost');
 var stylelint = require('stylelint');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var entry = [];
+var entry = {
+  widget: './app/widget',
+  app: './app/index'
+};
 var output = {
   path: path.join(__dirname, 'static'),
-  publicPath: '/static/'
+  publicPath: '/static/',
+  filename: '[name].js'
 };
-
-if (process.env.WIDGET) {
-  entry.push('./app/widget');
-  output.filename = 'widget.js';
-} else {
-  entry.push('./app/index');
-  output.filename = 'bundle.js';
-}
 
 var jsLoaders = ['babel'];
 
 if (process.env.DEVELOPMENT) {
-  entry.unshift(
+  entry.server = [
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server'
-  );
+  ];
   jsLoaders.unshift(
     'react-hot'
   );
