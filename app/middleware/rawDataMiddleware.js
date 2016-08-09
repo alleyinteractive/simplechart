@@ -1,5 +1,6 @@
 import {
   RECEIVE_RAW_DATA,
+  RECEIVE_RAW_DATA_INIT,
   PARSE_RAW_DATA,
   PARSE_DATA_STATUS,
   PARSE_DATA_FIELDS,
@@ -12,7 +13,10 @@ import { dataTransformers } from '../constants/dataTransformers';
 export default function rawDataMiddleware() {
   return (next) => (action) => {
     const store = next(action);
-    if (action.type === RECEIVE_RAW_DATA && action.data.length) {
+    if ((action.type === RECEIVE_RAW_DATA_INIT ||
+      action.type === RECEIVE_RAW_DATA) &&
+      action.data.length
+    ) {
       const parsedData = _parseRawData(action.data);
 
       // send parsed data to store

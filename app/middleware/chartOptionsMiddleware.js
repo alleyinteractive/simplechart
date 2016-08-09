@@ -1,11 +1,11 @@
-import { RECEIVE_CHART_OPTIONS } from '../constants';
+import { RECEIVE_CHART_OPTIONS_INIT } from '../constants';
 import { defaultPalette } from '../constants/defaultPalette';
 import actionTrigger from '../actions';
 
 export default function chartOptionsMiddleware() {
   return (next) => (action) => {
     const store = next(action);
-    if (action.type !== RECEIVE_CHART_OPTIONS) {
+    if (action.type !== RECEIVE_CHART_OPTIONS_INIT) {
       return store;
     }
 
@@ -13,7 +13,7 @@ export default function chartOptionsMiddleware() {
     if (!store.data.color) {
       store.data.color = defaultPalette;
       next(actionTrigger(
-        RECEIVE_CHART_OPTIONS,
+        RECEIVE_CHART_OPTIONS_INIT,
         store.data
       ));
     }

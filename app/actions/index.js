@@ -1,8 +1,8 @@
 import {
-  RECEIVE_RAW_DATA,
-  RECEIVE_CHART_DATA,
-  RECEIVE_CHART_OPTIONS,
-  RECEIVE_CHART_METADATA,
+  RECEIVE_RAW_DATA_INIT,
+  RECEIVE_CHART_DATA_INIT,
+  RECEIVE_CHART_OPTIONS_INIT,
+  RECEIVE_CHART_METADATA_INIT,
   RECEIVE_API_DATA,
 } from '../constants';
 import { receiveMessage, setupPostMessage } from '../utils/postMessage';
@@ -23,16 +23,16 @@ export function bootstrapAppData() {
      * Send each data component to reducer
      */
     receiveMessage('bootstrap.rawData', (evt) =>
-      dispatch(actionTrigger(RECEIVE_RAW_DATA, evt.data.data || ''))
+      dispatch(actionTrigger(RECEIVE_RAW_DATA_INIT, evt.data.data || ''))
     );
     receiveMessage('bootstrap.chartData', (evt) =>
-      dispatch(actionTrigger(RECEIVE_CHART_DATA, evt.data.data || []))
+      dispatch(actionTrigger(RECEIVE_CHART_DATA_INIT, evt.data.data || []))
     );
     receiveMessage('bootstrap.chartOptions', (evt) =>
-      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, evt.data.data || {}))
+      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS_INIT, evt.data.data || {}))
     );
     receiveMessage('bootstrap.chartMetadata', (evt) =>
-      dispatch(actionTrigger(RECEIVE_CHART_METADATA, evt.data.data || {}))
+      dispatch(actionTrigger(RECEIVE_CHART_METADATA_INIT, evt.data.data || {}))
     );
   };
 }
