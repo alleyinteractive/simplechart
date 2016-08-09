@@ -5,5 +5,6 @@ export const dataTransformers = {
   pieChart: labelValue,
   discreteBarChart: labelValue,
   lineChart: series,
-  stackedAreaChart: series,
+  // Removing until bugs are fixed
+  // stackedAreaChart: series,
 };
