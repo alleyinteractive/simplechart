@@ -44,7 +44,7 @@ class Widget extends Component {
       );
     }
     return (
-      <span class="simplechart-loading">Loading</span>
+      <span className="simplechart-loading">Loading</span>
     );
   }
 
