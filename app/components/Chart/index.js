@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import PieChart from './ChartTypes/PieChart/';
 import DiscreteBarChart from './ChartTypes/DiscreteBarChart/';
 import LineChart from './ChartTypes/LineChart/';
-import StackedAreaChart from './ChartTypes/StackedAreaChart/';
+// Removing StackedAreaChart until bugs are fixed
+// import StackedAreaChart from './ChartTypes/StackedAreaChart/';
 import InvalidChartType from './ChartTypes/InvalidChartType/';
 
 class Chart extends Component {
@@ -33,9 +34,9 @@ class Chart extends Component {
         chartType = LineChart;
         break;
 
-      case 'stackedAreaChart':
-        chartType = StackedAreaChart;
-        break;
+      // case 'stackedAreaChart':
+      //   chartType = StackedAreaChart;
+      //   break;
 
       default:
         chartType = InvalidChartType;

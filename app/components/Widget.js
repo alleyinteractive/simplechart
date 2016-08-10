@@ -44,7 +44,7 @@ class Widget extends Component {
       );
     }
     return (
-      <span>waiting for data</span>
+      <span class="simplechart-loading">Loading</span>
     );
   }
 
