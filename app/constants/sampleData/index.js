@@ -1,11 +1,11 @@
-import alleyDepartments from 'raw!./alleyDepartments.csv';
+import singleSeries from 'raw!./singleSeries.csv';
 import countriesByYear from 'raw!./countriesByYear.csv';
 import emissionsPerCountry from 'raw!./emissionsPerCountry.csv';
 
 export const sampleData = [
   {
-    label: 'Alley Departments (single series)',
-    data: alleyDepartments,
+    label: 'Single Data Series',
+    data: singleSeries,
   },
   {
     label: 'Countries By Year (multiple series)',
