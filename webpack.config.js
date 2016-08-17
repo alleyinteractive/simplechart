@@ -9,15 +9,12 @@ var postcssCalc = require('postcss-calc');
 var postcssLost = require('lost');
 var stylelint = require('stylelint');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var WebpackGitHash = require('./webpack-git-hash');
+var updateVersion = require('./updateVersion');
 
 var entry = {
   widget: './app/widget',
   app: './app/index'
-};
-var output = {
-  path: path.join(__dirname, 'static'),
-  publicPath: '/static/',
-  filename: '[name].js'
 };
 
 var jsLoaders = ['babel'];
@@ -34,12 +31,19 @@ if (process.env.DEVELOPMENT) {
 
 var plugins = process.env.DEVELOPMENT ?
   [new webpack.HotModuleReplacementPlugin()] :
-  [];
+  [new WebpackGitHash({
+    cleanup: true,
+    callback:
+  })];
 
 module.exports = {
   devtool: 'source-map',
   entry: entry,
-  output: output,
+  output: {
+    path: path.join(__dirname, 'static'),
+    publicPath: '/static/',
+    filename: '[name].[githash].js'
+  },
   plugins: plugins,
   postcss: function(webpack) {
     return [
