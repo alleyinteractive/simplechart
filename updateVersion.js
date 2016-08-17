@@ -1,5 +1,6 @@
 /**
- * callback after webpack-git-hash creates a new version
+ * Callback after webpack-git-hash creates a new static version
+ * Used only in PRODUCTION mode to update <script> tags in HTML pages
  */
 var fs = require('fs');
 var path = require('path');
