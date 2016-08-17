@@ -33,7 +33,7 @@ var plugins = process.env.DEVELOPMENT ?
   [new webpack.HotModuleReplacementPlugin()] :
   [new WebpackGitHash({
     cleanup: true,
-    callback:
+    callback: updateVersion
   })];
 
 module.exports = {

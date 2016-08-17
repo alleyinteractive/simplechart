@@ -6,7 +6,8 @@ var path = require('path');
 
 module.exports = function(hash, deletedFiles, stats) {
   ['index.html', 'widget.html'].forEach(function(filename) {
-    var content = fs.readFileSync(path.join(__dirname, filename), 'utf8');
+    var filepath = path.join(__dirname, filename);
+    var content = fs.readFileSync(filepath, 'utf8');
     content = content.replace(
       new RegExp('static\\/(widget|app)\\.\\w{' + hash.length + '}\\.js'),
       function(oldFile, p1) {
