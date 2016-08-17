@@ -42,7 +42,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'static'),
     publicPath: '/static/',
-    filename: '[name].[githash].js'
+    filename: process.env.DEVELOPMENT ? '[name].js' : '[name].[githash].js'
   },
   plugins: plugins,
   postcss: function(webpack) {
