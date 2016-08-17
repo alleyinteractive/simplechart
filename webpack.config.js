@@ -29,12 +29,19 @@ if (process.env.DEVELOPMENT) {
   );
 }
 
+var gitHashOpts = {
+  cleanup: true,
+  callback: updateVersion
+};
+// If hash is passed from command line, use that. E.g:
+// $ npm run build abcd123
+if (process.argv.length >= 5 && /^[a-z0-9]+$/.test(process.argv[4])) {
+  gitHashOpts.skipHash = process.argv[4];
+}
+
 var plugins = process.env.DEVELOPMENT ?
   [new webpack.HotModuleReplacementPlugin()] :
-  [new WebpackGitHash({
-    cleanup: true,
-    callback: updateVersion
-  })];
+  [new WebpackGitHash(gitHashOpts)];
 
 module.exports = {
   devtool: 'source-map',
