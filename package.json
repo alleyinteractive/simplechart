@@ -43,7 +43,8 @@
     "stylelint": "^5.2.1",
     "url-loader": "^0.5.7",
     "webpack": "1.12.2",
-    "webpack-dev-server": "1.12.1"
+    "webpack-dev-server": "1.12.1",
+    "webpack-git-hash": "alleyinteractive/webpack-git-hash"
   },
   "dependencies": {
     "react": "15.2.1",
