@@ -4,20 +4,20 @@ import actionTrigger from '../actions';
 
 export default function chartOptionsMiddleware() {
   return (next) => (action) => {
-    const store = next(action);
+    const result = next(action);
     if (action.type !== RECEIVE_CHART_OPTIONS_INIT) {
-      return store;
+      return result;
     }
 
     // apply default D3 palette if none provided
-    if (!store.data.color) {
-      store.data.color = defaultPalette;
+    if (!result.data.color) {
+      result.data.color = defaultPalette;
       next(actionTrigger(
         RECEIVE_CHART_OPTIONS_INIT,
-        store.data
+        result.data
       ));
     }
 
-    return store;
+    return result;
   };
 }
