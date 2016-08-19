@@ -4,26 +4,19 @@
  */
 
 import { combineReducers } from 'redux';
-import rawDataReducer from './rawDataReducer';
-import parsedDataReducer from './parsedDataReducer';
-import dataStatusReducer from './dataStatusReducer';
-import fieldsReducer from './fieldsReducer';
+import baseReducer from './baseReducer';
 import chartOptionsReducer from './chartOptionsReducer';
-import chartDataReducer from './chartDataReducer';
-import chartMetadataReducer from './chartMetadataReducer';
-import currentStepReducer from './currentStepReducer';
-import unsavedChangesReducer from './unsavedChangesReducer';
-import transformedDataReducer from './transformedDataReducer';
 
 export default combineReducers({
-  rawData: rawDataReducer,
-  parsedData: parsedDataReducer,
-  dataStatus: dataStatusReducer,
-  dataFields: fieldsReducer,
+  chartData: (state, action) => baseReducer(state, action, []),
+  chartMetadata: (state, action) => baseReducer(state, action, {}),
   chartOptions: chartOptionsReducer,
-  chartData: chartDataReducer,
-  chartMetadata: chartMetadataReducer,
-  currentStep: currentStepReducer,
-  unsavedChanges: unsavedChangesReducer,
-  transformedData: transformedDataReducer,
+  currentStep: (state, action) => baseReducer(state, action, 0),
+  dataFields: (state, action) => baseReducer(state, action, []),
+  dataStatus: (state, action) => baseReducer(state, action, {}),
+  initializedOpts: (state, action) => baseReducer(state, action, false),
+  parsedData: (state, action) => baseReducer(state, action, []),
+  rawData: (state, action) => baseReducer(state, action, ''),
+  transformedData: (state, action) => baseReducer(state, action, {}),
+  unsavedChanges: (state, action) => baseReducer(state, action, false),
 });
