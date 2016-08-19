@@ -3,10 +3,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
+
+// Middleware
 import thunk from 'redux-thunk';
-import rawDataMiddleware from './middleware/rawDataMiddleware';
-import chartOptionsMiddleware from './middleware/chartOptionsMiddleware';
-import unsavedChangesMiddleware from './middleware/unsavedChangesMiddleware';
+import rawDataMiddleware
+  from './middleware/rawDataMiddleware';
+import chartOptionsInitMiddleware
+  from './middleware/chartOptionsInitMiddleware';
+import unsavedChangesMiddleware
+  from './middleware/unsavedChangesMiddleware';
+
+// Other stuff
 import { bootstrapAppData } from './actions';
 import App from './components/App';
 import { sendMessage } from './utils/postMessage';
@@ -19,7 +26,7 @@ const store = createStore(rootReducer, compose(
   applyMiddleware(
     thunk,
     rawDataMiddleware,
-    chartOptionsMiddleware,
+    chartOptionsInitMiddleware,
     unsavedChangesMiddleware
   ),
   window.devToolsExtension ? window.devToolsExtension() : f => f
