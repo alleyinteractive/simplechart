@@ -2,7 +2,7 @@ import { RECEIVE_CHART_OPTIONS_INIT } from '../constants';
 import { defaultPalette } from '../constants/defaultPalette';
 import actionTrigger from '../actions';
 
-export default function chartOptionsMiddleware() {
+export default function middleware() {
   return (next) => (action) => {
     const result = next(action);
     if (action.type !== RECEIVE_CHART_OPTIONS_INIT) {
