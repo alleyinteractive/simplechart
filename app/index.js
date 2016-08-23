@@ -12,6 +12,8 @@ import chartOptionsInitMiddleware
   from './middleware/chartOptionsInitMiddleware';
 import unsavedChangesMiddleware
   from './middleware/unsavedChangesMiddleware';
+import applyColorsMiddleware
+  from './middleware/applyColorsMiddleware';
 
 // Other stuff
 import { bootstrapAppData } from './actions';
@@ -27,7 +29,8 @@ const store = createStore(rootReducer, compose(
     thunk,
     rawDataMiddleware,
     chartOptionsInitMiddleware,
-    unsavedChangesMiddleware
+    unsavedChangesMiddleware,
+    applyColorsMiddleware
   ),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
