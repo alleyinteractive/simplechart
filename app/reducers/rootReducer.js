@@ -4,26 +4,32 @@
  */
 
 import { combineReducers } from 'redux';
-import rawDataReducer from './rawDataReducer';
-import parsedDataReducer from './parsedDataReducer';
-import dataStatusReducer from './dataStatusReducer';
-import fieldsReducer from './fieldsReducer';
+import baseReducer from './baseReducer';
 import chartOptionsReducer from './chartOptionsReducer';
-import chartDataReducer from './chartDataReducer';
-import chartMetadataReducer from './chartMetadataReducer';
-import currentStepReducer from './currentStepReducer';
-import unsavedChangesReducer from './unsavedChangesReducer';
-import transformedDataReducer from './transformedDataReducer';
+import * as actions from '../constants';
 
 export default combineReducers({
-  rawData: rawDataReducer,
-  parsedData: parsedDataReducer,
-  dataStatus: dataStatusReducer,
-  dataFields: fieldsReducer,
-  chartOptions: chartOptionsReducer,
-  chartData: chartDataReducer,
-  chartMetadata: chartMetadataReducer,
-  currentStep: currentStepReducer,
-  unsavedChanges: unsavedChangesReducer,
-  transformedData: transformedDataReducer,
+  chartData: (state, action) =>
+    baseReducer(state, action, [],
+      [actions.RECEIVE_CHART_DATA, actions.RECEIVE_CHART_DATA_INIT]),
+  chartMetadata: (state, action) =>
+    baseReducer(state, action, {},
+      [actions.RECEIVE_CHART_METADATA, actions.RECEIVE_CHART_METADATA_INIT]),
+  chartOptions:
+    chartOptionsReducer,
+  currentStep: (state, action) =>
+    baseReducer(state, action, 0, [actions.UPDATE_CURRENT_STEP]),
+  dataFields: (state, action) =>
+    baseReducer(state, action, [], [actions.PARSE_DATA_FIELDS]),
+  dataStatus: (state, action) =>
+    baseReducer(state, action, {}, [actions.PARSE_DATA_STATUS]),
+  parsedData: (state, action) =>
+    baseReducer(state, action, [], [actions.PARSE_RAW_DATA]),
+  rawData: (state, action) =>
+    baseReducer(state, action, '',
+      [actions.RECEIVE_RAW_DATA, actions.RECEIVE_RAW_DATA_INIT]),
+  transformedData: (state, action) =>
+    baseReducer(state, action, {}, [actions.TRANSFORM_DATA]),
+  unsavedChanges: (state, action) =>
+    baseReducer(state, action, false, [actions.UNSAVED_CHANGES]),
 });
