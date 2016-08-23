@@ -6,9 +6,10 @@ import {
 } from '../constants';
 import { dataIsMultiSeries } from '../utils/misc';
 import update from 'react-addons-update';
+import actionTrigger from '../actions';
 
-function applyColorsToData(colors, data) {
-  if (!data.length || !dataIsMultiSeries(data)) {
+function applyColorsToData(colors = [], data = []) {
+  if (!data.length || !dataIsMultiSeries(data) || !colors.length) {
     return data;
   }
 
@@ -29,13 +30,20 @@ export default function middleware(store) {
     switch (action.type) {
       case RECEIVE_CHART_DATA:
       case RECEIVE_CHART_DATA_INIT:
-        result.data = applyColorsToData(
-          store.getState().chartOptions.color || [], result.data);
+        if (action.src !== 'middleware') {
+          result.data = applyColorsToData(
+            store.getState().chartOptions.color || [], result.data);
+        }
         break;
 
       case RECEIVE_CHART_OPTIONS:
       case RECEIVE_CHART_OPTIONS_INIT:
-        // if store.getState().chartData and colors array, apply using colors-specific action
+        next(actionTrigger(
+          RECEIVE_CHART_DATA,
+          applyColorsToData(
+            action.data.color || [], store.getState().chartData),
+          'middleware'
+        ));
         break;
 
       default:

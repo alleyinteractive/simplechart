@@ -65,6 +65,7 @@ class PalettePicker extends Component {
     const options = update(this.props.options, { $merge: {} });
     if (options.color && options.color[this.state.currentSeries]) {
       options.color[this.state.currentSeries] = `#${newColor}`;
+      // @todo use a new action that passes an index and hex color, appplies to chartData array if multi-series
       this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, options));
     }
   }

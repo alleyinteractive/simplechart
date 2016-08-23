@@ -7,8 +7,8 @@ import {
 } from '../constants';
 import { receiveMessage, setupPostMessage } from '../utils/postMessage';
 
-export default function actionTrigger(type, data) {
-  return { type, data };
+export default function actionTrigger(type, data, src = '') {
+  return { type, data, src };
 }
 
 /**
