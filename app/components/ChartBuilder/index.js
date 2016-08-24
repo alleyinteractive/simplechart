@@ -79,7 +79,7 @@ class ChartBuilder extends AppComponent {
 
           {this.props.state.chartMetadata.credit ?
             (<p className={styles.credit}>
-              Credit: {this.props.state.chartMetadata.credit}
+              {this.props.state.chartMetadata.credit}
             </p>) :
             ''
           }
