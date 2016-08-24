@@ -38,13 +38,14 @@ class DataInput extends AppComponent {
   }
 
   _submitData(data) {
+    // setState is async so we apply trim() twice
+    this.setState({ rawData: data.trim() });
     this.props.dispatch(
-      actionTrigger(RECEIVE_RAW_DATA, data)
+      actionTrigger(RECEIVE_RAW_DATA, data.trim())
     );
   }
 
   _loadSampleData() {
-    this.setState({ rawData: sampleData[this.state.sampleDataSet].data });
     this._submitData(sampleData[this.state.sampleDataSet].data);
   }
 
