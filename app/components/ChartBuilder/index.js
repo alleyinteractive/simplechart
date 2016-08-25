@@ -68,21 +68,23 @@ class ChartBuilder extends AppComponent {
             {this._renderSubcomponent(this.props.state.currentStep)}
           </div>
           <div className={styles.chartContainer}>
-            <h3>{this.props.state.chartMetadata.title}</h3>
+            {this.props.state.chartOptions.type ?
+              (<h3>{this.props.state.chartMetadata.title}</h3>) : ''
+            }
             <Chart
               data={this.props.state.chartData}
               options={this.props.state.chartOptions}
               widget={false}
               ref="chartComponent"
             />
-          <p>{this.props.state.chartMetadata.caption}</p>
-
-          {this.props.state.chartMetadata.credit ?
-            (<p className={styles.credit}>
-              {this.props.state.chartMetadata.credit}
-            </p>) :
-            ''
-          }
+            {this.props.state.chartOptions.type ?
+              (<p>{this.props.state.chartMetadata.caption}</p>) : ''
+            }
+            {this.props.state.chartOptions.type ?
+              (<p className={styles.credit}>
+                {this.props.state.chartMetadata.credit}
+              </p>) : ''
+            }
           </div>
         </div>
       </div>
