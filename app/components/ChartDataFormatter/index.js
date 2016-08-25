@@ -136,7 +136,7 @@ class ChartDataFormatter extends Component {
             name="y.format"
             rounded
             value={this.state.formatterSettings.y.format}
-            onChange={this._handleChange}
+            onBlur={this._handleChange} // listen for blur to handle typing of decimals points
           />
           <Input
             label="Multiplier"
