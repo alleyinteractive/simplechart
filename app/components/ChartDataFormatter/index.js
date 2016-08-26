@@ -71,7 +71,7 @@ class ChartDataFormatter extends Component {
    */
   _update(axis, tickFormat, formatData) {
     const axisName = `${axis}Axis`;
-    this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, {
+    const newOpts = {
       // merge new tickFormat() into options, e.g. options.yAxis.tickFormat
       [axisName]: update(this.props.options[axisName] || {}, {
         $merge: { tickFormat },
@@ -83,7 +83,14 @@ class ChartDataFormatter extends Component {
           return builder;
         },
       }),
-    }));
+    };
+
+    // Apply formatting to single-series charts like pie chart, etc
+    if (!dataIsMultiSeries(this.props.data)) {
+      newOpts.valueFormat = tickFormat;
+    }
+
+    this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, newOpts));
   }
 
   _revert(axis) {
@@ -129,7 +136,7 @@ class ChartDataFormatter extends Component {
             name="y.format"
             rounded
             value={this.state.formatterSettings.y.format}
-            onChange={this._handleChange}
+            onBlur={this._handleChange} // listen for blur to handle typing of decimals points
           />
           <Input
             label="Multiplier"
