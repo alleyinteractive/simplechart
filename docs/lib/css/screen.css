@@ -78,9 +78,6 @@ h4 {
 h5 {
   font-size: 1.2em; }
 
-body {
-  padding: 70px 0; }
-
 /**
  * COMMON
  */
@@ -149,10 +146,6 @@ footer p {
     #intro-copy h2 {
       font-size: 1.8em; } }
 
-#scroll-to-join {
-  margin-top: 25.5px;
-  max-width: 400px; }
-
 .features-table {
   display: table; }
   .features-table .row {
@@ -182,99 +175,9 @@ footer p {
         display: block;
         padding-bottom: 5px; } }
 
-#try-it {
+#demo-embed {
   padding: 51px 15px;
   background-color: #EEE; }
-
-form.join-beta {
-  max-width: 400px;
-  margin: 25.5px auto;
-  padding: 0 25.5px;
-  position: relative; }
-  form.join-beta #thank-you, form.join-beta #email-us {
-    opacity: 0;
-    position: absolute;
-    visibility: hidden;
-    top: 30%; }
-  form.join-beta fieldset, form.join-beta .mc-field-group {
-    margin-bottom: 15px;
-    opacity: 1; }
-  form.join-beta #thank-you, form.join-beta #email-us, form.join-beta fieldset, form.join-beta .mc-field-group {
-    -webkit-transition: opacity .6s linear;
-    -moz-transition: opacity .6s linear;
-    transition: opacity .6s linear; }
-  form.join-beta.success #thank-you {
-    opacity: 1;
-    visibility: visible; }
-  form.join-beta.success fieldset, form.join-beta.success .mc-field-group {
-    opacity: 0; }
-  form.join-beta.error #email-us {
-    opacity: 1;
-    visibility: visible; }
-  form.join-beta.error fieldset, form.join-beta.error .mc-field-group {
-    opacity: 0; }
-  form.join-beta label {
-    float: left;
-    display: block;
-    width: 100px;
-    margin-right: 25.5px; }
-  form.join-beta .asterisk, form.join-beta span.required {
-    color: red;
-    font-weight: normal; }
-  form.join-beta label, form.join-beta input {
-    font-family: 'Noto Sans', sans-serif;
-    font-weight: 400;
-    line-height: 1.5;
-    font-size: 1em;
-    height: 30px;
-    line-height: 30px;
-    -webkit-border-radius: 0;
-    border-radius: 0; }
-  form.join-beta .input-container {
-    box-sizing: border-box;
-    padding-left: 125.5px;
-    width: 100%; }
-    form.join-beta .input-container input {
-      box-sizing: border-box;
-      width: 100%; }
-  form.join-beta .pref-container {
-    margin-top: 12.75px;
-    margin-bottom: 25.5px; }
-    form.join-beta .pref-container li {
-      display: block;
-      width: 100%; }
-      form.join-beta .pref-container li input[type="radio"] {
-        height: auto; }
-      form.join-beta .pref-container li input, form.join-beta .pref-container li label {
-        display: inline-block;
-        float: none; }
-      form.join-beta .pref-container li label {
-        height: 30px;
-        font-size: .8em;
-        line-height: 30px;
-        margin: 0;
-        width: auto;
-        padding: 0 12px; }
-  form.join-beta #mc-embedded-subscribe {
-    width: 100%;
-    height: auto;
-    border: none;
-    font-weight: 700;
-    padding: 10px;
-    line-height: 1.5;
-    -webkit-appearance: none;
-    -webkit-border-radius: 0; }
-
-.current-sites {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  align-content: flex-start;
-  margin-bottom: -25.5px; }
-  .current-sites a {
-    padding: 0 10px 25.5px 10px; }
 
 .github-links {
   text-align: center;
