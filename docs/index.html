@@ -1,0 +1,68 @@
+---
+permalink: /
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ site.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link type="text/css" rel="stylesheet" href="lib/css/screen.css" />
+</head>
+<body>
+  <header>
+    {% include logo.svg %}
+  </header>
+
+  <section id="intro-copy">
+    <div class="section-content body-copy">
+    {% capture intro-copy %}{% include intro.md %}{% endcapture %}
+    {{ intro-copy | markdownify }}
+
+    <h4>Features</h4>
+    <div class="features-table">
+
+      {% for feature in site.data.features %}
+        <div class="row">
+          <span class="feature-name">{{ feature.subhead | markdownify }}</span>
+          <div class="feature-text"><p>{{ feature.content | markdownify }}</p></div>
+        </div>
+      {% endfor %}
+
+    </div>
+
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="section-content">
+      <!-- app iframe goes here -->
+    </div>
+  </section>
+
+  <section id="try-it">
+    <div class="section-content">
+    <!-- mock article goes here -->
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-content body-copy">
+      <h3>About</h3>
+
+      {% capture about-copy %}{% include about.md %}{% endcapture %}
+      {{ about-copy | markdownify }}
+
+      <p class="github-links">
+        <span class="github-logo"></span><a href="https://github.com/alleyinteractive/simplechart" target="_blank">Simplechart</a> | <a href="https://github.com/alleyinteractive/wordpress-simplechart" target="_blank">WordPress Simplechart</a>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <p class="credits">&copy; {{ site.time | date: "%Y" }} Alley Interactive</p>
+  </footer>
+</body>
+</html>
