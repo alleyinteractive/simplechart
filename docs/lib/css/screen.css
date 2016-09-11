@@ -175,6 +175,11 @@ footer p {
         display: block;
         padding-bottom: 5px; } }
 
+#app-frame {
+  width: 100%;
+  max-height: 750px;
+}
+
 #demo-embed {
   padding: 51px 15px;
   background-color: #EEE; }

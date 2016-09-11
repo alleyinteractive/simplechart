@@ -37,9 +37,10 @@ permalink: /
   </section>
 
   <section id="demo-build">
-    <div class="section-content">
-      <!-- app iframe goes here -->
-    </div>
+    <iframe id="app-frame" src="app.html"></iframe>
+    <script>
+      document.getElementById('app-frame').style.height = window.innerHeight + 'px';
+    </script>
   </section>
 
   <section id="demo-embed">
