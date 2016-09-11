@@ -2,12 +2,14 @@
 Jekyll::Hooks.register :site, :after_init do |jekyll|
   Dir.chdir ".."
 
-  STDOUT.puts "Copying to index.html to docs/app/index.html"
-  FileUtils.cp "index.html", "docs/app.html"
-
   STDOUT.puts "Bundling app and widget JS for Jekyll site"
-  exec "JEKYLL=true npm run build"
-  FileUtils.mv "static/app.js", "docs/static/app.js"
-  FileUtils.mv "static/widget.js", "docs/static/widget.js"
+  system "JEKYLL=true npm run build"
+
+  STDOUT.puts "Copying compiled app and widget"
+  FileUtils.remove_dir "docs/static"
+  FileUtils.cp_r "static/.", "docs/static"
   FileUtils.remove_dir "static"
+
+  STDOUT.puts "Copying to index.html to docs/app.html"
+  FileUtils.cp "index.html", "docs/app.html"
 end
