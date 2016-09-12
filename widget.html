@@ -42,6 +42,7 @@
     </figure>
 
     <h2>Widget 3</h2>
+    <button id="tiggerUpdate">Update chart</button>
     <figure
       id='widget3'
       class='simplechart-widget'
@@ -93,15 +94,27 @@
         options: {
           type: "pieChart",
           height: 250,
-          donut: true,
+          donut: false,
         },
         metadata: {
-          title: "Example Donut Chart",
-          caption: "Yum",
+          title: "Example local data update",
+          caption: "Should switch from regular pieChart to donut when button is clicked",
           credit: "Source: Alley Interactive"
         }
       }
     </script>
     <script src="/static/widget.js"></script>
+    <script>
+      document.getElementById('tiggerUpdate').addEventListener('click', function(evt) {
+        var widgetUpdate = new CustomEvent('widgetData', {
+          detail: {
+            options: {
+              donut: true
+            }
+          }
+        });
+        document.getElementById('widget3').dispatchEvent(widgetUpdate);
+      });
+    </script>
   </body>
 </html>

@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import actionTrigger, { bootstrapWidgetData } from './actions';
-import { RECEIVE_API_DATA } from './constants';
+import actionTrigger, { ajaxWidgetData, listenerWidgetData } from './actions';
+import { RECEIVE_WIDGET } from './constants';
 import Widget from './components/Widget';
 import * as NVD3Styles from 'style!raw!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
 
@@ -39,30 +39,23 @@ function renderWidget(el) {
   if (el.getAttribute('data-url')) {
     // Data from API
     store.dispatch(
-      bootstrapWidgetData(
+      ajaxWidgetData(
         el.id,
         el.getAttribute('data-url'),
         el.getAttribute('data-headers')
       )
     );
   } else if (el.getAttribute('data-var')) {
-    // Data from global variable
-    let widgetData;
-    if (!window._SimplechartWidgetData ||
-      !window._SimplechartWidgetData[el.getAttribute('data-var')]) {
-      widgetData = {
-        data: [],
-        options: {},
-        metadata: {},
-      };
-    } else {
-      widgetData = window._SimplechartWidgetData[el.getAttribute('data-var')];
+    // Data from global variable if available
+    if (window._SimplechartWidgetData &&
+      window._SimplechartWidgetData[el.getAttribute('data-var')]) {
+      store.dispatch(actionTrigger(RECEIVE_WIDGET, {
+        widget: el.id,
+        data: window._SimplechartWidgetData[el.getAttribute('data-var')],
+      }));
     }
 
-    store.dispatch(actionTrigger(RECEIVE_API_DATA, {
-      widget: el.id,
-      data: widgetData,
-    }));
+    listenerWidgetData(el, store);
   } else {
     // Bye.
     return;
