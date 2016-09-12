@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { bootstrapWidgetData } from './actions';
+import actionTrigger, { bootstrapWidgetData } from './actions';
+import { RECEIVE_API_DATA } from './constants';
 import Widget from './components/Widget';
 import * as NVD3Styles from 'style!raw!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
 
@@ -35,13 +36,38 @@ function initWidgets() {
 }
 
 function renderWidget(el) {
-  store.dispatch(
-    bootstrapWidgetData(
-      el.id,
-      el.getAttribute('data-url'),
-      el.getAttribute('data-headers')
-    )
-  );
+  if (el.getAttribute('data-url')) {
+    // Data from API
+    store.dispatch(
+      bootstrapWidgetData(
+        el.id,
+        el.getAttribute('data-url'),
+        el.getAttribute('data-headers')
+      )
+    );
+  } else if (el.getAttribute('data-var')) {
+    // Data from global variable
+    let widgetData;
+    if (!window._SimplechartWidgetData ||
+      !window._SimplechartWidgetData[el.getAttribute('data-var')]) {
+      widgetData = {
+        data: [],
+        options: {},
+        metadata: {},
+      };
+    } else {
+      widgetData = window._SimplechartWidgetData[el.getAttribute('data-var')];
+    }
+
+    store.dispatch(actionTrigger(RECEIVE_API_DATA, {
+      widget: el.id,
+      data: widgetData,
+    }));
+  } else {
+    // Bye.
+    return;
+  }
+
   /**
    * @todo change Widget props to like data={state[el.id]}
    */
