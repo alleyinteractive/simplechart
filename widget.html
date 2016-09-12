@@ -41,6 +41,67 @@
       <p class='simplechart-credit'></p>
     </figure>
 
+    <h2>Widget 3</h2>
+    <figure
+      id='widget3'
+      class='simplechart-widget'
+      data-var='widget3'
+    >
+      <p class='simplechart-title'></p>
+      <p class='simplechart-caption'></p>
+      <div class='simplechart-chart'></div>
+      <p class='simplechart-credit'></p>
+    </figure>
+
     <script src="/static/widget.js"></script>
+    <script>
+      var _SimplechartWidgetData = _SimplechartWidgetData || {};
+      _SimplechartWidgetData['widget3'] = {
+        data: [
+          {
+            label: "One",
+            value: 29.7
+          },
+          {
+            label: "Two",
+            value: 0
+          },
+          {
+            label: "Three",
+            value: 32.8
+          },
+          {
+            label: "Four",
+            value: 196.4
+          },
+          {
+            label: "Five",
+            value: 0.1
+          },
+          {
+            label: "Six",
+            value: 98.0
+          },
+          {
+            label: "Seven",
+            value: 13.9
+          },
+          {
+            label: "Eight",
+            value: 5.1
+          }
+        ],
+        options: {
+          type: "pieChart",
+          height: 250,
+          donut: true,
+        },
+        metadata: {
+          title: "Example Donut Chart",
+          caption: "Yum",
+          credit: "Source: Alley Interactive"
+        }
+      }
+    </script>
   </body>
 </html>
