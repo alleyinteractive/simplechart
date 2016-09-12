@@ -29,27 +29,30 @@ function initWidgets() {
   const widgets = document.querySelectorAll('.simplechart-widget');
   if (widgets.length) {
     for (let i = 0; i < widgets.length; ++i) {
-      store.dispatch(
-        bootstrapWidgetData(
-          widgets[i].id,
-          widgets[i].getAttribute('data-url'),
-          widgets[i].getAttribute('data-headers')
-        )
-      );
-      /**
-       * @todo change Widget props to like data={store[widgets[i].id]}
-       * so every chart isn't re-rendered after each AJAX response
-       */
-      const chartContainer = widgets[i].querySelectorAll('.simplechart-chart');
-      if (chartContainer.length) {
-        ReactDOM.render(
-          <Provider store={store}>
-            <Widget widget={widgets[i].id} />
-          </Provider>,
-          chartContainer[0]
-        );
-      }
+      renderWidget(widgets[i]);
     }
+  }
+}
+
+function renderWidget(el) {
+  store.dispatch(
+    bootstrapWidgetData(
+      el.id,
+      el.getAttribute('data-url'),
+      el.getAttribute('data-headers')
+    )
+  );
+  /**
+   * @todo change Widget props to like data={state[el.id]}
+   */
+  const chartContainer = el.querySelectorAll('.simplechart-chart');
+  if (chartContainer.length) {
+    ReactDOM.render(
+      <Provider store={store}>
+        <Widget widget={el.id} />
+      </Provider>,
+      chartContainer[0]
+    );
   }
 }
 
