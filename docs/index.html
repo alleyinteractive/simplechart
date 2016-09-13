@@ -38,9 +38,16 @@ permalink: /
 
   <section id="demo-build">
     <h3>Build a chart</h3>
-    <iframe id="app-frame" src="app.html"></iframe>
+    <iframe id="app-frame" src=""></iframe>
     <script>
-      document.getElementById('app-frame').style.height = window.innerHeight + 'px';
+      // Only show on larger screens
+      if (window.innerWidth >= 1000) {
+        document.getElementById('app-frame').style.height = window.innerHeight + 'px';
+        document.getElementById('app-frame').src = window.location.search === '?localhost' ?
+          'http://localhost:8080' : 'app.html';
+      } else {
+        document.getElementById('demo-build').style.display = 'none';
+      }
     </script>
     <script async src="lib/js/embedHandler.js"></script>
   </section>
@@ -58,7 +65,17 @@ permalink: /
         <div class='simplechart-chart'></div>
         <p class='simplechart-credit'></p>
       </figure>
-      <script async src="static/widget.js"></script>
+      <script>
+        var widgetSrc = window.location.search === '?localhost' ?
+          'http://localhost:8080/static/widget.js' : 'static/widget.js';
+
+        if (!document.getElementById('simplechart-widget-js')) {
+          var scriptEl = document.createElement('script');
+          scriptEl.id = 'simplechart-widget-js';
+          scriptEl.src = widgetSrc;
+          document.getElementById('examplechart').parentNode.appendChild(scriptEl);
+        }
+      </script>
     </div>
   </section>
 
