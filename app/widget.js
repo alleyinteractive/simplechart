@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { bootstrapWidgetData } from './actions';
+import actionTrigger, { ajaxWidgetData, listenerWidgetData } from './actions';
+import { RECEIVE_WIDGET } from './constants';
 import Widget from './components/Widget';
 import * as NVD3Styles from 'style!raw!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
 
@@ -29,27 +30,47 @@ function initWidgets() {
   const widgets = document.querySelectorAll('.simplechart-widget');
   if (widgets.length) {
     for (let i = 0; i < widgets.length; ++i) {
-      store.dispatch(
-        bootstrapWidgetData(
-          widgets[i].id,
-          widgets[i].getAttribute('data-url'),
-          widgets[i].getAttribute('data-headers')
-        )
-      );
-      /**
-       * @todo change Widget props to like data={store[widgets[i].id]}
-       * so every chart isn't re-rendered after each AJAX response
-       */
-      const chartContainer = widgets[i].querySelectorAll('.simplechart-chart');
-      if (chartContainer.length) {
-        ReactDOM.render(
-          <Provider store={store}>
-            <Widget widget={widgets[i].id} />
-          </Provider>,
-          chartContainer[0]
-        );
-      }
+      renderWidget(widgets[i]);
     }
+  }
+}
+
+function renderWidget(el) {
+  if (el.getAttribute('data-url')) {
+    // Data from API
+    store.dispatch(
+      ajaxWidgetData(
+        el.id,
+        el.getAttribute('data-url'),
+        el.getAttribute('data-headers')
+      )
+    );
+  } else if (el.hasAttribute('data-var')) {
+    // Data from global variable if available
+    if (window._SimplechartWidgetData && window._SimplechartWidgetData[el.id]) {
+      store.dispatch(actionTrigger(RECEIVE_WIDGET, {
+        widget: el.id,
+        data: window._SimplechartWidgetData[el.id],
+      }));
+    }
+
+    listenerWidgetData(el, store.dispatch);
+  } else {
+    // Bye.
+    return;
+  }
+
+  /**
+   * @todo change Widget props to like data={state[el.id]}
+   */
+  const chartContainer = el.querySelectorAll('.simplechart-chart');
+  if (chartContainer.length) {
+    ReactDOM.render(
+      <Provider store={store}>
+        <Widget widget={el.id} />
+      </Provider>,
+      chartContainer[0]
+    );
   }
 }
 

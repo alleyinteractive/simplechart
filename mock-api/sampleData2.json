@@ -1,25 +1,8 @@
 {
-  "data": [
-    {
-      "label": "One",
-      "value" : 29.7
-    } ,
-    {
-      "label": "Two",
-      "value" : 18.4
-    } ,
-    {
-      "label": "Three",
-      "value" : 15.1
-    }
-  ],
-  "options": {
-    "type": "pieChart",
-    "height": 500
-  },
-  "metadata": {
-    "title": "Sample Pie Chart",
-    "caption": "An example of the NVD3 pieChart",
-    "credit": "Alley Interactive"
+  "success": true,
+  "data": {
+    "data": "[{\"label\":\"One\",\"value\":29.7},{\"label\":\"Two\",\"value\":18.4},{\"label\":\"Three\",\"value\":15.1}]",
+    "options": "{\"type\":\"pieChart\",\"height\":500}",
+    "metadata": "{\"title\":\"Sample Pie Chart\",\"caption\":\"An example of the NVD3 pieChart\",\"credit\":\"Alley Interactive\"}"
   }
 }
