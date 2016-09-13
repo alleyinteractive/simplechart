@@ -55,7 +55,7 @@ function renderWidget(el) {
       }));
     }
 
-    listenerWidgetData(el, store);
+    listenerWidgetData(el, store.dispatch);
   } else {
     // Bye.
     return;

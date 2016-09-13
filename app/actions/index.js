@@ -99,7 +99,7 @@ export function ajaxWidgetData(widgetId, fetchUrl, headersAttr = null) {
   };
 }
 
-export function listenerWidgetData(widgetEl, store) {
+export function listenerWidgetData(widgetEl, dispatch) {
   function receiveData(evt) {
     evt.stopPropagation();
     if (!evt.detail) {
@@ -107,20 +107,20 @@ export function listenerWidgetData(widgetEl, store) {
     }
     // If full complete widget data is present
     if (evt.detail.data && evt.detail.options && evt.detail.metadata) {
-      store.dispatch(actionTrigger(RECEIVE_WIDGET,
+      dispatch(actionTrigger(RECEIVE_WIDGET,
         { widget: widgetEl.id, data: evt.detail }));
     } else {
       // Otherwse, dispatch individual pieces of data object
       if (evt.detail.data) {
-        store.dispatch(actionTrigger(RECEIVE_WIDGET_DATA,
+        dispatch(actionTrigger(RECEIVE_WIDGET_DATA,
           { widget: widgetEl.id, data: evt.detail.data }));
       }
       if (evt.detail.options) {
-        store.dispatch(actionTrigger(RECEIVE_WIDGET_OPTIONS,
+        dispatch(actionTrigger(RECEIVE_WIDGET_OPTIONS,
           { widget: widgetEl.id, data: evt.detail.options }));
       }
       if (evt.detail.metadata) {
-        store.dispatch(actionTrigger(RECEIVE_WIDGET_METADATA,
+        dispatch(actionTrigger(RECEIVE_WIDGET_METADATA,
           { widget: widgetEl.id, data: evt.detail.metadata }));
       }
     }
