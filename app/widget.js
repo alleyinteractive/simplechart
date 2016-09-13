@@ -45,13 +45,12 @@ function renderWidget(el) {
         el.getAttribute('data-headers')
       )
     );
-  } else if (el.getAttribute('data-var')) {
+  } else if (el.hasAttribute('data-var')) {
     // Data from global variable if available
-    if (window._SimplechartWidgetData &&
-      window._SimplechartWidgetData[el.getAttribute('data-var')]) {
+    if (window._SimplechartWidgetData && window._SimplechartWidgetData[el.id]) {
       store.dispatch(actionTrigger(RECEIVE_WIDGET, {
         widget: el.id,
-        data: window._SimplechartWidgetData[el.getAttribute('data-var')],
+        data: window._SimplechartWidgetData[el.id],
       }));
     }
 

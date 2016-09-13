@@ -99,6 +99,9 @@ export function ajaxWidgetData(widgetId, fetchUrl, headersAttr = null) {
   };
 }
 
+/*
+ * Setup listener for individual widget to receive all or partial data
+ */
 export function listenerWidgetData(widgetEl, dispatch) {
   function receiveData(evt) {
     evt.stopPropagation();
