@@ -7,6 +7,21 @@ class Widget extends Component {
   constructor() {
     super();
     this._renderChart = this._renderChart.bind(this);
+    this.state = {
+      data: null,
+    };
+  }
+
+  componentWillMount() {
+    if (this.props.data.data[this.props.widget]) {
+      this.setState({ data: this.props.data.data[this.props.widget] });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data.data[nextProps.widget]) {
+      this.setState({ data: nextProps.data.data[nextProps.widget] });
+    }
   }
 
   componentDidUpdate() {
@@ -16,8 +31,9 @@ class Widget extends Component {
     } catch (err) {
       return;
     }
-    this._renderMetadata(widget,
-      this.props.data.data[this.props.widget].metadata);
+    if (this.state.data) {
+      this._renderMetadata(widget, this.state.data.metadata || {});
+    }
   }
 
   _renderMetadata(widget, metadata) {
@@ -31,14 +47,12 @@ class Widget extends Component {
   }
 
   _renderChart() {
-    if (this.props.data.data[this.props.widget] &&
-      this.props.data.data[this.props.widget].options
-    ) {
+    if (this.state.data) {
       return (
         <Chart
-          data={this.props.data.data[this.props.widget].data}
-          options={this.props.data.data[this.props.widget].options}
-          metadata={this.props.data.data[this.props.widget].metadata}
+          data={this.state.data.data}
+          options={this.state.data.options}
+          metadata={this.state.data.metadata}
           widget={this.props.widget}
         />
       );

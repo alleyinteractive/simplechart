@@ -3,7 +3,10 @@ import {
   RECEIVE_CHART_DATA_INIT,
   RECEIVE_CHART_OPTIONS_INIT,
   RECEIVE_CHART_METADATA_INIT,
-  RECEIVE_API_DATA,
+  RECEIVE_WIDGET,
+  RECEIVE_WIDGET_DATA,
+  RECEIVE_WIDGET_OPTIONS,
+  RECEIVE_WIDGET_METADATA,
 } from '../constants';
 import { receiveMessage, setupPostMessage } from '../utils/postMessage';
 
@@ -40,7 +43,7 @@ export function bootstrapAppData() {
 /**
  * Get widget data from API
  */
-export function bootstrapWidgetData(widgetId, fetchUrl, headersAttr = null) {
+export function ajaxWidgetData(widgetId, fetchUrl, headersAttr = null) {
   return function(dispatch) {
     function handleResponse(response) {
       return response.status === 200 ? response.json() : {};
@@ -76,7 +79,7 @@ export function bootstrapWidgetData(widgetId, fetchUrl, headersAttr = null) {
       }
 
       dispatch(actionTrigger(
-        RECEIVE_API_DATA, { widget: widgetId, data: apiData }));
+        RECEIVE_WIDGET, { widget: widgetId, data: apiData }));
     }
     /**
      * async data request
@@ -94,4 +97,36 @@ export function bootstrapWidgetData(widgetId, fetchUrl, headersAttr = null) {
       .then(handleResponse)
       .then(handleJson);
   };
+}
+
+/*
+ * Setup listener for individual widget to receive all or partial data
+ */
+export function listenerWidgetData(widgetEl, dispatch) {
+  function receiveData(evt) {
+    evt.stopPropagation();
+    if (!evt.detail) {
+      return;
+    }
+    // If full complete widget data is present
+    if (evt.detail.data && evt.detail.options && evt.detail.metadata) {
+      dispatch(actionTrigger(RECEIVE_WIDGET,
+        { widget: widgetEl.id, data: evt.detail }));
+    } else {
+      // Otherwse, dispatch individual pieces of data object
+      if (evt.detail.data) {
+        dispatch(actionTrigger(RECEIVE_WIDGET_DATA,
+          { widget: widgetEl.id, data: evt.detail.data }));
+      }
+      if (evt.detail.options) {
+        dispatch(actionTrigger(RECEIVE_WIDGET_OPTIONS,
+          { widget: widgetEl.id, data: evt.detail.options }));
+      }
+      if (evt.detail.metadata) {
+        dispatch(actionTrigger(RECEIVE_WIDGET_METADATA,
+          { widget: widgetEl.id, data: evt.detail.metadata }));
+      }
+    }
+  }
+  widgetEl.addEventListener('widgetData', receiveData, true);
 }

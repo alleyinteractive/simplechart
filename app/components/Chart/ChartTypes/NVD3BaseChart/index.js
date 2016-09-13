@@ -39,7 +39,7 @@ class BaseChart extends Component {
       }
       this.props.dispatch(actionTrigger(RECEIVE_WIDGET_OPTIONS, {
         widget: this.props.widget,
-        options,
+        data: options,
       }));
     } else {
       this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, options));
