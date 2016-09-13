@@ -4,21 +4,23 @@
 
 `$ npm run build` will compile both the App and Widget bundles, using the latest Git commit hash as a version.
 
-_Don't use this_ during normal development. You'll only need to run Webpack if you're pushing a build to the WordPress plugin.
+_Don't use this_ during normal development. You'll only need to run Webpack if you're pushing a build to an implementation of Simplechart, e.g. its [WordPress plugin](https://www.github.com/alleyinteractive/wordpress-simplechart).
 
-## Development modes
+## Development mode
+
+`$> npm start` then...
 
 ### App
 
 The app is where you input data, select a chart type, set up options. Within an iframe, e.g. when used in the WordPress plugin, the app sends data to the parent window via postMessage for saving.
 
-For development, use `$> npm start` then work from http://localhost:8080/
+You can see the app at `http://localhost:8080/index.html`
 
 ### Widget
 
 The widget recognizes Simplechart placeholder divs on a page, fetches data, and renders charts.
 
-To develop, use `$> WIDGET=true npm start` then work from http://localhost:8080/widget.html
+You can find widget examples at `http://localhost:8080/widget.html`
 
 ## Adding a new chart type
 
