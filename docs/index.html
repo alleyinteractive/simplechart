@@ -37,15 +37,28 @@ permalink: /
   </section>
 
   <section id="demo-build">
+    <h3>Build a chart</h3>
     <iframe id="app-frame" src="app.html"></iframe>
     <script>
       document.getElementById('app-frame').style.height = window.innerHeight + 'px';
     </script>
+    <script async src="lib/js/embedHandler.js"></script>
   </section>
 
   <section id="demo-embed">
     <div class="section-content">
-    <!-- mock article goes here -->
+      <h3>See the embed</h3>
+      <figure
+        id='examplechart'
+        class='simplechart-widget'
+        data-var
+      >
+        <p class='simplechart-title'></p>
+        <p class='simplechart-caption'></p>
+        <div class='simplechart-chart'></div>
+        <p class='simplechart-credit'></p>
+      </figure>
+      <script async src="static/widget.js"></script>
     </div>
   </section>
 
