@@ -30,7 +30,8 @@
 
   function onReceive(evt) {
     // confirm same-origin
-    if (evt.origin !== window.location.origin || !evt.data || !evt.data.messageType || !evt.data.data) {
+    var sameOrigin = evt.origin === window.location.origin || evt.origin === 'http://localhost:8080';
+    if (!sameOrigin || !evt.data || !evt.data.messageType || !evt.data.data) {
       return;
     }
 
