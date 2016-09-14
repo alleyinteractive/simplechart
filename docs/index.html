@@ -40,7 +40,7 @@ permalink: /
   </section>
 
   <section id="demo-build">
-    <h3>Build a chart</h3>
+    <h3>Try It</h3>
     <iframe id="app-frame" src=""></iframe>
     <script>
       // Only show on larger screens
@@ -57,28 +57,10 @@ permalink: /
 
   <section id="demo-embed">
     <div class="section-content">
-      <h3>See the embed</h3>
-      <figure
-        id='examplechart'
-        class='simplechart-widget'
-        data-var
-      >
-        <p class='simplechart-title'></p>
-        <p class='simplechart-caption'></p>
-        <div class='simplechart-chart'></div>
-        <p class='simplechart-credit'></p>
-      </figure>
-      <script>
-        var widgetSrc = window.location.search === '?localhost' ?
-          'http://localhost:8080/static/widget.js' : 'static/widget.js';
-
-        if (!document.getElementById('simplechart-widget-js')) {
-          var scriptEl = document.createElement('script');
-          scriptEl.id = 'simplechart-widget-js';
-          scriptEl.src = widgetSrc;
-          document.getElementById('examplechart').parentNode.appendChild(scriptEl);
-        }
-      </script>
+      <h3 class="article">A sample embed</h3>
+      <p class="article">Lorem ipsum Dolor Ut amet elit nisi consectetur amet cupidatat labore ullamco id non cillum exercitation officia eiusmod minim sed Excepteur nisi cillum in ut ut commodo Duis exercitation in culpa ullamco veniam.</p>
+      {% include embed.html %}
+      <p class="article">Lorem ipsum Et ullamco ex anim officia sit cupidatat reprehenderit ut cillum culpa est enim culpa dolor elit laborum est nulla cupidatat amet pariatur sed ut cillum dolor.</p>
     </div>
   </section>
 

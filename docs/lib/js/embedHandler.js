@@ -25,7 +25,8 @@
 
   function initWidget(key, value) {
     initData[key] = value;
-    if (initData.data && initData.options && initData.metadata) {
+    // Must have some data and a chart type, at minimum
+    if (initData.data.length > 0 && initData.options && initData.options.type) {
       triggerEvent(initData);
       widgetRendered = true;
     }

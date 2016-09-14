@@ -1,0 +1,21 @@
+<figure
+  id='examplechart'
+  class='simplechart-widget'
+  data-var
+>
+  <p class='simplechart-title'></p>
+  <p class='simplechart-caption'></p>
+  <div class='simplechart-chart'></div>
+  <p class='simplechart-credit'></p>
+</figure>
+<script>
+  var widgetSrc = window.location.search === '?localhost' ?
+    'http://localhost:8080/static/widget.js' : 'static/widget.js';
+
+  if (!document.getElementById('simplechart-widget-js')) {
+    var scriptEl = document.createElement('script');
+    scriptEl.id = 'simplechart-widget-js';
+    scriptEl.src = widgetSrc;
+    document.getElementById('examplechart').parentNode.appendChild(scriptEl);
+  }
+</script>
