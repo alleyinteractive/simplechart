@@ -47,6 +47,7 @@
     "webpack-git-hash": "alleyinteractive/webpack-git-hash"
   },
   "dependencies": {
+    "isomorphic-fetch": "2.2.1",
     "react": "15.2.1",
     "react-addons-update": "15.2.1",
     "react-colorpickr": "4.2.0",
