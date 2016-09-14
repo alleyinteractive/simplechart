@@ -19,20 +19,22 @@ permalink: /
 
   <section id="intro-copy">
     <div class="section-content body-copy">
-    {% capture intro-copy %}{% include intro.md %}{% endcapture %}
-    {{ intro-copy | markdownify }}
+      {% capture intro-copy %}{% include intro.md %}{% endcapture %}
+      {{ intro-copy | markdownify }}
 
-    <h4>Features</h4>
-    <div class="features-table">
+      <a data-scroll href="#demo-build" class="button">Try it</a>
 
-      {% for feature in site.data.features %}
-        <div class="row">
-          <span class="feature-name">{{ feature.subhead | markdownify }}</span>
-          <div class="feature-text"><p>{{ feature.content | markdownify }}</p></div>
-        </div>
-      {% endfor %}
+      <h4>Features</h4>
+      <div class="features-table">
 
-    </div>
+        {% for feature in site.data.features %}
+          <div class="row">
+            <span class="feature-name">{{ feature.subhead | markdownify }}</span>
+            <div class="feature-text"><p>{{ feature.content | markdownify }}</p></div>
+          </div>
+        {% endfor %}
+
+      </div>
 
     </div>
   </section>
@@ -96,5 +98,11 @@ permalink: /
   <footer>
     <p class="credits">&copy; {{ site.time | date: "%Y" }} Alley Interactive</p>
   </footer>
+  <script src="lib/js/smooth-scroll.min.js"></script>
+  <script>
+    smoothScroll.init({
+      speed: 1000
+    });
+  </script>
 </body>
 </html>

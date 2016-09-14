@@ -1,0 +1,27 @@
+.features-table {
+  display: table; }
+  .features-table .row {
+    display: table-row; }
+  .features-table p {
+    margin-bottom: 0;
+    text-align: left; }
+  .features-table .feature-name, .features-table .feature-text {
+    display: table-cell;
+    padding-bottom: 30.6px; }
+  .features-table .row:last-of-type .feature-name, .features-table .row:last-of-type .feature-text {
+    padding-bottom: 0; }
+  .features-table .feature-name {
+    width: 150px;
+    padding-right: 20px;
+    font-weight: 700;
+    margin: 12.75px 0 25.5px; }
+  @media (max-width: 519px) {
+    .features-table {
+      display: block; }
+      .features-table .row {
+        display: block; }
+      .features-table .feature-name {
+        width: 100%;
+        padding-right: 0;
+        display: block;
+        padding-bottom: 5px; } }
