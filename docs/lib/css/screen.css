@@ -99,10 +99,7 @@ h5 {
   .button:hover {
     background-color: #c8c8c8; }
 
-header {
-  margin-bottom: 25.5px; }
-
-footer, header {
+footer {
   max-width: 600px;
   margin: 0 auto; }
 
@@ -119,21 +116,6 @@ footer p {
     display: inline-block;
     width: 100px;
     height: 17px; }
-
-#logo {
-  margin-bottom: 25.5px; }
-  #logo a {
-    display: inline-block;
-    text-indent: -999em;
-    background: url("../images/searchpress-logo-color.png");
-    background-size: 600px 125px;
-    width: 600px;
-    height: 125px; }
-  @media (max-width: 600px) {
-    #logo a {
-      background-size: 300px 63px;
-      width: 300px;
-      height: 63px; } }
 
 #intro-copy {
   padding: 51px 15px;
