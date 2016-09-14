@@ -9,6 +9,7 @@ import {
   RECEIVE_WIDGET_METADATA,
 } from '../constants';
 import { receiveMessage, setupPostMessage } from '../utils/postMessage';
+import fetch from 'isomorphic-fetch';
 
 export default function actionTrigger(type, data, src = '') {
   return { type, data, src };
