@@ -11,6 +11,9 @@
 
     // Trigger event
     document.getElementById(widgetId).dispatchEvent(widgetUpdate);
+    if (typeof smoothScroll !== 'undefined') {
+      smoothScroll.animateScroll(document.querySelector('#demo-embed'));
+    }
   }
 
   function updateWidget(key, value) {
