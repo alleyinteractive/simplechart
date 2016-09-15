@@ -9,7 +9,7 @@
   },
   {
     "subhead": "Not just for WordPress",
-    "content": "Simplechart has a WordPress plugin ready to activate, but it's designed for integration with _any_ CMS."
+    "content": "Simplechart has a <a href=\"https://github.com/alleyinteractive/wordpress-simplechart/\" target=\"_blank\">WordPress plugin</a> ready to activate, but it's designed for integration with _any_ CMS."
   },
   {
     "subhead": "Charts as media",
