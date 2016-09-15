@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_DATA } from '../../constants';
+import {
+  RECEIVE_CHART_OPTIONS,
+  RECEIVE_CHART_OPTIONS_INIT,
+  RECEIVE_CHART_DATA,
+} from '../../constants';
 import actionTrigger from '../../actions';
 import { Radio } from 'rebass';
 import * as styles from './ChartTypeSelector.css';
@@ -42,8 +46,12 @@ class ChartTypeSelector extends Component {
       opts.y = singleXY.y;
     }
 
-    // send selected chart type  to store options
-    this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, opts));
+    // trigger chart init action if required
+    if (!this.props.type.length) {
+      this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS_INIT, opts));
+    } else {
+      this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, opts));
+    }
   }
 
   /**
