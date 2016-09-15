@@ -10,6 +10,7 @@ class Widget extends Component {
     this.state = {
       data: null,
     };
+    this.defaultPlaceholder = 'Loading';
   }
 
   componentWillMount() {
@@ -58,7 +59,9 @@ class Widget extends Component {
       );
     }
     return (
-      <span className="simplechart-loading">Loading</span>
+      <span className="simplechart-loading">
+        {this.props.placeholder || this.defaultPlaceholder}
+      </span>
     );
   }
 
@@ -74,6 +77,7 @@ class Widget extends Component {
 Widget.propTypes = {
   data: React.PropTypes.object,
   widget: React.PropTypes.string,
+  placeholder: React.PropTypes.string,
 };
 
 // Which props to inject from the global atomic state

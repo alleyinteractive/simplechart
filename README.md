@@ -87,13 +87,16 @@ Embedded charts can retrieve data either from a URL or local variable. The data 
 }
 ```
 
-The widget "template" consists of a containing element which requires:
+The widget "template" consists of a containing element which *requires*:
 
 * `id` attribute used internally by the Redux store to identify the widget's data
 * `.simplechart-widget`, plus any of your own classes
 * A child element with the class `.simplechart-chart` where the chart itself will show up.
 
-Optionally, child elements with `.simplechart-title`, `.simplechart-caption`, `.simplechart-credit` will receive those strings of metadata.
+*Optional* features are:
+
+* A `data-placeholder` attribute with text that will be displayed while the chart is waiting for data. The default is `Loading`.
+* Child elements with `.simplechart-title`, `.simplechart-caption`, `.simplechart-credit` will receive those strings of metadata.
 
 You can give any of these elements other classes to apply your own CSS if you want.
 
@@ -104,6 +107,7 @@ You can give any of these elements other classes to apply your own CSS if you wa
   id='widget456'
   class='simplechart-widget'
   data-url='http://mycoolsite.com/simplechart/api/456'
+  data-placeholder='Optional custom placeholder text'
 >
   <p class='simplechart-title'></p>
   <p class='simplechart-caption'></p>
