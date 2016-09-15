@@ -13,6 +13,65 @@
   var widgetSrc = window.location.search === '?localhost' ?
     'http://localhost:8080/static/widget.js' : 'static/widget.js';
 
+  // Render a chart directly on smaller screens
+  // since we don't include the editor iframe
+  if (window.innerWidth < 900) {
+    var _SimplechartWidgetData = _SimplechartWidgetData || {};
+    _SimplechartWidgetData.examplechart = {
+      data: [
+        {
+          label: "Group One",
+          value: 29.7
+        },
+        {
+          label: "Group Two",
+          value: 0
+        },
+        {
+          label: "Group Three",
+          value: 32.8
+        },
+        {
+          label: "Group Four",
+          value: 196.4
+        },
+        {
+          label: "Group Five",
+          value: 0.1
+        },
+        {
+          label: "Group Six",
+          value: 98.0
+        },
+        {
+          label: "Group Seven",
+          value: 13.9
+        },
+        {
+          label: "Group Eight",
+          value: 5.1
+        }
+      ],
+      options: {
+        type: "pieChart",
+        height: 300,
+        donut: true,
+        color: [
+          "#800080",
+          "#FFA500",
+          "#DC2A2A",
+          "#00ACED",
+          "#CE1312",
+          "#008000",
+          "#b77703",
+          "#101010"
+        ]
+      },
+      metadata: {
+        credit: "To create your own chart, view this site on a larger screen."
+      }
+    }
+  }
   if (!document.getElementById('simplechart-widget-js')) {
     var scriptEl = document.createElement('script');
     scriptEl.id = 'simplechart-widget-js';
