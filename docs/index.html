@@ -22,7 +22,7 @@ permalink: /
       {% capture intro-copy %}{% include intro.md %}{% endcapture %}
       {{ intro-copy | markdownify }}
 
-      <a data-scroll href="#demo-build" class="button">Try it</a>
+      <a data-scroll href="#app-frame" class="button">Try it</a>
 
       <h4>Features</h4>
       <div class="features-table">
@@ -46,6 +46,7 @@ permalink: /
   </section>
 
   <section id="demo-build">
+    <h3>Try the editor</h3>
     <iframe id="app-frame" src=""></iframe>
     <script>
       // Only show on larger screens
@@ -64,6 +65,7 @@ permalink: /
     <div class="section-content">
       <h3>View sample embed</h3>
       {% include embed.html %}
+      <a data-scroll href="#app-frame" class="button secondary">Back to editor</a>
     </div>
   </section>
 
