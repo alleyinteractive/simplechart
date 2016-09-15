@@ -67,7 +67,10 @@ function renderWidget(el) {
   if (chartContainer.length) {
     ReactDOM.render(
       <Provider store={store}>
-        <Widget widget={el.id} />
+        <Widget
+          widget={el.id}
+          placeholder={el.getAttribute('data-placeholder') || ''}
+        />
       </Provider>,
       chartContainer[0]
     );
