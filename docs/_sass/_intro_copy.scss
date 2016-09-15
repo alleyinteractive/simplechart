@@ -1,0 +1,25 @@
+#intro-copy {
+  padding: 51px 15px;
+  background: url("../images/texture.png");
+  color: #FFF;
+
+  @media (max-width: 600px) {
+    h2 {
+      font-size: 1.8em;
+    }
+  }
+
+  .button {
+    margin-top: $vert_spacing;
+    margin-bottom: $vert_spacing;
+  }
+
+  .features-table, p {
+    a {
+      color: white;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}

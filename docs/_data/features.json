@@ -1,0 +1,26 @@
+[
+  {
+    "subhead": "Control your own data",
+    "content": "Relying on an external service to host your charts and data can be...unreliable. With Simplechart, it's all under your control."
+  },
+  {
+    "subhead": "Customizable defaults",
+    "content": "Pre-configuring a custom color palette and other options can improve your team's workflow and maintain visual consistency."
+  },
+  {
+    "subhead": "Not just for WordPress",
+    "content": "Simplechart has a <a href=\"https://github.com/alleyinteractive/wordpress-simplechart/\" target=\"_blank\">WordPress plugin</a> ready to activate, but it's designed for integration with _any_ CMS."
+  },
+  {
+    "subhead": "Charts as media",
+    "content": "Simplechart data is stored locally, so it's easy to embed a chart just like you would an image."
+  },
+  {
+    "subhead": "Built for today and beyond",
+    "content": "Simplechart uses up-to-date JavaScript technologies like ES2015, React, and Webpack."
+  },
+  {
+    "subhead": "Free and open-source",
+    "content": "Use Simplechart however you want and contribute back if you like it!"
+  }
+]

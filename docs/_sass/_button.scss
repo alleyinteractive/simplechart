@@ -1,0 +1,26 @@
+.button {
+  display: block;
+  margin: $vert_spacing auto 0 auto;
+  text-align: center;
+  background-color: #88bfae;
+  text-transform: uppercase;
+  color: #FFF;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: 3px;
+  text-decoration: none;
+  -webkit-transition: background-color .2s linear;
+  -moz-transition: background-color .2s linear;
+  transition: background-color .2s linear;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #c8c8c8;
+    color: #FFF;
+  }
+
+  &.secondary {
+    font-size: .8em;
+    display: inline;
+  }
+}

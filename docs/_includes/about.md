@@ -1,0 +1,1 @@
+Simplechart is a project of [Alley Interactive](https://www.alleyinteractive.com). We are strategists, researchers, designers, and developers who create digital solutions for large-scale digital publishers including news organizations and non-profit institutions.

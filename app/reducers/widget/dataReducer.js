@@ -31,6 +31,9 @@ export default function dataReducer(state = {}, action) {
 
     case RECEIVE_WIDGET_DATA: {
       return update(state, { $apply: (updated) => {
+        if (!updated[action.data.widget]) {
+          updated[action.data.widget] = {}; // eslint-disable-line no-param-reassign
+        }
         updated[action.data.widget].data = action.data.data; // eslint-disable-line no-param-reassign
         return updated;
       } });
@@ -45,6 +48,9 @@ export default function dataReducer(state = {}, action) {
         key = 'metadata';
       }
       return update(state, { $apply: (updated) => {
+        if (!updated[action.data.widget]) {
+          updated[action.data.widget] = {}; // eslint-disable-line no-param-reassign
+        }
         updated[action.data.widget][key] = update( // eslint-disable-line no-param-reassign
           updated[action.data.widget][key], { $merge: action.data.data });
         return updated;

@@ -1,0 +1,96 @@
+---
+permalink: /
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ site.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link type="text/css" rel="stylesheet" href="lib/css/screen.css" />
+  <link type="text/css" rel="stylesheet" href="lib/css/main.css" />
+</head>
+<body>
+  <header>
+    {% include logo.svg %}
+  </header>
+
+  <section id="intro-copy">
+    <div class="section-content body-copy">
+      {% capture intro-copy %}{% include intro.md %}{% endcapture %}
+      {{ intro-copy | markdownify }}
+
+      <a data-scroll href="#app-frame" class="button">Try it</a>
+
+      <h4>Features</h4>
+      <div class="features-table">
+
+        {% for feature in site.data.features %}
+          <div class="row">
+            <span class="feature-name">{{ feature.subhead | markdownify }}</span>
+            <div class="feature-text"><p>{{ feature.content | markdownify }}</p></div>
+          </div>
+        {% endfor %}
+
+      </div>
+      <a
+        href="https://github.com/alleyinteractive/simplechart"
+        class="button"
+        target="_blank"
+      >
+        View Source Code
+      </a>
+    </div>
+  </section>
+
+  <section id="demo-build">
+    <h3>Try the editor</h3>
+    <iframe id="app-frame" src=""></iframe>
+    <script>
+      // Only show on larger screens
+      if (window.innerWidth >= 1000) {
+        document.getElementById('app-frame').style.height = window.innerHeight + 'px';
+        document.getElementById('app-frame').src = window.location.search === '?localhost' ?
+          'http://localhost:8080' : 'app.html';
+      } else {
+        document.getElementById('demo-build').style.display = 'none';
+      }
+    </script>
+    <script async src="lib/js/embedHandler.js"></script>
+  </section>
+
+  <section id="demo-embed">
+    <div class="section-content">
+      <h3>View sample embed</h3>
+      {% include embed.html %}
+      <a data-scroll href="#app-frame" class="button secondary">Back to editor</a>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-content body-copy">
+      <h3>About</h3>
+
+      {% capture about-copy %}{% include about.md %}{% endcapture %}
+      {{ about-copy | markdownify }}
+
+      <p class="github-links">
+        <span class="github-logo"></span>
+        <a href="https://github.com/alleyinteractive" target="_blank">Alley Interactive</a>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <p class="credits">&copy; {{ site.time | date: "%Y" }} Alley Interactive</p>
+  </footer>
+  <script src="lib/js/smooth-scroll.min.js"></script>
+  <script>
+    smoothScroll.init({
+      speed: 1000
+    });
+  </script>
+</body>
+</html>
