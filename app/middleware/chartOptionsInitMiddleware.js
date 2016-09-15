@@ -1,4 +1,7 @@
-import { RECEIVE_CHART_OPTIONS_INIT } from '../constants';
+import {
+  RECEIVE_CHART_OPTIONS,
+  RECEIVE_CHART_OPTIONS_INIT,
+} from '../constants';
 import { defaultPalette } from '../constants/defaultPalette';
 import actionTrigger from '../actions';
 
@@ -13,7 +16,7 @@ export default function middleware() {
     if (!result.data.color) {
       result.data.color = defaultPalette;
       next(actionTrigger(
-        RECEIVE_CHART_OPTIONS_INIT,
+        RECEIVE_CHART_OPTIONS,
         result.data
       ));
     }
