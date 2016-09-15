@@ -1,3 +1,7 @@
+/**
+ * Multi-series data (e.g. line charts) need to have a color associated with each series
+ * This middleware maps the array of colors in chart.options.color to the series in the chart.data array
+ */
 import {
   RECEIVE_CHART_DATA,
   RECEIVE_CHART_DATA_INIT,
