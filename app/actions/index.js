@@ -10,6 +10,12 @@ import {
 } from '../constants';
 import { receiveMessage, setupPostMessage } from '../utils/postMessage';
 
+/**
+ * For IE11 support
+ */
+import fetch from 'isomorphic-fetch';
+import { polyfill } from 'es6-promise'; polyfill();
+
 export default function actionTrigger(type, data, src = '') {
   return { type, data, src };
 }
