@@ -23,7 +23,7 @@ permalink: /
       {% capture intro-copy %}{% include intro.md %}{% endcapture %}
       {{ intro-copy | markdownify }}
 
-      <a data-scroll href="#app-frame" class="button">Try it</a>
+      <a data-scroll href="#app-frame" class="button hide-small">Try it</a>
 
       <h4>Features</h4>
       <div class="features-table">
@@ -46,12 +46,12 @@ permalink: /
     </div>
   </section>
 
-  <section id="demo-build">
+  <section id="demo-build" class="hide-small">
     <h3>Try the editor</h3>
     <iframe id="app-frame" src=""></iframe>
     <script>
       // Only show on larger screens
-      if (window.innerWidth >= 1000) {
+      if (window.innerWidth >= 900) {
         document.getElementById('app-frame').style.height = window.innerHeight + 'px';
         document.getElementById('app-frame').src = window.location.search === '?localhost' ?
           'http://localhost:8080' : 'app.html';
@@ -64,9 +64,9 @@ permalink: /
 
   <section id="demo-embed">
     <div class="section-content">
-      <h3>View sample embed</h3>
+      <h3>Sample embed</h3>
       {% include embed.html %}
-      <a data-scroll href="#app-frame" class="button secondary">Back to editor</a>
+      <a data-scroll href="#app-frame" class="button secondary hide-small">Back to editor</a>
     </div>
   </section>
 
