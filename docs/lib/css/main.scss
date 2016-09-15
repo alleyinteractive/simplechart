@@ -15,3 +15,9 @@
 .center {
   text-align: center;
 }
+
+.hide-small {
+	@media (max-width: $breakpoint) {
+		display: none !important;
+	}
+}

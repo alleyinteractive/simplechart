@@ -9,6 +9,10 @@
     }
   }
 
+  @media (max-width: $breakpoint) {
+    margin-bottom: 0;
+  }
+
   .button {
     margin-top: $vert_spacing;
     margin-bottom: $vert_spacing;
