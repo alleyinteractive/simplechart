@@ -9,7 +9,7 @@
   },
   {
     "subhead": "Not just for WordPress",
-    "content": "Simplechart has a <a href=\"https://github.com/alleyinteractive/wordpress-simplechart/\" target=\"_blank\">WordPress plugin</a> ready to activate, but it's designed for integration with _any_ CMS."
+    "content": "Simplechart has a [WordPress plugin](https://github.com/alleyinteractive/wordpress-simplechart) ready to activate, but it's designed for integration with _any_ CMS."
   },
   {
     "subhead": "Charts as media",
@@ -17,7 +17,7 @@
   },
   {
     "subhead": "Built for today and beyond",
-    "content": "Simplechart uses up-to-date JavaScript technologies like ES2015, React, and Webpack."
+    "content": "Simplechart is **AMP-ready** and uses up-to-date JavaScript tools like ES2015, React, and Webpack."
   },
   {
     "subhead": "Free and open-source",
