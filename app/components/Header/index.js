@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { Fixed, Button, SequenceMap } from 'rebass';
-import logoSvg from '!!raw!../../../img/simplechartLogo.svg';
-import * as styles from './ProgressHeader.css';
-import { appSteps } from '../../../constants/appSteps';
+import logoSvg from '!!raw!../../img/simplechartLogo.svg';
+import * as styles from './Header.css';
+import { appSteps } from '../../constants/appSteps';
 import { connect } from 'react-redux';
-import actionTrigger from '../../../actions';
-import { UPDATE_CURRENT_STEP } from '../../../constants';
-import SaveChart from '../../SaveChart';
-import { sendMessage } from '../../../utils/postMessage';
-import ErrorMessage from '../RebassComponents/ErrorMessage';
+import actionTrigger from '../../actions';
+import { UPDATE_CURRENT_STEP } from '../../constants';
+import SaveChart from '../SaveChart';
+import { sendMessage } from '../../utils/postMessage';
+import ErrorMessage from '../Layout/RebassComponents/ErrorMessage';
 
-class ProgressHeader extends Component {
+class Header extends Component {
 
   constructor() {
     super();
@@ -121,11 +121,11 @@ class ProgressHeader extends Component {
   }
 }
 
-ProgressHeader.propTypes = {
+Header.propTypes = {
   saveData: React.PropTypes.object,
   currentStep: React.PropTypes.number,
   dispatch: React.PropTypes.func,
   unsavedChanges: React.PropTypes.bool,
 };
 
-export default connect()(ProgressHeader);
+export default connect()(Header);

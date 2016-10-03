@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import DataInput from './DataInput';
 import update from 'react-addons-update';
 import ChartBuilder from './ChartBuilder';
-import ProgressHeader from './Layout/ProgressHeader';
+import Header from './Header';
 import ErrorMessage from '../utils/ErrorMessage';
 import * as rebassHover from '../styles/RebassHover.css'; // eslint-disable-line no-unused-vars
 import { appSteps } from '../constants/appSteps';
@@ -56,7 +56,7 @@ class App extends Component {
     return (
       // set height 100% so child divs inherit it
       <div style={{ height: '100%' }}>
-        <ProgressHeader
+        <Header
           saveData={this._getSaveData()}
           currentStep={this.props.state.currentStep}
           unsavedChanges={this.props.state.unsavedChanges}
