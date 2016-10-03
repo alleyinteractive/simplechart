@@ -10,6 +10,13 @@
 .sequenceContainer {
   flex-grow: 99;
   margin: 0 20px;
+
+  a:hover {
+    cursor: pointer;
+    div:last-of-type {
+      color: rgb(17, 204, 119);
+    }
+  }
 }
 
 /**

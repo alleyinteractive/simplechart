@@ -14,7 +14,7 @@ class Header extends Component {
 
   constructor() {
     super();
-    this._sequenceMap = this._sequenceMap.bind(this);
+    this._sequenceSteps = this._sequenceSteps.bind(this);
     this._cancelEdits = this._cancelEdits.bind(this);
     this._renderUnsavedWarning = this._renderUnsavedWarning.bind(this);
   }
@@ -41,19 +41,11 @@ class Header extends Component {
     ));
   }
 
-  _sequenceMap() {
-    const mapSteps = appSteps.map((label, i) => ({
+  _sequenceSteps() {
+    return appSteps.map((label, i) => ({
       children: label,
-      href: `#step-${i}`,
       onClick: this._updateCurrentStep.bind(this, i),
     }));
-
-    return (
-      <SequenceMap
-        active={this.state.currentStep}
-        steps={mapSteps}
-      />
-    );
   }
 
   _cancelEdits() {
@@ -97,7 +89,10 @@ class Header extends Component {
           />
 
           <div className={styles.sequenceContainer}>
-            {this._sequenceMap()}
+            <SequenceMap
+              active={this.state.currentStep}
+              steps={this._sequenceSteps()}
+            />
           </div>
 
           <div className={styles.actionsContainer}>
