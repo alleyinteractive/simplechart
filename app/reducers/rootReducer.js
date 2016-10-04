@@ -6,6 +6,7 @@
 import { combineReducers } from 'redux';
 import baseReducer from './baseReducer';
 import chartOptionsReducer from './chartOptionsReducer';
+import errorReducer from './errorReducer';
 import * as actions from '../constants';
 
 export default combineReducers({
@@ -15,14 +16,14 @@ export default combineReducers({
   chartMetadata: (state, action) =>
     baseReducer(state, action, {},
       [actions.RECEIVE_CHART_METADATA, actions.RECEIVE_CHART_METADATA_INIT]),
-  chartOptions:
-    chartOptionsReducer,
+  chartOptions: chartOptionsReducer,
   currentStep: (state, action) =>
     baseReducer(state, action, 0, [actions.UPDATE_CURRENT_STEP]),
   dataFields: (state, action) =>
     baseReducer(state, action, [], [actions.PARSE_DATA_FIELDS]),
   dataStatus: (state, action) =>
     baseReducer(state, action, {}, [actions.PARSE_DATA_STATUS]),
+  error: errorReducer,
   parsedData: (state, action) =>
     baseReducer(state, action, [], [actions.PARSE_RAW_DATA]),
   rawData: (state, action) =>

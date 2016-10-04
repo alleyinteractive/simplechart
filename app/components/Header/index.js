@@ -8,7 +8,7 @@ import actionTrigger from '../../actions';
 import { UPDATE_CURRENT_STEP } from '../../constants';
 import SaveChart from '../SaveChart';
 import { sendMessage } from '../../utils/postMessage';
-import ErrorMessage from '../Layout/RebassComponents/ErrorMessage';
+import ErrorMessage from './ErrorMessage';
 
 class Header extends Component {
 

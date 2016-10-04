@@ -5,6 +5,8 @@ import {
   PARSE_DATA_STATUS,
   PARSE_DATA_FIELDS,
   TRANSFORM_DATA,
+  RECEIVE_ERROR,
+  CLEAR_ERROR,
 } from '../constants';
 import actionTrigger from '../actions';
 import Papa from '../vendor/papaparse.4.1.2';
@@ -44,11 +46,13 @@ export default function rawDataMiddleware() {
           status: 'error',
           message: parsedData[2].join('; '),
         };
+        next(actionTrigger(RECEIVE_ERROR, 'e001'));
       } else {
         statusObj = {
           status: 'success',
           message: 'Data input successful',
         };
+        next(actionTrigger(CLEAR_ERROR));
       }
       next(actionTrigger(
         PARSE_DATA_STATUS,

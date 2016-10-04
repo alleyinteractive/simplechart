@@ -6,6 +6,12 @@ export const UPDATE_CURRENT_STEP = 'UPDATE_CURRENT_STEP';
 export const UNSAVED_CHANGES = 'UNSAVED_CHANGES';
 
 /**
+ * Errors
+ */
+export const RECEIVE_ERROR = 'RECEIVE_ERROR';
+export const CLEAR_ERROR = 'CLEAR_ERROR';
+
+/**
  * Widget actions
  */
 export const RECEIVE_WIDGET = 'RECEIVE_WIDGET';
