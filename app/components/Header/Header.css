@@ -29,7 +29,7 @@
   top: -9.9px;
 }
 
-.unsavedWarning {
+.errorMessage {
   :global(a) {
     color: white;
     margin: 0 5px;

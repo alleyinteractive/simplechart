@@ -108,8 +108,8 @@ class Header extends Component {
             >Exit</Button>
           </div>
         </div>
-        <div className={styles.unsavedWarning}>
-          {this._renderUnsavedWarning()}
+        <div className={styles.errorMessage}>
+          <ErrorMessage code={this.props.errorCode} />
         </div>
       </Fixed>
     );
@@ -121,6 +121,7 @@ Header.propTypes = {
   currentStep: React.PropTypes.number,
   dispatch: React.PropTypes.func,
   unsavedChanges: React.PropTypes.bool,
+  errorCode: React.PropTypes.string,
 };
 
 export default connect()(Header);

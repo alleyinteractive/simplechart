@@ -3,9 +3,9 @@
  */
 
 const map = {
-  e001: 'Error 001',
-}
+  e001: 'Data formatting error; see below for details.',
+};
 
 export default function(code) {
-  return map[code] || 'Unknown error';
+  return map[code] || 'Unknown error.';
 }

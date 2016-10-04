@@ -60,6 +60,7 @@ class App extends Component {
           saveData={this._getSaveData()}
           currentStep={this.props.state.currentStep}
           unsavedChanges={this.props.state.unsavedChanges}
+          errorCode={this.props.state.errorCode}
         />
         {this._renderAppComponent()}
       </div>

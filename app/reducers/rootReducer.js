@@ -23,7 +23,7 @@ export default combineReducers({
     baseReducer(state, action, [], [actions.PARSE_DATA_FIELDS]),
   dataStatus: (state, action) =>
     baseReducer(state, action, {}, [actions.PARSE_DATA_STATUS]),
-  error: errorReducer,
+  errorCode: errorReducer,
   parsedData: (state, action) =>
     baseReducer(state, action, [], [actions.PARSE_RAW_DATA]),
   rawData: (state, action) =>
