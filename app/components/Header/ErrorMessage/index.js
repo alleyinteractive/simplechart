@@ -15,10 +15,10 @@ export default class ErrorMessage extends Component {
       rounded: true,
       theme: 'error',
       className: styles.ErrorMessage,
+      dangerouslySetInnerHTML: getErrorMessage(this.props.code),
     }, { $merge: this.props.override || {} });
 
-    return React.createElement(Message, props,
-      getErrorMessage(this.props.code));
+    return React.createElement(Message, props);
   }
 }
 
