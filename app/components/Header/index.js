@@ -108,9 +108,7 @@ class Header extends Component {
             >Exit</Button>
           </div>
         </div>
-        <div className={styles.errorMessage}>
-          <ErrorMessage code={this.props.errorCode} />
-        </div>
+        <ErrorMessage code={this.props.errorCode} />
       </Fixed>
     );
   }

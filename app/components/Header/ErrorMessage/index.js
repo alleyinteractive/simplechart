@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Message } from 'rebass';
 import update from 'react-addons-update';
-import styles from './ErrorMessage.css';
+import * as errorMessageStyles from './ErrorMessage.css';  // eslint-disable-line no-unused-vars
 import getErrorMessage from '../../../constants/errorCode';
 
 export default class ErrorMessage extends Component {
@@ -14,7 +14,6 @@ export default class ErrorMessage extends Component {
       inverted: true,
       rounded: true,
       theme: 'error',
-      className: styles.ErrorMessage,
       dangerouslySetInnerHTML: getErrorMessage(this.props.code),
     }, { $merge: this.props.override || {} });
 

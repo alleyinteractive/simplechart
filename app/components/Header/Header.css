@@ -28,13 +28,3 @@
   left: -3.4px;
   top: -9.9px;
 }
-
-.errorMessage {
-  :global(a) {
-    color: white;
-    margin: 0 5px;
-    &:hover, &:focus {
-      text-decoration: none;
-    }
-  }
-}
