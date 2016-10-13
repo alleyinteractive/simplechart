@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Chart from '../Chart/';
 import ChartTypeSelector from '../ChartTypeSelector/';
 import ChartDataFormatter from '../ChartDataFormatter';
@@ -12,7 +11,7 @@ import { Heading } from 'rebass';
 import { appSteps } from '../../constants/appSteps';
 import * as styles from './ChartEditor.css';
 
-class ChartEditor extends AppComponent {
+export default class ChartEditor extends AppComponent {
 
   _renderSubcomponent(step) {
     let subcomponent;
@@ -94,8 +93,4 @@ class ChartEditor extends AppComponent {
 
 ChartEditor.propTypes = {
   state: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
 };
-
-// Redux connection
-export default connect()(ChartEditor);
