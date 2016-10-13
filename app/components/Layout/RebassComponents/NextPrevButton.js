@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Rebass from 'rebass';
+import { Button } from 'rebass';
 import { UPDATE_CURRENT_STEP } from '../../../constants';
 import actionTrigger from '../../../actions';
 import { connect } from 'react-redux';
@@ -26,11 +26,11 @@ class NextPrevButton extends Component {
 
   render() {
     return (
-      <Rebass.Button
+      <Button
         theme="primary"
         big
         onClick={this.changeStep}
-      >{this.props.copy}</Rebass.Button>
+      >{this.props.copy}</Button>
     );
   }
 }
