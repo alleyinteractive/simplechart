@@ -2,7 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AppComponent from '../Layout/AppComponent';
 import * as styles from './DataInput.css';
-import { RECEIVE_RAW_DATA } from '../../constants';
+import {
+  RECEIVE_RAW_DATA,
+  RECEIVE_ERROR,
+  CLEAR_ERROR,
+} from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
 import { Heading, Select, Button, Text } from 'rebass';
@@ -17,6 +21,7 @@ class DataInput extends AppComponent {
     this._submitData = this._submitData.bind(this);
     this._loadSampleData = this._loadSampleData.bind(this);
     this._setSampleDataSet = this._setSampleDataSet.bind(this);
+    this._beforeNextStep = this._beforeNextStep.bind(this);
 
     this.state = {
       rawData: '',
@@ -65,6 +70,25 @@ class DataInput extends AppComponent {
     this.setState({
       sampleDataSet: evt.target.value,
     });
+  }
+
+  _beforeNextStep() {
+    // Check for empty data field
+    // Errors w/ invalid data would have already surfaced in rawDataMiddleware
+    /**
+     * @todo Move this check so that this function only returns whether we can proceed
+     * Checking inside _submitData() allowed "field is empty" error on all blur events
+     * But we only want to allow it when you're trying to move to the next step
+     */
+    if (!this.props.rawData.length) {
+      this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e002'));
+    } else {
+      this.props.dispatch(actionTrigger(CLEAR_ERROR));
+    }
+
+    // return value indicates if we can proceed to next step
+    return this.props.dataStatus.status &&
+      this.props.dataStatus.status === 'success';
   }
 
   render() {
@@ -128,6 +152,7 @@ class DataInput extends AppComponent {
               copy="Next"
               currentStep={0}
               dir="next"
+              allowIf={this._beforeNextStep}
             />
           </div>
         </div>
