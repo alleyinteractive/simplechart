@@ -10,9 +10,9 @@ import AppComponent from '../Layout/AppComponent';
 import ErrorMessage from '../../utils/ErrorMessage';
 import { Heading } from 'rebass';
 import { appSteps } from '../../constants/appSteps';
-import * as styles from './ChartBuilder.css';
+import * as styles from './ChartEditor.css';
 
-class ChartBuilder extends AppComponent {
+class ChartEditor extends AppComponent {
 
   _renderSubcomponent(step) {
     let subcomponent;
@@ -92,10 +92,10 @@ class ChartBuilder extends AppComponent {
   }
 }
 
-ChartBuilder.propTypes = {
+ChartEditor.propTypes = {
   state: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 };
 
 // Redux connection
-export default connect()(ChartBuilder);
+export default connect()(ChartEditor);
