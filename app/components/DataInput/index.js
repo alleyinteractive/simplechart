@@ -2,7 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AppComponent from '../Layout/AppComponent';
 import * as styles from './DataInput.css';
-import { RECEIVE_RAW_DATA } from '../../constants';
+import {
+  RECEIVE_RAW_DATA,
+  RECEIVE_ERROR,
+  CLEAR_ERROR,
+} from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
 import { Heading, Select, Button, Text } from 'rebass';
@@ -39,6 +43,14 @@ class DataInput extends AppComponent {
   }
 
   _submitData(data) {
+    // show error if field is empty
+    // checking for invalid data is handled in rawDataMiddleware
+    if (!data.length) {
+      this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e002'));
+    } else {
+      this.props.dispatch(actionTrigger(CLEAR_ERROR));
+    }
+
     // setState is async so we apply trim() twice
     this.setState({ rawData: data.trim() });
     this.props.dispatch(

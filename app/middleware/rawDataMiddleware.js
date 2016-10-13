@@ -15,6 +15,13 @@ import { dataTransformers } from '../constants/dataTransformers';
 export default function rawDataMiddleware() {
   return (next) => (action) => {
     const result = next(action);
+
+    /**
+     * @todo Figure out edge case when:
+     *  1. valid data sets status to success
+     *  2. value of text field changes to empty string
+     *  3. user clicks Next, which advances to next step instead of erroring
+     */
     if ((action.type === RECEIVE_RAW_DATA_INIT ||
       action.type === RECEIVE_RAW_DATA) &&
       action.data.length
