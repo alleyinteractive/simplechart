@@ -17,6 +17,7 @@ class DataInput extends AppComponent {
     this._submitData = this._submitData.bind(this);
     this._loadSampleData = this._loadSampleData.bind(this);
     this._setSampleDataSet = this._setSampleDataSet.bind(this);
+    this._dataIsValid = this._dataIsValid.bind(this);
 
     this.state = {
       rawData: '',
@@ -65,6 +66,11 @@ class DataInput extends AppComponent {
     this.setState({
       sampleDataSet: evt.target.value,
     });
+  }
+
+  _dataIsValid() {
+    return this.props.dataStatus.status &&
+      this.props.dataStatus.status === 'success';
   }
 
   render() {
@@ -128,6 +134,7 @@ class DataInput extends AppComponent {
               copy="Next"
               currentStep={0}
               dir="next"
+              allowIf={this._dataIsValid}
             />
           </div>
         </div>
