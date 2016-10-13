@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Rebass from 'rebass';
+import { Button } from 'rebass';
 import { UPDATE_CURRENT_STEP } from '../../../constants';
 import actionTrigger from '../../../actions';
 import { connect } from 'react-redux';
@@ -11,6 +11,11 @@ class NextPrevButton extends Component {
   }
 
   changeStep() {
+    // Reject if tester function returns false
+    if (typeof this.props.allowIf === 'function' && !this.props.allowIf()) {
+      return;
+    }
+
     const nextStep = this.props.dir !== 'prev' ?
       (this.props.currentStep + 1) : (this.props.currentStep - 1);
 
@@ -21,11 +26,11 @@ class NextPrevButton extends Component {
 
   render() {
     return (
-      <Rebass.Button
+      <Button
         theme="primary"
         big
         onClick={this.changeStep}
-      >{this.props.copy}</Rebass.Button>
+      >{this.props.copy}</Button>
     );
   }
 }
@@ -34,6 +39,7 @@ NextPrevButton.propTypes = {
   copy: React.PropTypes.string,
   currentStep: React.PropTypes.number,
   dir: React.PropTypes.string,
+  allowIf: React.PropTypes.func,
   dispatch: React.PropTypes.func,
 };
 

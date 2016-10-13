@@ -3,6 +3,7 @@
  */
 const map = {
   e001: 'Data formatting error; see below for details.',
+  e002: 'Data field is empty.',
 };
 
 /**
