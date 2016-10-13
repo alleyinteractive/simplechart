@@ -6,7 +6,6 @@ import ChartMetadata from '../ChartMetadata/';
 import PalettePicker from '../PalettePicker/';
 import ChartOptions from '../ChartOptions/';
 import AppComponent from '../Layout/AppComponent';
-import ErrorMessage from '../../utils/ErrorMessage';
 import { Heading } from 'rebass';
 import { appSteps } from '../../constants/appSteps';
 import * as styles from './ChartEditor.css';
@@ -17,6 +16,7 @@ export default class ChartEditor extends AppComponent {
     let subcomponent;
     switch (step) {
       case 1:
+      default:
         subcomponent = React.createElement(ChartTypeSelector, {
           transformedData: this.props.state.transformedData,
           fields: this.props.state.dataFields,
@@ -51,9 +51,6 @@ export default class ChartEditor extends AppComponent {
           chart: this.refs.chartComponent,
         });
         break;
-
-      default:
-        subcomponent = new ErrorMessage();
     }
     return subcomponent;
   }
