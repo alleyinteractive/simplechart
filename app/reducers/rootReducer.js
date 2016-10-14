@@ -17,6 +17,8 @@ export default combineReducers({
     baseReducer(state, action, {},
       [actions.RECEIVE_CHART_METADATA, actions.RECEIVE_CHART_METADATA_INIT]),
   chartOptions: chartOptionsReducer,
+  chartType: (state, action) =>
+    baseReducer(state, action, {}, [actions.SELECT_CHART_TYPE]),
   currentStep: (state, action) =>
     baseReducer(state, action, 0, [actions.UPDATE_CURRENT_STEP]),
   dataFields: (state, action) =>
