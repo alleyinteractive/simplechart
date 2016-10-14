@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Chart from '../Chart/';
 import ChartTypeSelector from '../ChartTypeSelector/';
 import ChartDataFormatter from '../ChartDataFormatter';
@@ -7,17 +6,17 @@ import ChartMetadata from '../ChartMetadata/';
 import PalettePicker from '../PalettePicker/';
 import ChartOptions from '../ChartOptions/';
 import AppComponent from '../Layout/AppComponent';
-import ErrorMessage from '../../utils/ErrorMessage';
 import { Heading } from 'rebass';
 import { appSteps } from '../../constants/appSteps';
-import * as styles from './ChartBuilder.css';
+import * as styles from './ChartEditor.css';
 
-class ChartBuilder extends AppComponent {
+export default class ChartEditor extends AppComponent {
 
   _renderSubcomponent(step) {
     let subcomponent;
     switch (step) {
       case 1:
+      default:
         subcomponent = React.createElement(ChartTypeSelector, {
           transformedData: this.props.state.transformedData,
           fields: this.props.state.dataFields,
@@ -52,11 +51,32 @@ class ChartBuilder extends AppComponent {
           chart: this.refs.chartComponent,
         });
         break;
-
-      default:
-        subcomponent = new ErrorMessage();
     }
     return subcomponent;
+  }
+
+  /**
+   * Once a chart type has been selected, we can begin showing the chart
+   */
+  _displayChart(state) {
+    if (!state.chartOptions.type) {
+      return null;
+    }
+    return (
+      <div className={styles.chartContainer}>
+        <h3>{state.chartMetadata.title}</h3>
+        <Chart
+          data={state.chartData}
+          options={state.chartOptions}
+          widget={false}
+          ref="chartComponent"
+        />
+        <p>{state.chartMetadata.caption}</p>
+        <p className={styles.credit}>
+          {state.chartMetadata.credit}
+        </p>
+      </div>
+    );
   }
 
   render() {
@@ -67,35 +87,13 @@ class ChartBuilder extends AppComponent {
           <div className={styles.subcomponentContainer}>
             {this._renderSubcomponent(this.props.state.currentStep)}
           </div>
-          <div className={styles.chartContainer}>
-            {this.props.state.chartOptions.type ?
-              (<h3>{this.props.state.chartMetadata.title}</h3>) : ''
-            }
-            <Chart
-              data={this.props.state.chartData}
-              options={this.props.state.chartOptions}
-              widget={false}
-              ref="chartComponent"
-            />
-            {this.props.state.chartOptions.type ?
-              (<p>{this.props.state.chartMetadata.caption}</p>) : ''
-            }
-            {this.props.state.chartOptions.type ?
-              (<p className={styles.credit}>
-                {this.props.state.chartMetadata.credit}
-              </p>) : ''
-            }
-          </div>
+          {this._displayChart(this.props.state)}
         </div>
       </div>
     );
   }
 }
 
-ChartBuilder.propTypes = {
+ChartEditor.propTypes = {
   state: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
 };
-
-// Redux connection
-export default connect()(ChartBuilder);
