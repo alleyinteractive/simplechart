@@ -14,59 +14,52 @@ import { dataTransformers } from '../constants/dataTransformers';
 
 export default function rawDataMiddleware() {
   return (next) => (action) => {
-    const result = next(action);
-
-    /**
-     * @todo Figure out edge case when:
-     *  1. valid data sets status to success
-     *  2. value of text field changes to empty string
-     *  3. user clicks Next, which advances to next step instead of erroring
-     */
-    if ((action.type === RECEIVE_RAW_DATA_INIT ||
-      action.type === RECEIVE_RAW_DATA) &&
-      action.data.length
+    if ((action.type !== RECEIVE_RAW_DATA_INIT &&
+      action.type !== RECEIVE_RAW_DATA)
     ) {
-      const parsedData = _parseRawData(action.data);
-
-      // send parsed data to store
-      next(actionTrigger(
-        PARSE_RAW_DATA,
-        parsedData[0]
-      ));
-
-      // transform data for chart types and send to store
-      next(actionTrigger(
-        TRANSFORM_DATA,
-        _transformParsedData(parsedData[0], parsedData[1])
-      ));
-
-      // send data fields array to store
-      next(actionTrigger(
-        PARSE_DATA_FIELDS,
-        parsedData[1]
-      ));
-
-      // send parse status to store
-      let statusObj;
-      if (parsedData[2].length) {
-        statusObj = {
-          status: 'error',
-          message: parsedData[2].join('; '),
-        };
-        next(actionTrigger(RECEIVE_ERROR, 'e001'));
-      } else {
-        statusObj = {
-          status: 'success',
-          message: 'Data input successful',
-        };
-        next(actionTrigger(CLEAR_ERROR));
-      }
-      next(actionTrigger(
-        PARSE_DATA_STATUS,
-        statusObj
-      ));
+      return next(action);
     }
-    return result;
+
+    const parsedData = _parseRawData(action.data);
+
+    // send parsed data to store
+    next(actionTrigger(
+      PARSE_RAW_DATA,
+      parsedData[0]
+    ));
+
+    // transform data for chart types and send to store
+    next(actionTrigger(
+      TRANSFORM_DATA,
+      _transformParsedData(parsedData[0], parsedData[1])
+    ));
+
+    // send data fields array to store
+    next(actionTrigger(
+      PARSE_DATA_FIELDS,
+      parsedData[1]
+    ));
+
+    // send parse status to store
+    let statusObj;
+    if (parsedData[2].length) {
+      statusObj = {
+        status: 'error',
+        message: parsedData[2].join('; '),
+      };
+      next(actionTrigger(RECEIVE_ERROR, 'e001'));
+    } else {
+      statusObj = {
+        status: 'success',
+        message: 'Data input successful',
+      };
+      next(actionTrigger(CLEAR_ERROR));
+    }
+    next(actionTrigger(
+      PARSE_DATA_STATUS,
+      statusObj
+    ));
+    return next(action);
   };
 }
 
