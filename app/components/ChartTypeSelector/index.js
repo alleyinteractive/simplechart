@@ -11,6 +11,7 @@ import * as styles from './ChartTypeSelector.css';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 import { dataIsMultiSeries } from '../../utils/misc';
 import { multiXY, singleXY } from '../../constants/chartXYFuncs';
+import chartTypes from '../../constants/chartTypes';
 
 class ChartTypeSelector extends Component {
 
@@ -58,17 +59,17 @@ class ChartTypeSelector extends Component {
    * The idea is to enable chart types where data is compatible
    * and disable chart types where data is incompatible
    */
-  _renderTypeOption(type) {
-    const disabled = !this.props.transformedData[type];
+  _renderTypeOption(typeObj) {
+    const disabled = !this.props.transformedData[typeObj.dataFormat];
     return React.createElement(Radio, {
-      key: type,
+      key: typeObj.type,
       circle: true,
-      label: type,
+      label: typeObj.label,
       name: 'chartTypeSelect',
-      value: type,
+      value: typeObj.type,
       backgroundColor: !disabled ? 'primary' : 'secondary',
       disabled,
-      checked: (type === this.props.type),
+      checked: (typeObj.type === this.props.type),
       onChange: (evt) => this._selectChartType(evt.target.value),
     });
   }
@@ -77,7 +78,7 @@ class ChartTypeSelector extends Component {
     return (
       <div>
         <ul className={styles.list}>
-          {Object.keys(this.props.transformedData).map((type) =>
+          {chartTypes.map((type) =>
             this._renderTypeOption(type)
           )}
         </ul>
