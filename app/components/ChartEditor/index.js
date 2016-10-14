@@ -55,6 +55,30 @@ export default class ChartEditor extends AppComponent {
     return subcomponent;
   }
 
+  /**
+   * Once a chart type has been selected, we can begin showing the chart
+   */
+  _displayChart(state) {
+    if (!state.chartOptions.type) {
+      return null;
+    }
+    return (
+      <div className={styles.chartContainer}>
+        <h3>{state.chartMetadata.title}</h3>
+        <Chart
+          data={state.chartData}
+          options={state.chartOptions}
+          widget={false}
+          ref="chartComponent"
+        />
+        <p>{state.chartMetadata.caption}</p>
+        <p className={styles.credit}>
+          {state.chartMetadata.credit}
+        </p>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className={this.parentStyles.appComponent}>
@@ -63,25 +87,7 @@ export default class ChartEditor extends AppComponent {
           <div className={styles.subcomponentContainer}>
             {this._renderSubcomponent(this.props.state.currentStep)}
           </div>
-          <div className={styles.chartContainer}>
-            {this.props.state.chartOptions.type ?
-              (<h3>{this.props.state.chartMetadata.title}</h3>) : ''
-            }
-            <Chart
-              data={this.props.state.chartData}
-              options={this.props.state.chartOptions}
-              widget={false}
-              ref="chartComponent"
-            />
-            {this.props.state.chartOptions.type ?
-              (<p>{this.props.state.chartMetadata.caption}</p>) : ''
-            }
-            {this.props.state.chartOptions.type ?
-              (<p className={styles.credit}>
-                {this.props.state.chartMetadata.credit}
-              </p>) : ''
-            }
-          </div>
+          {this._displayChart(this.props.state)}
         </div>
       </div>
     );
