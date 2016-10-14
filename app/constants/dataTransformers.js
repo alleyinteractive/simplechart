@@ -1,10 +1,7 @@
-import labelValue from '../utils/labelValueTransformer';
-import series from '../utils/seriesTransformer';
+import nvd3SingleSeries from '../utils/dataFormats/nvd3SingleSeries';
+import nvd3MultiSeries from '../utils/dataFormats/nvd3MultiSeries';
 
 export const dataTransformers = {
-  pieChart: labelValue,
-  discreteBarChart: labelValue,
-  lineChart: series,
-  // Removing until bugs are fixed
-  // stackedAreaChart: series,
+  nvd3SingleSeries,
+  nvd3MultiSeries,
 };
