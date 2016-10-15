@@ -49,7 +49,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'static'),
     publicPath: '/static/',
-    filename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[name].js' : '[name].[githash].js'
+    filename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[name].js' : '[name].[githash].js',
+    chunkFilename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js'
   },
   plugins: plugins,
   postcss: function(webpack) {
