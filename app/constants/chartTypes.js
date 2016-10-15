@@ -8,19 +8,24 @@ export const selectableChartTypes = [
     type: 'pieChart',
     label: 'Pie Chart',
     dataFormat: 'nvd3SingleSeries',
+    componentName: 'PieChart',
     defaultOpts: {
       donut: true,
+      showLegend: false,
+      showLabels: false,
     },
   },
   {
     type: 'discreteBarChart',
     label: 'Bar Chart',
     dataFormat: 'nvd3SingleSeries',
+    componentName: 'DiscreteBarChart',
   },
   {
     type: 'lineChart',
     label: 'Line Chart',
     dataFormat: 'nvd3MultiSeries',
+    componentName: 'LineChart',
   },
 ];
 
@@ -28,10 +33,12 @@ const nvd3Defaults = {
   nvd3SingleSeries: {
     x: (d) => d.label,
     y: (d) => d.value,
+    height: 400,
   },
   nvd3MultiSeries: {
     x: (d) => d.x,
     y: (d) => d.y,
+    height: 400,
   },
 };
 
