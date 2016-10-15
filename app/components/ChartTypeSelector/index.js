@@ -5,7 +5,10 @@ import actionTrigger from '../../actions';
 import { Radio } from 'rebass';
 import * as styles from './ChartTypeSelector.css';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
-import chartTypes from '../../constants/chartTypes';
+import {
+  selectableChartTypes,
+  getChartTypeObject,
+} from '../../constants/chartTypes';
 
 class ChartTypeSelector extends Component {
 
@@ -22,17 +25,13 @@ class ChartTypeSelector extends Component {
   }
 
   _selectChartType(type) {
-    this.props.dispatch(actionTrigger(SELECT_CHART_TYPE,
-      this._getTypeObject(type)));
-  }
-
-  _getTypeObject(type) {
-    for (const typeObj of chartTypes) {
-      if (type === typeObj.type) {
-        return typeObj;
-      }
+    const typeObj = getChartTypeObject(type);
+    if (typeObj) {
+      // clear error
+      this.props.dispatch(actionTrigger(SELECT_CHART_TYPE, typeObj));
+    } else {
+      // error
     }
-    return {};
   }
 
   /**
@@ -58,7 +57,7 @@ class ChartTypeSelector extends Component {
     return (
       <div>
         <ul className={styles.list}>
-          {chartTypes.map((type) =>
+          {selectableChartTypes.map((type) =>
             this._renderTypeOption(type)
           )}
         </ul>
