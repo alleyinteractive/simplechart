@@ -15,6 +15,12 @@ export default function({ getState }) {
     }
 
     // use init options action if we don't already have a chart type
+    // If we do have a chart type already, note that chartOptions
+    // object is *not* cleared when chart type changes, e.g.
+    // if you select pieChart, then chartOptions.donut = true,
+    // then select discreteBarChart, you will still see
+    // chartOptions.donut === true even though donut is not a relevant
+    // option for bar charts
     const optsAction = getState().chartOptions.type &&
       getState().chartOptions.type.length ?
       RECEIVE_CHART_OPTIONS : RECEIVE_CHART_OPTIONS_INIT;
