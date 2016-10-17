@@ -105,15 +105,13 @@ class DataInput extends AppComponent {
       }
     }
 
-    function handleInputBlur() {
+    const handleInputBlur = function handleInputBlur() {
       this._submitData(this.state.rawData);
-    }
-    handleInputBlur.bind(this);
+    }.bind(this);
 
-    function handleInputChange(evt) {
+    const handleInputChange = function handleInputChange(evt) {
       this.setState({ rawData: evt.target.value });
-    }
-    handleInputChange.bind(this);
+    }.bind(this);
 
     return (
       <div className={this.parentStyles.appComponent}>
