@@ -34,7 +34,7 @@ export default function middleware(store) {
     switch (action.type) {
       case RECEIVE_CHART_DATA:
       case RECEIVE_CHART_DATA_INIT:
-        if (action.src !== 'middleware') {
+        if ('middleware' !== action.src) {
           result.data = applyColorsToData(
             store.getState().chartOptions.color || [], result.data);
         }

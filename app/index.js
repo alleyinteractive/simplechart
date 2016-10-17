@@ -34,8 +34,7 @@ const store = createStore(rootReducer, compose(
     unsavedChangesMiddleware,
     applyColorsMiddleware,
     selectChartTypeMiddleware
-  ),
-  window.devToolsExtension ? window.devToolsExtension() : f => f
+  )
 ));
 
 store.dispatch(bootstrapAppData());

@@ -13,8 +13,7 @@ import * as NVD3Styles from 'style!raw!nvd3/build/nv.d3.css'; // eslint-disable-
 // do asyncronous things in the actions
 import rootReducer from './reducers/widget/rootReducer';
 const store = createStore(rootReducer, compose(
-  applyMiddleware(thunk),
-  window.devToolsExtension ? window.devToolsExtension() : f => f
+  applyMiddleware(thunk)
 ));
 
 // Make reducers hot reloadable, see http://stackoverflow.com/questions/34243684/make-redux-reducers-and-other-non-components-hot-loadable
@@ -78,7 +77,7 @@ function renderWidget(el) {
 }
 
 // Wait until DOMContentLoaded before initializing widgets
-if (document.readystate === 'loading') {
+if ('loading' === document.readystate) {
   document.addEventListener('DOMContentLoaded', initWidgets);
 } else {
   // Or initialize now if event has already fired

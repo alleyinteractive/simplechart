@@ -31,13 +31,13 @@ export const selectableChartTypes = [
 
 const nvd3Defaults = {
   nvd3SingleSeries: {
-    x: (d) => d.label,
-    y: (d) => d.value,
+    x: (point) => point.label,
+    y: (point) => point.value,
     height: 400,
   },
   nvd3MultiSeries: {
-    x: (d) => d.x,
-    y: (d) => d.y,
+    x: (point) => point.x,
+    y: (point) => point.y,
     height: 400,
   },
 };
@@ -53,7 +53,7 @@ export function getChartTypeObject(type) {
 
 export function getChartTypeDefaultOpts(type) {
   const typeObj = getChartTypeObject(type);
-  if (typeObj.dataFormat.indexOf('nvd3') === 0) {
+  if (0 === typeObj.dataFormat.indexOf('nvd3')) {
     // merge chart type into data format defaults
     let returnOpts = update(nvd3Defaults[typeObj.dataFormat],
       { $merge: { type: typeObj.type } });

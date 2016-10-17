@@ -8,10 +8,10 @@
  */
 export function debounce(func, ...theArgs) {
   let timeout;
-  return function() {
+  return function setupDebounce() {
     const context = this;
     const args = theArgs;
-    const later = function() {
+    const later = function setupLater() {
       timeout = null;
       if (!theArgs[1]) {
         func.apply(context, args);
@@ -33,6 +33,6 @@ export function debounce(func, ...theArgs) {
  * @return bool True if multi-series, false if single-series
  */
 export function dataIsMultiSeries(data) {
-  return (typeof data[0].key !== 'undefined'
-    && typeof data[0].values !== 'undefined');
+  return ('undefined' !== typeof data[0].key &&
+    'undefined' !== typeof data[0].values);
 }

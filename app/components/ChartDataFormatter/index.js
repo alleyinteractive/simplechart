@@ -20,8 +20,8 @@ class ChartDataFormatter extends Component {
     this._applyFormatting = this._applyFormatting.bind(this);
     this.formatGuidelines = [
       'Formatting is applied to y-axis and tooltip labels.',
-      'Learn more about D3 formatting syntax <a href="'
-      + 'https://github.com/d3/d3-format/blob/master/README.md">here</a>.',
+      'Learn more about D3 formatting syntax <a href="' +
+        'https://github.com/d3/d3-format/blob/master/README.md">here</a>.',
       'Y-axis minimum and maximum range is set under Chart Options',
     ];
   }
@@ -99,7 +99,7 @@ class ChartDataFormatter extends Component {
 
   _handleChange(evt) {
     const field = evt.target.name.split('.');
-    const value = evt.target.type === 'number' ?
+    const value = ('number' === evt.target.type) ?
       parseFloat(evt.target.value) : evt.target.value;
     this.setState({ formatterSettings: update(this.state.formatterSettings,
       { $apply: (settings) => {

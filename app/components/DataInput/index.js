@@ -88,7 +88,7 @@ class DataInput extends AppComponent {
 
     // return value indicates if we can proceed to next step
     return this.props.dataStatus.status &&
-      this.props.dataStatus.status === 'success';
+      'success' === this.props.dataStatus.status;
   }
 
   render() {
@@ -105,11 +105,11 @@ class DataInput extends AppComponent {
       }
     }
 
-    const handleInputBlur = function() {
+    const handleInputBlur = function handleInputBlur() {
       this._submitData(this.state.rawData);
     }.bind(this);
 
-    const handleInputChange = function(evt) {
+    const handleInputChange = function handleInputChange(evt) {
       this.setState({ rawData: evt.target.value });
     }.bind(this);
 

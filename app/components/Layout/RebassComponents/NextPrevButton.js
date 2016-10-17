@@ -12,11 +12,11 @@ class NextPrevButton extends Component {
 
   changeStep() {
     // Reject if tester function returns false
-    if (typeof this.props.allowIf === 'function' && !this.props.allowIf()) {
+    if ('function' === typeof this.props.allowIf && !this.props.allowIf()) {
       return;
     }
 
-    const nextStep = this.props.dir !== 'prev' ?
+    const nextStep = 'prev' !== this.props.dir ?
       (this.props.currentStep + 1) : (this.props.currentStep - 1);
 
     this.props.dispatch(
