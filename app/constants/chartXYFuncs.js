@@ -2,13 +2,13 @@
  * Default functions for chart.options.x and chart.options.y in NVD3
  */
 export const multiXY = {
-  x: (d) => d.x,
-  y: (d) => d.y,
+  x: (point) => point.x,
+  y: (point) => point.y,
 };
 
 export const singleXY = {
-  x: (d) => d.label,
-  y: (d) => d.value,
+  x: (point) => point.label,
+  y: (point) => point.value,
 };
 
-export const defaultTickFormat = (d) => d;
+export const defaultTickFormat = (point) => point;

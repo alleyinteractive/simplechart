@@ -20,9 +20,10 @@ class ErrorMessage extends Component {
       dangerouslySetInnerHTML: getErrorMessage(this.props.code),
     }, { $merge: this.props.override || {} });
 
-    const closeErrorMessage = function() {
+    function closeErrorMessage() {
       this.props.dispatch(actionTrigger(CLEAR_ERROR));
-    }.bind(this);
+    }
+    closeErrorMessage.bind(this);
 
     return (
       <div className={styles.container}>

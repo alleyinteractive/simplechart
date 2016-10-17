@@ -47,9 +47,9 @@ class PalettePicker extends Component {
   // Set the original colors once then leave them alone
   _setOriginalColors(props) {
     if (
-      !this.state.originalColors.length
-      && props.options.color
-      && props.options.color.length
+      (!this.state.originalColors.length &&
+      props.options.color &&
+      props.options.color.length)
     ) {
       this.setState({
         originalColors: update(props.options.color, { $merge: {} }),

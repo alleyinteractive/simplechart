@@ -81,7 +81,7 @@ function _parseRawData(rawData) {
   if (parsed.errors.length) {
     parsed.errors.forEach((error) =>
       errors.push(
-        error.row >= 0 ? `${error.message} at row ${error.row}` : error.message
+        0 <= error.row ? `${error.message} at row ${error.row}` : error.message
       )
     );
   }

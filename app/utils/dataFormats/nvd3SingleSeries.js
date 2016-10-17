@@ -8,7 +8,7 @@
  */
 export default function transformer(data, fields) {
   // test number of columns/fields
-  if (fields.length !== 2) {
+  if (2 !== fields.length) {
     return false;
   }
 
@@ -25,7 +25,7 @@ export default function transformer(data, fields) {
       rowTransformer(row)
   );
 
-  if (transformed.indexOf(false) > -1) {
+  if (-1 !== transformed.indexOf(false)) {
     return false;
   }
   return transformed;

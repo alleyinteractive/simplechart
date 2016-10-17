@@ -9,7 +9,7 @@ const map = {
 /**
  * Return error message for use with dangerouslySetInnerHTML attribute
  */
-export default function(code) {
+export default function errorMessageHtml(code) {
   return { __html:
     `<p class="errorMessageContent">${map[code] || 'Unknown error.'}</p>` };
 }

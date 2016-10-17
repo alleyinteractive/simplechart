@@ -3,7 +3,7 @@ import {
   CLEAR_ERROR,
 } from '../constants';
 
-export default function(state = '', action) {
+export default function errorReducer(state = '', action) {
   switch (action.type) {
     case RECEIVE_ERROR:
       return action.data;
