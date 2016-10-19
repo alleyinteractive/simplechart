@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import chartTypeLoader from '../../utils/chartTypeLoader';
-import { getChartTypeObject } from '../../constants/chartTypes';
+import { getChartTypeObject } from '../../utils/chartTypeUtils';
 
 export default class Chart extends Component {
 
@@ -23,7 +23,7 @@ export default class Chart extends Component {
   }
 
   _loadChartType(type) {
-    chartTypeLoader(getChartTypeObject(type).componentName)
+    chartTypeLoader(getChartTypeObject(type).config.componentName)
       .then((component) => {
         this.setState({ chartTypeComponent: component });
       });

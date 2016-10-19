@@ -6,7 +6,7 @@ import {
   SELECT_CHART_TYPE,
 } from '../constants';
 import actionTrigger from '../actions';
-import { getChartTypeDefaultOpts } from '../constants/chartTypes';
+import { getChartTypeDefaultOpts } from '../utils/chartTypeUtils';
 
 export default function selectChartTypeMiddleware({ getState }) {
   return (dispatch) => (action) => {
@@ -27,7 +27,7 @@ export default function selectChartTypeMiddleware({ getState }) {
 
     // send default options to store chartOptions
     dispatch(actionTrigger(optsAction,
-      getChartTypeDefaultOpts(action.data.type)));
+      getChartTypeDefaultOpts(action.data.config.type)));
 
     // use init data action if no data yet
     const dataAction = (0 < getState().chartData.length) ?
@@ -35,7 +35,7 @@ export default function selectChartTypeMiddleware({ getState }) {
 
     // send formatted data to store chartData
     dispatch(actionTrigger(dataAction,
-      getState().transformedData[action.data.dataFormat]));
+      getState().transformedData[action.data.config.dataFormat]));
 
     return dispatch(action);
   };

@@ -5,10 +5,8 @@ import actionTrigger from '../../actions';
 import { Radio } from 'rebass';
 import * as styles from './ChartTypeSelector.css';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
-import {
-  selectableChartTypes,
-  getChartTypeObject,
-} from '../../constants/chartTypes';
+import { selectableChartTypes } from '../../constants/chartTypes';
+import { getChartTypeObject } from '../../utils/chartTypeUtils';
 
 class ChartTypeSelector extends Component {
 
@@ -24,8 +22,8 @@ class ChartTypeSelector extends Component {
     }
   }
 
-  _selectChartType(type) {
-    const typeObj = getChartTypeObject(type);
+  _selectChartType(selectedName) {
+    const typeObj = getChartTypeObject(selectedName);
     if (typeObj) {
       // clear error
       this.props.dispatch(actionTrigger(SELECT_CHART_TYPE, typeObj));
@@ -38,17 +36,17 @@ class ChartTypeSelector extends Component {
    * The idea is to enable chart types where data is compatible
    * and disable chart types where data is incompatible
    */
-  _renderTypeOption(typeObj) {
-    const disabled = !this.props.transformedData[typeObj.dataFormat];
+  _renderTypeOption(typeConfig) {
+    const disabled = !this.props.transformedData[typeConfig.dataFormat];
     return React.createElement(Radio, {
-      key: typeObj.type,
+      key: typeConfig.type,
       circle: true,
-      label: typeObj.label,
+      label: typeConfig.label,
       name: 'chartTypeSelect',
-      value: typeObj.type,
+      value: typeConfig.type,
       backgroundColor: !disabled ? 'primary' : 'secondary',
       disabled,
-      checked: (typeObj.type === this.props.typeObj.type),
+      checked: (typeConfig.type === this.props.typeObj.type),
       onChange: (evt) => this._selectChartType(evt.target.value),
     });
   }
@@ -57,8 +55,8 @@ class ChartTypeSelector extends Component {
     return (
       <div>
         <ul className={styles.list}>
-          {selectableChartTypes.map((type) =>
-            this._renderTypeOption(type)
+          {selectableChartTypes.map((typeObj) =>
+            this._renderTypeOption(typeObj.config)
           )}
         </ul>
         <NextPrevButton

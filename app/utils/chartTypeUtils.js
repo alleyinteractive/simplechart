@@ -1,0 +1,46 @@
+/**
+ * Chart types registry
+ */
+import update from 'react-addons-update';
+import { selectableChartTypes } from '../constants/chartTypes';
+
+const nvd3Defaults = {
+  nvd3SingleSeries: {
+    x: (point) => point.label,
+    y: (point) => point.value,
+    height: 400,
+  },
+  nvd3MultiSeries: {
+    x: (point) => point.x,
+    y: (point) => point.y,
+    height: 400,
+  },
+};
+
+export function getChartTypeObject(type) {
+  for (const typeObj of selectableChartTypes) {
+    if (type === typeObj.config.type) {
+      return typeObj;
+    }
+  }
+  return null;
+}
+
+export function getChartTypeDefaultOpts(type) {
+  const typeObj = getChartTypeObject(type);
+
+  // Options for NVD3-based chart types
+  if (0 === typeObj.config.dataFormat.indexOf('nvd3')) {
+    // merge chart type into data format defaults
+    let returnOpts = update(nvd3Defaults[typeObj.config.dataFormat],
+      { $merge: { type: typeObj.config.type } });
+    // add any specific defaults if present
+    if (typeObj.defaultOpts && 0 < Object.keys(typeObj.defaultOpts).length) {
+      returnOpts = update(returnOpts, { $merge: typeObj.defaultOpts });
+    }
+    return returnOpts;
+  }
+
+  // non-NVD3 data formats would do something else here
+  return {};
+}
