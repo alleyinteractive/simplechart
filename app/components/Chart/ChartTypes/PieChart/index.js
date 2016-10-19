@@ -4,16 +4,12 @@ import update from 'react-addons-update';
 
 class PieChart extends Component {
   render() {
-    return (
-      <div>
-        {React.createElement(NVD3Chart, update(
-          this.props.options, { $merge: {
-            datum: this.props.data,
-            ref: 'chart',
-          } }
-        ))}
-      </div>
-    );
+    return React.createElement(NVD3Chart, update(
+      this.props.options, { $merge: {
+        datum: this.props.data,
+        ref: 'chart',
+      } }
+    ));
   }
 }
 

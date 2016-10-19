@@ -18,12 +18,11 @@ const nvd3Defaults = {
 };
 
 export function getChartTypeObject(type) {
-  for (const typeObj of selectableChartTypes) {
-    if (type === typeObj.config.type) {
-      return typeObj;
-    }
-  }
-  return null;
+  return selectableChartTypes.reduce((prev, index) =>
+    (type === selectableChartTypes[index].config.type ?
+      selectableChartTypes[index] : prev),
+    null
+  );
 }
 
 export function getChartTypeDefaultOpts(type) {
