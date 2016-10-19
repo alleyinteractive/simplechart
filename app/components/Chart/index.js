@@ -30,18 +30,8 @@ export default class Chart extends Component {
   }
 
   render() {
-    if (!this.state.chartTypeComponent) {
-      return null;
-    }
-    return (
-      <div>
-        {React.createElement(this.state.chartTypeComponent, {
-          data: this.props.data,
-          options: this.props.options,
-          widget: this.props.widget,
-        })}
-      </div>
-    );
+    return this.state.chartTypeComponent ?
+      React.createElement(this.state.chartTypeComponent, this.props) : null;
   }
 }
 
