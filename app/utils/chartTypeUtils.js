@@ -18,9 +18,8 @@ const nvd3Defaults = {
 };
 
 export function getChartTypeObject(type) {
-  return selectableChartTypes.reduce((prev, index) =>
-    (type === selectableChartTypes[index].config.type ?
-      selectableChartTypes[index] : prev),
+  return selectableChartTypes.reduce((prev, current) =>
+    (type === current.config.type ? current : prev),
     null
   );
 }
