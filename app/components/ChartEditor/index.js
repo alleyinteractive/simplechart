@@ -1,7 +1,7 @@
 import React from 'react';
 import Chart from '../Chart/';
 import ChartTypeSelector from '../ChartTypeSelector/';
-import ChartDataFormatter from '../ChartDataFormatter';
+import ChartSettings from '../ChartSettings';
 import ChartMetadata from '../ChartMetadata/';
 import PalettePicker from '../PalettePicker/';
 import ChartOptions from '../ChartOptions/';
@@ -24,9 +24,10 @@ export default class ChartEditor extends AppComponent {
         break;
 
       case 2:
-        subcomponent = React.createElement(ChartDataFormatter, {
+        subcomponent = React.createElement(ChartSettings, {
           data: this.props.state.chartData,
           options: this.props.state.chartOptions,
+          typeConfig: this.props.state.chartType.config,
           currentStep: this.props.state.currentStep,
         });
         break;

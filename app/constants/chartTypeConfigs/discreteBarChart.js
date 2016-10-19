@@ -4,5 +4,3 @@ export const config = {
   dataFormat: 'nvd3SingleSeries',
   componentName: 'DiscreteBarChart',
 };
-
-export const defaultOpts = {};

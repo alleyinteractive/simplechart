@@ -4,5 +4,3 @@ export const config = {
   dataFormat: 'nvd3MultiSeries',
   componentName: 'LineChart',
 };
-
-export const defaultOpts = {};

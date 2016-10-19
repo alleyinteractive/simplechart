@@ -1,8 +1,7 @@
 export const appSteps = [
   'Data Input',
   'Chart Type',
+  'Settings',
   'Data Format',
-  'Metadata',
-  'Color Palette',
-  'Chart Options',
+  'Layout',
 ];
