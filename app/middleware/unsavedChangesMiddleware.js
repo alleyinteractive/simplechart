@@ -8,7 +8,7 @@ export default function middleware() {
      * If received action is one that updates the chart data/options
      * we have unsaved changes!
      */
-    if (CHART_UPDATE_ACTIONS.indexOf(action.type) > -1) {
+    if (-1 < CHART_UPDATE_ACTIONS.indexOf(action.type)) {
       next(actionTrigger(UNSAVED_CHANGES, true));
     }
     return result;

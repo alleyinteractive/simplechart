@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Message, Close } from 'rebass';
 import update from 'react-addons-update';
 import * as styles from './ErrorMessage.css';
-import getErrorMessage from '../../../constants/errorCode';
+import getErrorMessage from '../../../utils/errorCodeUtils';
 import { CLEAR_ERROR } from '../../../constants';
 import actionTrigger from '../../../actions';
 
@@ -20,7 +20,7 @@ class ErrorMessage extends Component {
       dangerouslySetInnerHTML: getErrorMessage(this.props.code),
     }, { $merge: this.props.override || {} });
 
-    const closeErrorMessage = function() {
+    const closeErrorMessage = function closeErrorMessage() {
       this.props.dispatch(actionTrigger(CLEAR_ERROR));
     }.bind(this);
 

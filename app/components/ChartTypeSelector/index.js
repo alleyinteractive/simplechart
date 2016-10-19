@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  RECEIVE_CHART_OPTIONS,
-  RECEIVE_CHART_OPTIONS_INIT,
-  RECEIVE_CHART_DATA,
+  CLEAR_ERROR,
+  RECEIVE_ERROR,
+  SELECT_CHART_TYPE,
 } from '../../constants';
 import actionTrigger from '../../actions';
 import { Radio } from 'rebass';
 import * as styles from './ChartTypeSelector.css';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
-import { dataIsMultiSeries } from '../../utils/misc';
-import { multiXY, singleXY } from '../../constants/chartXYFuncs';
+import { selectableChartTypes } from '../../constants/chartTypes';
+import { getChartTypeObject } from '../../utils/chartTypeUtils';
 
 class ChartTypeSelector extends Component {
 
@@ -21,36 +21,18 @@ class ChartTypeSelector extends Component {
   }
 
   componentWillMount() {
-    if (this.props.type) {
-      this._selectChartType(this.props.type);
+    if (this.props.typeObj.type) {
+      this._selectChartType(this.typeObj.type);
     }
   }
 
-  _selectChartType(type) {
-    // send data to store, already transformed for selected chart type
-    this.props.dispatch(actionTrigger(
-      RECEIVE_CHART_DATA,
-      this.props.transformedData[type]
-    ));
-
-    // Default x() and y() funcs
-    /**
-     * @todo Apply global defaults for chart type and/or data type here
-     */
-    const opts = { type };
-    if (dataIsMultiSeries(this.props.transformedData[type])) {
-      opts.x = multiXY.x;
-      opts.y = multiXY.y;
+  _selectChartType(selectedName) {
+    const typeObj = getChartTypeObject(selectedName);
+    if (typeObj) {
+      this.props.dispatch(actionTrigger(SELECT_CHART_TYPE, typeObj));
+      this.props.dispatch(actionTrigger(CLEAR_ERROR));
     } else {
-      opts.x = singleXY.x;
-      opts.y = singleXY.y;
-    }
-
-    // trigger chart init action if required
-    if (!this.props.type.length) {
-      this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS_INIT, opts));
-    } else {
-      this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, opts));
+      this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e003'));
     }
   }
 
@@ -58,17 +40,17 @@ class ChartTypeSelector extends Component {
    * The idea is to enable chart types where data is compatible
    * and disable chart types where data is incompatible
    */
-  _renderTypeOption(type) {
-    const disabled = !this.props.transformedData[type];
+  _renderTypeOption(typeConfig) {
+    const disabled = !this.props.transformedData[typeConfig.dataFormat];
     return React.createElement(Radio, {
-      key: type,
+      key: typeConfig.type,
       circle: true,
-      label: type,
+      label: typeConfig.label,
       name: 'chartTypeSelect',
-      value: type,
+      value: typeConfig.type,
       backgroundColor: !disabled ? 'primary' : 'secondary',
       disabled,
-      checked: (type === this.props.type),
+      checked: (typeConfig.type === this.props.typeObj.type),
       onChange: (evt) => this._selectChartType(evt.target.value),
     });
   }
@@ -77,8 +59,8 @@ class ChartTypeSelector extends Component {
     return (
       <div>
         <ul className={styles.list}>
-          {Object.keys(this.props.transformedData).map((type) =>
-            this._renderTypeOption(type)
+          {selectableChartTypes.map((typeObj) =>
+            this._renderTypeOption(typeObj.config)
           )}
         </ul>
         <NextPrevButton
@@ -93,8 +75,7 @@ class ChartTypeSelector extends Component {
 
 ChartTypeSelector.propTypes = {
   transformedData: React.PropTypes.object,
-  fields: React.PropTypes.array,
-  type: React.PropTypes.string,
+  typeObj: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 };
 

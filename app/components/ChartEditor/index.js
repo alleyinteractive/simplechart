@@ -19,8 +19,7 @@ export default class ChartEditor extends AppComponent {
       default:
         subcomponent = React.createElement(ChartTypeSelector, {
           transformedData: this.props.state.transformedData,
-          fields: this.props.state.dataFields,
-          type: this.props.state.chartOptions.type || '',
+          typeObj: this.props.state.chartType,
         });
         break;
 

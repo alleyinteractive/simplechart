@@ -6,7 +6,7 @@
  * Check for local dev server
  */
 function _isLocalDev() {
-  return window.location.host === 'localhost:8080';
+  return 'localhost:8080' === window.location.host;
 }
 
 /**
@@ -23,7 +23,7 @@ function _isTopLevelWindow() {
     return window.location.href === window.parent.location.href;
   } catch (err) {
     // will catch SecurityError if we attempted to access a cross-origin iframe
-    return err.name !== 'SecurityError';
+    return 'SecurityError' !== err.name;
   }
 }
 
@@ -38,8 +38,8 @@ const _callbacks = {};
 export function setupPostMessage() {
   function _messageHandler(evt) {
     // validate same-origin except if local dev server
-    if (evt.origin !== window.location.origin
-      && !_isLocalDev()) {
+    if (evt.origin !== window.location.origin &&
+      !_isLocalDev()) {
       throw new Error(`Illegal postMessage from ${evt.origin}`);
     }
 

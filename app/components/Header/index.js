@@ -61,14 +61,16 @@ class Header extends Component {
       return '';
     }
 
-    const discardChanges = function() {
+    function discardChanges() {
       sendMessage('closeApp');
       this.setState({ showUnsavedWarning: false });
-    }.bind(this);
+    }
+    discardChanges.bind(this);
 
-    const closeWarning = function() {
+    function closeWarning() {
       this.setState({ showUnsavedWarning: false });
-    }.bind(this);
+    }
+    closeWarning.bind(this);
 
     return (
       <ErrorMessage>

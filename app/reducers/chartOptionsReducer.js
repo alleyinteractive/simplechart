@@ -13,7 +13,7 @@ export default function chartOptionsReducer(state = {}, action) {
       return applyState;
     }
     action.data.forEach((key) => {
-      if (typeof applyState[key] !== 'undefined') {
+      if ('undefined' !== typeof applyState[key]) {
         delete applyState[key]; // eslint-disable-line no-param-reassign
       }
     });

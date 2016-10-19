@@ -1,72 +1,45 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PieChart from './ChartTypes/PieChart/';
-import DiscreteBarChart from './ChartTypes/DiscreteBarChart/';
-import LineChart from './ChartTypes/LineChart/';
-// Removing StackedAreaChart until bugs are fixed
-// import StackedAreaChart from './ChartTypes/StackedAreaChart/';
-import InvalidChartType from './ChartTypes/InvalidChartType/';
+import chartTypeLoader from '../../utils/chartTypeLoader';
+import { getChartTypeObject } from '../../utils/chartTypeUtils';
 
-class Chart extends Component {
+export default class Chart extends Component {
 
   constructor() {
     super();
-    this._getChartTypeComponent = this._getChartTypeComponent.bind(this);
+    this._loadChartType = this._loadChartType.bind(this);
+    this.state = {};
   }
 
-  _getChartTypeComponent() {
-    // if no type has been chosen yet
-    if (!this.props.options.type) {
-      return '';
+  componentWillMount() {
+    if (this.props.options.type) {
+      this._loadChartType(this.props.options.type);
     }
+  }
 
-    let chartType;
-    switch (this.props.options.type) {
-      case 'pieChart':
-        chartType = PieChart;
-        break;
-
-      case 'discreteBarChart':
-        chartType = DiscreteBarChart;
-        break;
-
-      case 'lineChart':
-        chartType = LineChart;
-        break;
-
-      // case 'stackedAreaChart':
-      //   chartType = StackedAreaChart;
-      //   break;
-
-      default:
-        chartType = InvalidChartType;
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.options.type !== this.props.options.type) {
+      this._loadChartType(nextProps.options.type);
     }
-    return React.createElement(chartType, {
-      data: this.props.data,
-      options: this.props.options,
-      widget: this.props.widget,
-    });
+  }
+
+  _loadChartType(type) {
+    chartTypeLoader(getChartTypeObject(type).config.componentName)
+      .then((component) => {
+        this.setState({ chartTypeComponent: component });
+      });
   }
 
   render() {
-    return (
-      <div>
-        {this._getChartTypeComponent()}
-      </div>
-    );
+    return this.state.chartTypeComponent ?
+      React.createElement(this.state.chartTypeComponent, this.props) : null;
   }
 }
 
 Chart.propTypes = {
   data: React.PropTypes.array,
   options: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
   widget: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.bool,
   ]),
 };
-
-// Redux connection
-
-export default connect()(Chart);

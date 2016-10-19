@@ -60,7 +60,7 @@ class BaseChart extends Component {
     if (!this.props.options.yDomain) {
       try {
         const yDomain = this.refs.chart.chart.yAxis.domain();
-        if (yDomain && yDomain.length === 2) {
+        if (yDomain && 2 === yDomain.length) {
           this.props.dispatch(actionTrigger(
             RECEIVE_CHART_OPTIONS, { yDomain }));
         }

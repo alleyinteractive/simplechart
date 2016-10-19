@@ -32,7 +32,7 @@ export default function transformer(data, fields) {
       series.values.push(getDataPoint(row, field, xAxisLabel))
     );
 
-    if (series.values.indexOf(false) > -1) {
+    if (-1 !== series.values.indexOf(false)) {
       return false;
     }
     return series;
@@ -49,7 +49,7 @@ export default function transformer(data, fields) {
   // return false if any data series didn't validate
   // e.g. if the first column didn't contain numbers
   // which would prevent us from doing a chart with an x-axis
-  if (dataSeries.indexOf(false) > -1) {
+  if (-1 !== dataSeries.indexOf(false)) {
     return false;
   }
   return dataSeries;

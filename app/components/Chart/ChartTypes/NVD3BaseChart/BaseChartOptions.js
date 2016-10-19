@@ -54,7 +54,7 @@ class GlobalOptions extends Component {
    */
   _subkeyHandler(value, key, subkey) {
     const keyVal = { [subkey]: value };
-    if (typeof this.props.options[key] === 'undefined') {
+    if ('undefined' === typeof this.props.options[key]) {
       return keyVal;
     }
     return update(this.props.options[key], { $merge: keyVal });
@@ -62,9 +62,9 @@ class GlobalOptions extends Component {
 
   _yDomainHandler(value, key, subkey) {
     let yDomain;
-    if (subkey === 'min') {
+    if ('min' === subkey) {
       yDomain = [parseFloat(value), this._getYDomain(1)];
-    } else if (subkey === 'max') {
+    } else if ('max' === subkey) {
       yDomain = [this._getYDomain(0), parseFloat(value)];
     }
     return yDomain;
@@ -72,20 +72,20 @@ class GlobalOptions extends Component {
 
   _handleChange(evt) {
     // event target must have a value set
-    if (typeof evt.target.value === 'undefined') {
+    if ('undefined' === typeof evt.target.value) {
       return;
     }
 
     // Check field name for option key(s)
     const optKeys = /^props-(\w+)(?:(?:\.)(\w+))?$/.exec(evt.target.name);
-    if (!optKeys || optKeys.length < 2) {
+    if (!optKeys || 2 > optKeys.length) {
       return;
     }
 
     // Get option key and maybe subkey to allow a second level in the options object
     let key;
     let subkey;
-    if (optKeys.length === 2) {
+    if (2 === optKeys.length) {
       key = optKeys[1];
       subkey = null;
     } else {
@@ -96,8 +96,8 @@ class GlobalOptions extends Component {
 
     // maybe convert value to float or int
     let fieldValue = evt.target.value;
-    if (evt.target.type === 'number') {
-      fieldValue = parseInt(evt.target.step, 10) === 1 ?
+    if ('number' === evt.target.type) {
+      fieldValue = (1 === parseInt(evt.target.step, 10)) ?
         parseInt(fieldValue, 10) : parseFloat(fieldValue, 10);
     }
 
@@ -111,8 +111,8 @@ class GlobalOptions extends Component {
   }
 
   _getSubkey(key, subkey, defaultValue) {
-    if (typeof this.props.options[key] === 'undefined' ||
-      typeof this.props.options[key][subkey] === 'undefined') {
+    if ('undefined' === typeof this.props.options[key] ||
+      'undefined' === typeof this.props.options[key][subkey]) {
       return defaultValue;
     }
     return this.props.options[key][subkey];
@@ -126,7 +126,7 @@ class GlobalOptions extends Component {
    */
   _getYDomain(index) {
     if (this.props.options.yDomain &&
-      typeof this.props.options.yDomain[index] !== 'undefined') {
+      'undefined' !== typeof this.props.options.yDomain[index]) {
       return this.props.options.yDomain[index];
     }
     return 0;

@@ -9,10 +9,10 @@ import d3 from 'd3';
  *    @param string append  Any string to append
  * @return function Formatting function
  */
-export default function(formatData) {
-  return (d) => [
+export default function createFormatter(formatData) {
+  return (value) => [
     formatData.prepend,
-    d3.format(formatData.format)(d * formatData.multiplier),
+    d3.format(formatData.format)(value * formatData.multiplier),
     formatData.append,
   ].join('');
 }

@@ -6,12 +6,12 @@
  */
 export default function reducer(state, action, initState, allowActions) {
   // Return new value for allowed action
-  if (allowActions.indexOf(action.type) >= 0) {
+  if (0 <= allowActions.indexOf(action.type)) {
     return action.data;
   }
 
   // State should be undefined *only* during initial setup of expected action
-  if (typeof state === 'undefined') {
+  if ('undefined' === typeof state) {
     return initState;
   }
 

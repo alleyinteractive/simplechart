@@ -1,22 +1,25 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import BaseChart from '../NVD3BaseChart';
+import React, { Component } from 'react';
+import NVD3Chart from 'react-nvd3';
+import update from 'react-addons-update';
 
-class PieChart extends BaseChart {
-  constructor() {
-    super();
-    this.defaultOptions = {
-      type: 'pieChart',
-      height: 400,
-      showLegend: false,
-      showLabels: false,
-    };
+class PieChart extends Component {
+  render() {
+    return React.createElement(NVD3Chart, update(
+      this.props.options, { $merge: {
+        datum: this.props.data,
+        ref: 'chart',
+      } }
+    ));
   }
 }
 
 PieChart.propTypes = {
   data: React.PropTypes.array,
   options: React.PropTypes.object,
+  widget: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.bool,
+  ]),
 };
 
-export default connect()(PieChart);
+export default PieChart;

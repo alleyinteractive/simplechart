@@ -14,6 +14,8 @@ import unsavedChangesMiddleware
   from './middleware/unsavedChangesMiddleware';
 import applyColorsMiddleware
   from './middleware/applyColorsMiddleware';
+import selectChartTypeMiddleware
+  from './middleware/selectChartTypeMiddleware';
 
 // Other stuff
 import { bootstrapAppData } from './actions';
@@ -30,9 +32,9 @@ const store = createStore(rootReducer, compose(
     rawDataMiddleware,
     chartOptionsInitMiddleware,
     unsavedChangesMiddleware,
-    applyColorsMiddleware
-  ),
-  window.devToolsExtension ? window.devToolsExtension() : f => f
+    applyColorsMiddleware,
+    selectChartTypeMiddleware
+  )
 ));
 
 store.dispatch(bootstrapAppData());

@@ -27,7 +27,7 @@ export function bootstrapAppData() {
   // init postMessage connection with parent window
   setupPostMessage();
 
-  return function(dispatch) {
+  return function setupReceiveMessage(dispatch) {
     /**
      * Send each data component to reducer
      */
@@ -50,9 +50,9 @@ export function bootstrapAppData() {
  * Get widget data from API
  */
 export function ajaxWidgetData(widgetId, fetchUrl, headersAttr = null) {
-  return function(dispatch) {
+  return function setupHandleJson(dispatch) {
     function handleResponse(response) {
-      return response.status === 200 ? response.json() : {};
+      return 200 === parseInt(response.status, 10) ? response.json() : {};
     }
 
     function handleJson(json) {

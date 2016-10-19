@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   _renderAppComponent() {
-    if (this.props.state.currentStep === 0) {
+    if (0 === this.props.state.currentStep) {
       return React.createElement(DataInput, {
         rawData: this.props.state.rawData,
         dataStatus: this.props.state.dataStatus,
