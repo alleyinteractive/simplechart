@@ -8,9 +8,9 @@ class ChartSettings extends Component {
       <AccordionBlock
         title="Test 1"
         tooltip="Tooltip content"
+        defaultExpand
       >
-        <p>Foo</p>
-        <p>Bar</p>
+        <p>a group of fields like "X-Axis Settings" would go here"</p>
       </AccordionBlock>
     );
   }
