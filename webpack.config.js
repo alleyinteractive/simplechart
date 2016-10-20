@@ -36,6 +36,7 @@ var plugins = process.env.DEVELOPMENT ?
   [new WebpackGitHash(gitHashOpts)];
 
 if (process.env.DEVELOPMENT) {
+  entry.app.unshift('react-hot-loader/patch');
   entry.app.unshift('webpack/hot/only-dev-server');
   entry.app.unshift('webpack-dev-server/client?http://localhost:8080');
 }

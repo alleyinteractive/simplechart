@@ -23,7 +23,6 @@
     "babel-preset-es2015": "6.16.0",
     "babel-preset-react": "6.16.0",
     "babel-preset-stage-0": "6.17.0",
-    "babel-preset-stage-2": "6.17.0",
     "css-loader": "0.25.1",
     "eslint": "3.8.1",
     "eslint-config-airbnb": "6.0.2",
