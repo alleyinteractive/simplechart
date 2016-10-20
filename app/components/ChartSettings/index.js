@@ -1,17 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import AccordionBlock from '../Layout/AccordionBlock';
 
 class ChartSettings extends Component {
+  constructor() {
+    super();
+    this._hasModule = this._hasModule.bind(this);
+    this._renderModule = this._renderModule.bind(this);
+  }
+
+  componentWillMount() {
+    this.setState({
+      modules: this.props.typeConfig.modules.settings,
+    });
+  }
+
+  _hasModule(name) {
+    return -1 !== this.state.modules.indexOf(name);
+  }
+
+  _renderModule(name) {
+    const module = require(`./modules/${name}`).default;
+    return React.createElement(module);
+  }
+
   render() {
     return (
-      <AccordionBlock
-        title="Test 1"
-        tooltip="Tooltip content"
-        defaultExpand
-      >
-        <p>a group of fields like "X-Axis Settings" would go here"</p>
-      </AccordionBlock>
+      <div>
+        {this._hasModule('legend') ? this._renderModule('Legend') : ''}
+      </div>
     );
   }
 }
