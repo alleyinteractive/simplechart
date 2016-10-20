@@ -15,9 +15,5 @@ new WebpackDevServer(webpack(config), {
     return console.log(err);
   }
 
-  if (!process.env.WIDGET) {
-    console.log('Listening at http://localhost:8080/');
-  } else {
-    console.log('Listening at http://localhost:8080/widget.html');
-  }
+  console.log('Listening at http://localhost:8080/');
 });

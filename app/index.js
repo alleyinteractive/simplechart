@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
+import { AppContainer } from 'react-hot-loader';
 
 // Middleware
 import thunk from 'redux-thunk';
@@ -39,19 +40,35 @@ const store = createStore(rootReducer, compose(
 
 store.dispatch(bootstrapAppData());
 
-// Make reducers hot reloadable, see http://stackoverflow.com/questions/34243684/make-redux-reducers-and-other-non-components-hot-loadable
+const appEl = document.getElementById('app');
+ReactDOM.render(
+  <AppContainer>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </AppContainer>,
+  appEl
+);
+
 if (module.hot) {
+  // Make reducers hot reloadable
   module.hot.accept('./reducers/rootReducer', () => {
     const nextRootReducer = require('./reducers/rootReducer').default;
     store.replaceReducer(nextRootReducer);
   });
-}
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('app')
-);
+  // Make components hot reloadable
+  module.hot.accept('./components/App', () => {
+    const NextApp = require('./components/App').default;
+    ReactDOM.render(
+      <AppContainer>
+        <Provider store={store}>
+          <NextApp />
+        </Provider>
+      </AppContainer>,
+      appEl
+    );
+  });
+}
 
 sendMessage('appReady');

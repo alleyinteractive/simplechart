@@ -13,28 +13,20 @@ var WebpackGitHash = require('webpack-git-hash');
 var updateVersion = require('./updateVersion');
 
 var entry = {
-  widget: './app/widget',
-  app: './app/index'
+  widget: [path.resolve('./app/widget')],
+  app: [path.resolve('./app/index')],
 };
 
 var jsLoaders = ['babel'];
 
-if (process.env.DEVELOPMENT) {
-  entry.server = [
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server'
-  ];
-  jsLoaders.unshift(
-    'react-hot'
-  );
-}
-
+/**
+ * Setup plugins
+ */
 var gitHashOpts = {
   cleanup: true,
   callback: updateVersion
 };
-// If hash is passed from command line, use that. E.g:
-// $ npm run build abcd123
+// If hash is passed from command line, e.g. $ npm run build abcd123
 if (process.argv.length >= 5 && /^[a-z0-9]+$/.test(process.argv[4])) {
   gitHashOpts.skipHash = process.argv[4];
 }
@@ -42,6 +34,12 @@ if (process.argv.length >= 5 && /^[a-z0-9]+$/.test(process.argv[4])) {
 var plugins = process.env.DEVELOPMENT ?
   [new webpack.HotModuleReplacementPlugin()] :
   [new WebpackGitHash(gitHashOpts)];
+
+if (process.env.DEVELOPMENT) {
+  entry.app.unshift('react-hot-loader/patch');
+  entry.app.unshift('webpack/hot/only-dev-server');
+  entry.app.unshift('webpack-dev-server/client?http://localhost:8080');
+}
 
 module.exports = {
   devtool: 'source-map',
