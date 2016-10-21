@@ -25,10 +25,8 @@ export default class ChartEditor extends AppComponent {
 
       case 2:
         subcomponent = React.createElement(ChartSettings, {
-          data: this.props.state.chartData,
           options: this.props.state.chartOptions,
           typeConfig: this.props.state.chartType.config,
-          currentStep: this.props.state.currentStep,
         });
         break;
 

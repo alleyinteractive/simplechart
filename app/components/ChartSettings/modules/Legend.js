@@ -9,8 +9,8 @@ class Legend extends Component {
   render() {
     return (
       <AccordionBlock
-        title="Test 1"
-        tooltip="Tooltip content"
+        title="Legend"
+        tooltip="Settings for the chart legend"
         defaultExpand
       >
         <DispatchField

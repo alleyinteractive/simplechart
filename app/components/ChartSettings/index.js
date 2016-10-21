@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 class ChartSettings extends Component {
   constructor() {
@@ -33,11 +32,8 @@ class ChartSettings extends Component {
 }
 
 ChartSettings.propTypes = {
-  data: React.PropTypes.array,
   options: React.PropTypes.object,
-  currentStep: React.PropTypes.number,
   typeConfig: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
 };
 
-export default connect()(ChartSettings);
+export default ChartSettings;
