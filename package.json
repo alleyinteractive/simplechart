@@ -47,6 +47,7 @@
     "webpack-git-hash": "1.0.2"
   },
   "dependencies": {
+    "deep-extend": "0.4.1",
     "es6-promise": "3.3.1",
     "isomorphic-fetch": "2.2.1",
     "react": "15.2.1",

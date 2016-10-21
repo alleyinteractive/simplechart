@@ -20,7 +20,7 @@ class ChartSettings extends Component {
 
   _renderModule(name) {
     const module = require(`./modules/${name}`).default;
-    return React.createElement(module);
+    return React.createElement(module, { options: this.props.options });
   }
 
   render() {

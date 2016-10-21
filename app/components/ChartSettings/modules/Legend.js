@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import AccordionBlock from '../../Layout/AccordionBlock';
+import DispatchField from '../../lib/DispatchField';
+import {
+  RECEIVE_CHART_OPTIONS_EXTEND,
+} from '../../../constants';
 
-export default class Legend extends Component {
+class Legend extends Component {
   render() {
     return (
       <AccordionBlock
@@ -9,8 +13,22 @@ export default class Legend extends Component {
         tooltip="Tooltip content"
         defaultExpand
       >
-        <p>a group of fields like "X-Axis Settings" would go here"</p>
+        <DispatchField
+          action={RECEIVE_CHART_OPTIONS_EXTEND}
+          fieldType="Checkbox"
+          fieldProps={{
+            label: 'Show legend',
+            name: 'showLegend',
+            checked: this.props.options.showLegend,
+          }}
+        />
       </AccordionBlock>
     );
   }
 }
+
+Legend.propTypes = {
+  options: React.PropTypes.object,
+};
+
+export default Legend;
