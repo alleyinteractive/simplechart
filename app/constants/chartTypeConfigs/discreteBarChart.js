@@ -2,5 +2,8 @@ export const config = {
   type: 'discreteBarChart',
   label: 'Bar Chart',
   dataFormat: 'nvd3SingleSeries',
-  componentName: 'DiscreteBarChart',
+  componentName: 'NVD3Single',
+  modules: {
+    settings: ['Legend'],
+  },
 };
