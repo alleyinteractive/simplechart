@@ -18,14 +18,28 @@ class ChartSettings extends Component {
   }
 
   _renderModule(name) {
+    if (!this._hasModule(name)) {
+      return false;
+    }
     const module = require(`./modules/${name}`).default;
+    return React.createElement(module, { options: this.props.options });
+  }
+
+  _renderCustomSettings(config) {
+    if (!config.settingsComponent) {
+      return false;
+    }
+    const module = require(`./modules/custom/${config.settingsComponent}`).default;
     return React.createElement(module, { options: this.props.options });
   }
 
   render() {
     return (
       <div>
-        {this._hasModule('legend') ? this._renderModule('Legend') : ''}
+        {this._renderModule('XAxis') || ''}
+        {this._renderModule('YAxis') || ''}
+        {this._renderModule('Legend') || ''}
+        {this._renderCustomSettings(this.props.typeConfig) || ''}
       </div>
     );
   }

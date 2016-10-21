@@ -3,8 +3,9 @@ export const config = {
   label: 'Pie Chart',
   dataFormat: 'nvd3SingleSeries',
   componentName: 'PieChart',
+  settingsComponent: 'PieChartSettings',
   modules: {
-    settings: ['legend'],
+    settings: ['Legend'],
   },
 };
 
