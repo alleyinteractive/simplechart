@@ -17,9 +17,13 @@ export default class Chart extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.options.type !== this.props.options.type) {
+    if (this._getComponentName(nextProps) !== this._getComponentName(this.props)) { // eslint-disable-line max-len
       this._loadChartType(nextProps.options.type);
     }
+  }
+
+  _getComponentName(props) {
+    return getChartTypeObject(props.options.type).config.componentName;
   }
 
   _loadChartType(type) {
