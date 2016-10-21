@@ -2,7 +2,7 @@ export const config = {
   type: 'pieChart',
   label: 'Pie Chart',
   dataFormat: 'nvd3SingleSeries',
-  componentName: 'PieChart',
+  componentName: 'NVD3Single',
   settingsComponent: 'PieChartSettings',
   modules: {
     settings: ['Legend'],
