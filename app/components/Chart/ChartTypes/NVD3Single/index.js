@@ -5,13 +5,15 @@ import update from 'react-addons-update';
 class NVD3Single extends Component {
   componentWillMount() {
     this.setState({
-      data: this._chartTypeTransform(this.props.data),
+      data: this._chartTypeTransform(
+        this.props.options.type, this.props.data),
     });
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      data: this._chartTypeTransform(nextProps.data),
+      data: this._chartTypeTransform(
+        nextProps.options.type, nextProps.data),
     });
   }
 
