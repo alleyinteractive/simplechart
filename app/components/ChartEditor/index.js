@@ -2,9 +2,9 @@ import React from 'react';
 import Chart from '../Chart/';
 import ChartTypeSelector from '../ChartTypeSelector/';
 import ChartSettings from '../ChartSettings';
-import ChartMetadata from '../ChartMetadata/';
-import PalettePicker from '../PalettePicker/';
-import ChartOptions from '../ChartOptions/';
+// import ChartMetadata from '../ChartMetadata/';
+// import PalettePicker from '../PalettePicker/';
+// import ChartOptions from '../ChartOptions/';
 import AppComponent from '../Layout/AppComponent';
 import { Heading } from 'rebass';
 import { appSteps } from '../../constants/appSteps';
@@ -30,25 +30,25 @@ export default class ChartEditor extends AppComponent {
         });
         break;
 
-      case 3:
-        subcomponent = React.createElement(ChartMetadata, {
-          metadata: this.props.state.chartMetadata,
-        });
-        break;
+      // case 3:
+      //   subcomponent = React.createElement(ChartMetadata, {
+      //     metadata: this.props.state.chartMetadata,
+      //   });
+      //   break;
 
-      case 4:
-        subcomponent = React.createElement(PalettePicker, {
-          data: this.props.state.chartData,
-          options: this.props.state.chartOptions,
-        });
-        break;
+      // case 4:
+      //   subcomponent = React.createElement(PalettePicker, {
+      //     data: this.props.state.chartData,
+      //     options: this.props.state.chartOptions,
+      //   });
+      //   break;
 
-      case 5:
-        subcomponent = React.createElement(ChartOptions, {
-          options: this.props.state.chartOptions,
-          chart: this.refs.chartComponent,
-        });
-        break;
+      // case 5:
+      //   subcomponent = React.createElement(ChartOptions, {
+      //     options: this.props.state.chartOptions,
+      //     chart: this.refs.chartComponent,
+      //   });
+      //   break;
     }
     return subcomponent;
   }
