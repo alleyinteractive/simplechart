@@ -28,20 +28,25 @@ class DispatchFields extends Component {
 
   _handleChange(evt) {
     let fieldValue;
-    switch (this.props.fieldType) {
-      case 'Checkbox':
-        fieldValue = evt.target.checked;
-        break;
+    if ('Checkbox' === this.props.fieldType) {
+      fieldValue = evt.target.checked;
+    } else {
+      fieldValue = evt.target.value;
+    }
 
-      default:
-        fieldValue = evt.target.value;
+    // Convert number fields to float or integer
+    if ('number' === evt.target.type) {
+      fieldValue = ('any' === evt.target.step) ?
+        parseFloat(fieldValue, 10) : parseInt(fieldValue, 10);
     }
     this._dispatchField(fieldValue);
   }
 
   _dispatchField(value) {
-    this.props.dispatch(actionTrigger(this.props.action,
-      buildDeepObject(this.props.fieldProps.name, value)));
+    this.props.dispatch(actionTrigger(this.props.action, this.props.handler ?
+      this.props.handler(this.props.fieldProps, value) :
+      buildDeepObject(this.props.fieldProps.name, value)
+    ));
   }
 
   render() {
@@ -57,6 +62,7 @@ DispatchFields.propTypes = {
   action: React.PropTypes.string,
   fieldProps: React.PropTypes.object,
   fieldType: React.PropTypes.string,
+  handler: React.PropTypes.func,
 };
 
 export default connect()(DispatchFields);
