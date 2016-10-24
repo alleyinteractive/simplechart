@@ -4,6 +4,10 @@ export const config = {
   dataFormat: 'nvd3SingleSeries',
   componentName: 'NVD3Single',
   modules: {
-    settings: ['Legend'],
+    settings: [],
   },
+};
+
+export const defaultOpts = {
+  showLegend: false,
 };
