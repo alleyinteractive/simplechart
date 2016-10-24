@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import actionTrigger from '../../../../actions';
 import { RECEIVE_ERROR } from '../../../../constants';
 
-class NVD3Single extends Component {
+class NVD3Adapter extends Component {
 
   componentWillMount() {
     this.setState({
@@ -57,10 +57,10 @@ class NVD3Single extends Component {
   }
 }
 
-NVD3Single.propTypes = {
+NVD3Adapter.propTypes = {
   data: React.PropTypes.array,
   options: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 };
 
-export default connect()(NVD3Single);
+export default connect()(NVD3Adapter);
