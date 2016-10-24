@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import chartTypeLoader from '../../utils/chartTypeLoader';
 import { getChartTypeObject } from '../../utils/chartTypeUtils';
+import update from 'react-addons-update';
 
-export default class Chart extends Component {
+class Chart extends Component {
 
   constructor() {
     super();
@@ -34,8 +35,10 @@ export default class Chart extends Component {
   }
 
   render() {
-    return this.state.chartTypeComponent ?
-      React.createElement(this.state.chartTypeComponent, this.props) : null;
+    return !this.state.chartTypeComponent ?
+      null :
+      React.createElement(this.state.chartTypeComponent,
+        update(this.props, { $merge: { ref: 'chartTypeComponent' } }));
   }
 }
 
@@ -47,3 +50,5 @@ Chart.propTypes = {
     React.PropTypes.bool,
   ]),
 };
+
+export default Chart;
