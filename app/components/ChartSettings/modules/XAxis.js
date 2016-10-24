@@ -5,7 +5,12 @@ import {
   RECEIVE_CHART_OPTIONS_EXTEND,
 } from '../../../constants';
 
-class Legend extends Component {
+class XAxis extends Component {
+
+  _getOptsKey(axisOpts, key, defaultValue = '') {
+    return axisOpts && axisOpts[key] ? axisOpts[key] : defaultValue;
+  }
+
   render() {
     return (
       <AccordionBlock
@@ -19,9 +24,7 @@ class Legend extends Component {
           fieldProps={{
             label: 'Label',
             name: 'xAxis.axisLabel',
-            type: 'number',
-            step: '1',
-            value: this.props.options.xAxis.axisLabel,
+            value: this._getOptsKey(this.props.options.xAxis, 'axisLabel'),
           }}
         />
       </AccordionBlock>
@@ -29,8 +32,8 @@ class Legend extends Component {
   }
 }
 
-Legend.propTypes = {
+XAxis.propTypes = {
   options: React.PropTypes.object,
 };
 
-export default Legend;
+export default XAxis;

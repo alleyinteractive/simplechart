@@ -3,12 +3,13 @@ import Rebass from 'rebass';
 import update from 'react-addons-update';
 import { connect } from 'react-redux';
 import actionTrigger from '../../actions';
+import buildDeepObject from '../../utils/buildDeepObject';
 
 class DispatchFields extends Component {
   constructor() {
     super();
     this._handleChange = this._handleChange.bind(this);
-    this._dispatchBool = this._dispatchBool.bind(this);
+    this._dispatchField = this._dispatchField.bind(this);
   }
 
   componentWillMount() {
@@ -26,41 +27,21 @@ class DispatchFields extends Component {
   }
 
   _handleChange(evt) {
+    let fieldValue;
     switch (this.props.fieldType) {
       case 'Checkbox':
+        fieldValue = evt.target.checked;
+        break;
+
       default:
-        this._dispatchBool(evt.target.checked);
+        fieldValue = evt.target.value;
     }
+    this._dispatchField(fieldValue);
   }
 
-  _dispatchBool(checked) {
+  _dispatchField(value) {
     this.props.dispatch(actionTrigger(this.props.action,
-      this._getDispatchObject(this.props.fieldProps.name, checked)));
-  }
-
-  /**
-   * Build a multilevel object from a string like foo.bar.bop into an object like
-   * { foo: { bar: { bop: fieldValue } } }
-   * to use with https://facebook.github.io/react/docs/update.html
-   *
-   * @param string fieldName Use dots to indicate multiple levels for deep merge
-   * @param any fieldValue Value to apply to the deepest level of the name string
-   * @return obj
-   */
-  _getDispatchObject(fieldName, fieldValue) {
-    let dispatchObj;
-    const fieldNameParts = fieldName.split('.');
-
-    // work backwards and construct the object from the inside out
-    fieldNameParts.reverse();
-    fieldNameParts.forEach((part, index) => {
-      if (0 === index) {
-        dispatchObj = { [part]: fieldValue };
-      } else {
-        dispatchObj = { [part]: dispatchObj };
-      }
-    });
-    return dispatchObj;
+      buildDeepObject(this.props.fieldProps.name, value)));
   }
 
   render() {
