@@ -22,9 +22,20 @@ class XAxis extends Component {
           action={RECEIVE_CHART_OPTIONS_EXTEND}
           fieldType="Input"
           fieldProps={{
-            label: 'Label',
+            label: 'Axis Label',
             name: 'xAxis.axisLabel',
             value: this._getOptsKey(this.props.options.xAxis, 'axisLabel'),
+          }}
+        />
+
+        <DispatchField
+          action={RECEIVE_CHART_OPTIONS_EXTEND}
+          fieldType="Input"
+          fieldProps={{
+            label: 'Rotate Labels (degrees +/-)',
+            name: 'xAxis.rotateLabels',
+            type: 'number',
+            value: this._getOptsKey(this.props.options.xAxis, 'rotateLabels'),
           }}
         />
       </AccordionBlock>
