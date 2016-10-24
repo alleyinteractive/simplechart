@@ -11,6 +11,6 @@ export const config = {
 
 export const defaultOpts = {
   donut: true,
-  showLegend: false,
+  showLegend: true,
   showLabels: false,
 };
