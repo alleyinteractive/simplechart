@@ -8,11 +8,8 @@ import { min, max, scale } from 'd3';
  * @return array Range of [min, max] for series
  */
 function _getSeriesDomain(series, format) {
-  const values = [];
   const key = 'nvd3SingleSeries' === format ? 'value' : 'y';
-  series.forEach((point) =>
-    values.push(point[key])
-  );
+  const values = series.reduce((acc, point) => acc.push(point[key]), []);
   return [min(values), max(values)];
 }
 
