@@ -11,7 +11,6 @@ class Legend extends Component {
       <AccordionBlock
         title="Legend"
         tooltip="Settings for the chart legend"
-        defaultExpand
       >
         <DispatchField
           action={RECEIVE_CHART_OPTIONS_EXTEND}

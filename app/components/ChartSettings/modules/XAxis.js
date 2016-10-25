@@ -16,7 +16,6 @@ class XAxis extends Component {
       <AccordionBlock
         title="X Axis"
         tooltip="Settings for the X axis"
-        defaultExpand
       >
         <DispatchField
           action={RECEIVE_CHART_OPTIONS_EXTEND}
