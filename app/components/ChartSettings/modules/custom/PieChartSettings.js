@@ -11,7 +11,7 @@ class Legend extends Component {
       <AccordionBlock
         title="Pie Chart Settings"
         tooltip="Specific settings for pie charts"
-        defaultExpand
+        defaultExpand={this.props.defaultExpand}
       >
         <DispatchField
           action={RECEIVE_CHART_OPTIONS_EXTEND}
@@ -29,6 +29,7 @@ class Legend extends Component {
 
 Legend.propTypes = {
   options: React.PropTypes.object,
+  defaultExpand: React.PropTypes.bool,
 };
 
 export default Legend;

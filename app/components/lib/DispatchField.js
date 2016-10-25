@@ -3,12 +3,13 @@ import Rebass from 'rebass';
 import update from 'react-addons-update';
 import { connect } from 'react-redux';
 import actionTrigger from '../../actions';
+import buildDeepObject from '../../utils/buildDeepObject';
 
 class DispatchFields extends Component {
   constructor() {
     super();
     this._handleChange = this._handleChange.bind(this);
-    this._dispatchBool = this._dispatchBool.bind(this);
+    this._dispatchField = this._dispatchField.bind(this);
   }
 
   componentWillMount() {
@@ -26,41 +27,26 @@ class DispatchFields extends Component {
   }
 
   _handleChange(evt) {
-    switch (this.props.fieldType) {
-      case 'Checkbox':
-      default:
-        this._dispatchBool(evt.target.checked);
+    let fieldValue;
+    if ('Checkbox' === this.props.fieldType) {
+      fieldValue = evt.target.checked;
+    } else {
+      fieldValue = evt.target.value;
     }
+
+    // Convert number fields to float or integer
+    if ('number' === evt.target.type) {
+      fieldValue = ('any' === evt.target.step) ?
+        parseFloat(fieldValue, 10) : parseInt(fieldValue, 10);
+    }
+    this._dispatchField(fieldValue);
   }
 
-  _dispatchBool(checked) {
-    this.props.dispatch(actionTrigger(this.props.action,
-      this._getDispatchObject(this.props.fieldProps.name, checked)));
-  }
-
-  /**
-   * Build a multilevel object from a string like foo.bar.bop into an object like
-   * { foo: { bar: { bop: fieldValue } } }
-   * to use with https://facebook.github.io/react/docs/update.html
-   *
-   * @param string fieldName Use dots to indicate multiple levels for deep merge
-   * @param any fieldValue Value to apply to the deepest level of the name string
-   * @return obj
-   */
-  _getDispatchObject(fieldName, fieldValue) {
-    let dispatchObj;
-    const fieldNameParts = fieldName.split('.');
-
-    // work backwards and construct the object from the inside out
-    fieldNameParts.reverse();
-    fieldNameParts.forEach((part, index) => {
-      if (0 === index) {
-        dispatchObj = { [part]: fieldValue };
-      } else {
-        dispatchObj = { [part]: dispatchObj };
-      }
-    });
-    return dispatchObj;
+  _dispatchField(value) {
+    this.props.dispatch(actionTrigger(this.props.action, this.props.handler ?
+      this.props.handler(this.props.fieldProps, value) :
+      buildDeepObject(this.props.fieldProps.name, value)
+    ));
   }
 
   render() {
@@ -76,6 +62,7 @@ DispatchFields.propTypes = {
   action: React.PropTypes.string,
   fieldProps: React.PropTypes.object,
   fieldType: React.PropTypes.string,
+  handler: React.PropTypes.func,
 };
 
 export default connect()(DispatchFields);

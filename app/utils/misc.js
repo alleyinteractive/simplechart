@@ -36,3 +36,14 @@ export function dataIsMultiSeries(data) {
   return ('undefined' !== typeof data[0].key &&
     'undefined' !== typeof data[0].values);
 }
+
+/**
+ * get value from key or default if not set, also works for arrays
+ *
+ * @param obj obj Basic object or array
+ * @param str key Key to look for
+ * @param any defaultValue Default to return if key is not set
+ */
+export function getObjArrayKey(obj, key, defaultValue = '') {
+  return (obj && {}.hasOwnProperty.call(obj, key)) ? obj[key] : defaultValue;
+}

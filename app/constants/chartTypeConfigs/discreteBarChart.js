@@ -4,7 +4,7 @@ export const config = {
   dataFormat: 'nvd3SingleSeries',
   componentName: 'NVD3Adapter',
   modules: {
-    settings: [],
+    settings: ['XAxis', 'YAxis'],
   },
 };
 
