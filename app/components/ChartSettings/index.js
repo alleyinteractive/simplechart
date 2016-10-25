@@ -5,6 +5,7 @@ class ChartSettings extends Component {
     super();
     this._hasModule = this._hasModule.bind(this);
     this._renderModule = this._renderModule.bind(this);
+    this._shouldDefaultExpand = this._shouldDefaultExpand.bind(this);
   }
 
   componentWillMount() {
@@ -22,7 +23,18 @@ class ChartSettings extends Component {
       return false;
     }
     const module = require(`./modules/${name}`).default;
-    return React.createElement(module, { options: this.props.options });
+    return React.createElement(module, {
+      options: this.props.options,
+      defaultExpand: this._shouldDefaultExpand(),
+    });
+  }
+
+  _shouldDefaultExpand() {
+    let nModules = this.state.modules.length;
+    if (this.props.typeConfig.settingsComponent) {
+      nModules++;
+    }
+    return 1 === nModules;
   }
 
   _renderCustomSettings(config) {
@@ -30,7 +42,10 @@ class ChartSettings extends Component {
       return false;
     }
     const module = require(`./modules/custom/${config.settingsComponent}`).default;
-    return React.createElement(module, { options: this.props.options });
+    return React.createElement(module, {
+      options: this.props.options,
+      defaultExpand: this._shouldDefaultExpand(),
+    });
   }
 
   render() {

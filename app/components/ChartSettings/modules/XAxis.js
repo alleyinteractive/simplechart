@@ -4,6 +4,7 @@ import DispatchField from '../../lib/DispatchField';
 import {
   RECEIVE_CHART_OPTIONS_EXTEND,
 } from '../../../constants';
+import { getObjArrayKey } from '../../../utils/misc';
 
 class XAxis extends Component {
 
@@ -16,6 +17,7 @@ class XAxis extends Component {
       <AccordionBlock
         title="X Axis"
         tooltip="Settings for the X axis"
+        defaultExpand={this.props.defaultExpand}
       >
         <DispatchField
           action={RECEIVE_CHART_OPTIONS_EXTEND}
@@ -23,7 +25,7 @@ class XAxis extends Component {
           fieldProps={{
             label: 'Axis Label',
             name: 'xAxis.axisLabel',
-            value: this._getOptsKey(this.props.options.xAxis, 'axisLabel'),
+            value: getObjArrayKey(this.props.options.xAxis, 'axisLabel'),
           }}
         />
 
@@ -34,7 +36,7 @@ class XAxis extends Component {
             label: 'Rotate Labels (degrees +/-)',
             name: 'xAxis.rotateLabels',
             type: 'number',
-            value: this._getOptsKey(this.props.options.xAxis, 'rotateLabels'),
+            value: getObjArrayKey(this.props.options.xAxis, 'rotateLabels'),
           }}
         />
       </AccordionBlock>
@@ -44,6 +46,7 @@ class XAxis extends Component {
 
 XAxis.propTypes = {
   options: React.PropTypes.object,
+  defaultExpand: React.PropTypes.bool,
 };
 
 export default XAxis;

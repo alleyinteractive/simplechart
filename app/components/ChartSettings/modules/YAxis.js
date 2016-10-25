@@ -4,6 +4,7 @@ import DispatchField from '../../lib/DispatchField';
 import {
   RECEIVE_CHART_OPTIONS_EXTEND,
 } from '../../../constants';
+import { getObjArrayKey } from '../../../utils/misc';
 
 class YAxis extends Component {
 
@@ -32,14 +33,17 @@ class YAxis extends Component {
 
   render() {
     return (
-      <AccordionBlock title="Y Axis" >
+      <AccordionBlock
+        title="Y Axis"
+        defaultExpand={this.props.defaultExpand}
+      >
         <DispatchField
           action={RECEIVE_CHART_OPTIONS_EXTEND}
           fieldType="Input"
           fieldProps={{
             label: 'Axis Label',
             name: 'yAxis.axisLabel',
-            value: this._getOptsKey(this.props.options.yAxis, 'axisLabel'),
+            value: getObjArrayKey(this.props.options.yAxis, 'axisLabel'),
           }}
         />
         <DispatchField
@@ -50,7 +54,7 @@ class YAxis extends Component {
             name: 'yDomain.min',
             type: 'number',
             step: 'any',
-            value: this._getOptsKey(this.props.options.yDomain, 0),
+            value: getObjArrayKey(this.props.options.yDomain, 0),
           }}
           handler={this._handleYDomain}
         />
@@ -62,7 +66,7 @@ class YAxis extends Component {
             name: 'yDomain.max',
             type: 'number',
             step: 'any',
-            value: this._getOptsKey(this.props.options.yDomain, 1),
+            value: getObjArrayKey(this.props.options.yDomain, 1),
           }}
           handler={this._handleYDomain}
         />
@@ -73,6 +77,7 @@ class YAxis extends Component {
 
 YAxis.propTypes = {
   options: React.PropTypes.object,
+  defaultExpand: React.PropTypes.bool,
 };
 
 export default YAxis;

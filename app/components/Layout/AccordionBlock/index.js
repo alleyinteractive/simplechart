@@ -17,8 +17,7 @@ class AccordionBlock extends Component {
 
   componentWillMount() {
     this.setState({
-      expanded: ('undefined' !== typeof this.props.defaultExpand ||
-        this.props.defaultExpand),
+      expanded: this.props.defaultExpand,
     });
   }
 
