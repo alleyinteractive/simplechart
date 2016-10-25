@@ -9,7 +9,7 @@ import { min, max, scale } from 'd3';
  */
 function _getSeriesDomain(series, format) {
   const key = 'nvd3SingleSeries' === format ? 'value' : 'y';
-  const values = series.reduce((acc, point) => acc.push(point[key]), []);
+  const values = series.map((point) => point[key]);
   return [min(values), max(values)];
 }
 
