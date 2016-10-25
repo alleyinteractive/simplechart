@@ -18,12 +18,20 @@ class ChartTypeSelector extends Component {
     super();
     this._selectChartType = this._selectChartType.bind(this);
     this._renderTypeOption = this._renderTypeOption.bind(this);
+    this._getChartType = this._getChartType.bind(this);
   }
 
   componentWillMount() {
-    if (this.props.typeObj.type) {
-      this._selectChartType(this.typeObj.type);
+    if (this._getChartType()) {
+      this._selectChartType(this._getChartType());
     }
+  }
+
+  _getChartType() {
+    if (!this.props.typeObj.config || !this.props.typeObj.config.type) {
+      return null;
+    }
+    return this.props.typeObj.config.type;
   }
 
   _selectChartType(selectedName) {
@@ -50,7 +58,7 @@ class ChartTypeSelector extends Component {
       value: typeConfig.type,
       backgroundColor: !disabled ? 'primary' : 'secondary',
       disabled,
-      checked: (typeConfig.type === this.props.typeObj.type),
+      checked: (typeConfig.type === this._getChartType()),
       onChange: (evt) => this._selectChartType(evt.target.value),
     });
   }

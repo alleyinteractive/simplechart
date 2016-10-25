@@ -2,11 +2,15 @@ export const config = {
   type: 'pieChart',
   label: 'Pie Chart',
   dataFormat: 'nvd3SingleSeries',
-  componentName: 'PieChart',
+  componentName: 'NVD3Adapter',
+  settingsComponent: 'PieChartSettings',
+  modules: {
+    settings: ['Legend'],
+  },
 };
 
 export const defaultOpts = {
   donut: true,
-  showLegend: false,
+  showLegend: true,
   showLabels: false,
 };

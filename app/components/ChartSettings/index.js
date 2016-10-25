@@ -1,27 +1,53 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import AccordionBlock from '../Layout/AccordionBlock';
 
 class ChartSettings extends Component {
+  constructor() {
+    super();
+    this._hasModule = this._hasModule.bind(this);
+    this._renderModule = this._renderModule.bind(this);
+  }
+
+  componentWillMount() {
+    this.setState({
+      modules: this.props.typeConfig.modules.settings,
+    });
+  }
+
+  _hasModule(name) {
+    return -1 !== this.state.modules.indexOf(name);
+  }
+
+  _renderModule(name) {
+    if (!this._hasModule(name)) {
+      return false;
+    }
+    const module = require(`./modules/${name}`).default;
+    return React.createElement(module, { options: this.props.options });
+  }
+
+  _renderCustomSettings(config) {
+    if (!config.settingsComponent) {
+      return false;
+    }
+    const module = require(`./modules/custom/${config.settingsComponent}`).default;
+    return React.createElement(module, { options: this.props.options });
+  }
+
   render() {
     return (
-      <AccordionBlock
-        title="Test 1"
-        tooltip="Tooltip content"
-        defaultExpand
-      >
-        <p>a group of fields like "X-Axis Settings" would go here"</p>
-      </AccordionBlock>
+      <div>
+        {this._renderModule('XAxis') || ''}
+        {this._renderModule('YAxis') || ''}
+        {this._renderModule('Legend') || ''}
+        {this._renderCustomSettings(this.props.typeConfig) || ''}
+      </div>
     );
   }
 }
 
 ChartSettings.propTypes = {
-  data: React.PropTypes.array,
   options: React.PropTypes.object,
-  currentStep: React.PropTypes.number,
   typeConfig: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
 };
 
-export default connect()(ChartSettings);
+export default ChartSettings;
