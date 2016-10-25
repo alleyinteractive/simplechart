@@ -13,7 +13,8 @@ class YAxis extends Component {
   }
 
   _getOptsKey(axisOpts, key, defaultValue = '') {
-    return axisOpts && axisOpts[key] ? axisOpts[key] : defaultValue;
+    return (axisOpts && {}.hasOwnProperty.call(axisOpts, key)) ?
+      axisOpts[key] : defaultValue;
   }
 
   _handleYDomain(fieldProps, value) {
