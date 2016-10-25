@@ -5,7 +5,7 @@ export const config = {
   componentName: 'NVD3Adapter',
   settingsComponent: 'PieChartSettings',
   modules: {
-    settings: ['Legend'],
+    settings: ['Legend', 'Metadata'],
   },
 };
 
