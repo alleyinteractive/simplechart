@@ -29,6 +29,7 @@ class ChartSettings extends Component {
       defaultExpand: { $set: this._shouldDefaultExpand() },
       options: { $set: 'Metadata' !== name ? this.props.options : {} },
       metadata: { $set: 'Metadata' === name ? this.props.metadata : {} },
+      data: { $set: 'ColorPalette' === name ? this.props.data : [] },
     });
     const module = require(`./modules/${name}`).default;
     return React.createElement(module, moduleProps);
@@ -60,6 +61,7 @@ class ChartSettings extends Component {
         {this._renderModule('YAxis') || ''}
         {this._renderModule('Legend') || ''}
         {this._renderModule('Metadata') || ''}
+        {this._renderModule('ColorPalette') || ''}
         {this._renderCustomSettings(this.props.typeConfig) || ''}
       </div>
     );
@@ -69,6 +71,7 @@ class ChartSettings extends Component {
 ChartSettings.propTypes = {
   metadata: React.PropTypes.object,
   options: React.PropTypes.object,
+  data: React.PropTypes.array,
   typeConfig: React.PropTypes.object,
 };
 

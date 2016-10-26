@@ -45,10 +45,9 @@ export default function selectChartTypeMiddleware({ getState }) {
       .transformedData[action.data.config.dataFormat];
     dispatch(actionTrigger(dataAction, formattedData));
 
-    const optsAction = (getState().chartOptions.type &&
-      getState().chartOptions.type.length) ?
+    const optsAction = {}.hasOwnProperty.call(getState().chartOptions, 'type') ? // eslint-disable-line max-len
       RECEIVE_CHART_OPTIONS : RECEIVE_CHART_OPTIONS_INIT;
-
+    debugger;
     let chartTypeOpts = getChartTypeDefaultOpts(action.data.config.type);
     if (_shouldSetupYDomain(action.data.config, getState().chartOptions)) {
       /**

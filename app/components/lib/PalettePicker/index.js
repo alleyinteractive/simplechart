@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 import ColorPicker from 'react-colorpickr';
 import * as ColorPickrStyles // eslint-disable-line no-unused-vars
   from 'style!raw!react-colorpickr/dist/colorpickr.css';
-import { debounce } from '../../utils/misc';
+import { debounce } from '../../../utils/misc';
 import update from 'react-addons-update';
-import { RECEIVE_CHART_OPTIONS } from '../../constants';
-import actionTrigger from '../../actions';
+import { RECEIVE_CHART_OPTIONS } from '../../../constants';
+import actionTrigger from '../../../actions';
 import * as styles from './PalettePicker.css';
 import { Select } from 'rebass';
-import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 
 class PalettePicker extends Component {
   constructor() {
@@ -29,7 +28,9 @@ class PalettePicker extends Component {
   }
 
   componentWillMount() {
+    debugger;
     this._handleProps(this.props);
+    this._setOriginalColors(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,7 +42,6 @@ class PalettePicker extends Component {
       seriesNames: this._getSeriesNames(props),
       colors: props.options.color || null,
     });
-    this._setOriginalColors(props);
   }
 
   // Set the original colors once then leave them alone
@@ -51,7 +51,7 @@ class PalettePicker extends Component {
       props.options.color.length
     ) {
       this.setState({
-        originalColors: update(props.options.color, { $merge: {} }),
+        originalColors: props.options.color,
       });
     }
   }
@@ -126,11 +126,6 @@ class PalettePicker extends Component {
             ref: 'picker',
           })}
         </div>
-        <NextPrevButton
-          copy="Next"
-          currentStep={4}
-          dir="next"
-        />
       </div>
     );
   }
