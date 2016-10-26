@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import update from 'react-addons-update';
 
 class ChartSettings extends Component {
   constructor() {
     super();
     this._hasModule = this._hasModule.bind(this);
     this._renderModule = this._renderModule.bind(this);
-    this._renderMetadataModule = this._renderMetadataModule.bind(this);
     this._shouldDefaultExpand = this._shouldDefaultExpand.bind(this);
   }
 
@@ -23,22 +23,15 @@ class ChartSettings extends Component {
     if (!this._hasModule(name)) {
       return false;
     }
-    const module = require(`./modules/${name}`).default;
-    return React.createElement(module, {
-      options: this.props.options,
-      defaultExpand: this._shouldDefaultExpand(),
-    });
-  }
 
-  _renderMetadataModule() {
-    if (!this._hasModule('Metadata')) {
-      return false;
-    }
-    const module = require('./modules/Metadata').default;
-    return React.createElement(module, {
-      metadata: this.props.metadata,
-      defaultExpand: this._shouldDefaultExpand(),
+    // Setup props, handling special cases for Metadata and ColorPalette
+    const moduleProps = update({}, {
+      defaultExpand: { $set: this._shouldDefaultExpand() },
+      options: { $set: 'Metadata' !== name ? this.props.options : {} },
+      metadata: { $set: 'Metadata' === name ? this.props.metadata : {} },
     });
+    const module = require(`./modules/${name}`).default;
+    return React.createElement(module, moduleProps);
   }
 
   _shouldDefaultExpand() {
@@ -66,7 +59,7 @@ class ChartSettings extends Component {
         {this._renderModule('XAxis') || ''}
         {this._renderModule('YAxis') || ''}
         {this._renderModule('Legend') || ''}
-        {this._renderMetadataModule() || ''}
+        {this._renderModule('Metadata') || ''}
         {this._renderCustomSettings(this.props.typeConfig) || ''}
       </div>
     );
