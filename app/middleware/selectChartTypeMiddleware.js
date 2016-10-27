@@ -1,7 +1,6 @@
 import {
   RECEIVE_CHART_DATA,
   RECEIVE_CHART_OPTIONS,
-  RECEIVE_CHART_OPTIONS_INIT,
   SELECT_CHART_TYPE,
 } from '../constants';
 import actionTrigger from '../actions';

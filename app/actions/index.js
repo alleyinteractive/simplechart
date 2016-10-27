@@ -1,7 +1,7 @@
 import {
   RECEIVE_RAW_DATA,
   RECEIVE_CHART_DATA,
-  RECEIVE_CHART_OPTIONS_INIT,
+  RECEIVE_CHART_OPTIONS,
   RECEIVE_CHART_METADATA,
   RECEIVE_WIDGET,
   RECEIVE_WIDGET_DATA,
@@ -38,7 +38,7 @@ export function bootstrapAppData() {
       dispatch(actionTrigger(RECEIVE_CHART_DATA, evt.data.data || []))
     );
     receiveMessage('bootstrap.chartOptions', (evt) =>
-      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS_INIT, evt.data.data || {}))
+      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, evt.data.data || {}))
     );
     receiveMessage('bootstrap.chartMetadata', (evt) =>
       dispatch(actionTrigger(RECEIVE_CHART_METADATA, evt.data.data || {}))

@@ -44,7 +44,8 @@ export const RECEIVE_CHART_DATA = 'RECEIVE_CHART_DATA';
 
 // chart options
 export const RECEIVE_CHART_OPTIONS = 'RECEIVE_CHART_OPTIONS';
-export const RECEIVE_CHART_OPTIONS_INIT = 'RECEIVE_CHART_OPTIONS_INIT';
+
+// Deep-extend object into chart options
 export const RECEIVE_CHART_OPTIONS_EXTEND = 'RECEIVE_CHART_OPTIONS_EXTEND';
 
 // delete specific keys from chart options

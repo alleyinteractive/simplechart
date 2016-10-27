@@ -5,7 +5,6 @@
 import {
   RECEIVE_CHART_DATA,
   RECEIVE_CHART_OPTIONS,
-  RECEIVE_CHART_OPTIONS_INIT,
 } from '../constants';
 import { dataIsMultiSeries } from '../utils/misc';
 import update from 'react-addons-update';
@@ -39,7 +38,6 @@ export default function middleware(store) {
         break;
 
       case RECEIVE_CHART_OPTIONS:
-      case RECEIVE_CHART_OPTIONS_INIT:
         next(actionTrigger(
           RECEIVE_CHART_DATA,
           applyColorsToData(
