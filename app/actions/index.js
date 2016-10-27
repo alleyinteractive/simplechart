@@ -1,5 +1,5 @@
 import {
-  RECEIVE_RAW_DATA_INIT,
+  RECEIVE_RAW_DATA,
   RECEIVE_CHART_DATA_INIT,
   RECEIVE_CHART_OPTIONS_INIT,
   RECEIVE_CHART_METADATA,
@@ -32,7 +32,7 @@ export function bootstrapAppData() {
      * Send each data component to reducer
      */
     receiveMessage('bootstrap.rawData', (evt) =>
-      dispatch(actionTrigger(RECEIVE_RAW_DATA_INIT, evt.data.data || ''))
+      dispatch(actionTrigger(RECEIVE_RAW_DATA, evt.data.data || ''))
     );
     receiveMessage('bootstrap.chartData', (evt) =>
       dispatch(actionTrigger(RECEIVE_CHART_DATA_INIT, evt.data.data || []))

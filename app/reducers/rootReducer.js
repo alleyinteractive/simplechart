@@ -28,8 +28,7 @@ export default combineReducers({
   parsedData: (state, action) =>
     baseReducer(state, action, [], [actions.PARSE_RAW_DATA]),
   rawData: (state, action) =>
-    baseReducer(state, action, '',
-      [actions.RECEIVE_RAW_DATA, actions.RECEIVE_RAW_DATA_INIT]),
+    baseReducer(state, action, '', [actions.RECEIVE_RAW_DATA]),
   transformedData: (state, action) =>
     baseReducer(state, action, {}, [actions.TRANSFORM_DATA]),
   unsavedChanges: (state, action) =>
