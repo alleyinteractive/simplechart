@@ -4,7 +4,6 @@
  */
 import {
   RECEIVE_CHART_DATA,
-  RECEIVE_CHART_DATA_INIT,
   RECEIVE_CHART_OPTIONS,
   RECEIVE_CHART_OPTIONS_INIT,
 } from '../constants';
@@ -33,7 +32,6 @@ export default function middleware(store) {
 
     switch (action.type) {
       case RECEIVE_CHART_DATA:
-      case RECEIVE_CHART_DATA_INIT:
         if ('middleware' !== action.src) {
           result.data = applyColorsToData(
             store.getState().chartOptions.color || [], result.data);

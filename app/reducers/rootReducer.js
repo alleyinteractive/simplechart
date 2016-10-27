@@ -11,8 +11,7 @@ import * as actions from '../constants';
 
 export default combineReducers({
   chartData: (state, action) =>
-    baseReducer(state, action, [],
-      [actions.RECEIVE_CHART_DATA, actions.RECEIVE_CHART_DATA_INIT]),
+    baseReducer(state, action, [], [actions.RECEIVE_CHART_DATA]),
   chartMetadata: (state, action) =>
     baseReducer(state, action, {}, [actions.RECEIVE_CHART_METADATA]),
   chartOptions: chartOptionsReducer,

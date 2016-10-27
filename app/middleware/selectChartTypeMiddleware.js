@@ -1,6 +1,5 @@
 import {
   RECEIVE_CHART_DATA,
-  RECEIVE_CHART_DATA_INIT,
   RECEIVE_CHART_OPTIONS,
   RECEIVE_CHART_OPTIONS_INIT,
   SELECT_CHART_TYPE,
@@ -37,18 +36,15 @@ export default function selectChartTypeMiddleware({ getState }) {
     // chartOptions.donut === true even though donut is not a relevant
     // option for bar charts
     // use init data action if no data yet
-    const dataAction = (0 < getState().chartData.length) ?
-      RECEIVE_CHART_DATA : RECEIVE_CHART_DATA_INIT;
 
     // send formatted data to store chartData
-    const formattedData = getState()
-      .transformedData[action.data.config.dataFormat];
-    dispatch(actionTrigger(dataAction, formattedData));
+    dispatch(actionTrigger(
+      RECEIVE_CHART_DATA,
+      getState().transformedData[action.data.config.dataFormat]
+    ));
 
-    const optsAction = (getState().chartOptions.type &&
-      getState().chartOptions.type.length) ?
-      RECEIVE_CHART_OPTIONS : RECEIVE_CHART_OPTIONS_INIT;
 
+    // send default options to store chartOptions
     let chartTypeOpts = getChartTypeDefaultOpts(action.data.config.type);
     if (_shouldSetupYDomain(action.data.config, getState().chartOptions)) {
       /**
@@ -59,8 +55,7 @@ export default function selectChartTypeMiddleware({ getState }) {
       } });
     }
 
-    // send default options to store chartOptions
-    dispatch(actionTrigger(optsAction, chartTypeOpts));
+    dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, chartTypeOpts));
 
     return dispatch(action);
   };

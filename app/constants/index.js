@@ -39,9 +39,9 @@ export const TRANSFORM_DATA = 'TRANSFORM_DATA';
 // chart type object from manifest
 export const SELECT_CHART_TYPE = 'SELECT_CHART_TYPE';
 
-// data transformed for chart type
+// data transformed for selected chart type
 export const RECEIVE_CHART_DATA = 'RECEIVE_CHART_DATA';
-export const RECEIVE_CHART_DATA_INIT = 'RECEIVE_CHART_DATA_INIT';
+
 // chart options
 export const RECEIVE_CHART_OPTIONS = 'RECEIVE_CHART_OPTIONS';
 export const RECEIVE_CHART_OPTIONS_INIT = 'RECEIVE_CHART_OPTIONS_INIT';
