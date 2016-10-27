@@ -1,7 +1,7 @@
 import {
   RECEIVE_CHART_DATA,
   RECEIVE_CHART_OPTIONS,
-  SELECT_CHART_TYPE,
+  RECEIVE_CHART_TYPE,
 } from '../constants';
 import actionTrigger from '../actions';
 import { getChartTypeDefaultOpts } from '../utils/chartTypeUtils';
@@ -23,7 +23,7 @@ function _shouldSetupYDomain(chartConfig, storedOptions) {
 
 export default function selectChartTypeMiddleware({ getState }) {
   return (dispatch) => (action) => {
-    if (action.type !== SELECT_CHART_TYPE) {
+    if (action.type !== RECEIVE_CHART_TYPE) {
       return dispatch(action);
     }
 
