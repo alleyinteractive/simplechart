@@ -7,16 +7,10 @@ import { AppContainer } from 'react-hot-loader';
 
 // Middleware
 import thunk from 'redux-thunk';
-import rawDataMiddleware
-  from './middleware/rawDataMiddleware';
-import chartOptionsInitMiddleware
-  from './middleware/chartOptionsInitMiddleware';
-  from './middleware/unsavedChangesMiddleware';
-import applyColorsMiddleware
-  from './middleware/applyColorsMiddleware';
-import selectChartTypeMiddleware
-  from './middleware/selectChartTypeMiddleware';
+import rawDataMiddleware from './middleware/rawDataMiddleware';
 import unsavedChanges from './middleware/unsavedChanges';
+import applyChartData from './middleware/applyChartData';
+import applyChartTypeDefaults from './middleware/applyChartTypeDefaults';
 
 // Other stuff
 import { bootstrapAppData } from './actions';
@@ -31,9 +25,8 @@ const store = createStore(rootReducer, compose(
   applyMiddleware(
     thunk,
     rawDataMiddleware,
-    chartOptionsInitMiddleware,
-    applyColorsMiddleware,
-    selectChartTypeMiddleware
+    applyChartData,
+    applyChartTypeDefaults,
     unsavedChanges,
   )
 ));

@@ -1,5 +1,4 @@
 import {
-  RECEIVE_CHART_DATA,
   RECEIVE_CHART_OPTIONS,
   RECEIVE_CHART_TYPE,
 } from '../constants';
@@ -27,20 +26,13 @@ export default function selectChartTypeMiddleware({ getState }) {
       return dispatch(action);
     }
 
-    // use init options action if we don't already have a chart type
-    // If we do have a chart type already, note that chartOptions
+    // Note that chartOptions
     // object is *not* cleared when chart type changes, e.g.
     // if you select pieChart, then chartOptions.donut = true,
     // then select discreteBarChart, you will still see
     // chartOptions.donut === true even though donut is not a relevant
     // option for bar charts
     // use init data action if no data yet
-
-    // send formatted data to store chartData
-    dispatch(actionTrigger(
-      RECEIVE_CHART_DATA,
-      getState().transformedData[action.data.config.dataFormat]
-    ));
 
     // send default options to store chartOptions
     let chartTypeOpts = getChartTypeDefaultOpts(action.data.config.type);
