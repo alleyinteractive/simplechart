@@ -11,12 +11,12 @@ import rawDataMiddleware
   from './middleware/rawDataMiddleware';
 import chartOptionsInitMiddleware
   from './middleware/chartOptionsInitMiddleware';
-import unsavedChangesMiddleware
   from './middleware/unsavedChangesMiddleware';
 import applyColorsMiddleware
   from './middleware/applyColorsMiddleware';
 import selectChartTypeMiddleware
   from './middleware/selectChartTypeMiddleware';
+import unsavedChanges from './middleware/unsavedChanges';
 
 // Other stuff
 import { bootstrapAppData } from './actions';
@@ -32,9 +32,9 @@ const store = createStore(rootReducer, compose(
     thunk,
     rawDataMiddleware,
     chartOptionsInitMiddleware,
-    unsavedChangesMiddleware,
     applyColorsMiddleware,
     selectChartTypeMiddleware
+    unsavedChanges,
   )
 ));
 
