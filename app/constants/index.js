@@ -44,6 +44,9 @@ export const RECEIVE_CHART_DATA = 'RECEIVE_CHART_DATA';
 // chart options
 export const RECEIVE_CHART_OPTIONS = 'RECEIVE_CHART_OPTIONS';
 
+// have default options been applied? if so, for which chart type?
+export const RECEIVE_DEFAULTS_APPLIED_TO = 'RECEIVE_DEFAULTS_APPLIED_TO';
+
 // Deep-extend object into chart options
 export const RECEIVE_CHART_OPTIONS_EXTEND = 'RECEIVE_CHART_OPTIONS_EXTEND';
 

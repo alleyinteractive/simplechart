@@ -19,6 +19,8 @@ export default combineReducers({
     baseReducer(state, action, {}, [actions.RECEIVE_CHART_TYPE]),
   currentStep: (state, action) =>
     baseReducer(state, action, 0, [actions.UPDATE_CURRENT_STEP]),
+  defaultsAppliedTo: (state, action) =>
+    baseReducer(state, action, '', [actions.RECEIVE_DEFAULTS_APPLIED_TO]),
   dataFields: (state, action) =>
     baseReducer(state, action, [], [actions.PARSE_DATA_FIELDS]),
   dataStatus: (state, action) =>
