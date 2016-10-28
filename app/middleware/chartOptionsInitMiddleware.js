@@ -13,7 +13,7 @@ export default function middleware({ getState }) {
      * @todo Handle non-NVD3 chart types
      */
     if (!action.data.color && !getState().chartOptions.color) {
-      action.data.color = defaultPalette;
+      action.data.color = defaultPalette; // eslint-disable-line no-param-reassign
     }
 
     return dispatch(actionTrigger(action.type, action.data));

@@ -42,7 +42,6 @@ export default function selectChartTypeMiddleware({ getState }) {
       getState().transformedData[action.data.config.dataFormat]
     ));
 
-
     // send default options to store chartOptions
     let chartTypeOpts = getChartTypeDefaultOpts(action.data.config.type);
     if (_shouldSetupYDomain(action.data.config, getState().chartOptions)) {
@@ -50,7 +49,10 @@ export default function selectChartTypeMiddleware({ getState }) {
        * @todo Recalculate yDomain when series visibility is toggled by clicking on dots in the legend
        */
       chartTypeOpts = update(chartTypeOpts, { $merge: {
-        yDomain: getNiceDomain(action.data.config.dataFormat, formattedData),
+        yDomain: getNiceDomain(
+          action.data.config.dataFormat,
+          getState().transformedData[action.data.config.dataFormat]
+        ),
       } });
     }
 
