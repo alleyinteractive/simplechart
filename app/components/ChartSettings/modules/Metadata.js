@@ -4,7 +4,7 @@ import DispatchField from '../../lib/DispatchField';
 import {
   RECEIVE_CHART_METADATA,
 } from '../../../constants';
-import { getObjArrayKey } from '../../../utils/misc';
+import { getObjArrayKey, capitalize } from '../../../utils/misc';
 import update from 'react-addons-update';
 
 class Metadata extends Component {
@@ -24,10 +24,6 @@ class Metadata extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState(nextProps.metadata);
-  }
-
-  _capitalize(input) {
-    return input.charAt(0).toUpperCase() + input.slice(1);
   }
 
   _handler(fieldProps, value) {
@@ -54,7 +50,7 @@ class Metadata extends Component {
                 action={RECEIVE_CHART_METADATA}
                 fieldType="Input"
                 fieldProps={{
-                  label: this._capitalize(key),
+                  label: capitalize(key),
                   name: key,
                   value: getObjArrayKey(this.state, key, ''),
                 }}
