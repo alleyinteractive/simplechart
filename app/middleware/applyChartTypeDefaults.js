@@ -12,32 +12,45 @@ import update from 'react-addons-update';
 
 export default function applyChartOptions({ getState }) {
   return (dispatch) => (action) => {
-    const currentOpts = getState().chartOptions;
-
-    // If we're receiving options now, we'll want to include them in what
-    // we end up dispatching from this middleware
-    let newOpts = update({}, { $set:
-      (RECEIVE_CHART_OPTIONS === action.type) ? action.data : {},
-    } });
+    if (RECEIVE_CHART_TYPE !== action.type) {
+      return dispatch(action);
+    }
 
     /**
-     * Set chart type defaults
-    */
-    function _setChartTypeDefaultOpts(mergeInto, chartType) {
-      return update(mergeInto, { $merge: {
-        getChartTypeDefaultOpts(chartType),
-      } })
+     * @todo Handle defaults that would break with a shallow merge
+     */
+    function _mergeStateIntoDefaults() {
+      return update(
+        getChartTypeDefaultOpts(action.data.config.type),
+        { $merge: getState().chartOptions }
+      );
     }
 
-    // When we are receiving options and already have a chart type config
-    const typeConfig = getState().chartType;
-    if (RECEIVE_CHART_OPTIONS === action.type && typeConfig.config) {
-      // if defaults not already applied for this chart type
-      if (typeConfig.config.type !== getState().defaultsAppliedTo) {
-
-      }
+    /**
+     * @todo Handle defaults that would fail with a shallow merge
+     */
+    function _mergeDefaultsIntoState() {
+      return update(
+        getState().chartOptions,
+        { $merge: getChartTypeDefaultOpts(action.data.config.type) }
+      );
     }
 
-    return dispatch(newOpts);
+    // If we haven't already applied this chart type's defaults
+    if (getState().defaultsAppliedTo !== action.data.config.type) {
+      dispatch(actionTrigger(
+        RECEIVE_CHART_OPTIONS,
+        !getState().defaultsAppliedTo ?
+          // Merge state into defaults if we haven't applied any defaults yet
+          // Otherwise merge defaults into state
+          _mergeStateIntoDefaults() : _mergeDefaultsIntoState()
+      ));
+      dispatch(actionTrigger(
+        RECEIVE_DEFAULTS_APPLIED_TO,
+        action.data.config.type
+      ));
+    }
+
+    return dispatch(action);
   };
 }
