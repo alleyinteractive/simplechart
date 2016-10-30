@@ -1,14 +1,12 @@
 import {
-  RECEIVE_RAW_DATA,
-  RECEIVE_CHART_DATA,
-  RECEIVE_CHART_OPTIONS,
-  RECEIVE_CHART_METADATA,
+  RECEIVE_ERROR,
   RECEIVE_WIDGET,
   RECEIVE_WIDGET_DATA,
   RECEIVE_WIDGET_OPTIONS,
   RECEIVE_WIDGET_METADATA,
 } from '../constants';
 import { receiveMessage, setupPostMessage } from '../utils/postMessage';
+import bootstrapStore from '../utils/bootstrapStore';
 
 /**
  * For IE11 support
@@ -28,20 +26,25 @@ export function bootstrapAppData() {
   setupPostMessage();
 
   return function setupReceiveMessage(dispatch) {
-    /**
-     * Send each data component to reducer
-     */
-    receiveMessage('bootstrap.rawData', (evt) =>
-      dispatch(actionTrigger(RECEIVE_RAW_DATA, evt.data.data || ''))
+    // Bootstrap chart editor from plugin data
+    receiveMessage('bootstrap.editor', (evt) => {
+      if (evt.data && evt.data.data && Object.keys(evt.data.data).length) {
+        bootstrapStore(dispatch, evt.data.data);
+      }
+    });
+
+     // Handle messages from outdated plugin script
+    receiveMessage('bootstrap.rawData', () =>
+      dispatch(actionTrigger(RECEIVE_ERROR, 'e005'))
     );
-    receiveMessage('bootstrap.chartData', (evt) =>
-      dispatch(actionTrigger(RECEIVE_CHART_DATA, evt.data.data || []))
+    receiveMessage('bootstrap.chartData', () =>
+      dispatch(actionTrigger(RECEIVE_ERROR, 'e005'))
     );
-    receiveMessage('bootstrap.chartOptions', (evt) =>
-      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, evt.data.data || {}))
+    receiveMessage('bootstrap.chartOptions', () =>
+      dispatch(actionTrigger(RECEIVE_ERROR, 'e005'))
     );
-    receiveMessage('bootstrap.chartMetadata', (evt) =>
-      dispatch(actionTrigger(RECEIVE_CHART_METADATA, evt.data.data || {}))
+    receiveMessage('bootstrap.chartMetadata', () =>
+      dispatch(actionTrigger(RECEIVE_ERROR, 'e005'))
     );
   };
 }
