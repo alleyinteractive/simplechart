@@ -2,7 +2,7 @@
  * Results of d3.scale.category20()
  * Would be "better" to set this dynamically but this'll do for now
  */
-export const defaultPalette = [
+export default [
   '#1f77b4',
   '#aec7e8',
   '#ff7f0e',

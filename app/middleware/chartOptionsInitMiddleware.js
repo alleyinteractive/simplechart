@@ -1,5 +1,5 @@
 import { RECEIVE_CHART_OPTIONS } from '../constants';
-import { defaultPalette } from '../constants/defaultPalette';
+import defaultPalette from '../constants/defaultPalette';
 import actionTrigger from '../actions';
 
 export default function middleware({ getState }) {
