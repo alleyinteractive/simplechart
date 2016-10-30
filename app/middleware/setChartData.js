@@ -10,7 +10,7 @@ import {
 } from '../constants';
 import actionTrigger from '../actions';
 
-export default function applyChartData({ getState }) {
+export default function setChartData({ getState }) {
   return (dispatch) => (action) => {
     /**
      * If we are receiving chart type config and
