@@ -2,9 +2,14 @@
  * RECEIVE_CHART_TYPE middleware
  */
 
-import { RECEIVE_CHART_TYPE } from '../constants';
+import {
+  RECEIVE_CHART_TYPE,
+  RECEIVE_CHART_OPTIONS,
+  RECEIVE_DEFAULTS_APPLIED_TO,
+} from '../constants';
 import dispatchChartData from './utils/dispatchChartData';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
+import actionTrigger from '../actions';
 
 export default function receiveChartType({ getState }) {
   return (dispatch) => (action) => {
@@ -14,12 +19,20 @@ export default function receiveChartType({ getState }) {
     const nextConfig = action.data.config;
 
     /**
+     * Dispatch chart data if chartData not already set up
+     * or if dataFormat has changed
+     */
+    function _shouldDispatchChartData() {
+      return !getState().chartData.length || // chartData not already set up
+        !getState().chartType.config || //  chartType not already set up
+        !getState().chartType.config.dataFormat || // chartType didn't have dataFormat
+        getState().chartType.config.dataFormat !== nextConfig.dataFormat; // dataFormat has changed
+    }
+
+    /**
      * Send chartData to store if dataFormat has changed
      */
-    if (!getState().chartType.config ||
-      !getState().chartType.config.dataFormat ||
-      getState().chartType.config.dataFormat !== nextConfig.dataFormat
-    ) {
+    if (_shouldDispatchChartData()) {
       dispatchChartData(
         dispatch,
         nextConfig,
@@ -31,7 +44,12 @@ export default function receiveChartType({ getState }) {
     /**
      * Setup chart type default options
      */
-    applyChartTypeDefaults(nextConfig, getState, dispatch);
+    const nextOpts = applyChartTypeDefaults(
+      nextConfig, getState().chartOptions, getState().defaultsAppliedTo);
+    if (nextOpts) {
+      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, nextOpts));
+      dispatch(actionTrigger(RECEIVE_DEFAULTS_APPLIED_TO, nextConfig.type));
+    }
 
     return dispatch(action);
   };
