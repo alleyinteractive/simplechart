@@ -18,6 +18,7 @@ export default function setChartData({ getState }) {
      */
     function _handleReceiveChartType() {
       if (getState().transformedData[action.data.config.dataFormat]) {
+        debugger;
         dispatch(actionTrigger(
           RECEIVE_CHART_DATA,
           getState().transformedData[action.data.config.dataFormat]
@@ -34,6 +35,7 @@ export default function setChartData({ getState }) {
         getState().chartType.config.dataFormat &&
         action.data[getState().chartType.config.dataFormat]
       ) {
+        debugger;
         dispatch(actionTrigger(
           RECEIVE_CHART_DATA,
           action.data[getState().chartType.config.dataFormat]
