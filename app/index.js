@@ -10,7 +10,6 @@ import thunk from 'redux-thunk';
 import receiveRawData from './middleware/receiveRawData';
 import transformData from './middleware/transformData';
 import receiveChartType from './middleware/receiveChartType';
-import receiveChartData from './middleware/receiveChartData';
 import receiveChartOptions from './middleware/receiveChartOptions';
 import unsavedChanges from './middleware/unsavedChanges';
 import actionLogging from './middleware/actionLogging';
@@ -30,7 +29,6 @@ const store = createStore(rootReducer, compose(
     receiveRawData,
     transformData,
     receiveChartType,
-    receiveChartData,
     receiveChartOptions,
     unsavedChanges,
     actionLogging
