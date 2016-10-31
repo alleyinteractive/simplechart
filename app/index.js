@@ -7,6 +7,7 @@ import { AppContainer } from 'react-hot-loader';
 
 // Middleware
 import thunk from 'redux-thunk';
+import actionLogging from './middleware/actionLogging';
 import transformRawData from './middleware/transformRawData';
 import setChartData from './middleware/setChartData';
 import applyColorsToData from './middleware/applyColorsToData';
@@ -27,7 +28,8 @@ const store = createStore(rootReducer, compose(
     transformRawData,
     setChartData,
     applyColorsToData,
-    unsavedChanges
+    unsavedChanges,
+    actionLogging
   )
 ));
 
