@@ -10,9 +10,10 @@ export default function setChartData({ getState }) {
   return (dispatch) => (action) => {
     if (TRANSFORM_DATA === action.type) {
       dispatchChartData(
+        dispatch,
         getState().chartType.config || {},
         action.data,
-        dispatch
+        getState().chartOptions.color
       );
     }
     return dispatch(action);
