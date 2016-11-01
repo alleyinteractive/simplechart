@@ -8,6 +8,7 @@ import defaultPalette from '../constants/defaultPalette';
 import update from 'react-addons-update';
 import dispatchChartData from './utils/dispatchChartData';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
+import applyYDomain from './utils/applyYDomain';
 import applyDataFormatters from './utils/applyDataFormatters';
 
 export default function receiveChartType({ getState }) {
@@ -83,7 +84,16 @@ export default function receiveChartType({ getState }) {
     // Apply tick/value formatting
     nextOpts = applyDataFormatters(nextOpts, getState().chartType.config);
 
-    // Apply yDomain
+    /**
+     * set yDomain if chartData and chartType are set up
+     */
+    if (0 < getState().chartData.length && getState().chartType.config) {
+      nextOpts = applyYDomain(
+        nextOpts,
+        getState().chartType.config,
+        getState().chartData
+      );
+    }
 
     // Send nextOpts to Redux store
     return dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, nextOpts));

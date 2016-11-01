@@ -10,6 +10,7 @@ import {
 import dispatchChartData from './utils/dispatchChartData';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
 import applyDataFormatters from './utils/applyDataFormatters';
+import applyYDomain from './utils/applyYDomain';
 import actionTrigger from '../actions';
 
 export default function receiveChartType({ getState }) {
@@ -55,6 +56,13 @@ export default function receiveChartType({ getState }) {
      * apply tick/value formatting
      */
     nextOpts = applyDataFormatters(nextOpts, nextConfig);
+
+    /**
+     * set yDomain if chartData is set up
+     */
+    if (0 < getState().chartData.length) {
+      nextOpts = applyYDomain(nextOpts, nextConfig, getState().chartData);
+    }
 
     dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, nextOpts));
     dispatch(actionTrigger(RECEIVE_DEFAULTS_APPLIED_TO, nextConfig.type));
