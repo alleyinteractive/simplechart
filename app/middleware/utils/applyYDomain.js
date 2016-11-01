@@ -22,7 +22,7 @@ export default function applyYDomain(chartOptions, typeConfig, chartData) {
   /**
    * @todo Recalculate yDomain when series visibility is toggled by clicking on dots in the legend
    */
-  return update(chartOptions, { $set: {
-    yDomain: getNiceDomain(typeConfig.dataFormat, chartData),
+  return update(chartOptions, { yDomain: {
+    $set: getNiceDomain(typeConfig.dataFormat, chartData),
   } });
 }
