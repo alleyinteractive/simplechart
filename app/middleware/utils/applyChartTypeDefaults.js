@@ -32,7 +32,7 @@ export default function applyChartTypeDefaults(
   switch (defaultsAppliedTo) {
     // Already applied for this chart type
     case chartTypeConfig.type:
-      return null;
+      return chartOptions;
 
     // None applied yet
     case '':

@@ -8,6 +8,7 @@ import defaultPalette from '../constants/defaultPalette';
 import update from 'react-addons-update';
 import dispatchChartData from './utils/dispatchChartData';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
+import applyDataFormatters from './utils/applyDataFormatters';
 
 export default function receiveChartType({ getState }) {
   return (dispatch) => (action) => {
@@ -80,6 +81,7 @@ export default function receiveChartType({ getState }) {
     }
 
     // Apply tick/value formatting
+    nextOpts = applyDataFormatters(nextOpts, getState().chartType.config);
 
     // Apply yDomain
 

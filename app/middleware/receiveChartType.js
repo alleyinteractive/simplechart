@@ -9,6 +9,7 @@ import {
 } from '../constants';
 import dispatchChartData from './utils/dispatchChartData';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
+import applyDataFormatters from './utils/applyDataFormatters';
 import actionTrigger from '../actions';
 
 export default function receiveChartType({ getState }) {
@@ -44,12 +45,19 @@ export default function receiveChartType({ getState }) {
     /**
      * Setup chart type default options
      */
-    const nextOpts = applyChartTypeDefaults(
-      nextConfig, getState().chartOptions, getState().defaultsAppliedTo);
-    if (nextOpts) {
-      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, nextOpts));
-      dispatch(actionTrigger(RECEIVE_DEFAULTS_APPLIED_TO, nextConfig.type));
-    }
+    let nextOpts = applyChartTypeDefaults(
+      nextConfig,
+      getState().chartOptions,
+      getState().defaultsAppliedTo
+    );
+
+    /**
+     * apply tick/value formatting
+     */
+    nextOpts = applyDataFormatters(nextOpts, nextConfig);
+
+    dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, nextOpts));
+    dispatch(actionTrigger(RECEIVE_DEFAULTS_APPLIED_TO, nextConfig.type));
 
     return dispatch(action);
   };
