@@ -9,37 +9,22 @@ export default function applyChartTypeDefaults(
   chartOptions,
   defaultsAppliedTo
 ) {
+  // In case we got no chart type, or defaults already set for this chart type
+  if (!chartTypeConfig ||
+    !chartTypeConfig.type ||
+    defaultsAppliedTo === chartTypeConfig.type
+  ) {
+    return chartOptions;
+  }
+
+  // Merge defaults into state
   /**
    * @todo Handle defaults that would break with a shallow merge
+   * and be smarter about not overwriting edited options that would
+   * be reset to defaults here
    */
-  function _mergeStateIntoDefaults() {
-    return update(
-      getChartTypeDefaultOpts(chartTypeConfig.type),
-      { $merge: chartOptions }
-    );
-  }
-
-  /**
-   * @todo Handle defaults that would fail with a shallow merge
-   */
-  function _mergeDefaultsIntoState() {
-    return update(
-      chartOptions,
-      { $merge: getChartTypeDefaultOpts(chartTypeConfig.type) }
-    );
-  }
-
-  switch (defaultsAppliedTo) {
-    // Already applied for this chart type
-    case chartTypeConfig.type:
-      return chartOptions;
-
-    // None applied yet
-    case '':
-      return _mergeDefaultsIntoState();
-
-    // Previously applied for a different chart type
-    default:
-      return _mergeStateIntoDefaults();
-  }
+  return update(
+    chartOptions,
+    { $merge: getChartTypeDefaultOpts(chartTypeConfig.type) }
+  );
 }
