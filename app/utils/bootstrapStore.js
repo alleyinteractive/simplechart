@@ -2,27 +2,8 @@ import actionTrigger from '../actions';
 import * as actions from '../constants';
 import update from 'react-addons-update';
 import { getChartTypeObject, getChartTypeDefaultOpts } from './chartTypeUtils';
-import createFormatter from './createFormatter';
-import { capitalize } from './misc';
 import defaultPalette from '../constants/defaultPalette';
-
-function getAxesConfig(formatter, options, typeConfig) {
-  const axesConfig = {};
-  if (!typeConfig.modules || !typeConfig.modules.settings) {
-    return axesConfig;
-  }
-
-  const toMerge = { tickFormat: formatter };
-  // Merge into existing axis settings if needed
-  function _setAxis(name) {
-    if (-1 !== typeConfig.modules.settings.indexOf(capitalize(name))) {
-      axesConfig[name] = update(options[name] || {}, { $merge: toMerge });
-    }
-  }
-  _setAxis('xAxis');
-  _setAxis('yAxis');
-  return axesConfig;
-}
+import applyDataFormatters from '../middleware/utils/applyDataFormatters';
 
 /**
  * Handle bootstrapping the Redux store with data from a postMessage,
@@ -53,7 +34,7 @@ export default function bootstrapStore(dispatch, savedData) {
    * Merge saved options into default options to reset
    * any functions that disappeared when object was stringified
    */
-  let nextChartOptions = update(
+  let nextOpts = update(
     getChartTypeDefaultOpts(nextChartType.config.type),
     { $merge: savedData.chartOptions }
   );
@@ -61,22 +42,15 @@ export default function bootstrapStore(dispatch, savedData) {
   /**
    * Reset tick formatting that might also have been deleted
    */
-  if (nextChartOptions.tickFormatBuilder) {
-    const formatter = createFormatter(nextChartOptions.tickFormatBuilder);
-    // set single series valueFormat if applicable
-    if ('nvd3SingleSeries' === nextChartType.config.dataFormat) {
-      nextChartOptions.valueFormat = formatter;
-    }
-    nextChartOptions = update(nextChartOptions, {
-      $merge: getAxesConfig(formatter, nextChartOptions, nextChartType.config),
-    });
+  if (nextOpts.tickFormatBuilder) {
+    nextOpts = applyDataFormatters(nextOpts, nextChartType.config);
   }
 
   /**
    * Apply default colors if needed
    */
-  if (!nextChartOptions.color) {
-    nextChartOptions = update(nextChartOptions, { $merge: {
+  if (!nextOpts.color) {
+    nextOpts = update(nextOpts, { $merge: {
       color: defaultPalette,
     } });
   }
@@ -89,7 +63,7 @@ export default function bootstrapStore(dispatch, savedData) {
   dispatch(actionTrigger(
     actions.RECEIVE_CHART_TYPE, nextChartType));
   dispatch(actionTrigger(
-    actions.RECEIVE_CHART_OPTIONS, nextChartOptions));
+    actions.RECEIVE_CHART_OPTIONS, nextOpts));
   dispatch(actionTrigger(
     actions.RECEIVE_CHART_METADATA, savedData.chartMetadata || {}));
 }
