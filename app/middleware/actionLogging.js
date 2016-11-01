@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import enableActionLogging from '../constants/enableActionLogging';
 import * as actions from '../constants';
-import actionsMap from '../constants/actionsStateKeysMap';
+import { actionsMap } from '../constants/actionsStateKeysMap';
 import diff from 'deep-diff';
 
 function _getStringChange(oldVal, newVal) {
@@ -50,24 +50,27 @@ function _getArrayChange(oldVal, newVal) {
  * @return obj For each key, say if created, deleted, or updated
  */
 function _getChanges(action, getState) {
-  if (!{}.hasOwnProperty(actionsMap, action.type)) {
+  if (!actionsMap[action.type]) {
     return {};
   }
 
   // e.g. if action.type is RECEIVE_CHART_DATA, we want getState().chartData
-  const stateVal = getState()[action.type];
+  if (!{}.hasOwnProperty.call(getState(), actionsMap[action.type])) {
+    return { dataType: 'unknown', changeLog: 'unnknown' };
+  }
 
+  const stateVal = getState()[actionsMap[action.type]];
   const changes = {};
 
   switch (true) {
     case 'boolean' === typeof stateVal:
       changes.dataType = 'boolean';
-      changes.changeLog = _getStringChange(stateVal, action.data);
+      changes.changeLog = _getBoolChange(stateVal, action.data);
       break;
 
     case 'string' === typeof stateVal:
       changes.dataType = 'string';
-      changes.changeLog = _getBoolChange(stateVal, action.data);
+      changes.changeLog = _getStringChange(stateVal, action.data);
       break;
 
     case 'number' === typeof stateVal:
