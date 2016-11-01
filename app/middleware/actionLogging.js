@@ -6,13 +6,13 @@ import diff from 'deep-diff';
 
 function _getStringChange(oldVal, newVal) {
   if (oldVal === newVal) {
-    return 'no change';
+    return 'No change';
   } else if (!oldVal.length && newVal.length) {
-    return 'added';
+    return 'Added';
   } else if (oldVal.length && !newVal.length) {
-    return 'removed';
+    return 'Removed';
   }
-  return 'updated';
+  return 'Updated';
 }
 
 function _getBoolChange(oldVal, newVal) {
@@ -29,17 +29,52 @@ function _getBoolChange(oldVal, newVal) {
 function _getNumberChange(oldVal, newVal) {
   let dir;
   if (oldVal === newVal) {
-    return 'no change';
+    return 'No change';
   } else if (oldVal < newVal) {
-    dir = 'increased';
+    dir = 'Increased';
   } else {
-    dir = 'decreased';
+    dir = 'Decreased';
   }
   return `${dir} ${oldVal} -> ${newVal}`;
 }
 
-function _getArrayChange(oldVal, newVal) {
-  return diff({ values: oldVal }, { values: newVal });
+function _getChangeKind(changeCode) {
+  switch (changeCode) {
+    case 'N':
+      return 'Addition';
+
+    case 'D':
+      return 'Deletion';
+
+    case 'E':
+      return 'Update';
+
+    case 'A':
+      return 'Array change';
+
+    default:
+      return 'Unknown change';
+  }
+}
+
+function _getDiff(oldVal, newVal) {
+  const calcDiff = diff(oldVal, newVal);
+  return !calcDiff || !calcDiff.length ? 'No changes' :
+    calcDiff.map((change) => {
+      let kind = _getChangeKind(change.kind);
+      let location;
+
+      // If not an array change
+      if ('A' !== change.kind) {
+        location = change.path.join('.');
+      } else {
+        // If an array change
+        kind = _getChangeKind(change.item.kind);
+        location = `index ${change.index}`;
+      }
+
+      return `${kind} at ${location}`;
+    }).join("\n"); // eslint-disable-line quotes
 }
 
 /**
@@ -56,7 +91,7 @@ function _getChanges(action, getState) {
 
   // e.g. if action.type is RECEIVE_CHART_DATA, we want getState().chartData
   if (!{}.hasOwnProperty.call(getState(), actionsMap[action.type])) {
-    return { dataType: 'unknown', changeLog: 'unnknown' };
+    return { dataType: 'Unknown', changeLog: 'Unknown' };
   }
 
   const stateVal = getState()[actionsMap[action.type]];
@@ -80,15 +115,14 @@ function _getChanges(action, getState) {
 
     case 'function' === typeof stateVal.concat:
       changes.dataType = 'array';
-      changes.changeLog = _getArrayChange(stateVal, action.data);
+      changes.changeLog = _getDiff(stateVal, action.data);
       break;
 
     default:
       changes.dataType = 'object';
-      changes.changeLog = diff(stateVal, action.data);
+      changes.changeLog = _getDiff(stateVal, action.data);
       break;
   }
-
   return changes;
 }
 
