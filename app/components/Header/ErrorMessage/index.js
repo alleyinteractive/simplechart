@@ -9,7 +9,7 @@ import actionTrigger from '../../../actions';
 
 class ErrorMessage extends Component {
   render() {
-    if (!this.props.code) {
+    if (!this.props.code && !this.props.children.length) {
       return null;
     }
 
@@ -17,8 +17,11 @@ class ErrorMessage extends Component {
       inverted: true,
       rounded: true,
       theme: 'error',
-      dangerouslySetInnerHTML: getErrorMessage(this.props.code),
     }, { $merge: this.props.override || {} });
+
+    if (this.props.code) {
+      props.dangerouslySetInnerHTML = getErrorMessage(this.props.code);
+    }
 
     const closeErrorMessage = function closeErrorMessage() {
       this.props.dispatch(actionTrigger(CLEAR_ERROR));
@@ -26,7 +29,7 @@ class ErrorMessage extends Component {
 
     return (
       <div className={styles.container}>
-        {React.createElement(Message, props)}
+        {React.createElement(Message, props, this.props.children)}
         <span
           className={styles.closeContainer}
           onClick={closeErrorMessage}
@@ -42,6 +45,7 @@ ErrorMessage.propTypes = {
   override: React.PropTypes.object,
   code: React.PropTypes.string,
   dispatch: React.PropTypes.func,
+  children: React.PropTypes.any.isRequired,
 };
 
 export default connect()(ErrorMessage);

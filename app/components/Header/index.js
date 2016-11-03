@@ -56,27 +56,28 @@ class Header extends Component {
     this.setState({ showUnsavedWarning: true });
   }
 
+  /**
+   * Special case since we need to render JSX inside the ErrorMessage component
+   */
   _renderUnsavedWarning() {
     if (!this.state.showUnsavedWarning) {
       return '';
     }
 
-    function discardChanges() {
+    const discardChanges = function discardChanges() {
       sendMessage('closeApp');
       this.setState({ showUnsavedWarning: false });
-    }
-    discardChanges.bind(this);
+    }.bind(this);
 
-    function closeWarning() {
+    const closeWarning = function closeWarning() {
       this.setState({ showUnsavedWarning: false });
-    }
-    closeWarning.bind(this);
+    }.bind(this);
 
     return (
       <ErrorMessage>
         You have unsaved changes.
-        <a href="#" onClick={discardChanges}>Discard changes</a> or
-        <a href="#" onClick={closeWarning}>cancel</a>.
+        <a href="#0" onClick={discardChanges}>Exit without saving</a> or
+        <a href="#0" onClick={closeWarning}>keep working</a>.
       </ErrorMessage>
     );
   }
@@ -110,7 +111,10 @@ class Header extends Component {
             >Exit</Button>
           </div>
         </div>
-        <ErrorMessage code={this.props.errorCode} />
+        {this.props.errorCode ?
+          React.createElement(ErrorMessage, { code: this.props.errorCode }) :
+          this._renderUnsavedWarning()
+        }
       </Fixed>
     );
   }
