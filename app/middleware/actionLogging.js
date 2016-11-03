@@ -44,7 +44,7 @@ function _getChangeKind(changeCode) {
       return 'Addition';
 
     case 'D':
-      return 'Deletion';
+      return 'Deletion or key not updated';
 
     case 'E':
       return 'Update';
