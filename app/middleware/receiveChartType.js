@@ -44,28 +44,31 @@ export default function receiveChartType({ getState }) {
     }
 
     /**
-     * Setup chart type default options
+     * Setup chart type default options if NOT bootstrapping from postMessage
      */
-    let nextOpts = applyChartTypeDefaults(
-      nextConfig,
-      getState().chartOptions,
-      getState().defaultsAppliedTo
-    );
 
-    /**
-     * apply tick/value formatting
-     */
-    nextOpts = applyDataFormatters(nextOpts, nextConfig);
+    if (0 !== action.src.indexOf('bootstrap')) {
+      let nextOpts = applyChartTypeDefaults(
+        nextConfig,
+        getState().chartOptions,
+        getState().defaultsAppliedTo
+      );
 
-    /**
-     * set yDomain if chartData is set up
-     */
-    if (0 < getState().chartData.length) {
-      nextOpts = applyYDomain(nextOpts, nextConfig, getState().chartData);
+      /**
+       * apply tick/value formatting
+       */
+      nextOpts = applyDataFormatters(nextOpts, nextConfig);
+
+      /**
+       * set yDomain if chartData is set up
+       */
+      if (0 < getState().chartData.length) {
+        nextOpts = applyYDomain(nextOpts, nextConfig, getState().chartData);
+      }
+
+      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, nextOpts));
+      dispatch(actionTrigger(RECEIVE_DEFAULTS_APPLIED_TO, nextConfig.type));
     }
-
-    dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, nextOpts));
-    dispatch(actionTrigger(RECEIVE_DEFAULTS_APPLIED_TO, nextConfig.type));
 
     return dispatch(action);
   };

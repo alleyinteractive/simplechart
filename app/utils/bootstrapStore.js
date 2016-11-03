@@ -84,7 +84,7 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
     { action: actions.RECEIVE_CHART_METADATA, data: recdData.chartMetadata },
   ].forEach((item) => {
     if (undefined !== item.data && Object.keys(item.data).length) {
-      dispatch(actionTrigger(item.action, item.data));
+      dispatch(actionTrigger(item.action, item.data, messageType));
     }
   });
 }

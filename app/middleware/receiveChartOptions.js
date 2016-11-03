@@ -41,19 +41,33 @@ export default function receiveChartType({ getState }) {
       return shouldApply;
     }
 
-    // Apply default palette if we haven't already received colors and we're not receiving them now
-    // @todo Handle non-NVD3 types
+    /**
+     * Was this dispatch triggered by bootstrap.new or bootstrap.edit?
+     */
+    function _actionIsBootstrap() {
+      return 0 === action.src.indexOf('bootstrap');
+    }
+
+    /**
+     * Apply default palette if we haven't already received colors and we're not receiving them now
+     * @todo Handle non-NVD3 types
+     */
     function _shouldApplyDefaultPalette() {
-      return (!nextOpts.color || !nextOpts.color.length) &&
+      return !_actionIsBootstrap() &&
+        (!nextOpts.color || !nextOpts.color.length) &&
         (!getState().chartOptions.color || !getState().chartOptions.color.length); // eslint-disable-line max-len
     }
 
+    /**
+     * return true if we are not bootstrapping from postMessage and
+     * default options not already applied for this chart type
+     */
     function _shouldApplyChartTypeDefaults() {
-      const hasConfig = (getState().chartType.config &&
-        getState().chartType.config.type);
+      const configType = getState().chartType.config ?
+        getState().chartType.config.type : null;
 
-      return (!hasConfig ||
-        getState().chartType.config.type !== getState().defaultsAppliedTo);
+      return !_actionIsBootstrap() &&
+        configType && configType !== getState().defaultsAppliedTo;
     }
 
     /**
