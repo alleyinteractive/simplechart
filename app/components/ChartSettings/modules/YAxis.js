@@ -14,7 +14,7 @@ class YAxis extends Component {
   }
 
   _getOptsKey(axisOpts, key, defaultValue = '') {
-    return (axisOpts && {}.hasOwnProperty.call(axisOpts, key)) ?
+    return (axisOpts && axisOpts.hasOwnProperty(key)) ?
       axisOpts[key] : defaultValue;
   }
 

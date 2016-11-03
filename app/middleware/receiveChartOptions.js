@@ -30,8 +30,8 @@ export default function receiveChartType({ getState }) {
         // If dataFormat is nvd3MultiSeries, check first and last series
         // to see if colors have already been applied
         shouldApply = 'nvd3MultiSeries' === getState().chartType.config.dataFormat &&
-          (!{}.hasOwnProperty.call(getState().chartData.shift(), 'color') ||
-          !{}.hasOwnProperty.call(getState().chartData.pop(), 'color'));
+          (!getState().chartData.shift().hasOwnProperty('color') ||
+          !getState().chartData.pop().hasOwnProperty('color'));
       } catch (err) {
         shouldApply = false;
       }
