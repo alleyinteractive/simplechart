@@ -26,7 +26,7 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
     nextChartType = update(nextChartType, { $set:
       getChartTypeObject(recdData.chartType || recdData.chartOptions.type),
     });
-    if (!nextChartType) {
+    if (!Object.keys(nextChartType).length) {
       // error if missing or misconfigured chart type
       dispatch(actionTrigger(actions.RECEIVE_ERROR, 'e005'));
       return;
@@ -38,13 +38,13 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
    */
 
   /**
-   * Merge saved options into default options to reset
+   * Merge received options into default chart type options to reset
    * any functions that disappeared when object was stringified
    */
   if (!isNewChart) {
     nextOpts = update(
       getChartTypeDefaultOpts(nextChartType.config.type),
-      { $merge: nextChartType }
+      { $merge: nextOpts }
     );
   }
 
