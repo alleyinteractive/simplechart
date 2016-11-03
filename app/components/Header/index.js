@@ -74,9 +74,10 @@ class Header extends Component {
     }.bind(this);
 
     return (
-      <ErrorMessage>
-        You have unsaved changes.
-        <a href="#0" onClick={discardChanges}>Exit without saving</a> or
+      <ErrorMessage code="e000">
+        You have unsaved changes.&nbsp;
+        <a href="#0" onClick={discardChanges}>Exit without saving</a>
+        &nbsp;or&nbsp;
         <a href="#0" onClick={closeWarning}>keep working</a>.
       </ErrorMessage>
     );
@@ -112,7 +113,8 @@ class Header extends Component {
           </div>
         </div>
         {this.props.errorCode ?
-          React.createElement(ErrorMessage, { code: this.props.errorCode }) :
+          React.createElement(
+            ErrorMessage, { code: this.props.errorCode }, false) :
           this._renderUnsavedWarning()
         }
       </Fixed>
