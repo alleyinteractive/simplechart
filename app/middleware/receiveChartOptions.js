@@ -2,7 +2,10 @@
  * RECEIVE_CHART_OPTIONS middleware
  */
 
-import { RECEIVE_CHART_OPTIONS } from '../constants';
+import {
+  RECEIVE_CHART_OPTIONS,
+  RECEIVE_DEFAULTS_APPLIED_TO,
+} from '../constants';
 import actionTrigger from '../actions';
 import defaultPalette from '../constants/defaultPalette';
 import update from 'react-addons-update';
@@ -79,6 +82,10 @@ export default function receiveChartType({ getState }) {
         nextOpts,
         getState().defaultsAppliedTo
       );
+      dispatch(actionTrigger(
+        RECEIVE_DEFAULTS_APPLIED_TO,
+        getState().chartType.config.type
+      ));
     }
 
     // Apply tick/value formatting

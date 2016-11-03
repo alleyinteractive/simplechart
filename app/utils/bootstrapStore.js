@@ -46,6 +46,10 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
       getChartTypeDefaultOpts(nextChartType.config.type),
       { $merge: nextOpts }
     );
+    dispatch(actionTrigger(
+      actions.RECEIVE_DEFAULTS_APPLIED_TO,
+      nextChartType.config.type
+    ));
   }
 
   /**
