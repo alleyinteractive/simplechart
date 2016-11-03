@@ -26,12 +26,23 @@ export function bootstrapAppData() {
   setupPostMessage();
 
   return function setupReceiveMessage(dispatch) {
-    // Bootstrap chart editor from plugin data
-    receiveMessage('bootstrap.editor', (evt) => {
-      if (evt.data && evt.data.data && Object.keys(evt.data.data).length) {
-        bootstrapStore(dispatch, evt.data.data);
+    /**
+     * Confirm data formatting then bootstrap the store
+     */
+    function _initBootstrap(evt) {
+      if (evt.data &&
+        evt.data.hasOwnProperty('data') &&
+        evt.data.hasOwnProperty('messageType')
+      ) {
+        bootstrapStore(dispatch, evt.data.messageType, evt.data.data);
+      } else {
+        dispatch(actionTrigger(RECEIVE_ERROR, 'e005'));
       }
-    });
+    }
+
+    // Bootstrap chart editor from plugin postMessage
+    receiveMessage('bootstrap.edit', _initBootstrap);
+    receiveMessage('bootstrap.new', _initBootstrap);
 
      // Handle messages from outdated plugin script
     receiveMessage('bootstrap.rawData', () =>
