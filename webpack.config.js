@@ -35,10 +35,13 @@ var plugins = process.env.DEVELOPMENT ?
   [new webpack.HotModuleReplacementPlugin()] :
   [new WebpackGitHash(gitHashOpts)];
 
+var publicPath = '/static/';
+
 if (process.env.DEVELOPMENT) {
   entry.app.unshift('react-hot-loader/patch');
   entry.app.unshift('webpack/hot/only-dev-server');
   entry.app.unshift('webpack-dev-server/client?http://localhost:8080');
+  publicPath = 'http://localhost:8080' + publicPath;
 }
 
 module.exports = {
@@ -46,7 +49,7 @@ module.exports = {
   entry: entry,
   output: {
     path: path.join(__dirname, 'static'),
-    publicPath: '/static/',
+    publicPath: publicPath,
     filename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[name].js' : '[name].[githash].js',
     chunkFilename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js'
   },

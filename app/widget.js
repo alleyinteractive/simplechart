@@ -35,6 +35,12 @@ function initWidgets() {
 }
 
 function renderWidget(el) {
+  /**
+   * Requires one of two possible attributes to get the data it needs
+   * 1. data-url="{URL}" will make an AJAX request to get the data from the URL
+   * 2. data-var will safely look for data in window._SimplechartWidgetData global
+   *   then listen for the 'widgetData' event to be triggered on the widget element
+   */
   if (el.getAttribute('data-url')) {
     // Data from API
     store.dispatch(
@@ -53,6 +59,7 @@ function renderWidget(el) {
       }));
     }
 
+    // And listen for 'widgetData' event triggered on widget element
     listenerWidgetData(el, store.dispatch);
   } else {
     // Bye.

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {
   CLEAR_ERROR,
   RECEIVE_ERROR,
-  SELECT_CHART_TYPE,
+  RECEIVE_CHART_TYPE,
 } from '../../constants';
 import actionTrigger from '../../actions';
 import { Radio } from 'rebass';
@@ -37,7 +37,7 @@ class ChartTypeSelector extends Component {
   _selectChartType(selectedName) {
     const typeObj = getChartTypeObject(selectedName);
     if (typeObj) {
-      this.props.dispatch(actionTrigger(SELECT_CHART_TYPE, typeObj));
+      this.props.dispatch(actionTrigger(RECEIVE_CHART_TYPE, typeObj));
       this.props.dispatch(actionTrigger(CLEAR_ERROR));
     } else {
       this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e003'));
