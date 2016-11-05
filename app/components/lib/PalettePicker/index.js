@@ -14,7 +14,6 @@ import { Select } from 'rebass';
 class PalettePicker extends Component {
   constructor() {
     super();
-    this._getSeriesNames = this._getSeriesNames.bind(this);
     this._seriesChange = this._seriesChange.bind(this);
     this._pickerChange = this._pickerChange.bind(this);
     this._setOriginalColors = this._setOriginalColors.bind(this);
@@ -28,7 +27,6 @@ class PalettePicker extends Component {
   }
 
   componentWillMount() {
-    debugger;
     this._handleProps(this.props);
     this._setOriginalColors(this.props);
   }
@@ -56,6 +54,19 @@ class PalettePicker extends Component {
     }
   }
 
+  /**
+   * Keys containing non-alphanumeric characters might be enclosed in double quotes
+   * so we just strip those.
+   */
+  _getSeriesNames(props) {
+    if (!props.data.length) {
+      return [];
+    }
+    return props.data.map((series) =>
+      /^"?(.*?)"?$/i.exec(series.key || series.label)[1]
+    );
+  }
+
   _pickerChange() {
     // debouncing messes with the function args, so get current color this way
     const newColor = this.refs.picker.state.color.hex;
@@ -66,18 +77,6 @@ class PalettePicker extends Component {
       options.color[this.state.currentSeries] = `#${newColor}`;
       this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, options));
     }
-  }
-
-  _getSeriesNames(props) {
-    if (!props.data.length) {
-      return [];
-    }
-
-    // if key contains a non-alphanumeric char, it might have leading/trailing quotes
-    // so strip those
-    return props.data.map((series) =>
-      /^"?(.*?)"?$/i.exec(series.key || series.label)[1]
-    );
   }
 
   _seriesChange(evt) {
@@ -120,11 +119,11 @@ class PalettePicker extends Component {
           onChange={this._seriesChange}
         />
         <div className={styles.colorpickr}>
-          {React.createElement(ColorPicker, {
-            value: this.state.colors[this.state.currentSeries],
-            onChange: debounce(this._pickerChange, 200),
-            ref: 'picker',
-          })}
+          <ColorPicker
+            value={this.state.colors[this.state.currentSeries]}
+            onChange={debounce(this._pickerChange, 200)}
+            ref="picker"
+          />
         </div>
       </div>
     );
