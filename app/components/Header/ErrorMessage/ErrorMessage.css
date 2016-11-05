@@ -1,11 +1,15 @@
-:global(.errorMessageContent) {
+.errorMessageContent {
   margin: 0;
-}
 
-:global(.errorMessageContent a) {
-  color: white;
-  &:hover, &:focus {
-    text-decoration: none;
+  p {
+    margin: 0 ;
+  }
+
+  a {
+    color: white;
+    &:hover, &:focus {
+      text-decoration: none;
+    }
   }
 }
 

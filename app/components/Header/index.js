@@ -17,6 +17,7 @@ class Header extends Component {
     this._sequenceSteps = this._sequenceSteps.bind(this);
     this._cancelEdits = this._cancelEdits.bind(this);
     this._renderUnsavedWarning = this._renderUnsavedWarning.bind(this);
+    this._closeUnsavedWarning = this._closeUnsavedWarning.bind(this);
   }
 
   componentWillMount() {
@@ -56,27 +57,31 @@ class Header extends Component {
     this.setState({ showUnsavedWarning: true });
   }
 
+  _closeUnsavedWarning(evt) {
+    if (evt.target.hasAttribute('data-closeApp')) {
+      sendMessage('closeApp');
+    }
+    this.setState({ showUnsavedWarning: false });
+  }
+
+  /**
+   * Special case since we need to render JSX inside the ErrorMessage component
+   */
   _renderUnsavedWarning() {
     if (!this.state.showUnsavedWarning) {
       return '';
     }
 
-    function discardChanges() {
-      sendMessage('closeApp');
-      this.setState({ showUnsavedWarning: false });
-    }
-    discardChanges.bind(this);
-
-    function closeWarning() {
-      this.setState({ showUnsavedWarning: false });
-    }
-    closeWarning.bind(this);
-
     return (
-      <ErrorMessage>
-        You have unsaved changes.
-        <a href="#" onClick={discardChanges}>Discard changes</a> or
-        <a href="#" onClick={closeWarning}>cancel</a>.
+      <ErrorMessage code="e000">
+        You have unsaved changes.&nbsp;
+        <a
+          href="#0"
+          data-closeApp
+          onClick={this._closeUnsavedWarning}
+        >Exit without saving</a>
+        &nbsp;or&nbsp;
+        <a href="#0" onClick={this._closeUnsavedWarning}>keep working</a>.
       </ErrorMessage>
     );
   }
@@ -110,7 +115,10 @@ class Header extends Component {
             >Exit</Button>
           </div>
         </div>
-        <ErrorMessage code={this.props.errorCode} />
+        {this.props.errorCode ?
+          (<ErrorMessage code={this.props.errorCode}>{false}</ErrorMessage>) :
+          this._renderUnsavedWarning()
+        }
       </Fixed>
     );
   }

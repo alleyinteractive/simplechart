@@ -24,6 +24,7 @@ class App extends Component {
         chartData: state.chartData,
         chartMetadata: state.chartMetadata,
         chartOptions: state.chartOptions,
+        chartType: state.chartType.config ? state.chartType.config.type : '',
       }),
     });
   }

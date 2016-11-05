@@ -45,5 +45,12 @@ export function dataIsMultiSeries(data) {
  * @param any defaultValue Default to return if key is not set
  */
 export function getObjArrayKey(obj, key, defaultValue = '') {
-  return (obj && {}.hasOwnProperty.call(obj, key)) ? obj[key] : defaultValue;
+  return (obj && obj.hasOwnProperty(key)) ? obj[key] : defaultValue;
+}
+
+/**
+ * Capitalize the first char of a string, assumes first char is a letter
+ */
+export function capitalize(input) {
+  return input.charAt(0).toUpperCase() + input.slice(1);
 }

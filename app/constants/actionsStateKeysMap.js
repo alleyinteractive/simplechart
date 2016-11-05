@@ -1,0 +1,17 @@
+export const actionsMap = {
+  UPDATE_CURRENT_STEP: 'currentStep',
+  RECEIVE_ERROR: 'errorCode',
+  CLEAR_ERROR: 'errorCode',
+  RECEIVE_RAW_DATA: 'rawData',
+  PARSE_RAW_DATA: 'parsedData',
+  PARSE_DATA_FIELDS: 'dataFields',
+  PARSE_DATA_STATUS: 'dataStatus',
+  TRANSFORM_DATA: 'transformedData',
+  RECEIVE_CHART_TYPE: 'chartType',
+  RECEIVE_CHART_DATA: 'chartData',
+  RECEIVE_CHART_OPTIONS: 'chartOptions',
+  RECEIVE_DEFAULTS_APPLIED_TO: 'defaultsAppliedTo',
+  RECEIVE_CHART_OPTIONS_EXTEND: 'chartOptions',
+  DELETE_CHART_OPTIONS: 'chartOptions',
+  RECEIVE_CHART_METADATA: 'chartMetadata',
+};

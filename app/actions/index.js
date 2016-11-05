@@ -1,14 +1,12 @@
 import {
-  RECEIVE_RAW_DATA_INIT,
-  RECEIVE_CHART_DATA_INIT,
-  RECEIVE_CHART_OPTIONS_INIT,
-  RECEIVE_CHART_METADATA_INIT,
+  RECEIVE_ERROR,
   RECEIVE_WIDGET,
   RECEIVE_WIDGET_DATA,
   RECEIVE_WIDGET_OPTIONS,
   RECEIVE_WIDGET_METADATA,
 } from '../constants';
 import { receiveMessage, setupPostMessage } from '../utils/postMessage';
+import bootstrapStore from '../utils/bootstrapStore';
 
 /**
  * For IE11 support
@@ -29,19 +27,35 @@ export function bootstrapAppData() {
 
   return function setupReceiveMessage(dispatch) {
     /**
-     * Send each data component to reducer
+     * Confirm data formatting then bootstrap the store
      */
-    receiveMessage('bootstrap.rawData', (evt) =>
-      dispatch(actionTrigger(RECEIVE_RAW_DATA_INIT, evt.data.data || ''))
+    function _initBootstrap(evt) {
+      if (evt.data &&
+        evt.data.hasOwnProperty('data') &&
+        evt.data.hasOwnProperty('messageType')
+      ) {
+        bootstrapStore(dispatch, evt.data.messageType, evt.data.data);
+      } else {
+        dispatch(actionTrigger(RECEIVE_ERROR, 'e005'));
+      }
+    }
+
+    // Bootstrap chart editor from plugin postMessage
+    receiveMessage('bootstrap.edit', _initBootstrap);
+    receiveMessage('bootstrap.new', _initBootstrap);
+
+     // Handle messages from outdated plugin script
+    receiveMessage('bootstrap.rawData', () =>
+      dispatch(actionTrigger(RECEIVE_ERROR, 'e005'))
     );
-    receiveMessage('bootstrap.chartData', (evt) =>
-      dispatch(actionTrigger(RECEIVE_CHART_DATA_INIT, evt.data.data || []))
+    receiveMessage('bootstrap.chartData', () =>
+      dispatch(actionTrigger(RECEIVE_ERROR, 'e005'))
     );
-    receiveMessage('bootstrap.chartOptions', (evt) =>
-      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS_INIT, evt.data.data || {}))
+    receiveMessage('bootstrap.chartOptions', () =>
+      dispatch(actionTrigger(RECEIVE_ERROR, 'e005'))
     );
-    receiveMessage('bootstrap.chartMetadata', (evt) =>
-      dispatch(actionTrigger(RECEIVE_CHART_METADATA_INIT, evt.data.data || {}))
+    receiveMessage('bootstrap.chartMetadata', () =>
+      dispatch(actionTrigger(RECEIVE_ERROR, 'e005'))
     );
   };
 }

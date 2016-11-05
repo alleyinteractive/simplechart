@@ -1,6 +1,5 @@
 import {
   RECEIVE_CHART_OPTIONS,
-  RECEIVE_CHART_OPTIONS_INIT,
   RECEIVE_CHART_OPTIONS_EXTEND,
   DELETE_CHART_OPTIONS,
 } from '../constants';
@@ -28,7 +27,6 @@ export default function chartOptionsReducer(state = {}, action) {
   }
 
   switch (action.type) {
-    case RECEIVE_CHART_OPTIONS_INIT:
     case RECEIVE_CHART_OPTIONS: {
       return update(state, { $merge: action.data });
     }
