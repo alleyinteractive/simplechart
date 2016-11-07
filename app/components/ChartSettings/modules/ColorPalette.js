@@ -16,7 +16,7 @@ class ColorPalette extends Component {
         defaultExpand={this.props.defaultExpand}
       >
         <PalettePicker
-          options={this.props.options}
+          palette={this.props.options.color || []}
           data={this.props.data}
         />
       </AccordionBlock>

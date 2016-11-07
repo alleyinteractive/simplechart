@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ColorPicker from 'react-colorpickr';
 import * as ColorPickrStyles // eslint-disable-line no-unused-vars
   from 'style!raw!react-colorpickr/dist/colorpickr.css';
-import { debounce } from '../../../utils/misc';
+import { debounce, loopArrayItemAtIndex } from '../../../utils/misc';
 import update from 'react-addons-update';
 import { RECEIVE_CHART_OPTIONS } from '../../../constants';
 import actionTrigger from '../../../actions';
@@ -16,97 +16,84 @@ class PalettePicker extends Component {
     super();
     this._seriesChange = this._seriesChange.bind(this);
     this._pickerChange = this._pickerChange.bind(this);
-    this._setOriginalColors = this._setOriginalColors.bind(this);
     this._handleProps = this._handleProps.bind(this);
-
     this.state = {
-      seriesNames: [],
-      currentSeries: 0,
-      originalColors: [],
+      data: [], // label, current, original for each data series
+      selectedIdx: 0, // current selected series in the picker
     };
   }
 
   componentWillMount() {
-    this._handleProps(this.props);
-    this._setOriginalColors(this.props);
+    this._handleProps(this.props, true);
   }
 
   componentWillReceiveProps(nextProps) {
     this._handleProps(nextProps);
   }
 
-  _handleProps(props) {
-    this.setState({
-      seriesNames: this._getSeriesNames(props),
-      colors: props.options.color || null,
-    });
-  }
-
-  // Set the original colors once then leave them alone
-  _setOriginalColors(props) {
-    if (!this.state.originalColors.length &&
-      props.options.color &&
-      props.options.color.length
-    ) {
-      this.setState({
-        originalColors: props.options.color,
-      });
-    }
+ /**
+  * Build/rebuild state.palette array when props are received
+  */
+  _handleProps(props, setOriginal = false) {
+    this.setState({ data: props.data.map((series, idx) => {
+      const seriesColor = loopArrayItemAtIndex(idx, props.palette);
+      const seriesForState = {
+        label: this._getSeriesName(series),
+        current: seriesColor,
+      };
+      if (setOriginal) {
+        seriesForState.original = seriesColor;
+      }
+      return seriesForState;
+    }) });
   }
 
   /**
    * Keys containing non-alphanumeric characters might be enclosed in double quotes
    * so we just strip those.
    */
-  _getSeriesNames(props) {
-    if (!props.data.length) {
-      return [];
-    }
-    return props.data.map((series) =>
-      /^"?(.*?)"?$/i.exec(series.key || series.label)[1]
-    );
+  _getSeriesName(series) {
+    return /^"?(.*?)"?$/i.exec(series.key || series.label)[1];
   }
 
+  /**
+   * Handle when a new color is selected in the picker
+   */
   _pickerChange() {
     // debouncing messes with the function args, so get current color this way
     const newColor = this.refs.picker.state.color.hex;
-
-    // clone chart options object and update the data store
-    const options = update(this.props.options, { $merge: {} });
-    if (options.color && options.color[this.state.currentSeries]) {
-      options.color[this.state.currentSeries] = `#${newColor}`;
-      this.props.dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, options));
-    }
+    let paletteArray = this.state.data.map((item) => item.current);
+    paletteArray = update(paletteArray, {
+      [this.state.selectedIdx]: { $set: newColor },
+    });
+    this.props.dispatch(actionTrigger(
+      RECEIVE_CHART_OPTIONS,
+      { color: paletteArray },
+      'PalettePicker'
+    ));
   }
 
+  /**
+   * Handle when a new series is selected in the dropdown
+   */
   _seriesChange(evt) {
     const newValue = parseInt(evt.target.value, 10);
     if (isNaN(newValue)) {
       return;
     }
 
-    this.setState({ currentSeries: newValue });
+    this.setState({ selectedIdx: newValue });
 
     // set the color picker's revert option to the original color for this data series
-    if (this.state.originalColors) {
-      const newOriginalValue = this.state.originalColors[newValue];
+    if (this.state.data[newValue].original) {
       this.refs.picker.setState({
-        originalValue: newOriginalValue,
+        originalValue: this.state.data[newValue].original,
       });
     }
   }
 
-  _selectOptions(optionsList) {
-    return optionsList.map((name, index) => (
-      {
-        children: name,
-        value: index,
-      }
-    ));
-  }
-
   render() {
-    if (!this.state.colors || !this.state.colors.length) {
+    if (!this.state.data || !this.state.data.length) {
       return (<span>Waiting for colors...</span>);
     }
 
@@ -115,12 +102,14 @@ class PalettePicker extends Component {
         <Select
           label="Select data series"
           name="selectDataSeries"
-          options={this._selectOptions(this.state.seriesNames)}
+          options={this.state.data.map((item, idx) =>
+            ({ children: item.label, value: idx })
+          )}
           onChange={this._seriesChange}
         />
         <div className={styles.colorpickr}>
           <ColorPicker
-            value={this.state.colors[this.state.currentSeries]}
+            value={this.state.data[this.state.selectedIdx].current}
             onChange={debounce(this._pickerChange, 200)}
             ref="picker"
           />
@@ -131,7 +120,7 @@ class PalettePicker extends Component {
 }
 
 PalettePicker.propTypes = {
-  options: React.PropTypes.object,
+  palette: React.PropTypes.array,
   data: React.PropTypes.array,
   dispatch: React.PropTypes.func,
 };
