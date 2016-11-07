@@ -140,7 +140,7 @@ class DataInput extends AppComponent {
               onChange={this._setSampleDataSet}
             />
             <Button
-              theme="secondary"
+              theme="warning"
               onClick={this._loadSampleData}
             >Load</Button>
           </div>
