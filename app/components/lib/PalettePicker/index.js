@@ -20,11 +20,13 @@ class PalettePicker extends Component {
     this.state = {
       data: [], // label, current, original for each data series
       selectedIdx: 0, // current selected series in the picker
+      defaultPalette: [], // original received palette
     };
   }
 
   componentWillMount() {
     this._handleProps(this.props, true);
+    this.setState({ defaultPalette: this.props.palette });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -32,20 +34,22 @@ class PalettePicker extends Component {
   }
 
  /**
-  * Build/rebuild state.palette array when props are received
+  * Build/rebuild state.data array when props are received
   */
   _handleProps(props, setOriginal = false) {
-    this.setState({ data: props.data.map((series, idx) => {
-      const seriesColor = loopArrayItemAtIndex(idx, props.palette);
-      const seriesForState = {
-        label: this._getSeriesName(series),
-        current: seriesColor,
-      };
-      if (setOriginal) {
-        seriesForState.original = seriesColor;
-      }
-      return seriesForState;
-    }) });
+    this.setState({
+      data: props.data.map((series, idx) => {
+        const seriesColor = loopArrayItemAtIndex(idx, props.palette);
+        const seriesForState = {
+          label: this._getSeriesName(series),
+          current: seriesColor,
+        };
+        if (setOriginal) {
+          seriesForState.original = seriesColor;
+        }
+        return seriesForState;
+      }),
+    });
   }
 
   /**
@@ -66,6 +70,15 @@ class PalettePicker extends Component {
     paletteArray = update(paletteArray, {
       [this.state.selectedIdx]: { $set: newColor },
     });
+
+    // If there are more colors in the default palette than there are data series,
+    // splice new array into default palette so we don't lose any
+    if (this.state.defaultPalette.length > paletteArray.length) {
+      paletteArray = paletteArray.concat(update(this.state.defaultPalette, {
+        $splice: [[0, paletteArray.length]],
+      }));
+    }
+
     this.props.dispatch(actionTrigger(
       RECEIVE_CHART_OPTIONS,
       { color: paletteArray },
