@@ -65,7 +65,7 @@ class PalettePicker extends Component {
    */
   _pickerChange() {
     // debouncing messes with the function args, so get current color this way
-    const newColor = this.refs.picker.state.color.hex;
+    const newColor = `#${this.refs.picker.state.color.hex}`;
     let paletteArray = this.state.data.map((item) => item.current);
     paletteArray = update(paletteArray, {
       [this.state.selectedIdx]: { $set: newColor },
