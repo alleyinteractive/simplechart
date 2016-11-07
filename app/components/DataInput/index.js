@@ -23,6 +23,8 @@ class DataInput extends AppComponent {
     this._setSampleDataSet = this._setSampleDataSet.bind(this);
     this._beforeNextStep = this._beforeNextStep.bind(this);
     this._nextCallback = this._nextCallback.bind(this);
+    this._handleInputBlur = this._handleInputBlur.bind(this);
+    this._handleInputChange = this._handleInputChange.bind(this);
 
     this.state = {
       rawData: '',
@@ -89,6 +91,14 @@ class DataInput extends AppComponent {
     }
   }
 
+  _handleInputBlur() {
+    this._submitData(this.state.rawData);
+  }
+
+  _handleInputChange(evt) {
+    this.setState({ rawData: evt.target.value });
+  }
+
   render() {
     let dataStatus = 'Waiting for data input';
     let dataStatusClass = 'initial';
@@ -103,14 +113,6 @@ class DataInput extends AppComponent {
       }
     }
 
-    const handleInputBlur = function handleInputBlur() {
-      this._submitData(this.state.rawData);
-    }.bind(this);
-
-    const handleInputChange = function handleInputChange(evt) {
-      this.setState({ rawData: evt.target.value });
-    }.bind(this);
-
     return (
       <div className={this.parentStyles.appComponent}>
         <Heading level={2}>{appSteps[0]}</Heading>
@@ -120,8 +122,8 @@ class DataInput extends AppComponent {
             id="DataInput"
             className={styles.textarea}
             value={this.state.rawData}
-            onChange={handleInputChange}
-            onBlur={handleInputBlur}
+            onChange={this._handleInputChange}
+            onBlur={this._handleInputBlur}
             ref="dataInput"
           />
           <span className={styles[dataStatusClass]}>
