@@ -13,10 +13,10 @@ class NextPrevButton extends Component {
   }
 
   /**
-   * Default to enabling button if no test function provided
+   * Default to enabling button
    */
   enableButton() {
-    return undefined === this.props.shouldEnable || this.props.shouldEnable();
+    return !this.props.hasOwnProperty('shouldEnable') || this.props.shouldEnable;
   }
 
   disableStyles() {
@@ -48,12 +48,14 @@ class NextPrevButton extends Component {
 
   render() {
     return (
-      <Button
-        theme="primary"
-        big
-        onClick={this.changeStep}
-        style={this.disableStyles()}
-      >{this.props.copy}</Button>
+      <span className={this.enableButton() ? '' : 'disabled'}>
+        <Button
+          theme="primary"
+          big
+          onClick={this.changeStep}
+          style={this.disableStyles()}
+        >{this.props.copy}</Button>
+      </span>
     );
   }
 }
@@ -62,7 +64,7 @@ NextPrevButton.propTypes = {
   copy: React.PropTypes.string,
   currentStep: React.PropTypes.number,
   dir: React.PropTypes.string,
-  shouldEnable: React.PropTypes.func,
+  shouldEnable: React.PropTypes.bool,
   callback: React.PropTypes.func,
   dispatch: React.PropTypes.func,
 };

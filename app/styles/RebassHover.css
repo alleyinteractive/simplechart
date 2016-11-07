@@ -8,3 +8,10 @@
     box-shadow: var(--rebassHover);
   }
 }
+
+/**
+ * Disabled button has no hover state
+ */
+:global(.disabled > .Button) {
+  box-shadow: none;
+}

@@ -75,7 +75,7 @@ class ChartTypeSelector extends Component {
           copy="Next"
           currentStep={1}
           dir="next"
-          shouldEnable={this._getChartType}
+          shouldEnable={!!this._getChartType()}
         />
       </div>
     );
