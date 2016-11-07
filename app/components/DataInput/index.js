@@ -22,6 +22,7 @@ class DataInput extends AppComponent {
     this._loadSampleData = this._loadSampleData.bind(this);
     this._setSampleDataSet = this._setSampleDataSet.bind(this);
     this._beforeNextStep = this._beforeNextStep.bind(this);
+    this._nextCallback = this._nextCallback.bind(this);
 
     this.state = {
       rawData: '',
@@ -75,20 +76,17 @@ class DataInput extends AppComponent {
   _beforeNextStep() {
     // Check for empty data field
     // Errors w/ invalid data would have already surfaced in rawDataMiddleware
-    /**
-     * @todo Move this check so that this function only returns whether we can proceed
-     * Checking inside _submitData() allowed "field is empty" error on all blur events
-     * But we only want to allow it when you're trying to move to the next step
-     */
-    if (!this.props.rawData.length) {
+    // return value indicates if we can proceed to next step
+    return this.props.dataStatus.status &&
+      'success' === this.props.dataStatus.status;
+  }
+
+  _nextCallback(success) {
+    if (!success) {
       this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e002'));
     } else {
       this.props.dispatch(actionTrigger(CLEAR_ERROR));
     }
-
-    // return value indicates if we can proceed to next step
-    return this.props.dataStatus.status &&
-      'success' === this.props.dataStatus.status;
   }
 
   render() {
@@ -153,6 +151,7 @@ class DataInput extends AppComponent {
               currentStep={0}
               dir="next"
               shouldEnable={this._beforeNextStep}
+              callback={this._nextCallback}
             />
           </div>
         </div>

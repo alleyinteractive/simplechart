@@ -9,6 +9,7 @@ class NextPrevButton extends Component {
     super();
     this.changeStep = this.changeStep.bind(this);
     this.enableButton = this.enableButton.bind(this);
+    this.disableStyles = this.disableStyles.bind(this);
   }
 
   /**
@@ -18,18 +19,31 @@ class NextPrevButton extends Component {
     return undefined === this.props.shouldEnable || this.props.shouldEnable();
   }
 
+  disableStyles() {
+    return this.enableButton() ? {} :
+      {
+        cursor: 'default',
+        backgroundColor: 'rgb(136, 136, 136)',
+      };
+  }
+
   changeStep() {
-    // Reject if tester function returns false
-    if (!this.enableButton()) {
-      return;
+    const buttonIsEnabled = this.enableButton();
+
+    // Change the currentStep if the button is enabled
+    if (buttonIsEnabled) {
+      const nextStep = 'prev' !== this.props.dir ?
+        (this.props.currentStep + 1) : (this.props.currentStep - 1);
+
+      this.props.dispatch(
+        actionTrigger(UPDATE_CURRENT_STEP, nextStep)
+      );
     }
 
-    const nextStep = 'prev' !== this.props.dir ?
-      (this.props.currentStep + 1) : (this.props.currentStep - 1);
-
-    this.props.dispatch(
-      actionTrigger(UPDATE_CURRENT_STEP, nextStep)
-    );
+    // If a callback is provided, call it
+    if ('function' === typeof this.props.callback) {
+      this.props.callback(buttonIsEnabled);
+    }
   }
 
   render() {
@@ -38,6 +52,7 @@ class NextPrevButton extends Component {
         theme="primary"
         big
         onClick={this.changeStep}
+        style={this.disableStyles()}
       >{this.props.copy}</Button>
     );
   }
@@ -48,6 +63,7 @@ NextPrevButton.propTypes = {
   currentStep: React.PropTypes.number,
   dir: React.PropTypes.string,
   shouldEnable: React.PropTypes.func,
+  callback: React.PropTypes.func,
   dispatch: React.PropTypes.func,
 };
 
