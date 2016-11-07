@@ -8,11 +8,19 @@ class NextPrevButton extends Component {
   constructor() {
     super();
     this.changeStep = this.changeStep.bind(this);
+    this.enableButton = this.enableButton.bind(this);
+  }
+
+  /**
+   * Default to enabling button if no test function provided
+   */
+  enableButton() {
+    return undefined === this.props.shouldEnable || this.props.shouldEnable();
   }
 
   changeStep() {
     // Reject if tester function returns false
-    if ('function' === typeof this.props.allowIf && !this.props.allowIf()) {
+    if (!this.enableButton()) {
       return;
     }
 
@@ -39,7 +47,7 @@ NextPrevButton.propTypes = {
   copy: React.PropTypes.string,
   currentStep: React.PropTypes.number,
   dir: React.PropTypes.string,
-  allowIf: React.PropTypes.func,
+  shouldEnable: React.PropTypes.func,
   dispatch: React.PropTypes.func,
 };
 

@@ -152,7 +152,7 @@ class DataInput extends AppComponent {
               copy="Next"
               currentStep={0}
               dir="next"
-              allowIf={this._beforeNextStep}
+              shouldEnable={this._beforeNextStep}
             />
           </div>
         </div>
