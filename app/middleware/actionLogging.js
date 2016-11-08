@@ -70,8 +70,7 @@ function _getDiff(oldVal, newVal, actionType) {
     return 'No changes';
   }
 
-  let changeLog = '';
-  calcDiff.forEach((change) => {
+  return calcDiff.reduce((log, change) => {
     let kind = _getChangeKind(change.kind);
     let location;
 
@@ -80,7 +79,7 @@ function _getDiff(oldVal, newVal, actionType) {
       (actions.RECEIVE_CHART_OPTIONS === actionType ||
       actions.RECEIVE_CHART_OPTIONS_EXTEND === actionType)
     ) {
-      return;
+      return log;
     }
 
     // If not an array change
@@ -92,9 +91,8 @@ function _getDiff(oldVal, newVal, actionType) {
       location = `index ${change.index}`;
     }
 
-    changeLog += `${kind} at ${location}\n`;
-  });
-  return changeLog.trim();
+    return `${log}${kind} at ${location}\n`;
+  }, '').trim();
 }
 
 /**

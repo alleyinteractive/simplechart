@@ -64,16 +64,5 @@ export function capitalize(input) {
  * @return any
  */
 export function loopArrayItemAtIndex(idx, list) {
-  let selected;
-  let iteration = 0;
-  while (undefined === selected) {
-    const listIndex = idx - (iteration * list.length);
-    if (listIndex < list.length) {
-      selected = list[listIndex];
-      break;
-    } else {
-      iteration++;
-    }
-  }
-  return selected;
+  return list[idx % list.length];
 }
