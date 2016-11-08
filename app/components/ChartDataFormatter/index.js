@@ -170,7 +170,7 @@ class ChartDataFormatter extends Component {
           </div>
         </div>
         <NextPrevButton
-          copy="Next"
+          text="Next"
           currentStep={this.props.currentStep}
           dir="next"
         />

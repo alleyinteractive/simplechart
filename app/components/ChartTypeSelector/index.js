@@ -72,7 +72,7 @@ class ChartTypeSelector extends Component {
           )}
         </ul>
         <NextPrevButton
-          copy="Next"
+          text="Next"
           currentStep={1}
           dir="next"
           shouldEnable={!!this._getChartType()}

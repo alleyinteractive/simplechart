@@ -67,7 +67,7 @@ class ChartSettings extends Component {
           {this._renderCustomSettings(this.props.typeConfig) || ''}
         </div>
         <NextPrevButton
-          copy="Next"
+          text="Next"
           currentStep={2}
           dir="next"
         />

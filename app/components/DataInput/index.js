@@ -149,7 +149,7 @@ class DataInput extends AppComponent {
 
           <div className={styles.submitContainer}>
             <NextPrevButton
-              copy="Next"
+              text="Next"
               currentStep={0}
               dir="next"
               shouldEnable={this._beforeNextStep()}

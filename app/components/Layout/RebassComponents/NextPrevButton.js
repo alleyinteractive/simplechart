@@ -54,14 +54,14 @@ class NextPrevButton extends Component {
           big
           onClick={this.changeStep}
           style={this.disableStyles()}
-        >{this.props.copy}</Button>
+        >{this.props.text}</Button>
       </span>
     );
   }
 }
 
 NextPrevButton.propTypes = {
-  copy: React.PropTypes.string,
+  text: React.PropTypes.string,
   currentStep: React.PropTypes.number,
   dir: React.PropTypes.string,
   shouldEnable: React.PropTypes.bool,
