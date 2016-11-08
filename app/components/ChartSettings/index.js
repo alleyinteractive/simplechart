@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import update from 'react-addons-update';
+import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 
 class ChartSettings extends Component {
   constructor() {
@@ -57,12 +58,19 @@ class ChartSettings extends Component {
   render() {
     return (
       <div>
-        {this._renderModule('XAxis') || ''}
-        {this._renderModule('YAxis') || ''}
-        {this._renderModule('Legend') || ''}
-        {this._renderModule('Metadata') || ''}
-        {this._renderModule('ColorPalette') || ''}
-        {this._renderCustomSettings(this.props.typeConfig) || ''}
+        <div>
+          {this._renderModule('XAxis') || ''}
+          {this._renderModule('YAxis') || ''}
+          {this._renderModule('Legend') || ''}
+          {this._renderModule('Metadata') || ''}
+          {this._renderModule('ColorPalette') || ''}
+          {this._renderCustomSettings(this.props.typeConfig) || ''}
+        </div>
+        <NextPrevButton
+          copy="Next"
+          currentStep={2}
+          dir="next"
+        />
       </div>
     );
   }
