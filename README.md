@@ -43,4 +43,4 @@ We strongly encourage contributions, although we don't yet have formal contribut
 If you're thinking of a patch, feel free to reach out via a Github issue, or by creating a fork and sending us a pull request.  
 
 ## One Last Thing
-<center>SimpleChart : Simplechart :: Wordpress : WordPress</center>
+<p align="center">SimpleChart : Simplechart :: Wordpress : WordPress</p>
