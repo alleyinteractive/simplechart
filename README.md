@@ -35,7 +35,7 @@ Over on the Wiki, we've documented some common extensions for Simplechart.
 
 - [How to add a new chart type]()
 - [Connecting the app to your CMS]()
-- [Structuring and optimizing widgets/embeds]()
+- [Structuring and populating data for embeds]()
 
 ## Contributing to Simplechart
 We strongly encourage contributions, although we don't yet have formal contribution guidelines. 
