@@ -22,7 +22,7 @@ class ChartSettings extends Component {
 
   _renderModule(name) {
     if (!this._hasModule(name)) {
-      return false;
+      return null;
     }
 
     // Setup props, handling special cases for Metadata and ColorPalette
@@ -46,7 +46,7 @@ class ChartSettings extends Component {
 
   _renderCustomSettings(config) {
     if (!config.settingsComponent) {
-      return false;
+      return null;
     }
     const module = require(`./modules/custom/${config.settingsComponent}`).default;
     return React.createElement(module, {
@@ -59,12 +59,12 @@ class ChartSettings extends Component {
     return (
       <div>
         <div>
-          {this._renderModule('XAxis') || ''}
-          {this._renderModule('YAxis') || ''}
-          {this._renderModule('Legend') || ''}
-          {this._renderModule('Metadata') || ''}
-          {this._renderModule('ColorPalette') || ''}
-          {this._renderCustomSettings(this.props.typeConfig) || ''}
+          {this._renderModule('XAxis')}
+          {this._renderModule('YAxis')}
+          {this._renderModule('Legend')}
+          {this._renderModule('Metadata')}
+          {this._renderModule('ColorPalette')}
+          {this._renderCustomSettings(this.props.typeConfig)}
         </div>
         <NextPrevButton
           text="Next"
