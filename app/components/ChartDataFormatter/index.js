@@ -20,7 +20,7 @@ class ChartDataFormatter extends Component {
     this._applyFormatting = this._applyFormatting.bind(this);
     this.formatGuidelines = [
       'Formatting is applied to y-axis and tooltip labels.',
-      'Learn more about D3 formatting syntax <a href="https://github.com/d3/d3-format/blob/master/README.md">here</a>.',
+      'Learn more about D3 formatting syntax <a href="https://github.com/d3/d3-format/blob/master/README.md" target="_new">here</a>.',
       'Y-axis minimum and maximum range is set under Chart Options',
     ];
   }
@@ -168,7 +168,7 @@ class ChartDataFormatter extends Component {
           </div>
         </div>
         <NextPrevButton
-          copy="Next"
+          text="Next"
           currentStep={this.props.currentStep}
           dir="next"
         />
