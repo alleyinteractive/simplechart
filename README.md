@@ -1,161 +1,46 @@
-# Simplechart
+# ![Simplechart](docs/_includes/logo.png)
 
-## Build process
+Quickly create and structure interactive charts for use in a content management system (CMS).
 
-`$ npm run build` will compile both the App and Widget bundles, using the latest Git commit hash as a version.
+*See [Simplechart for WordPress](https://github.com/alleyinteractive/wordpress-simplechart) for the WordPress plugin.*
 
-_Don't use this_ during normal development. You'll only need to build if you're pushing to an implementation of Simplechart, e.g. its [WordPress plugin](https://www.github.com/alleyinteractive/wordpress-simplechart).
+## Quick Start
+You'll need just a couple things installed before running Simplechart.
 
-## Development mode
+- Node
+- NPM
 
-`$> npm start` then...
+You can confirm these packages are installed by running `node -v` or `npm -v` from your terminal.
 
-### App
+1. Clone the Simplechart repository to your local machine using `git clone git@github.com:alleyinteractive/simplechart.git`.
+2. Change directory to your newly created folder using `cd simplechart`.
+3. Install the Node packages listed in *package.json* by running `npm install`.
+4. Start the Node app using `npm start`.
 
-The app is where you input data, select a chart type, set up options. Within an iframe, e.g. when used in the WordPress plugin, the app sends data to the parent window via postMessage for saving.
+Congrats! You should now be able to access Simplechart at `http://localhost:8080/index.html`.
 
-You can see the app at `http://localhost:8080/index.html`
+If you're ready to deploy the app, head over to the Wiki for the [Deployment Guide](TK).
 
-### Widget
+## Use Cases
+Simplechart provides the most utility at present when used in conjunction with the WordPress plugin. You don't need to install this package to try the WordPress plugin.
 
-The widget recognizes Simplechart placeholder divs on a page, fetches data, and renders charts.
+Although we have focused on WordPress to date, Simplechart itself is CMS agnostic, and can even be used without a CMS. Simplechart allows you to control your own data, and customize default styling to maintain visual consistency with your brand.
 
-You can find widget examples at `http://localhost:8080/widget.html`
+Simplechart runs on modern web technology – React, WebPack, and ES5 – and Simplechart widgets are **AMP-compatible** out of the box.
 
-## Adding a new chart type
+Simplechart is and always will be free as in beer, and the code is licensed under [GPL-2.0](https://wordpress.org/about/gpl/). 
 
-There are two components to each chart type in Simplechart: the React component itself and the data transformer function.
+## Extending Simplechart
+Over on the Wiki, we've documented some common extensions for Simplechart.
 
-### Data transfomer
+- [How to add a new chart type]()
+- [Connecting the app to your CMS]()
+- [Structuring and optimizing widgets/embeds]()
 
-The data transformer function ingests the data and fields as they originally parsed from the CSV input, and attempts to transform it into the format required for the particular chart type. For example:
+## Contributing to Simplechart
+We strongly encourage contributions, although we don't yet have formal contribution guidelines. 
 
-```
-fruit,tastiness
-apples,4.234
-bananas,3.466
-```
-From this CSV input, the data transformer will receive the following data and fields arrays:
-```
-[
-  {
-    foo: "apples",
-    bar: "4.234"
-  },
-  {
-    foo: "bananas",
-    bar: "3.466"
-  }
-]
+If you're thinking of a patch, feel free to reach out via a Github issue, or by creating a fork and sending us a pull request.  
 
-['foo', 'bar']
-```
-The fields array is important because it reflects the order of original CSV columns, whereas the JS objects in the data array are unordered key-value pairs.
-
-The output of the data transformer should be a data structure that your chart type will recognize, or `false` if the data is not compatible with your chart type. For a `PieChart` our data transformer would output:
-```
-[
-  {
-    label: "apples",
-    value: 4.234
-  },
-  {
-    label: "bananas",
-    value: 3.466
-  }
-]
-```
-Note that our transformer changed the keys to `label` and `value`, and the values from strings to numbers.
-
-### React component
-
-see the examples in `app/components/Chart/ChartTypes/`, TK TK
-
-## Embedding charts
-
-Embedded charts can retrieve data either from a URL or local variable. The data structure for an embed is:
-
-```
-{
-  data: [ /* Array w/ chart data */ ],
-  options: { /* Object w/ chart options */ },
-  metadata: { // Strings for title, caption, credit
-    title: '',
-    caption: '',
-    credit: ''
-  }
-}
-```
-
-The widget "template" consists of a containing element which *requires*:
-
-* `id` attribute used internally by the Redux store to identify the widget's data
-* `.simplechart-widget`, plus any of your own classes
-* A child element with the class `.simplechart-chart` where the chart itself will show up.
-
-*Optional* features are:
-
-* A `data-placeholder` attribute with text that will be displayed while the chart is waiting for data. The default is `Loading`.
-* Child elements with `.simplechart-title`, `.simplechart-caption`, `.simplechart-credit` will receive those strings of metadata.
-
-You can give any of these elements other classes to apply your own CSS if you want.
-
-#### Data from URL
-
-```
-<figure
-  id='widget456'
-  class='simplechart-widget'
-  data-url='http://mycoolsite.com/simplechart/api/456'
-  data-placeholder='Optional custom placeholder text'
->
-  <p class='simplechart-title'></p>
-  <p class='simplechart-caption'></p>
-  <div class='simplechart-chart'></div>
-  <p class='simplechart-credit'></p>
-</figure>
-```
-
-The presence of the `data-url` attribute tells `widget.js` to render the chart after receiving data from that URL. The expected reponse format is:
-
-```
-{
-  "success": true,
-  "data": {
-    "data": "[{\"label\":\"One\",\"value\":29.7},{\"label\":\"Two\",\"value\":0},{\"label\":\"Three\",\"value\":32.8},{\"label\":\"Four\",\"value\":196.4},{\"label\":\"Five\",\"value\":0.1},{\"label\":\"Six\",\"value\":98},{\"label\":\"Seven\",\"value\":13.9},{\"label\":\"Eight\",\"value\":5.1}]",
-    "options": "{\"type\":\"discreteBarChart\",\"height\":500}",
-    "metadata": "{\"title\":\"Sample Bart Chart\",\"caption\":\"An example of the NVD3 discreteBarChart\",\"credit\":\"Alley Interactive\"}"
-  }
-}
-```
-
-Note that the response expects **stringified** JSON. This is because we want to reduce the number of times that CMS plugins implementing Simplechart and storing its data have to do their own parsing/stringifying.
-
-#### Data from local variable
-
-```
-<figure
-  id='examplewidget'
-  class='simplechart-widget'
-  data-var
->
-  <p class='simplechart-title'></p>
-  <p class='simplechart-caption'></p>
-  <div class='simplechart-chart'></div>
-  <p class='simplechart-credit'></p>
-</figure>
-```
-
-The `data-var` attribute does not take a value. When it's present, widget data can be loaded synchronously or asynchronously. [This example](https://github.com/alleyinteractive/simplechart/blob/master/widget.html#L46) shows how to use both of these methods.
-
-##### Synchronous data
-
-Use the global `_SimplechartWidgetData` with the widget's `id` as a key. In this case, `_SimplechartWidgetData.examplewidget` should include all of the data needed to render the chart, including options and metadata.
-
-You can only use this method once per widget, _before_ loading `widget.js`.
-
-##### Asynchronous data
-
-At any time, you can trigger the event `widgetData` on the widget's containing element. If `evt.detail` contains `data`, `options`, _and_ `metadata`, the entire chart will be rebuilt.
-
-Otherwise, `evt.detail.data` will _replace_ existing chart data array. `evt.detail.options` and `evt.detail.metadata` will be shallow-merged into the chart's existing `options` and `metadata`.
+## One Last Thing
+<center>SimpleChart : Simplechart :: Wordpress : WordPress</center>
