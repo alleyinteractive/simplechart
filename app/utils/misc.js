@@ -54,3 +54,15 @@ export function getObjArrayKey(obj, key, defaultValue = '') {
 export function capitalize(input) {
   return input.charAt(0).toUpperCase() + input.slice(1);
 }
+
+/**
+ * Get array item at specified index, looping back
+ * if needed i.e. if (idx >= list.length)
+ *
+ * @param int idx
+ * @param array list
+ * @return any
+ */
+export function loopArrayItemAtIndex(idx, list) {
+  return list[idx % list.length];
+}

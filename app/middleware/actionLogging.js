@@ -57,32 +57,50 @@ function _getChangeKind(changeCode) {
   }
 }
 
-function _getDiff(oldVal, newVal) {
+/**
+ * Create change log for array and objects
+ * @param obj|array oldVal
+ * @param obj|array newVal
+ * @param string Action type received
+ * @return string Change log
+ */
+function _getDiff(oldVal, newVal, actionType) {
   const calcDiff = diff(oldVal, newVal);
-  return !calcDiff || !calcDiff.length ? 'No changes' :
-    calcDiff.map((change) => {
-      let kind = _getChangeKind(change.kind);
-      let location;
+  if (!calcDiff || !calcDiff.length) {
+    return 'No changes';
+  }
 
-      // If not an array change
-      if ('A' !== change.kind) {
-        location = change.path.join('.');
-      } else {
-        // If an array change
-        kind = _getChangeKind(change.item.kind);
-        location = `index ${change.index}`;
-      }
+  return calcDiff.reduce((log, change) => {
+    let kind = _getChangeKind(change.kind);
+    let location;
 
-      return `${kind} at ${location}`;
-    }).join("\n"); // eslint-disable-line quotes
+    // Special case to skip RECEIVE_CHART_OPTIONS* since it merges in new fields
+    if ('D' === change.kind &&
+      (actions.RECEIVE_CHART_OPTIONS === actionType ||
+      actions.RECEIVE_CHART_OPTIONS_EXTEND === actionType)
+    ) {
+      return log;
+    }
+
+    // If not an array change
+    if ('A' !== change.kind) {
+      location = change.path.join('.');
+    } else {
+      // If an array change
+      kind = _getChangeKind(change.item.kind);
+      location = `index ${change.index}`;
+    }
+
+    return `${log}${kind} at ${location}\n`;
+  }, '').trim();
 }
 
 /**
- * compare keys that changed in received data vs store
+ * Compare keys that changed in received data vs store
  *
  * @param obj action Received type and data
  * @param func getState
- * @return obj For each key, say if created, deleted, or updated
+ * @return obj Return tyep of data received and change log
  */
 function _getChanges(action, getState) {
   if (!actionsMap[action.type]) {
@@ -115,12 +133,12 @@ function _getChanges(action, getState) {
 
     case 'function' === typeof stateVal.concat:
       changes.dataType = 'array';
-      changes.changeLog = _getDiff(stateVal, action.data);
+      changes.changeLog = _getDiff(stateVal, action.data, action.type);
       break;
 
     default:
       changes.dataType = 'object';
-      changes.changeLog = _getDiff(stateVal, action.data);
+      changes.changeLog = _getDiff(stateVal, action.data, action.type);
       break;
   }
   return changes;

@@ -26,15 +26,21 @@ export default function receiveChartType({ getState }) {
     // Clone received options
     let nextOpts = update({}, { $set: action.data });
 
-    // If we have nvd3MultiSeries dataFormat but colors not yet applied
+    /**
+     * Determine from store if we need to apply colors to data series.
+     * True when dataFormat is nvd3MultiSeries and
+     * action comes from manual user change OR not all series have a color already
+     */
     function _shouldApplyColorsToData() {
       let shouldApply;
       try {
-        // If dataFormat is nvd3MultiSeries, check first and last series
-        // to see if colors have already been applied
+        const allSeriesHaveColor = getState().chartData.reduce((acc, series) =>
+          (acc && series.hasOwnProperty('color'))
+        , true);
+
         shouldApply = 'nvd3MultiSeries' === getState().chartType.config.dataFormat &&
-          (!getState().chartData.shift().hasOwnProperty('color') ||
-          !getState().chartData.pop().hasOwnProperty('color'));
+          // manual user change via PalettePicker UI or at least one series doesn't have a color already
+          ('PalettePicker' === action.src || !allSeriesHaveColor);
       } catch (err) {
         shouldApply = false;
       }
@@ -80,7 +86,7 @@ export default function receiveChartType({ getState }) {
     }
 
     // Apply colors to chartData if needed
-    if (_shouldApplyColorsToData()) {
+    if (nextOpts.hasOwnProperty('color') && _shouldApplyColorsToData()) {
       dispatchChartData(
         dispatch,
         getState().chartType.config,

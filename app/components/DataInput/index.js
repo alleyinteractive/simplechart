@@ -22,6 +22,9 @@ class DataInput extends AppComponent {
     this._loadSampleData = this._loadSampleData.bind(this);
     this._setSampleDataSet = this._setSampleDataSet.bind(this);
     this._beforeNextStep = this._beforeNextStep.bind(this);
+    this._nextCallback = this._nextCallback.bind(this);
+    this._handleInputBlur = this._handleInputBlur.bind(this);
+    this._handleInputChange = this._handleInputChange.bind(this);
 
     this.state = {
       rawData: '',
@@ -75,20 +78,25 @@ class DataInput extends AppComponent {
   _beforeNextStep() {
     // Check for empty data field
     // Errors w/ invalid data would have already surfaced in rawDataMiddleware
-    /**
-     * @todo Move this check so that this function only returns whether we can proceed
-     * Checking inside _submitData() allowed "field is empty" error on all blur events
-     * But we only want to allow it when you're trying to move to the next step
-     */
-    if (!this.props.rawData.length) {
+    // return value indicates if we can proceed to next step
+    return this.props.dataStatus.status &&
+      'success' === this.props.dataStatus.status;
+  }
+
+  _nextCallback(success) {
+    if (!success) {
       this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e002'));
     } else {
       this.props.dispatch(actionTrigger(CLEAR_ERROR));
     }
+  }
 
-    // return value indicates if we can proceed to next step
-    return this.props.dataStatus.status &&
-      'success' === this.props.dataStatus.status;
+  _handleInputBlur() {
+    this._submitData(this.state.rawData);
+  }
+
+  _handleInputChange(evt) {
+    this.setState({ rawData: evt.target.value });
   }
 
   render() {
@@ -105,14 +113,6 @@ class DataInput extends AppComponent {
       }
     }
 
-    const handleInputBlur = function handleInputBlur() {
-      this._submitData(this.state.rawData);
-    }.bind(this);
-
-    const handleInputChange = function handleInputChange(evt) {
-      this.setState({ rawData: evt.target.value });
-    }.bind(this);
-
     return (
       <div className={this.parentStyles.appComponent}>
         <Heading level={2}>{appSteps[0]}</Heading>
@@ -122,8 +122,8 @@ class DataInput extends AppComponent {
             id="DataInput"
             className={styles.textarea}
             value={this.state.rawData}
-            onChange={handleInputChange}
-            onBlur={handleInputBlur}
+            onChange={this._handleInputChange}
+            onBlur={this._handleInputBlur}
             ref="dataInput"
           />
           <span className={styles[dataStatusClass]}>
@@ -142,17 +142,18 @@ class DataInput extends AppComponent {
               onChange={this._setSampleDataSet}
             />
             <Button
-              theme="secondary"
+              theme="warning"
               onClick={this._loadSampleData}
             >Load</Button>
           </div>
 
           <div className={styles.submitContainer}>
             <NextPrevButton
-              copy="Next"
+              text="Next"
               currentStep={0}
               dir="next"
-              allowIf={this._beforeNextStep}
+              shouldEnable={this._beforeNextStep()}
+              callback={this._nextCallback}
             />
           </div>
         </div>

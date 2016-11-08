@@ -1,4 +1,4 @@
-import { dataIsMultiSeries } from '../../utils/misc';
+import { dataIsMultiSeries, loopArrayItemAtIndex } from '../../utils/misc';
 
 /**
  * For nvd3MultiSeries dataFormat, loop through and apply a color to each series
@@ -8,22 +8,8 @@ export default function applyColorsToData(colors = [], data = []) {
     return data;
   }
 
-  function _getColorForIndex(seriesIndex) {
-    let color;
-    let iteration = 0;
-    while (!color) {
-      const colorsIndex = seriesIndex - (iteration * colors.length);
-      if (colorsIndex < colors.length) {
-        color = colors[colorsIndex];
-      } else {
-        iteration++;
-      }
-    }
-    return color;
-  }
-
   return data.map((series, idx) => {
-    series.color = _getColorForIndex(idx); // eslint-disable-line no-param-reassign
+    series.color = loopArrayItemAtIndex(idx, colors); // eslint-disable-line no-param-reassign
     return series;
   });
 }
