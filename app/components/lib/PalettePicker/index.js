@@ -40,12 +40,17 @@ class PalettePicker extends Component {
     this.setState({
       data: props.data.map((series, idx) => {
         const seriesColor = loopArrayItemAtIndex(idx, props.palette);
+        // Setup series label and current color
         const seriesForState = {
           label: this._getSeriesName(series),
           current: seriesColor,
         };
-        if (setOriginal) {
+
+        // set original color that we can revert back to
+        if (setOriginal || !this.state.data[idx].original) {
           seriesForState.original = seriesColor;
+        } else {
+          seriesForState.original = this.state.data[idx].original;
         }
         return seriesForState;
       }),
