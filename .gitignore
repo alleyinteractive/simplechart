@@ -3,3 +3,5 @@ node_modules
 *.log
 *.sh
 *_ignore_*
+static
+
