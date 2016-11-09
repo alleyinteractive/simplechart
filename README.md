@@ -1,10 +1,10 @@
-# ![Simplechart](docs/_includes/logo.png)
+# ![Simplechart](docs/lib/images/logo.png)
 
 Quickly create and structure interactive charts for use in a content management system (CMS).
 
 *See [Simplechart for WordPress](https://github.com/alleyinteractive/wordpress-simplechart) for the WordPress plugin.*
 
-## Quick Start
+## Quick Start for Local Development
 You'll need just a couple things installed before running Simplechart.
 
 - Node
@@ -22,23 +22,23 @@ Congrats! You should now be able to access Simplechart at `http://localhost:8080
 If you're ready to deploy the app, head over to the Wiki for the [Deployment Guide](TK).
 
 ## Use Cases
-Simplechart provides the most utility at present when used in conjunction with the WordPress plugin. You don't need to install this package to try the WordPress plugin.
+Simplechart provides the most utility at present when used in conjunction with [the WordPress plugin](https://github.com/alleyinteractive/wordpress-simplechart). You don't need to install this package to try the WordPress plugin.
 
 Although we have focused on WordPress to date, Simplechart itself is CMS agnostic, and can even be used without a CMS. Simplechart allows you to control your own data, and customize default styling to maintain visual consistency with your brand.
 
 Simplechart runs on modern web technology – React, WebPack, and ES5 – and Simplechart widgets are **AMP-compatible** out of the box.
 
-Simplechart is and always will be free as in beer, and the code is licensed under [GPL-2.0](https://wordpress.org/about/gpl/). 
+Simplechart is licensed under [GPL-2.0](https://wordpress.org/about/gpl/).
 
 ## Extending Simplechart
 Over on the Wiki, we've documented some common extensions for Simplechart.
 
 - [How to add a new chart type]()
 - [Connecting the app to your CMS]()
-- [Structuring and populating data for embeds]()
+- [Structuring and optimizing widgets/embeds]()
 
 ## Contributing to Simplechart
-We strongly encourage contributions, although we don't yet have formal contribution guidelines. 
+We strongly encourage contributions, although we don't yet have formal contribution guidelines.
 
 If you're thinking of a patch, feel free to reach out via a Github issue, or by creating a fork and sending us a pull request.  
 
