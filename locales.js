@@ -111,8 +111,6 @@ function loopLocales(err, files) {
   }, []);
   locales.sort((a, b) => compareLocales(a, b));
 
-
-
   // Get index of the default country, i.e. 'US'
   const defaultIdx = locales.reduce((prev, locale, currIdx) => {
     return defaultCountryCode === locale.countryCode ? currIdx : prev;
