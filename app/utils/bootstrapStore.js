@@ -55,7 +55,7 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
   /**
    * Reset tick formatting that might also have been deleted
    */
-  if (nextOpts.tickFormatBuilder) {
+  if (nextOpts.tickFormatSettings) {
     nextOpts = applyDataFormatters(nextOpts, nextChartType.config);
   }
 

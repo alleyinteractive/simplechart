@@ -21,11 +21,11 @@ function _getAxesConfig(formatter, chartOptions, typeConfig) {
 }
 
 export default function applyDataFormatters(chartOptions, typeConfig) {
-  if (!chartOptions.tickFormatBuilder) {
+  if (!chartOptions.tickFormatSettings) {
     return chartOptions;
   }
   // create data formatter function
-  const formatter = createFormatter(chartOptions.tickFormatBuilder);
+  const formatter = createFormatter(chartOptions.tickFormatSettings);
 
   // clone chartOptions.xAxis and chartOptions.yAxis as needed
   // and including formatter function
