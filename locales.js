@@ -75,6 +75,23 @@ function writeFile(locales, defaultIdx) {
 }
 
 /**
+ * Handle special cases that we don't want to process
+ *
+ * @param string filename
+ * @param bool
+ */
+function shouldSkipFile(filename) {
+  switch (filename) {
+    // Use en-CA instead, sorry Quebec
+    case 'fr-CA.json':
+      return true;
+
+    default:
+      return false;
+  }
+}
+
+/**
  * Call back after reading the directory containing the locales JSON files
  *
  * @param Error err
@@ -86,8 +103,15 @@ function loopLocales(err, files) {
   }
 
   // Get array of locale objects ordered by country name
-  const locales = files.map((filename) => handleFilename(filename));
+  const locales = files.reduce((acc,filename) => {
+    if (!shouldSkipFile(filename)) {
+      acc.push(handleFilename(filename));
+    }
+    return acc;
+  }, []);
   locales.sort((a, b) => compareLocales(a, b));
+
+
 
   // Get index of the default country, i.e. 'US'
   const defaultIdx = locales.reduce((prev, locale, currIdx) => {
