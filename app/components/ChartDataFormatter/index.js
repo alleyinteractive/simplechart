@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
-// import { locales, defaultLocaleIndex } from '../../constants/d3Locales';
+import { locales, defaultLocaleIndex } from '../../constants/d3Locales';
 import { RECEIVE_CHART_OPTIONS_EXTEND } from '../../constants';
 import DispatchField from '../lib/DispatchField';
 
@@ -19,23 +19,38 @@ class ChartDataFormatter extends Component {
   }
 
   _handleProps(settings) {
+    function stateDefault(key, defaultVal) {
+      return settings.hasOwnProperty(key) ? settings[key] : defaultVal;
+    }
+
     return {
-      showCurrencySymbol: settings.hasOwnProperty('showCurrencySymbol') ?
-        settings.showCurrencySymbol : false,
+      locale: stateDefault('locale', defaultLocaleIndex),
+      showCurrencySymbol: stateDefault('showCurrencySymbol', false),
     };
   }
 
-  // _localeOptions() {
-  //   return locales.map((locale, idx) => ({
-  //     children: `${locale.emoji} ${locale.name}`,
-  //     value: idx,
-  //   }));
-  // }
+  _localeOptions() {
+    return locales.map((locale, idx) => ({
+      children: `${locale.emoji} ${locale.name}`,
+      value: idx,
+    }));
+  }
 
   render() {
     return (
       <div>
         <div>
+          <DispatchField
+            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            fieldType="Select"
+            fieldProps={{
+              label: 'Use country settings',
+              name: 'tickFormatSettings.locale',
+              options: this._localeOptions(),
+              value: this.state.locale,
+            }}
+          />
+
           <DispatchField
             action={RECEIVE_CHART_OPTIONS_EXTEND}
             fieldType="Checkbox"
