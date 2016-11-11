@@ -11,6 +11,11 @@ import {
 import update from 'react-addons-update';
 
 class ChartDataFormatter extends Component {
+  constructor() {
+    super();
+    this._handleChange = this._handleChange.bind(this);
+  }
+
   componentWillMount() {
     this.setState(
       this._handleProps(this.props.options.tickFormatSettings || {})
@@ -34,6 +39,16 @@ class ChartDataFormatter extends Component {
     }));
   }
 
+  /**
+   * Return full tickFormatSettings object after any element is changed
+   */
+  _handleChange(fieldProps, value) {
+    const field = fieldProps.name.split('.').pop();
+    return {
+      tickFormatSettings: update(this.state, { [field]: { $set: value } }),
+    }
+  }
+
   render() {
     return (
       <div>
@@ -47,6 +62,7 @@ class ChartDataFormatter extends Component {
               options: this._localeOptions(),
               value: this.state.locale,
             }}
+            handler={this._handleChange}
           />
 
           <DispatchField
@@ -57,6 +73,7 @@ class ChartDataFormatter extends Component {
               name: 'tickFormatSettings.groupThousands',
               checked: this.state.groupThousands,
             }}
+            handler={this._handleChange}
           />
 
           <DispatchField
@@ -67,6 +84,7 @@ class ChartDataFormatter extends Component {
               name: 'tickFormatSettings.showCurrencySymbol',
               checked: this.state.showCurrencySymbol,
             }}
+            handler={this._handleChange}
           />
 
           <DispatchField
@@ -75,8 +93,9 @@ class ChartDataFormatter extends Component {
             fieldProps={{
               label: 'Leading text',
               name: 'tickFormatSettings.prepend',
-              checked: this.state.prepend,
+              value: this.state.prepend,
             }}
+            handler={this._handleChange}
           />
 
           <DispatchField
@@ -85,8 +104,9 @@ class ChartDataFormatter extends Component {
             fieldProps={{
               label: 'Trailing text',
               name: 'tickFormatSettings.append',
-              checked: this.state.append,
+              value: this.state.append,
             }}
+            handler={this._handleChange}
           />
 
           <DispatchField
@@ -98,8 +118,9 @@ class ChartDataFormatter extends Component {
               step: 1,
               min: 0,
               name: 'tickFormatSettings.decimalPlaces',
-              checked: this.state.decimalPlaces,
+              value: this.state.decimalPlaces,
             }}
+            handler={this._handleChange}
           />
 
           <DispatchField
@@ -111,6 +132,7 @@ class ChartDataFormatter extends Component {
               options: multiplierOptions,
               value: this.state.multiplier,
             }}
+            handler={this._handleChange}
           />
 
         </div>

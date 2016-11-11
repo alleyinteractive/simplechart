@@ -4,6 +4,7 @@ import update from 'react-addons-update';
 import { getChartTypeObject, getChartTypeDefaultOpts } from './chartTypeUtils';
 import defaultPalette from '../constants/defaultPalette';
 import applyDataFormatters from '../middleware/utils/applyDataFormatters';
+import defaultTickFormatSettings from '../constants/defaultTickFormatSettings';
 
 /**
  * Handle bootstrapping the Redux store with data from a postMessage,
@@ -53,11 +54,22 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
   }
 
   /**
-   * Reset tick formatting that might also have been deleted
+   * Reset tick formatting
    */
-  if (nextOpts.tickFormatSettings) {
-    nextOpts = applyDataFormatters(nextOpts, nextChartType.config);
+  if (!nextOpts.hasOwnProperty('tickFormatSettings')) {
+    // Applies static defaults if needed
+    nextOpts.tickFormatSettings = defaultTickFormatSettings;
+  } else {
+    // Backfill settings with defaults in case anything is missing
+    nextOpts = update(nextOpts, { tickFormatSettings: {
+      $apply: (savedSettings) =>
+        update(defaultTickFormatSettings, { $merge: savedSettings }),
+    } });
   }
+
+  // Turn static values into formatting functions
+  // applyDataFormatters() returns a cloned object
+  nextOpts = applyDataFormatters(nextOpts, nextChartType.config);
 
   /**
    * Apply default colors if needed
