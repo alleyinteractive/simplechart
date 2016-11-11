@@ -16,37 +16,36 @@ export default class ChartEditor extends AppComponent {
       case 1:
       default:
         subcomponent = React.createElement(ChartTypeSelector, {
-          transformedData: this.props.state.transformedData,
-          typeObj: this.props.state.chartType,
+          transformedData: this.props.appState.transformedData,
+          typeObj: this.props.appState.chartType,
         });
         break;
 
       case 2:
         subcomponent = React.createElement(ChartSettings, {
-          options: this.props.state.chartOptions,
-          metadata: this.props.state.chartMetadata,
-          data: this.props.state.chartData,
-          typeConfig: this.props.state.chartType.config,
+          options: this.props.appState.chartOptions,
+          metadata: this.props.appState.chartMetadata,
+          data: this.props.appState.chartData,
+          typeConfig: this.props.appState.chartType.config,
         });
         break;
 
       case 3:
         subcomponent = React.createElement(ChartDataFormatter, {
-          tickFormatSettings:
-            this.props.state.chartOptions.tickFormatSettings || {},
+          options: this.props.appState.chartOptions,
         });
         break;
 
       // case 4:
       //   subcomponent = React.createElement(PalettePicker, {
-      //     data: this.props.state.chartData,
-      //     options: this.props.state.chartOptions,
+      //     data: this.props.appState.chartData,
+      //     options: this.props.appState.chartOptions,
       //   });
       //   break;
 
       // case 5:
       //   subcomponent = React.createElement(ChartOptions, {
-      //     options: this.props.state.chartOptions,
+      //     options: this.props.appState.chartOptions,
       //     chart: this.refs.chartComponent,
       //   });
       //   break;
@@ -81,12 +80,12 @@ export default class ChartEditor extends AppComponent {
   render() {
     return (
       <div className={this.parentStyles.appComponent}>
-        <Heading level={2}>{appSteps[this.props.state.currentStep]}</Heading>
+        <Heading level={2}>{appSteps[this.props.appState.currentStep]}</Heading>
         <div className={styles.builderContainer}>
           <div className={styles.subcomponentContainer}>
-            {this._renderSubcomponent(this.props.state.currentStep)}
+            {this._renderSubcomponent(this.props.appState.currentStep)}
           </div>
-          {this._displayChart(this.props.state)}
+          {this._displayChart(this.props.appState)}
         </div>
       </div>
     );
@@ -94,5 +93,5 @@ export default class ChartEditor extends AppComponent {
 }
 
 ChartEditor.propTypes = {
-  state: React.PropTypes.object,
+  appState: React.PropTypes.object,
 };
