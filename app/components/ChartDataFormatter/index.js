@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
-import { locales, defaultLocaleIndex } from '../../constants/d3Locales';
+import { locales } from '../../constants/d3Locales';
 import { RECEIVE_CHART_OPTIONS_EXTEND } from '../../constants';
 import DispatchField from '../lib/DispatchField';
+import {
+  defaultTickFormatSettings,
+  multiplierOptions,
+} from '../../constants/defaultTickFormatSettings';
+import update from 'react-addons-update';
 
 class ChartDataFormatter extends Component {
   componentWillMount() {
@@ -19,14 +24,7 @@ class ChartDataFormatter extends Component {
   }
 
   _handleProps(settings) {
-    function stateDefault(key, defaultVal) {
-      return settings.hasOwnProperty(key) ? settings[key] : defaultVal;
-    }
-
-    return {
-      locale: stateDefault('locale', defaultLocaleIndex),
-      showCurrencySymbol: stateDefault('showCurrencySymbol', false),
-    };
+    return update(defaultTickFormatSettings, { $merge: settings });
   }
 
   _localeOptions() {
@@ -55,11 +53,66 @@ class ChartDataFormatter extends Component {
             action={RECEIVE_CHART_OPTIONS_EXTEND}
             fieldType="Checkbox"
             fieldProps={{
+              label: 'Use thousands separator',
+              name: 'tickFormatSettings.groupThousands',
+              checked: this.state.groupThousands,
+            }}
+          />
+
+          <DispatchField
+            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            fieldType="Checkbox"
+            fieldProps={{
               label: 'Show currency symbol?',
               name: 'tickFormatSettings.showCurrencySymbol',
               checked: this.state.showCurrencySymbol,
             }}
           />
+
+          <DispatchField
+            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            fieldType="Input"
+            fieldProps={{
+              label: 'Leading text',
+              name: 'tickFormatSettings.prepend',
+              checked: this.state.prepend,
+            }}
+          />
+
+          <DispatchField
+            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            fieldType="Input"
+            fieldProps={{
+              label: 'Trailing text',
+              name: 'tickFormatSettings.append',
+              checked: this.state.append,
+            }}
+          />
+
+          <DispatchField
+            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            fieldType="Input"
+            fieldProps={{
+              label: 'Decimal places',
+              type: 'number',
+              step: 1,
+              min: 0,
+              name: 'tickFormatSettings.decimalPlaces',
+              checked: this.state.decimalPlaces,
+            }}
+          />
+
+          <DispatchField
+            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            fieldType="Select"
+            fieldProps={{
+              label: 'Multiply/divide values',
+              name: 'tickFormatSettings.multiplier',
+              options: multiplierOptions,
+              value: this.state.multiplier,
+            }}
+          />
+
         </div>
         <NextPrevButton
           text="Next"
