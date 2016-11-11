@@ -7,16 +7,21 @@ import DispatchField from '../lib/DispatchField';
 
 class ChartDataFormatter extends Component {
   componentWillMount() {
-    this.setState(this._handleProps(this.props));
+    this.setState(
+      this._handleProps(this.props.options.tickFormatSettings || {})
+    );
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(this._handleProps(nextProps));
+    this.setState(
+      this._handleProps(nextProps.options.tickFormatSettings || {})
+    );
   }
 
-  _handleProps(props) {
+  _handleProps(settings) {
     return {
-      showCurrencySymbol: props.tickFormatSettings.showCurrencySymbol || false,
+      showCurrencySymbol: settings.hasOwnProperty('showCurrencySymbol') ?
+        settings.showCurrencySymbol : false,
     };
   }
 
@@ -52,7 +57,7 @@ class ChartDataFormatter extends Component {
 }
 
 ChartDataFormatter.propTypes = {
-  tickFormatSettings: React.PropTypes.object,
+  options: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 };
 

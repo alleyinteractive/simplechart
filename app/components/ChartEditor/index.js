@@ -9,26 +9,6 @@ import { appSteps } from '../../constants/appSteps';
 import * as styles from './ChartEditor.css';
 
 export default class ChartEditor extends AppComponent {
-  constructor() {
-    super();
-    this.state = {
-      tickFormatSettings: {},
-    };
-  }
-
-  componentWillMount() {
-    this.setState(this._handleStateProp(this.props.appState));
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState(this._handleStateProp(nextProps.appState));
-  }
-
-  _handleStateProp(appState) {
-    return {
-      tickFormatSettings: appState.chartOptions.tickFormatSettings || {},
-    };
-  }
   _renderSubcomponent(step) {
     let subcomponent;
     switch (step) {
@@ -51,7 +31,7 @@ export default class ChartEditor extends AppComponent {
 
       case 3:
         subcomponent = React.createElement(ChartDataFormatter, {
-          tickFormatSettings: this.state.tickFormatSettings,
+          options: this.props.appState.chartOptions,
         });
         break;
 
