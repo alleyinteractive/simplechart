@@ -34,13 +34,18 @@ export default function receiveChartType({ getState }) {
     function _shouldApplyColorsToData() {
       let shouldApply;
       try {
-        const allSeriesHaveColor = getState().chartData.reduce((acc, series) =>
-          (acc && series.hasOwnProperty('color'))
-        , true);
-
-        shouldApply = 'nvd3MultiSeries' === getState().chartType.config.dataFormat &&
-          // manual user change via PalettePicker UI or at least one series doesn't have a color already
-          ('PalettePicker' === action.src || !allSeriesHaveColor);
+        if ('nvd3MultiSeries' !== getState().chartType.config.dataFormat) {
+          // Don't apply if data format isn't NVD3 multi series
+          shouldApply = false;
+        } else if ('PalettePicker' === action.src) {
+          // Apply if update came from manual user change
+          shouldApply = true;
+        } else {
+          // Test if at least one series doesn't have a color already
+          shouldApply = getState().chartData.reduce((acc, series) =>
+            (acc || !series.hasOwnProperty('color'))
+          , false);
+        }
       } catch (err) {
         shouldApply = false;
       }
