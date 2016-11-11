@@ -1,47 +1,43 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
-import { locales, defaultLocaleIndex } from '../../constants/d3Locales';
+// import { locales, defaultLocaleIndex } from '../../constants/d3Locales';
 import { RECEIVE_CHART_OPTIONS_EXTEND } from '../../constants';
 import DispatchField from '../lib/DispatchField';
 
 class ChartDataFormatter extends Component {
   componentWillMount() {
-    this.setState({
-      revertTo: this.props.tickFormatSettings,
-    });
+    this.setState(this._handleProps(this.props));
   }
 
-  _localeOptions() {
-    return locales.map((locale, idx) => ({
-      children: `${locale.emoji} ${locale.name}`,
-      value: idx,
-    }));
+  componentWillReceiveProps(nextProps) {
+    this.setState(this._handleProps(nextProps));
   }
+
+  _handleProps(props) {
+    return {
+      showCurrencySymbol: props.tickFormatSettings.showCurrencySymbol || false,
+    };
+  }
+
+  // _localeOptions() {
+  //   return locales.map((locale, idx) => ({
+  //     children: `${locale.emoji} ${locale.name}`,
+  //     value: idx,
+  //   }));
+  // }
 
   render() {
     return (
       <div>
         <div>
           <DispatchField
-            action={ RECEIVE_CHART_OPTIONS_EXTEND }
-            fieldType="Select"
-            fieldProps={{
-              label: 'Locale',
-              name: 'tickFormatSettings.locale',
-              options: this._localeOptions(),
-              value: parseInt(
-                this.props.tickFormatSettings.locale || defaultLocaleIndex, 10),
-            }}
-          />
-
-          <DispatchField
-            action={ RECEIVE_CHART_OPTIONS_EXTEND }
+            action={RECEIVE_CHART_OPTIONS_EXTEND}
             fieldType="Checkbox"
             fieldProps={{
               label: 'Show currency symbol?',
               name: 'tickFormatSettings.showCurrencySymbol',
-              checked: this.props.tickFormatSettings.showCurrencySymbol,
+              checked: this.state.showCurrencySymbol,
             }}
           />
         </div>
