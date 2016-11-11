@@ -4,6 +4,7 @@
 
 import {
   RECEIVE_CHART_OPTIONS,
+  RECEIVE_CHART_OPTIONS_EXTEND,
   RECEIVE_DEFAULTS_APPLIED_TO,
 } from '../constants';
 import actionTrigger from '../actions';
@@ -16,7 +17,9 @@ import applyDataFormatters from './utils/applyDataFormatters';
 
 export default function receiveChartType({ getState }) {
   return (dispatch) => (action) => {
-    if (RECEIVE_CHART_OPTIONS !== action.type) {
+    if (RECEIVE_CHART_OPTIONS !== action.type &&
+      RECEIVE_CHART_OPTIONS_EXTEND !== action.type
+    ) {
       return dispatch(action);
     }
 
@@ -114,7 +117,10 @@ export default function receiveChartType({ getState }) {
     }
 
     // Apply tick/value formatting
-    nextOpts = applyDataFormatters(nextOpts, getState().chartType.config);
+    if (nextOpts.hasOwnProperty('tickFormatSettings')) {
+      // applyDataFormatters returns a cloned object
+      nextOpts = applyDataFormatters(nextOpts, getState().chartType.config);
+    }
 
     /**
      * set yDomain if chartData and chartType are set up
@@ -128,6 +134,6 @@ export default function receiveChartType({ getState }) {
     }
 
     // Send nextOpts to Redux store
-    return dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, nextOpts));
+    return dispatch(actionTrigger(action.type, nextOpts));
   };
 }
