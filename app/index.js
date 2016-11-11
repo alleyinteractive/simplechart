@@ -23,7 +23,9 @@ import * as NVD3Styles from 'style!raw!nvd3/build/nv.d3.css'; // eslint-disable-
 // Create the store with redux-thunk middleware, which allows us to
 // do asyncronous things in the actions
 import rootReducer from './reducers/rootReducer';
-const store = createStore(rootReducer, compose(
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancers(
   applyMiddleware(
     thunk,
     receiveRawData,
