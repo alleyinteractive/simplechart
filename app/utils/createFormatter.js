@@ -31,7 +31,7 @@ function _buildD3FormatSpecifier(settings) {
     parts += ',';
   }
   parts += `.${settings.decimalPlaces}`;
-  parts += settings.percent ? '%' : 'f';
+  parts += settings.usePercent ? '%' : 'f';
   return parts;
 }
 
@@ -53,6 +53,7 @@ function _buildD3Format(settings) {
  *    @param string append Trailing text after the data output
  *    @param int|string decimalPlaces Number of decimal places, may be be numberic string
  *    @param num|string multiplier Factor to apply to the data, may be numeric string
+ *    @param bool usePercent Display as percentage
  * @return function Formatting function
  */
 export default function createFormatter(settings) {

@@ -8,6 +8,7 @@ export const defaultTickFormatSettings = {
   append: '',
   decimalPlaces: 2,
   multiplier: '1',
+  usePercent: false,
 };
 
 export const multiplierOptions = [

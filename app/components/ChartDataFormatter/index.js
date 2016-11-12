@@ -57,10 +57,21 @@ class ChartDataFormatter extends Component {
             action={RECEIVE_CHART_OPTIONS_EXTEND}
             fieldType="Select"
             fieldProps={{
-              label: 'Use country settings',
+              label: 'Format currency and thousands separator as:',
               name: 'tickFormatSettings.locale',
               options: this._localeOptions(),
               value: this.state.locale,
+            }}
+            handler={this._handleChange}
+          />
+
+          <DispatchField
+            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            fieldType="Checkbox"
+            fieldProps={{
+              label: 'Show currency symbol?',
+              name: 'tickFormatSettings.showCurrencySymbol',
+              checked: this.state.showCurrencySymbol,
             }}
             handler={this._handleChange}
           />
@@ -80,9 +91,9 @@ class ChartDataFormatter extends Component {
             action={RECEIVE_CHART_OPTIONS_EXTEND}
             fieldType="Checkbox"
             fieldProps={{
-              label: 'Show currency symbol?',
-              name: 'tickFormatSettings.showCurrencySymbol',
-              checked: this.state.showCurrencySymbol,
+              label: 'Display as percentage',
+              name: 'tickFormatSettings.usePercent',
+              checked: this.state.usePercent,
             }}
             handler={this._handleChange}
           />
