@@ -46,7 +46,7 @@ class ChartDataFormatter extends Component {
     const field = fieldProps.name.split('.').pop();
     return {
       tickFormatSettings: update(this.state, { [field]: { $set: value } }),
-    }
+    };
   }
 
   render() {
