@@ -15,7 +15,6 @@ function _getAxesConfig(formatter, chartOptions, typeConfig) {
       axesConfig[name] = update(chartOptions[name] || {}, { $merge: toMerge });
     }
   }
-  _setAxis('xAxis');
   _setAxis('yAxis');
   return axesConfig;
 }
