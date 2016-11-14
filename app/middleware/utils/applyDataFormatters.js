@@ -15,17 +15,16 @@ function _getAxesConfig(formatter, chartOptions, typeConfig) {
       axesConfig[name] = update(chartOptions[name] || {}, { $merge: toMerge });
     }
   }
-  _setAxis('xAxis');
   _setAxis('yAxis');
   return axesConfig;
 }
 
 export default function applyDataFormatters(chartOptions, typeConfig) {
-  if (!chartOptions.tickFormatBuilder) {
+  if (!chartOptions.tickFormatSettings) {
     return chartOptions;
   }
   // create data formatter function
-  const formatter = createFormatter(chartOptions.tickFormatBuilder);
+  const formatter = createFormatter(chartOptions.tickFormatSettings);
 
   // clone chartOptions.xAxis and chartOptions.yAxis as needed
   // and including formatter function

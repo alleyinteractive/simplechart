@@ -22,8 +22,9 @@ export default function chartOptionsReducer(state = {}, action) {
   }
 
   function _extendState(applyState) {
-    deepExtend(applyState, action.data);
-    return applyState;
+    const newState = update({}, { $set: applyState });
+    deepExtend(newState, action.data);
+    return newState;
   }
 
   switch (action.type) {

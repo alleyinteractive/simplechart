@@ -37,7 +37,7 @@ class App extends Component {
       });
     }
     return React.createElement(ChartEditor, {
-      state: this.props.state,
+      appState: this.props.state,
     });
   }
 

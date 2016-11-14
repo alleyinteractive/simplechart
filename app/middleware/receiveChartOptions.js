@@ -4,6 +4,7 @@
 
 import {
   RECEIVE_CHART_OPTIONS,
+  RECEIVE_CHART_OPTIONS_EXTEND,
   RECEIVE_DEFAULTS_APPLIED_TO,
 } from '../constants';
 import actionTrigger from '../actions';
@@ -16,7 +17,9 @@ import applyDataFormatters from './utils/applyDataFormatters';
 
 export default function receiveChartType({ getState }) {
   return (dispatch) => (action) => {
-    if (RECEIVE_CHART_OPTIONS !== action.type) {
+    if (RECEIVE_CHART_OPTIONS !== action.type &&
+      RECEIVE_CHART_OPTIONS_EXTEND !== action.type
+    ) {
       return dispatch(action);
     }
 
@@ -34,13 +37,18 @@ export default function receiveChartType({ getState }) {
     function _shouldApplyColorsToData() {
       let shouldApply;
       try {
-        const allSeriesHaveColor = getState().chartData.reduce((acc, series) =>
-          (acc && series.hasOwnProperty('color'))
-        , true);
-
-        shouldApply = 'nvd3MultiSeries' === getState().chartType.config.dataFormat &&
-          // manual user change via PalettePicker UI or at least one series doesn't have a color already
-          ('PalettePicker' === action.src || !allSeriesHaveColor);
+        if ('nvd3MultiSeries' !== getState().chartType.config.dataFormat) {
+          // Don't apply if data format isn't NVD3 multi series
+          shouldApply = false;
+        } else if ('PalettePicker' === action.src) {
+          // Apply if update came from manual user change
+          shouldApply = true;
+        } else {
+          // Test if at least one series doesn't have a color already
+          shouldApply = getState().chartData.reduce((acc, series) =>
+            (acc || !series.hasOwnProperty('color'))
+          , false);
+        }
       } catch (err) {
         shouldApply = false;
       }
@@ -108,8 +116,11 @@ export default function receiveChartType({ getState }) {
       ));
     }
 
-    // Apply tick/value formatting
-    nextOpts = applyDataFormatters(nextOpts, getState().chartType.config);
+    // Apply tick/value formatting after manual update
+    if (nextOpts.tickFormatSettings && !_actionIsBootstrap()) {
+      // applyDataFormatters returns a cloned object
+      nextOpts = applyDataFormatters(nextOpts, getState().chartType.config);
+    }
 
     /**
      * set yDomain if chartData and chartType are set up
@@ -123,6 +134,6 @@ export default function receiveChartType({ getState }) {
     }
 
     // Send nextOpts to Redux store
-    return dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, nextOpts));
+    return dispatch(actionTrigger(action.type, nextOpts));
   };
 }

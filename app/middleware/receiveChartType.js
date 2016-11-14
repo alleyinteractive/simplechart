@@ -9,7 +9,6 @@ import {
 } from '../constants';
 import dispatchChartData from './utils/dispatchChartData';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
-import applyDataFormatters from './utils/applyDataFormatters';
 import applyYDomain from './utils/applyYDomain';
 import actionTrigger from '../actions';
 
@@ -53,11 +52,6 @@ export default function receiveChartType({ getState }) {
         getState().chartOptions,
         getState().defaultsAppliedTo
       );
-
-      /**
-       * apply tick/value formatting
-       */
-      nextOpts = applyDataFormatters(nextOpts, nextConfig);
 
       /**
        * set yDomain if chartData is set up
