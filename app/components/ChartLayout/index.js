@@ -28,6 +28,7 @@ class ChartLayout extends Component {
         <AccordionBlock
           title="Breakpoint 1"
           tooltip="Set max width and height for Breakpoint 1"
+          defaultExpand
         >
           <DispatchField
             action="DUMMY_ACTION"
