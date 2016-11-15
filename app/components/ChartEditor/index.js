@@ -60,6 +60,7 @@ export default class ChartEditor extends AppComponent {
           options={state.chartOptions}
           widget={false}
           ref="chartComponent"
+          rulers={4 === state.currentStep}
         />
         <p>{state.chartMetadata.caption}</p>
         <p className={styles.credit}>

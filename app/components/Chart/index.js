@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import chartTypeLoader from '../../utils/chartTypeLoader';
+import RuledBox from '../lib/RuledBox';
 import { getChartTypeObject } from '../../utils/chartTypeUtils';
 import update from 'react-addons-update';
 
@@ -35,16 +36,27 @@ class Chart extends Component {
   }
 
   render() {
-    return !this.state.chartTypeComponent ?
-      null :
-      React.createElement(this.state.chartTypeComponent,
-        update(this.props, { $merge: { ref: 'chartTypeComponent' } }));
+    if (!this.state.chartTypeComponent) {
+      return null;
+    }
+
+    const chartTypeComponent = React.createElement(
+      this.state.chartTypeComponent,
+      update(this.props, { $merge: { ref: 'chartTypeComponent' } })
+    );
+
+    return React.createElement(
+      this.props.rulers ? RuledBox : 'div', // element type
+      this.props.rulers ? { width: 350, height: 400 } : {}, // props
+      chartTypeComponent // children
+    );
   }
 }
 
 Chart.propTypes = {
   data: React.PropTypes.array,
   options: React.PropTypes.object,
+  rulers: React.PropTypes.bool,
   widget: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.bool,
