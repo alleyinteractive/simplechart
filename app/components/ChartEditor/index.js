@@ -3,7 +3,8 @@ import AppComponent from '../Layout/AppComponent';
 import Chart from '../Chart/';
 import ChartDataFormatter from '../ChartDataFormatter';
 import ChartSettings from '../ChartSettings';
-import ChartTypeSelector from '../ChartTypeSelector/';
+import ChartTypeSelector from '../ChartTypeSelector';
+import ChartLayout from '../ChartLayout';
 import { Heading } from 'rebass';
 import { appSteps } from '../../constants/appSteps';
 import * as styles from './ChartEditor.css';
@@ -35,19 +36,11 @@ export default class ChartEditor extends AppComponent {
         });
         break;
 
-      // case 4:
-      //   subcomponent = React.createElement(PalettePicker, {
-      //     data: this.props.appState.chartData,
-      //     options: this.props.appState.chartOptions,
-      //   });
-      //   break;
-
-      // case 5:
-      //   subcomponent = React.createElement(ChartOptions, {
-      //     options: this.props.appState.chartOptions,
-      //     chart: this.refs.chartComponent,
-      //   });
-      //   break;
+      case 4:
+        subcomponent = React.createElement(ChartLayout, {
+          options: this.props.appState.chartOptions,
+        });
+        break;
     }
     return subcomponent;
   }
