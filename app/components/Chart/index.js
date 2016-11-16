@@ -47,7 +47,7 @@ class Chart extends Component {
 
     return React.createElement(
       this.props.rulers ? RuledBox : 'div', // element type
-      this.props.rulers ? { width: 350, height: 400 } : {}, // props
+      this.props.rulers ? { width: 390, height: 400 } : {}, // props
       chartTypeComponent // children
     );
   }
