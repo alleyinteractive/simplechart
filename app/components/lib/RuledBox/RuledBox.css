@@ -37,7 +37,7 @@
   }
 }
 
-.horizontal {
+.width {
   left: 0;
   height: var(--majorTick);
   border-left: var(--borderStyle);
@@ -62,7 +62,7 @@
   }
 }
 
-.vertical {
+.height {
   bottom: 0;
   width: var(--majorTick);
   border-top: var(--borderStyle);
