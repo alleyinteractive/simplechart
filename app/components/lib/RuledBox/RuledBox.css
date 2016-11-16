@@ -1,83 +1,90 @@
+/**
+ * Variables
+ */
+:root {
+  --borderWidth: 1px;
+  --borderStyle: var(--borderWidth) solid black;
+  --fontStyle: 12px monospace;
+  --minorTick: 10px;
+  --majorTick: 15px;
+}
+
+
 .container {
   position: relative;
 }
 
-.horizontal {
+.ruler {
   position: absolute;
   top: 0;
-  left: 0;
   right: 0;
-  height: 15px;
-  border-left: 1px solid black;
-  border-bottom: 1px solid black;
-  margin-left: -1px;
-  transform: translateY(-150%);
   display: flex;
   align-items: flex-end;
   &::before {
     content: '0';
-    font-size: 12px;
-    font-family: monospace;
+    font: var(--fontStyle);
     position: absolute;
-    transform: translate(-50%, -15px);
   }
-
   & > span {
-    min-height: 10px;
-    border-right: 1px solid black;
     box-sizing: border-box;
     &.labeled {
       position: relative;
-      height: 15px;
     }
     & > span {
       position: absolute;
-      top: -15px;
+      font: var(--fontStyle);
+    }
+  }
+}
+
+.horizontal {
+  left: 0;
+  height: var(--majorTick);
+  border-left: var(--borderStyle);
+  border-bottom: var(--borderStyle);
+  margin-left: calc(-1 * var(--borderWidth));
+  transform: translateY(-150%);
+  &::before {
+    transform: translate(-50%, calc(-1 * var(--majorTick)));
+  }
+
+  & > span {
+    min-height: var(--minorTick);
+    border-right: var(--borderStyle);
+    &.labeled {
+      height: var(--majorTick);
+    }
+    & > span {
+      top: calc(-1 * var(--majorTick));
       left: 100%;
       transform: translateX(-50%); /* centers over the right edge */
-      font-size: 12px;
-      font-family: monospace;
     }
   }
 }
 
 .vertical {
-  position: absolute;
-  top: 0;
-  right: 0;
   bottom: 0;
-  width: 15px;
-  border-top: 1px solid black;
-  border-right: 1px solid black;
-  margin-top: -1px;
+  width: var(--majorTick);
+  border-top: var(--borderStyle);
+  border-right: var(--borderStyle);
+  margin-top: calc(-1 * var(--borderWidth));
   transform: translateX(150%);
-  display: flex;
   flex-direction: column;
-  align-items: flex-end;
   &::before {
-    content: '0';
-    font-size: 12px;
-    font-family: monospace;
-    position: absolute;
     left: 120%;
-    top: -7px;
+    top: calc(-.5 * var(--majorTick));
   }
 
   & > span {
-    min-width: 10px;
+    min-width: var(--minorTick);
+    border-bottom: var(--borderStyle);
     &.labeled {
-      min-width: 15px;
+      min-width: var(--majorTick);
     }
-    border-bottom: 1px solid black;
-    box-sizing: border-box;
-    position: relative;
     & > span {
-      font-size: 12px;
       display: block;
-      font-family: monospace;
-      position: absolute;
       left: 120%;
-      bottom: -7px;
+      bottom: calc(-.5 * var(--majorTick));
     }
   }
 }
