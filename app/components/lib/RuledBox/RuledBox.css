@@ -26,11 +26,16 @@
     min-height: 10px;
     border-right: 1px solid black;
     box-sizing: border-box;
+    &.labeled {
+      position: relative;
+      height: 15px;
+    }
     & > span {
-      transform: translate(50%, -15px);
+      position: absolute;
+      top: -15px;
+      left: 100%;
+      transform: translateX(-50%); /* centers over the right edge */
       font-size: 12px;
-      display: block;
-      text-align: center;
       font-family: monospace;
     }
   }
