@@ -43,6 +43,12 @@ class DispatchFields extends Component {
   }
 
   _dispatchField(value) {
+    // If no action provided, just call the handler
+    if (undefined === this.props.action && this.props.handler) {
+      this.props.handler(this.props.fieldProps, value);
+      return;
+    }
+
     this.props.dispatch(actionTrigger(
       this.props.action || 'UNSPECIFIED_ACTION',
       this.props.handler ?

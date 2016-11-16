@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import {
-//   RECEIVE_CHART_OPTIONS,
-// } from '../../constants';
-// import actionTrigger from '../../actions';
+import {
+  RECEIVE_CHART_OPTIONS_EXTEND,
+} from '../../constants';
+import actionTrigger from '../../actions';
 import AccordionBlock from '../Layout/AccordionBlock';
 import DispatchField from '../lib/DispatchField';
 import { Button } from 'rebass';
@@ -16,6 +16,8 @@ class ChartLayout extends Component {
     this._handleChange = this._handleChange.bind(this);
     this._addBreakpoint = this._addBreakpoint.bind(this);
     this._removeBreakpoint = this._removeBreakpoint.bind(this);
+    this._dispatchValues = this._dispatchValues.bind(this);
+    this._updateActiveBreakpoint = this._updateActiveBreakpoint.bind(this);
 
     this.state = {
       active: 0,
@@ -47,11 +49,11 @@ class ChartLayout extends Component {
   _handleChange(fieldProps, newValue) {
     // break field name into index and key
     const fieldNameParts = fieldProps.name.split('.');
-    this.setState({ values: update(this.state.values, {
-      [fieldNameParts[0]]: {
-        $merge: { [fieldNameParts[1]]: newValue },
-      },
-    }) });
+
+    // merge new value as key into the updated index
+    this._dispatchValues(update(this.state.values, {
+      [fieldNameParts[0]]: { $merge: { [fieldNameParts[1]]: newValue } },
+    }));
   }
 
   _removeBreakpoint(evt) {
@@ -59,18 +61,47 @@ class ChartLayout extends Component {
     if (isNaN(idx)) {
       return;
     }
-    this.setState({ values: update(this.state.values, {
+    this._dispatchValues(update(this.state.values, {
       $splice: [[idx, 1]],
-    }) });
+    }));
+  }
+
+  _addBreakpoint() {
+    this._dispatchValues(update(this.state.values, {
+      $push: [this.defaultBreakpoint],
+    }));
+  }
+
+  _dispatchValues(values) {
+    this.setState({ values });
+    this.props.dispatch(actionTrigger(
+      RECEIVE_CHART_OPTIONS_EXTEND,
+      { breakpoints: { values } }
+    ));
+  }
+
+  _updateActiveBreakpoint(idx, isExpanded) {
+    if (isExpanded) {
+      this.setState({ active: idx });
+    }
+    this.props.dispatch(actionTrigger(
+      RECEIVE_CHART_OPTIONS_EXTEND,
+      { breakpoints: { active: idx } }
+    ));
   }
 
   _renderBreakpoint(point, idx) {
     const pointTitle = `Breakpoint ${1 + idx}`;
+    const callback = (isExpanded) => {
+      this._updateActiveBreakpoint(idx, isExpanded);
+    };
     return (
       <AccordionBlock
         title={pointTitle}
         tooltip={`Set max width and height for ${pointTitle}`}
         key={`breakpoint.${idx}`}
+        defaultExpand={this.state.active === idx}
+        toggleCallback={callback}
       >
         <DispatchField
           fieldType="Checkbox"
@@ -117,12 +148,6 @@ class ChartLayout extends Component {
         )}
       </AccordionBlock>
     );
-  }
-
-  _addBreakpoint() {
-    this.setState({ values: update(this.state.values, {
-      $push: [this.defaultBreakpoint],
-    }) });
   }
 
   render() {
