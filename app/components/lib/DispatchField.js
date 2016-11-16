@@ -43,9 +43,11 @@ class DispatchFields extends Component {
   }
 
   _dispatchField(value) {
-    this.props.dispatch(actionTrigger(this.props.action, this.props.handler ?
-      this.props.handler(this.props.fieldProps, value) :
-      buildDeepObject(this.props.fieldProps.name, value)
+    this.props.dispatch(actionTrigger(
+      this.props.action || 'UNSPECIFIED_ACTION',
+      this.props.handler ?
+        this.props.handler(this.props.fieldProps, value) :
+        buildDeepObject(this.props.fieldProps.name, value)
     ));
   }
 
