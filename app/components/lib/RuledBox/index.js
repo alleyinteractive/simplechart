@@ -11,7 +11,13 @@ class RuledBox extends Component {
     let dist = rulerDefaults.tickMinor;
     let output = '';
     while (dist <= value) {
-      output += `<span style="flex-basis:${rulerDefaults.tickMinor}px">${(0 < dist && 0 === dist % rulerDefaults.tickMajor) ? `<span>${dist}</span>` : ''}</span>`;
+      const labeled = (0 < dist && 0 === dist % rulerDefaults.tickMajor);
+      output += `<span
+        class="${labeled ? styles.labeled : ''}"
+        style="flex-basis:${rulerDefaults.tickMinor}px"
+      >
+        ${labeled ? `<span>${dist}</span>` : ''}
+      </span>`;
       dist += rulerDefaults.tickMinor;
     }
     return { __html: output };
@@ -29,8 +35,11 @@ class RuledBox extends Component {
         <div
           className={`${styles.ruler} ${styles.horizontal}`}
           dangerouslySetInnerHTML={this._getTicks(this.props.width)}
-        >
-        </div>
+        />
+        <div
+          className={`${styles.ruler} ${styles.vertical}`}
+          dangerouslySetInnerHTML={this._getTicks(this.props.height)}
+        />
         {this.props.children}
       </div>
     );
