@@ -18,7 +18,7 @@ class RuledBox extends Component {
   _getTicksHTML(rulerLength) {
     // Very unlikely edge case
     if (rulerLength < rulerDefaults.tickMinor) {
-      return '';
+      return { __html: '' };
     }
     let dist = rulerDefaults.tickMinor;
     let output = '';
