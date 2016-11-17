@@ -3,6 +3,7 @@ import chartTypeLoader from '../../utils/chartTypeLoader';
 import RuledBox from '../lib/RuledBox';
 import { getChartTypeObject } from '../../utils/chartTypeUtils';
 import update from 'react-addons-update';
+import { defaultBreakpoint } from '../../constants/chartTypes';
 
 class Chart extends Component {
 
@@ -35,21 +36,27 @@ class Chart extends Component {
       });
   }
 
-  _getActiveDimensions(breakpoints) {
+  _getActiveBreakpoint(breakpoints) {
     if (undefined === breakpoints ||
       !breakpoints.values ||
       !breakpoints.values.length
     ) {
-      /**
-       * @todo Real default value here!
-       */
-      return { width: 395, height: 415 };
+      return defaultBreakpoint;
     }
 
     const idx = breakpoints.hasOwnProperty('active') ? breakpoints.active : 0;
+    return breakpoints.values[idx] || defaultBreakpoint;
+  }
+
+  /**
+   * Setting width or height to -1 will hide that ruler and
+   * prevent inline CSS from fixing the box's width/height
+   */
+  _ruledBoxProps(breakpoint) {
+    const bpHasNoMaxWidth = breakpoint.noMaxWidth || !breakpoint.maxWidth;
     return {
-      width: breakpoints.values[idx].maxWidth,
-      height: breakpoints.values[idx].height,
+      width: bpHasNoMaxWidth ? -1 : breakpoint.maxWidth,
+      height: (!breakpoint.height) ? -1 : breakpoint.height,
     };
   }
 
@@ -58,22 +65,18 @@ class Chart extends Component {
       return null;
     }
 
-    const activeDimensions = this._getActiveDimensions(
-      this.props.options.breakpoints);
+    const activeBp = this._getActiveBreakpoint(this.props.options.breakpoints);
 
     const chartTypeComponent = React.createElement(
       this.state.chartTypeComponent,
       update(this.props, {
-        ref: { $set: 'chartTypeComponent' },
-        options: {
-          height: { $set: activeDimensions.height },
-        },
+        options: { height: { $set: activeBp.height } },
       })
     );
 
     return React.createElement(
       this.props.rulers ? RuledBox : 'div', // element type
-      this.props.rulers ? activeDimensions : {}, // props
+      this.props.rulers ? this._ruledBoxProps(activeBp) : {}, // props
       chartTypeComponent // children
     );
   }

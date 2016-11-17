@@ -65,14 +65,22 @@ class RuledBox extends Component {
     );
   }
 
+  _getInlineStyles(props) {
+    const inlineStyle = {};
+    if (0 < props.width) {
+      inlineStyle.width = `${props.width}px`;
+    }
+    if (0 < props.height) {
+      inlineStyle.height = `${props.height}px`;
+    }
+    return inlineStyle;
+  }
+
   render() {
     return (
       <div
         className={styles.container}
-        style={{
-          width: `${this.props.width}px`,
-          height: `${this.props.height}px`,
-        }}
+        style={this._getInlineStyles(this.props)}
       >
         {this._renderRuler('width')}
         {this._renderRuler('height')}
