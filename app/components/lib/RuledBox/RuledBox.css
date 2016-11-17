@@ -44,7 +44,7 @@
   border-left: var(--borderStyle);
   border-bottom: var(--borderStyle);
   margin-left: calc(-1 * var(--borderWidth));
-  transform: translateY(-150%);
+  transform: translateY(-100%);
   &::before {
     transform: translate(-50%, calc(-1 * var(--majorTick)));
   }
@@ -69,7 +69,7 @@
   border-top: var(--borderStyle);
   border-right: var(--borderStyle);
   margin-top: calc(-1 * var(--borderWidth));
-  transform: translateX(-150%);
+  transform: translateX(-100%);
   flex-direction: column;
   &::before {
     left: -60%;
