@@ -8,6 +8,7 @@ import AccordionBlock from '../Layout/AccordionBlock';
 import DispatchField from '../lib/DispatchField';
 import { Button } from 'rebass';
 import update from 'react-addons-update';
+import { defaultBreakpoint } from '../../constants/chartTypes';
 
 class ChartLayout extends Component {
   constructor() {
@@ -26,17 +27,10 @@ class ChartLayout extends Component {
   }
 
   componentWillMount() {
-    // Set up a default breakpoint with current height
-    this.defaultBreakpoint = {
-      noMaxWidth: true,
-      maxWidth: 350,
-      height: this.props.options.height,
-    };
-
     if (this.props.options.breakpoints) {
       this.setState(this.props.options.breakpoints);
     } else {
-      this.setState({ values: [this.defaultBreakpoint] });
+      this.setState({ values: [defaultBreakpoint] });
     }
   }
 
@@ -68,7 +62,7 @@ class ChartLayout extends Component {
 
   _addBreakpoint() {
     this._dispatchValues(update(this.state.values, {
-      $push: [this.defaultBreakpoint],
+      $push: [defaultBreakpoint],
     }));
   }
 

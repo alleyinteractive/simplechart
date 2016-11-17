@@ -9,6 +9,7 @@ import {
 } from '../constants';
 import actionTrigger from '../actions';
 import defaultPalette from '../constants/defaultPalette';
+import { defaultBreakpointsOpt } from '../constants/chartTypes';
 import update from 'react-addons-update';
 import dispatchChartData from './utils/dispatchChartData';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
@@ -73,7 +74,7 @@ export default function receiveChartType({ getState }) {
     }
 
     /**
-     * return true if we are not bootstrapping from postMessage and
+     * Return true if we are not bootstrapping from postMessage and
      * default options not already applied for this chart type
      */
     function _shouldApplyChartTypeDefaults() {
@@ -82,6 +83,19 @@ export default function receiveChartType({ getState }) {
 
       return !_actionIsBootstrap() &&
         configType && configType !== getState().defaultsAppliedTo;
+    }
+
+    function _shouldSetBreakpoints() {
+      return !nextOpts.breakpoints && !getState().chartOptions.breakpoints;
+    }
+
+    /**
+     * Return the object we should merge into the default breakpoints object
+     */
+    function _setupBreakpointsOpt() {
+      return update(defaultBreakpointsOpt, { $merge:
+        nextOpts.breakpoints || getState().chartOptions.breakpoints || {},
+      });
     }
 
     /**
@@ -131,6 +145,15 @@ export default function receiveChartType({ getState }) {
         getState().chartType.config,
         getState().chartData
       );
+    }
+
+    /**
+     * Set default breakpoints object
+     */
+    if (_shouldSetBreakpoints()) {
+      nextOpts = update(nextOpts, { breakpoints: {
+        $set: _setupBreakpointsOpt(),
+      } });
     }
 
     // Send nextOpts to Redux store
