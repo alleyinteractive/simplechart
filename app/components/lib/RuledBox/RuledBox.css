@@ -12,12 +12,13 @@
 
 .container {
   position: relative;
+  margin-left: calc(3 * var(--majorTick));
 }
 
 .ruler {
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
   display: flex;
   align-items: flex-end;
   &::before {
@@ -38,7 +39,7 @@
 }
 
 .width {
-  left: 0;
+  right: 0;
   height: var(--majorTick);
   border-left: var(--borderStyle);
   border-bottom: var(--borderStyle);
@@ -68,10 +69,10 @@
   border-top: var(--borderStyle);
   border-right: var(--borderStyle);
   margin-top: calc(-1 * var(--borderWidth));
-  transform: translateX(150%);
+  transform: translateX(-150%);
   flex-direction: column;
   &::before {
-    left: 120%;
+    left: -60%;
     top: calc(-.5 * var(--majorTick));
   }
 
@@ -79,11 +80,10 @@
     min-width: var(--minorTick);
     border-bottom: var(--borderStyle);
     &.labeled {
-      min-width: var(--majorTick);
+      width: var(--majorTick);
     }
     & > span {
-      display: block;
-      left: 120%;
+      transform: translateX(-120%);
       bottom: calc(-.5 * var(--majorTick));
     }
   }
