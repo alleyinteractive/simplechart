@@ -19,6 +19,7 @@ class ChartLayout extends Component {
     this._removeBreakpoint = this._removeBreakpoint.bind(this);
     this._dispatchValues = this._dispatchValues.bind(this);
     this._updateActiveBreakpoint = this._updateActiveBreakpoint.bind(this);
+    this._isSingleBp = this._isSingleBp.bind(this);
 
     this.state = {
       active: 0,
@@ -35,8 +36,21 @@ class ChartLayout extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.options.breakpoints) {
-      this.setState(nextProps.options.breakpoints);
+    const nextBp = nextProps.options.breakpoints;
+    if (undefined === nextBp) {
+      return;
+    }
+
+    // Change active bp if necessary
+    if (nextBp.active !== this.state.active) {
+      this.setState({ active: nextBp.active });
+    }
+
+    // Make sure that noMaxWidth is enforced if there is only 1 breakpoint
+    if (1 === nextBp.values.length && !nextBp.values[0].noMaxWidth) {
+      this._dispatchValues(update(nextBp.values, { 0: {
+        noMaxWidth: { $set: true },
+      } }));
     }
   }
 
@@ -84,6 +98,10 @@ class ChartLayout extends Component {
     ));
   }
 
+  _isSingleBp() {
+    return 1 >= this.state.values.length;
+  }
+
   _renderBreakpoint(point, idx) {
     const pointTitle = `Breakpoint ${1 + idx}`;
     const callback = (isExpanded) => {
@@ -100,8 +118,9 @@ class ChartLayout extends Component {
         <DispatchField
           fieldType="Checkbox"
           fieldProps={{
-            label: 'No max width',
+            label: this._isSingleBp() ? 'All widths' : 'No max width',
             name: `${idx}.noMaxWidth`,
+            disabled: this._isSingleBp(),
             checked: point.noMaxWidth,
           }}
           handler={this._handleChange}
@@ -133,7 +152,7 @@ class ChartLayout extends Component {
           }}
           handler={this._handleChange}
         />
-        {1 >= this.state.values.length ? '' : (
+        {this._isSingleBp() ? '' : (
           <Button
             theme="error"
             data-index={idx}
