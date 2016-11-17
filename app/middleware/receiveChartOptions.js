@@ -113,7 +113,8 @@ export default function receiveChartType({ getState }) {
         dispatch,
         getState().chartType.config,
         getState().transformedData,
-        nextOpts.color
+        nextOpts.color,
+        action.src
       );
     }
 
@@ -126,7 +127,8 @@ export default function receiveChartType({ getState }) {
       );
       dispatch(actionTrigger(
         RECEIVE_DEFAULTS_APPLIED_TO,
-        getState().chartType.config.type
+        getState().chartType.config.type,
+        action.src
       ));
     }
 
@@ -157,6 +159,6 @@ export default function receiveChartType({ getState }) {
     }
 
     // Send nextOpts to Redux store
-    return dispatch(actionTrigger(action.type, nextOpts));
+    return dispatch(actionTrigger(action.type, nextOpts, action.src));
   };
 }

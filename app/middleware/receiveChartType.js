@@ -38,7 +38,8 @@ export default function receiveChartType({ getState }) {
         dispatch,
         nextConfig,
         getState().transformedData,
-        getState().chartOptions.color
+        getState().chartOptions.color,
+        action.src
       );
     }
 
@@ -60,8 +61,10 @@ export default function receiveChartType({ getState }) {
         nextOpts = applyYDomain(nextOpts, nextConfig, getState().chartData);
       }
 
-      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, nextOpts));
-      dispatch(actionTrigger(RECEIVE_DEFAULTS_APPLIED_TO, nextConfig.type));
+      dispatch(actionTrigger(
+        RECEIVE_CHART_OPTIONS, nextOpts, action.src));
+      dispatch(actionTrigger(
+        RECEIVE_DEFAULTS_APPLIED_TO, nextConfig.type, action.src));
     }
 
     return dispatch(action);
