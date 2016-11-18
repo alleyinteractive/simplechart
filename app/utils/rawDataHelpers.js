@@ -1,11 +1,17 @@
-import Papa from '../vendor/papaparse.4.1.2';
 import { dataTransformers } from '../constants/dataTransformers';
 
 /**
  * Parse data and check for errors
+ *
+ * @param obj parser Parser to use, i.e. Papaparse for client-side, Babyparse for server-side
+ * @param string rawData Raw data to parse
+ * @return array
+ *   obj data Parsed data
+ *   array field Array of fields from original data, in order
+ *   obj errors Parsing errors
  */
-export function parseRawData(rawData) {
-  const parsed = Papa.parse(rawData, {
+export function parseRawData(parser, rawData) {
+  const parsed = parser.parse(rawData, {
     header: true,
     skipEmptyLines: true,
   });

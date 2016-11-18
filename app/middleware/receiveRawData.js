@@ -8,6 +8,7 @@ import {
   CLEAR_ERROR,
 } from '../constants';
 import actionTrigger from '../actions';
+import Papa from '../vendor/papaparse.4.1.2';
 import { parseRawData, transformParsedData } from '../utils/rawDataHelpers';
 
 export default function rawDataMiddleware() {
@@ -26,7 +27,7 @@ export default function rawDataMiddleware() {
       // Case 1: Empty text area
       dispatch(actionTrigger(CLEAR_ERROR));
     } else {
-      const parserResult = parseRawData(action.data);
+      const parserResult = parseRawData(Papa, action.data);
 
       // Case 2: CSV parsing error(s)
       if (parserResult[2].length) {
