@@ -1,2 +1,0 @@
-!function(e){function t(o){if(r[o])return r[o].exports;var i=r[o]={exports:{},id:o,loaded:!1};return e[o].call(i.exports,i,i.exports,t),i.loaded=!0,i.exports}var r={};return t.m=e,t.c=r,t.p="/mock-api/",t(0)}([function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=function(e){return{id:e}};t["default"]=r;(function(){"undefined"!=typeof __REACT_HOT_LOADER__&&__REACT_HOT_LOADER__.register(r,"default","/Users/joshkadis/Repos/simplechart/mock-api/getApiResult.js")})()}]);
-//# sourceMappingURL=getApiResult.bundle.js.map
