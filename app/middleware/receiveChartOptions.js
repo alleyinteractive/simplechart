@@ -90,12 +90,16 @@ export default function receiveChartType({ getState }) {
     }
 
     /**
-     * Return the object we should merge into the default breakpoints object
+     * Return the object we should merge into the default breakpoints object,
+     * setting default height to stored height if needed
      */
     function _setupBreakpointsOpt() {
-      return update(defaultBreakpointsOpt, { $merge:
-        nextOpts.breakpoints || getState().chartOptions.breakpoints || {},
-      });
+      const defaultHeight = nextOpts.height || getState().chartOptions.height;
+      if (undefined === defaultHeight) {
+        return defaultBreakpointsOpt;
+      }
+      return update(defaultBreakpointsOpt,
+        { values: { 0: { height: { $set: defaultHeight } } } });
     }
 
     /**
@@ -113,7 +117,8 @@ export default function receiveChartType({ getState }) {
         dispatch,
         getState().chartType.config,
         getState().transformedData,
-        nextOpts.color
+        nextOpts.color,
+        action.src
       );
     }
 
@@ -126,7 +131,8 @@ export default function receiveChartType({ getState }) {
       );
       dispatch(actionTrigger(
         RECEIVE_DEFAULTS_APPLIED_TO,
-        getState().chartType.config.type
+        getState().chartType.config.type,
+        action.src
       ));
     }
 
@@ -157,6 +163,6 @@ export default function receiveChartType({ getState }) {
     }
 
     // Send nextOpts to Redux store
-    return dispatch(actionTrigger(action.type, nextOpts));
+    return dispatch(actionTrigger(action.type, nextOpts, action.src));
   };
 }

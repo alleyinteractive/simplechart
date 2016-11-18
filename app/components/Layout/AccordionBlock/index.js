@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Panel, PanelHeader, Space, Tooltip } from 'rebass';
 import infoSvg from '!!raw!../../../img/icons/info-circle.svg';
-import plusSvg from '!!raw!../../../img/icons/plus-circle.svg';
-import minusSvg from '!!raw!../../../img/icons/minus-circle.svg';
+import downSvg from '!!raw!../../../img/icons/chevron-circle-down.svg';
+import upSvg from '!!raw!../../../img/icons/chevron-circle-up.svg';
 import * as styles from './AccordionBlock.css';
 
 class AccordionBlock extends Component {
@@ -18,13 +18,16 @@ class AccordionBlock extends Component {
   componentWillMount() {
     this.setState({
       expanded: !!this.props.defaultExpand,
+      updateExpandOnProps: !!this.props.updateExpandOnProps,
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      expanded: !!nextProps.defaultExpand,
-    });
+    if (this.state.updateExpandOnProps) {
+      this.setState({
+        expanded: !!nextProps.defaultExpand,
+      });
+    }
   }
 
   toggleExpanded() {
@@ -71,7 +74,7 @@ class AccordionBlock extends Component {
     return (
       <div>
         <Panel theme="info">
-          {this.renderPanelHeader(minusSvg)}
+          {this.renderPanelHeader(upSvg)}
           {this.props.children}
         </Panel>
       </div>
@@ -81,7 +84,7 @@ class AccordionBlock extends Component {
   renderCollapsed() {
     return (
       <div className={styles.padCollapsed}>
-        {this.renderPanelHeader(plusSvg)}
+        {this.renderPanelHeader(downSvg)}
       </div>
     );
   }
@@ -96,6 +99,7 @@ AccordionBlock.propTypes = {
   children: React.PropTypes.any.isRequired,
   title: React.PropTypes.string,
   defaultExpand: React.PropTypes.bool,
+  updateExpandOnProps: React.PropTypes.bool,
   tooltip: React.PropTypes.string,
   toggleCallback: React.PropTypes.func,
 };

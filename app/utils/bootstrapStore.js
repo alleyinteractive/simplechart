@@ -4,7 +4,7 @@ import update from 'react-addons-update';
 import { getChartTypeObject, getChartTypeDefaultOpts } from './chartTypeUtils';
 import defaultPalette from '../constants/defaultPalette';
 import applyDataFormatters from '../middleware/utils/applyDataFormatters';
-import defaultTickFormatSettings from '../constants/defaultTickFormatSettings';
+import { defaultTickFormatSettings } from '../constants/defaultTickFormatSettings';
 
 /**
  * Handle bootstrapping the Redux store with data from a postMessage,
@@ -29,7 +29,7 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
     });
     if (!Object.keys(nextChartType).length) {
       // error if missing or misconfigured chart type
-      dispatch(actionTrigger(actions.RECEIVE_ERROR, 'e005'));
+      dispatch(actionTrigger(actions.RECEIVE_ERROR, 'e005', messageType));
       return;
     }
   }
@@ -49,7 +49,8 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
     );
     dispatch(actionTrigger(
       actions.RECEIVE_DEFAULTS_APPLIED_TO,
-      nextChartType.config.type
+      nextChartType.config.type,
+      messageType
     ));
   }
 
@@ -86,7 +87,7 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
   // Handle rawData differently because it's a string
   if (recdData.rawData && recdData.rawData.length) {
     dispatch(actionTrigger(
-      actions.RECEIVE_RAW_DATA, recdData.rawData));
+      actions.RECEIVE_RAW_DATA, recdData.rawData, messageType));
   }
 
   // If object defined and not empty, dispatch to store

@@ -144,6 +144,14 @@ function _getChanges(action, getState) {
   return changes;
 }
 
+function _isEnabled() {
+  if (!enableActionLogging.enabled) {
+    return false;
+  }
+  return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+    enableActionLogging.enableIfReduxDevTools : true;
+}
+
 /**
  * Log actions received. This should be the last middleware in the chain
  * in order to catch dispatches triggered by other middleware.
@@ -158,7 +166,7 @@ export default function middleware({ getState }) {
       actions.UPDATE_CURRENT_STEP,
       actions.UNSAVED_CHANGES,
     ];
-    if (enableActionLogging && -1 === skipLogging.indexOf(action.type)) {
+    if (_isEnabled() && -1 === skipLogging.indexOf(action.type)) {
       const changes = _getChanges(action, getState);
       console.log(`Received ${action.type} with data type ${changes.dataType}:`);
       console.log(changes.changeLog);

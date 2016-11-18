@@ -9,7 +9,7 @@ export default function middleware() {
      * we have unsaved changes!
      */
     if (-1 < CHART_UPDATE_ACTIONS.indexOf(action.type)) {
-      next(actionTrigger(UNSAVED_CHANGES, true));
+      next(actionTrigger(UNSAVED_CHANGES, true, action.src));
     }
     return result;
   };

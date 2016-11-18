@@ -9,7 +9,8 @@ export default function dispatchChartData(
   dispatch,
   chartTypeConfig,
   transformedData,
-  colors = []
+  colors = [],
+  src = ''
 ) {
   if (chartTypeConfig &&
     chartTypeConfig.dataFormat &&
@@ -21,7 +22,8 @@ export default function dispatchChartData(
         transformedData[chartTypeConfig.dataFormat];
     dispatch(actionTrigger(
       RECEIVE_CHART_DATA,
-      nextData
+      nextData,
+      src
     ));
   }
 }

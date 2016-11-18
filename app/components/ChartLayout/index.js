@@ -113,6 +113,7 @@ class ChartLayout extends Component {
         tooltip={`Set max width and height for ${pointTitle}`}
         key={`breakpoint.${idx}`}
         defaultExpand={this.state.active === idx}
+        updateExpandOnProps
         toggleCallback={callback}
       >
         <DispatchField

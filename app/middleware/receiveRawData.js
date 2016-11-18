@@ -12,9 +12,9 @@ import Papa from '../vendor/papaparse.4.1.2';
 import { dataTransformers } from '../constants/dataTransformers';
 
 export default function rawDataMiddleware() {
-  return (next) => (action) => {
+  return (dispatch) => (action) => {
     if (action.type !== RECEIVE_RAW_DATA) {
-      return next(action);
+      return dispatch(action);
     }
 
     const storeUpdates = {
@@ -25,7 +25,7 @@ export default function rawDataMiddleware() {
     };
     if (!action.data.length) {
       // Case 1: Empty text area
-      next(actionTrigger(CLEAR_ERROR));
+      dispatch(actionTrigger(CLEAR_ERROR));
     } else {
       const parserResult = _parseRawData(action.data);
 
@@ -35,7 +35,7 @@ export default function rawDataMiddleware() {
           status: 'error',
           message: parserResult[2].join('; '),
         };
-        next(actionTrigger(RECEIVE_ERROR, 'e001'));
+        dispatch(actionTrigger(RECEIVE_ERROR, 'e001'));
       } else {
         // Case 3: CSV parsing success
         storeUpdates.dataFields = parserResult[1];
@@ -46,22 +46,26 @@ export default function rawDataMiddleware() {
         storeUpdates.parsedData = parserResult[0];
         storeUpdates.transformedData =
           _transformParsedData(parserResult[0], parserResult[1]);
-        next(actionTrigger(CLEAR_ERROR));
+        dispatch(actionTrigger(CLEAR_ERROR));
       }
     }
     // Empty for Case 1 and Case 2, array of fields for Case 3
-    next(actionTrigger(PARSE_DATA_FIELDS, storeUpdates.dataFields));
+    dispatch(actionTrigger(
+      PARSE_DATA_FIELDS, storeUpdates.dataFields, action.src));
 
     // Empty for Case 1, error for Case 2, success for Case 3
-    next(actionTrigger(PARSE_DATA_STATUS, storeUpdates.dataStatus));
+    dispatch(actionTrigger(
+      PARSE_DATA_STATUS, storeUpdates.dataStatus, action.src));
 
     // Empty for Case 1 and Case 2, array of data for Case 3
-    next(actionTrigger(PARSE_RAW_DATA, storeUpdates.parsedData));
+    dispatch(actionTrigger(
+      PARSE_RAW_DATA, storeUpdates.parsedData, action.src));
 
     // Empty for Case 1 and Case 2, object w compatible data formats for Case 3
-    next(actionTrigger(TRANSFORM_DATA, storeUpdates.transformedData));
+    dispatch(actionTrigger(
+      TRANSFORM_DATA, storeUpdates.transformedData, action.src));
 
-    return next(action);
+    return dispatch(action);
   };
 }
 

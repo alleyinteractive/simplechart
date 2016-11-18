@@ -13,7 +13,8 @@ export default function setChartData({ getState }) {
         dispatch,
         getState().chartType.config || {},
         action.data,
-        getState().chartOptions.color
+        getState().chartOptions.color,
+        action.src
       );
     }
     return dispatch(action);
