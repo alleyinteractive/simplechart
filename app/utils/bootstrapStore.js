@@ -4,7 +4,7 @@ import update from 'react-addons-update';
 import { getChartTypeObject, getChartTypeDefaultOpts } from './chartTypeUtils';
 import defaultPalette from '../constants/defaultPalette';
 import applyDataFormatters from '../middleware/utils/applyDataFormatters';
-import defaultTickFormatSettings from '../constants/defaultTickFormatSettings';
+import { defaultTickFormatSettings } from '../constants/defaultTickFormatSettings';
 
 /**
  * Handle bootstrapping the Redux store with data from a postMessage,
