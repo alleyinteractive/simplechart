@@ -90,12 +90,16 @@ export default function receiveChartType({ getState }) {
     }
 
     /**
-     * Return the object we should merge into the default breakpoints object
+     * Return the object we should merge into the default breakpoints object,
+     * setting default height to stored height if needed
      */
     function _setupBreakpointsOpt() {
-      return update(defaultBreakpointsOpt, { $merge:
-        nextOpts.breakpoints || getState().chartOptions.breakpoints || {},
-      });
+      const defaultHeight = nextOpts.height || getState().chartOptions.height;
+      if (undefined === defaultHeight) {
+        return defaultBreakpointsOpt;
+      }
+      return update(defaultBreakpointsOpt,
+        { values: { 0: { height: { $set: defaultHeight } } } });
     }
 
     /**
