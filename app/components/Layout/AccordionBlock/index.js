@@ -18,13 +18,16 @@ class AccordionBlock extends Component {
   componentWillMount() {
     this.setState({
       expanded: !!this.props.defaultExpand,
+      updateExpandOnProps: !!this.props.updateExpandOnProps,
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      expanded: !!nextProps.defaultExpand,
-    });
+    if (this.state.updateExpandOnProps) {
+      this.setState({
+        expanded: !!nextProps.defaultExpand,
+      });
+    }
   }
 
   toggleExpanded() {
@@ -96,6 +99,7 @@ AccordionBlock.propTypes = {
   children: React.PropTypes.any.isRequired,
   title: React.PropTypes.string,
   defaultExpand: React.PropTypes.bool,
+  updateExpandOnProps: React.PropTypes.bool,
   tooltip: React.PropTypes.string,
   toggleCallback: React.PropTypes.func,
 };
