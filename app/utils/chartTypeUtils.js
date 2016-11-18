@@ -2,20 +2,7 @@
  * Chart types registry
  */
 import update from 'react-addons-update';
-import { selectableChartTypes } from '../constants/chartTypes';
-
-const nvd3Defaults = {
-  nvd3SingleSeries: {
-    x: (point) => point.label,
-    y: (point) => point.value,
-    height: 400,
-  },
-  nvd3MultiSeries: {
-    x: (point) => point.x,
-    y: (point) => point.y,
-    height: 400,
-  },
-};
+import { selectableChartTypes, nvd3Defaults } from '../constants/chartTypes';
 
 export function getChartTypeObject(type) {
   return selectableChartTypes.reduce((prev, current) =>

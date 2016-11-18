@@ -1,0 +1,90 @@
+/**
+ * Variables
+ */
+:root {
+  --borderWidth: 1px;
+  --borderStyle: var(--borderWidth) solid black;
+  --fontStyle: 12px monospace;
+  --minorTick: 10px;
+  --majorTick: 15px;
+}
+
+
+.container {
+  position: relative;
+  margin-left: calc(3 * var(--majorTick));
+}
+
+.ruler {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  &::before {
+    content: '0';
+    font: var(--fontStyle);
+    position: absolute;
+  }
+  & > span {
+    box-sizing: border-box;
+    &.labeled {
+      position: relative;
+    }
+    & > span {
+      position: absolute;
+      font: var(--fontStyle);
+    }
+  }
+}
+
+.width {
+  right: 0;
+  height: var(--majorTick);
+  border-left: var(--borderStyle);
+  border-bottom: var(--borderStyle);
+  margin-left: calc(-1 * var(--borderWidth));
+  transform: translateY(-100%);
+  &::before {
+    transform: translate(-50%, calc(-1 * var(--majorTick)));
+  }
+
+  & > span {
+    min-height: var(--minorTick);
+    border-right: var(--borderStyle);
+    &.labeled {
+      height: var(--majorTick);
+    }
+    & > span {
+      top: calc(-1 * var(--majorTick));
+      left: 100%;
+      transform: translateX(-50%); /* centers over the right edge */
+    }
+  }
+}
+
+.height {
+  bottom: 0;
+  width: var(--majorTick);
+  border-top: var(--borderStyle);
+  border-right: var(--borderStyle);
+  margin-top: calc(-1 * var(--borderWidth));
+  transform: translateX(-100%);
+  flex-direction: column;
+  &::before {
+    left: -60%;
+    top: calc(-.5 * var(--majorTick));
+  }
+
+  & > span {
+    min-width: var(--minorTick);
+    border-bottom: var(--borderStyle);
+    &.labeled {
+      width: var(--majorTick);
+    }
+    & > span {
+      transform: translateX(-120%);
+      bottom: calc(-.5 * var(--majorTick));
+    }
+  }
+}

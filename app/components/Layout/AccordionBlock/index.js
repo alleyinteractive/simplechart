@@ -17,7 +17,13 @@ class AccordionBlock extends Component {
 
   componentWillMount() {
     this.setState({
-      expanded: this.props.defaultExpand,
+      expanded: !!this.props.defaultExpand,
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      expanded: !!nextProps.defaultExpand,
     });
   }
 
@@ -25,6 +31,9 @@ class AccordionBlock extends Component {
     this.setState({
       expanded: !this.state.expanded,
     });
+    if (this.props.toggleCallback) {
+      this.props.toggleCallback(!this.state.expanded);
+    }
   }
 
   svgIcon(svgString, iconClass = '') {
@@ -88,6 +97,7 @@ AccordionBlock.propTypes = {
   title: React.PropTypes.string,
   defaultExpand: React.PropTypes.bool,
   tooltip: React.PropTypes.string,
+  toggleCallback: React.PropTypes.func,
 };
 
 export default AccordionBlock;
