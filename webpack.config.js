@@ -12,15 +12,24 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var WebpackGitHash = require('webpack-git-hash');
 var updateVersion = require('./updateVersion');
 
-var entry = {
-  widget: [path.resolve('./app/widget')],
-  app: [path.resolve('./app/index')],
-};
+/**
+ * Set up entry points
+ */
+var entry = { widget: [path.resolve('./app/widget')] };
+// Don't compile app if we're using the mock API for widget testing
+if (!process.env.MOCKAPI) {
+  entry.app = [path.resolve('./app/index')];
+  if (process.env.DEVELOPMENT) {
+    entry.app.unshift('react-hot-loader/patch');
+    entry.app.unshift('webpack/hot/only-dev-server');
+    entry.app.unshift('webpack-dev-server/client?http://localhost:8080');
+  }
+}
 
 var jsLoaders = ['babel'];
 
 /**
- * Setup plugins
+ * Set up plugins
  */
 var gitHashOpts = {
   cleanup: true,
@@ -35,15 +44,17 @@ var plugins = process.env.DEVELOPMENT ?
   [new webpack.HotModuleReplacementPlugin()] :
   [new WebpackGitHash(gitHashOpts)];
 
+/**
+ * Set up publicPath
+ */
 var publicPath = '/static/';
-
 if (process.env.DEVELOPMENT) {
-  entry.app.unshift('react-hot-loader/patch');
-  entry.app.unshift('webpack/hot/only-dev-server');
-  entry.app.unshift('webpack-dev-server/client?http://localhost:8080');
   publicPath = 'http://localhost:8080' + publicPath;
 }
 
+/**
+ * Export the full Webpack config
+ */
 module.exports = {
   devtool: 'source-map',
   entry: entry,
