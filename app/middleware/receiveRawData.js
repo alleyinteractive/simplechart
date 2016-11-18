@@ -8,8 +8,7 @@ import {
   CLEAR_ERROR,
 } from '../constants';
 import actionTrigger from '../actions';
-import Papa from '../vendor/papaparse.4.1.2';
-import { dataTransformers } from '../constants/dataTransformers';
+import { parseRawData, transformParsedData } from '../utils/rawDataHelpers';
 
 export default function rawDataMiddleware() {
   return (dispatch) => (action) => {
@@ -27,7 +26,7 @@ export default function rawDataMiddleware() {
       // Case 1: Empty text area
       dispatch(actionTrigger(CLEAR_ERROR));
     } else {
-      const parserResult = _parseRawData(action.data);
+      const parserResult = parseRawData(action.data);
 
       // Case 2: CSV parsing error(s)
       if (parserResult[2].length) {
@@ -45,7 +44,7 @@ export default function rawDataMiddleware() {
         };
         storeUpdates.parsedData = parserResult[0];
         storeUpdates.transformedData =
-          _transformParsedData(parserResult[0], parserResult[1]);
+          transformParsedData(parserResult[0], parserResult[1]);
         dispatch(actionTrigger(CLEAR_ERROR));
       }
     }
@@ -67,36 +66,4 @@ export default function rawDataMiddleware() {
 
     return dispatch(action);
   };
-}
-
-/**
- * Parse data and check for errors
- */
-function _parseRawData(rawData) {
-  const parsed = Papa.parse(rawData, {
-    header: true,
-    skipEmptyLines: true,
-  });
-
-  const errors = [];
-  if (parsed.errors.length) {
-    parsed.errors.forEach((error) =>
-      errors.push(
-        0 <= error.row ? `${error.message} at row ${error.row}` : error.message
-      )
-    );
-  }
-  const fields = parsed.meta.fields || [];
-  return [parsed.data, fields, errors];
-}
-
-function _transformParsedData(parsedData, parsedFields) {
-  const transformed = {};
-  function setTransformed(type) {
-    transformed[type] = dataTransformers[type](parsedData, parsedFields);
-  }
-  Object.keys(dataTransformers).forEach((type) =>
-    setTransformed(type)
-  );
-  return transformed;
 }
