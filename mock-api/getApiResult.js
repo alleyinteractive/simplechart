@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import update from 'react-addons-update';
 import {
   getChartTypeDefaultOpts,
   getChartTypeObject,
@@ -7,15 +8,20 @@ import {
 import { parseRawData, transformParsedData } from '../app/utils/rawDataHelpers';
 import Baby from 'babyparse';
 import mockMetadata from './mockMetadata';
+import { defaultTickFormatSettings } from '../app/constants/defaultTickFormatSettings';
+import { defaultBreakpointsOpt } from '../app/constants/chartTypes';
 
 /**
  * Create mock API response
  */
 export default function getApiResult(chartType) {
   return {
-    data: _getData(chartType),
-    options: _getOptions(chartType),
-    metadata: _getMockMetadata(chartType),
+    success: true,
+    data: {
+      data: JSON.stringify(_getData(chartType)),
+      options: JSON.stringify(_getOptions(chartType)),
+      metadata: JSON.stringify(_getMockMetadata(chartType)),
+    },
   };
 }
 
@@ -23,7 +29,12 @@ export default function getApiResult(chartType) {
  * Get options for chart type
  */
 function _getOptions(chartType) {
-  return getChartTypeDefaultOpts(chartType);
+  let opts = getChartTypeDefaultOpts(chartType);
+  opts = update(opts, {
+    tickFormatSettings: { $set: defaultTickFormatSettings },
+    breakpoints: { $set: defaultBreakpointsOpt },
+  });
+  return opts;
 }
 
 /**

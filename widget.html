@@ -21,7 +21,7 @@
     <figure
       id='widget1'
       class='simplechart-widget'
-      data-url='/mock-api/sampleData1.json'
+      data-url='/api/pieChart'
       data-placeholder='Custom Placeholder Message'
     >
       <p class='simplechart-title'></p>
@@ -30,11 +30,11 @@
       <p class='simplechart-credit'></p>
     </figure>
 
-    <h2>Widget 2</h2>
+  <h2>Widget 2</h2>
     <figure
       id='widget2'
       class='simplechart-widget'
-      data-url='/mock-api/sampleData2.json'
+      data-url='/api/lineChart'
     >
       <p class='simplechart-title'></p>
       <p class='simplechart-caption'></p>
@@ -42,7 +42,7 @@
       <p class='simplechart-credit'></p>
     </figure>
 
-    <h2>Widget 3</h2>
+    <!--     <h2>Widget 3</h2>
     <button id="triggerUpdate">Update chart</button>
     <figure
       id='widget3'
@@ -54,68 +54,68 @@
       <div class='simplechart-chart'></div>
       <p class='simplechart-credit'></p>
     </figure>
-
+ -->
     <script>
-      var _SimplechartWidgetData = _SimplechartWidgetData || {};
-      _SimplechartWidgetData['widget3'] = {
-        data: [
-          {
-            label: "One",
-            value: 29.7
-          },
-          {
-            label: "Two",
-            value: 0
-          },
-          {
-            label: "Three",
-            value: 32.8
-          },
-          {
-            label: "Four",
-            value: 196.4
-          },
-          {
-            label: "Five",
-            value: 0.1
-          },
-          {
-            label: "Six",
-            value: 98.0
-          },
-          {
-            label: "Seven",
-            value: 13.9
-          },
-          {
-            label: "Eight",
-            value: 5.1
-          }
-        ],
-        options: {
-          type: "pieChart",
-          height: 250,
-          donut: false,
-        },
-        metadata: {
-          title: "Example local data update",
-          caption: "Should switch from regular pieChart to donut when button is clicked",
-          credit: "Source: Alley Interactive"
-        }
-      }
+      // var _SimplechartWidgetData = _SimplechartWidgetData || {};
+      // _SimplechartWidgetData['widget3'] = {
+      //   data: [
+      //     {
+      //       label: "One",
+      //       value: 29.7
+      //     },
+      //     {
+      //       label: "Two",
+      //       value: 0
+      //     },
+      //     {
+      //       label: "Three",
+      //       value: 32.8
+      //     },
+      //     {
+      //       label: "Four",
+      //       value: 196.4
+      //     },
+      //     {
+      //       label: "Five",
+      //       value: 0.1
+      //     },
+      //     {
+      //       label: "Six",
+      //       value: 98.0
+      //     },
+      //     {
+      //       label: "Seven",
+      //       value: 13.9
+      //     },
+      //     {
+      //       label: "Eight",
+      //       value: 5.1
+      //     }
+      //   ],
+      //   options: {
+      //     type: "pieChart",
+      //     height: 250,
+      //     donut: false,
+      //   },
+      //   metadata: {
+      //     title: "Example local data update",
+      //     caption: "Should switch from regular pieChart to donut when button is clicked",
+      //     credit: "Source: Alley Interactive"
+      //   }
+      // }
     </script>
     <script src="/static/widget.js"></script>
     <script>
-      document.getElementById('triggerUpdate').addEventListener('click', function(evt) {
-        var widgetUpdate = new CustomEvent('widgetData', {
-          detail: {
-            options: {
-              donut: true
-            }
-          }
-        });
-        document.getElementById('widget3').dispatchEvent(widgetUpdate);
-      });
+      // document.getElementById('triggerUpdate').addEventListener('click', function(evt) {
+      //   var widgetUpdate = new CustomEvent('widgetData', {
+      //     detail: {
+      //       options: {
+      //         donut: true
+      //       }
+      //     }
+      //   });
+      //   document.getElementById('widget3').dispatchEvent(widgetUpdate);
+      // });
     </script>
   </body>
 </html>
