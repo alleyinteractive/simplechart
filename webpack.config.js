@@ -12,10 +12,15 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var WebpackGitHash = require('webpack-git-hash');
 var updateVersion = require('./updateVersion');
 
-var entry = {
-  widget: [path.resolve('./app/widget')],
-  app: [path.resolve('./app/index')],
-};
+function _shouldMockAPI() {
+  return !!process.env.MOCKAPI;
+}
+
+var entry = _shouldMockAPI() ? path.resolve('./mock-api/getApiResult') :
+  {
+    widget: [path.resolve('./app/widget')],
+    app: [path.resolve('./app/index')],
+  };
 
 var jsLoaders = ['babel'];
 
@@ -44,15 +49,23 @@ if (process.env.DEVELOPMENT) {
   publicPath = 'http://localhost:8080' + publicPath;
 }
 
-module.exports = {
-  devtool: 'source-map',
-  entry: entry,
-  output: {
+var output = _shouldMockAPI() ?
+  {
+    path: path.join(__dirname, 'mock-api'),
+    publicPath: '/mock-api/',
+    filename: 'getApiResult.bundle.js',
+  } :
+  {
     path: path.join(__dirname, 'static'),
     publicPath: publicPath,
     filename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[name].js' : '[name].[githash].js',
     chunkFilename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js'
-  },
+  };
+
+module.exports = {
+  devtool: 'source-map',
+  entry: entry,
+  output: output,
   plugins: plugins,
   postcss: function(webpack) {
     return [
@@ -76,6 +89,11 @@ module.exports = {
         test: /\.js$/,
         loaders: jsLoaders,
         include: path.join(__dirname, 'app'),
+      },
+      {
+        test: /mock-api.*\.js$/,
+        loaders: jsLoaders,
+        include: path.join(__dirname, 'mock-api'),
       },
       {
         test: /\.css$/,

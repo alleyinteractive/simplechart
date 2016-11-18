@@ -6,7 +6,8 @@
     "start": "DEVELOPMENT=true node server.js",
     "lint": "eslint src",
     "build": "webpack -p --progress",
-    "locales": "node locales.js"
+    "locales": "node locales.js",
+    "mock-api": "MOCKAPI=true webpack -p --progress"
   },
   "repository": {
     "type": "git",
