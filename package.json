@@ -7,7 +7,7 @@
     "lint": "eslint src",
     "build": "webpack -p --progress",
     "locales": "node locales.js",
-    "mock-api": "MOCKAPI=true webpack -p --progress"
+    "mock-api": "MOCKAPI=true DEVELOPMENT=true ./node_modules/babel-cli/bin/babel-node.js server.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/alleyinteractive/simplechart-react",
   "devDependencies": {
+    "babel-cli": "6.18.0",
     "babel-core": "6.18.2",
     "babel-eslint": "7.0.0",
     "babel-loader": "6.2.5",
