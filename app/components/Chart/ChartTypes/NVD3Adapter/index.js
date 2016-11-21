@@ -32,6 +32,10 @@ class NVD3Adapter extends Component {
     }
   }
 
+  /**
+   * In editor, merge data into options and add a ref
+   * In widget, also recreate funciton-based options that can't be sent as JSON
+   */
   _buildStateFromProps(props) {
     let nextState = update(props.options, {
       datum: { $set: this._dataTransform(props.options.type, props.data) },
