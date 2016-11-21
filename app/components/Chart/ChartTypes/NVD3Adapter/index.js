@@ -6,6 +6,7 @@ import actionTrigger from '../../../../actions';
 import { RECEIVE_ERROR } from '../../../../constants';
 import { getChartTypeObject } from '../../../../utils/chartTypeUtils';
 import { nvd3Defaults } from '../../../../constants/chartTypes';
+import applyDataFormatters from '../../../../middleware/utils/applyDataFormatters';
 
 class NVD3Adapter extends Component {
 
@@ -30,7 +31,7 @@ class NVD3Adapter extends Component {
   }
 
   _buildStateFromProps(props) {
-    const nextState = update(props.options, {
+    let nextState = update(props.options, {
       datum: { $set: this._dataTransform(props.options.type, props.data) },
       ref: { $set: 'chartNode' },
     });
@@ -39,10 +40,14 @@ class NVD3Adapter extends Component {
     }
 
     // Widgets need to recreate function-based options
-    const dataFormat = getChartTypeObject(props.options.type).config.dataFormat;
+    const typeConfig = getChartTypeObject(props.options.type).config;
+    nextState = update(nextState, {
+      $merge: nvd3Defaults[typeConfig.dataFormat],
+    });
 
-    // @todo tickFormatSettings -> tick formatting functions
-    return update(nextState, { $merge: nvd3Defaults[dataFormat] });
+    // tickFormatSettings -> tick formatting functions
+    // applyDataFormatters() returns a cloned object
+    return applyDataFormatters(nextState, typeConfig);
   }
 
   /**

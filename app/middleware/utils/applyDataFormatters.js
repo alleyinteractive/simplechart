@@ -1,24 +1,29 @@
-import { capitalize } from '../../utils/misc';
 import createFormatter from '../../utils/createFormatter';
 import update from 'react-addons-update';
 
-function _getAxesConfig(formatter, chartOptions, typeConfig) {
-  const axesConfig = {};
-  if (!typeConfig.modules || !typeConfig.modules.settings) {
-    return axesConfig;
+function _getFormattingOpts(formatter, chartOptions, typeConfig) {
+  if (!typeConfig.modules ||
+    !typeConfig.modules.settings ||
+    -1 === typeConfig.modules.settings.indexOf('YAxis')
+  ) {
+    return {};
   }
 
-  const toMerge = { tickFormat: formatter };
-  // Merge into existing axis settings if needed
-  function _setAxis(name) {
-    if (-1 !== typeConfig.modules.settings.indexOf(capitalize(name))) {
-      axesConfig[name] = update(chartOptions[name] || {}, { $merge: toMerge });
-    }
-  }
-  _setAxis('yAxis');
-  return axesConfig;
+  return {
+    yAxis: update(chartOptions.yAxis || {}, {
+      tickFormat: { $set: formatter },
+    }),
+    valueFormat: 'nvd3SingleSeries' === typeConfig.dataFormat ? formatter : null,
+  };
 }
 
+/**
+ * Clone chart options including data formatting functions created from tickFormatSettings
+ *
+ * @param obj chartOptions Complete chart options object
+ * @param obj typeConfig Chart type configuration
+ * @retur obj Cloned chart options object with data formatting functions
+ */
 export default function applyDataFormatters(chartOptions, typeConfig) {
   if (!chartOptions.tickFormatSettings) {
     return chartOptions;
@@ -26,14 +31,8 @@ export default function applyDataFormatters(chartOptions, typeConfig) {
   // create data formatter function
   const formatter = createFormatter(chartOptions.tickFormatSettings);
 
-  // clone chartOptions.xAxis and chartOptions.yAxis as needed
-  // and including formatter function
-  const toUpdate = _getAxesConfig(formatter, chartOptions, typeConfig);
-
-  // set single series valueFormat if applicable
-  if ('nvd3SingleSeries' === typeConfig.dataFormat) {
-    toUpdate.valueFormat = formatter;
-  }
-
-  return update(chartOptions, { $merge: toUpdate });
+  // Merge updated yAxis and valueFormat into cloned options object
+  return update(chartOptions, {
+    $merge: _getFormattingOpts(formatter, chartOptions, typeConfig),
+  });
 }
