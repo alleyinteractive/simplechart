@@ -4,7 +4,7 @@ import RuledBox from '../lib/RuledBox';
 import { getChartTypeObject } from '../../utils/chartTypeUtils';
 import update from 'react-addons-update';
 import { defaultBreakpoint } from '../../constants/chartTypes';
-// import { debounce } from '../../utils/misc';
+import { debounce } from '../../utils/misc';
 
 class Chart extends Component {
 
@@ -31,14 +31,14 @@ class Chart extends Component {
    */
   componentDidMount() {
     if (this.props.widget && this.props.options.breakpoints) {
-      window.addEventListener('resize', () => {
+      window.addEventListener('resize', debounce(() => {
         this.setState({
           activeBp: this._getActiveBreakpoint(
             this.props.options.breakpoints,
             this.props.widget
           ),
         });
-      });
+      }, 150));
     }
   }
 
@@ -131,7 +131,6 @@ class Chart extends Component {
         options: { height: { $set: this.state.activeBp.height } },
       })
     );
-
     return React.createElement(
       this.props.rulers ? RuledBox : 'div', // element type
       this.props.rulers ? this._ruledBoxProps(this.state.activeBp) : {}, // props
