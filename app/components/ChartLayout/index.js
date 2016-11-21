@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
+  RECEIVE_ERROR,
   RECEIVE_CHART_OPTIONS_EXTEND,
 } from '../../constants';
 import actionTrigger from '../../actions';
@@ -54,9 +55,38 @@ class ChartLayout extends Component {
     }
   }
 
+  _canAddNoMaxWidth(breakpoints) {
+    return 0 === breakpoints.filter((point) => point.noMaxWidth).length;
+  }
+
+  _maxWidthIsSet(updateIdx, maxWidth, breakpoints) {
+    return 0 !== breakpoints.filter((point, idx) =>
+      (parseInt(updateIdx, 10) !== idx && // account for numeric strings
+        !point.noMaxWidth && // ok to duplicate an ignored maxWidth
+        maxWidth === point.maxWidth) // now check duplication
+    ).length;
+  }
+
   _handleChange(fieldProps, newValue) {
     // break field name into index and key
     const fieldNameParts = fieldProps.name.split('.');
+
+    // Error if trying to set multiple breakpoints to noMaxWidth
+    if ('noMaxWidth' === fieldNameParts[1] &&
+      newValue &&
+      !this._canAddNoMaxWidth(this.state.values)
+    ) {
+      this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e006'));
+      return;
+    }
+
+    // Error if setting multiple breakpoints to same maxWidth
+    if ('maxWidth' === fieldNameParts[1] &&
+      this._maxWidthIsSet(fieldNameParts[0], newValue, this.state.values)
+    ) {
+      this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e007'));
+      return;
+    }
 
     // merge new value as key into the updated index
     this._dispatchValues(update(this.state.values, {
@@ -76,7 +106,9 @@ class ChartLayout extends Component {
 
   _addBreakpoint() {
     this._dispatchValues(update(this.state.values, {
-      $push: [defaultBreakpoint],
+      $push: [
+        update(defaultBreakpoint, { noMaxWidth: { $set: false } }),
+      ],
     }));
   }
 
