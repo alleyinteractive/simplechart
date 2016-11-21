@@ -7,6 +7,8 @@ import { RECEIVE_ERROR } from '../../../../constants';
 import { getChartTypeObject } from '../../../../utils/chartTypeUtils';
 import { nvd3Defaults } from '../../../../constants/chartTypes';
 import applyDataFormatters from '../../../../middleware/utils/applyDataFormatters';
+import { shouldSetupYDomain } from '../../../../middleware/utils/applyYDomain';
+import getNiceDomain from '../../../../utils/dataFormats/getNiceDomain';
 
 class NVD3Adapter extends Component {
 
@@ -35,14 +37,21 @@ class NVD3Adapter extends Component {
       datum: { $set: this._dataTransform(props.options.type, props.data) },
       ref: { $set: 'chartNode' },
     });
+
     if (!this.props.widget) {
       return nextState;
     }
 
     // Widgets need to recreate function-based options
     const typeConfig = getChartTypeObject(props.options.type).config;
+
     nextState = update(nextState, {
-      $merge: nvd3Defaults[typeConfig.dataFormat],
+      x: { $set: nvd3Defaults[typeConfig.dataFormat].x },
+      y: { $set: nvd3Defaults[typeConfig.dataFormat].y },
+      yDomain: { $apply: (oldYDomain) => { // eslint-disable-line arrow-body-style
+        return (shouldSetupYDomain(typeConfig) && undefined === oldYDomain) ?
+          getNiceDomain(typeConfig.dataFormat, props.data) : oldYDomain;
+      } },
     });
 
     // tickFormatSettings -> tick formatting functions
