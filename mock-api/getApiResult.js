@@ -42,8 +42,8 @@ function _getOptions(chartType) {
  */
 function _getData(chartType) {
   const dataFormat = getChartTypeObject(chartType).config.dataFormat;
-  const rawData = _getRawData(
-    'nvd3SingleSeries' === dataFormat ? 'singleSeries.csv' : 'countriesByYear.csv');
+  const rawData = _getRawData('nvd3SingleSeries' === dataFormat ?
+    'singleSeries.csv' : 'countriesByYear.csv');
   const parserResult = parseRawData(Baby, rawData);
   return transformParsedData(parserResult[0], parserResult[1])[dataFormat];
 }

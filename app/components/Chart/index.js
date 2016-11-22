@@ -100,6 +100,7 @@ class Chart extends Component {
         }
         return next.maxWidth - prev.maxWidth;
       })
+      // traverse to the smallest breakpoint
       .reduce((acc, current) => {
         if (current.noMaxWidth) {
           return current;
