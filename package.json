@@ -23,8 +23,7 @@
       "tests"
     ],
     "moduleFileExtensions": [
-      "js",
-      "jsx"
+      "js"
     ],
     "moduleDirectories": [
       "node_modules"
