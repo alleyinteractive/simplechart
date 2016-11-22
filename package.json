@@ -7,7 +7,8 @@
     "lint": "eslint src",
     "build": "webpack -p --progress",
     "locales": "node locales.js",
-    "mock-api": "MOCKAPI=true DEVELOPMENT=true ./node_modules/babel-cli/bin/babel-node.js server.js"
+    "mock-api": "MOCKAPI=true DEVELOPMENT=true ./node_modules/babel-cli/bin/babel-node.js server.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -16,6 +17,18 @@
   "author": "Josh Kadis",
   "bugs": {
     "url": "https://github.com/alleyinteractive/simplechart-react/issues"
+  },
+  "jest": {
+    "testPathDirs": [
+      "tests"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ]
   },
   "homepage": "https://github.com/alleyinteractive/simplechart-react",
   "devDependencies": {
@@ -36,6 +49,7 @@
     "eslint-plugin-react": "^4.2.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
+    "jest": "^17.0.0",
     "lost": "^6.7.2",
     "object.assign": "^4.0.3",
     "postcss": "^5.0.19",
