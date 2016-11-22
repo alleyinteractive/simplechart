@@ -6,16 +6,20 @@ import getNiceDomain from '../../utils/dataFormats/getNiceDomain';
  * @param object typeConfig Chart type config
  * @return bool
  */
-function _shouldSetupYDomain(typeConfig) {
+export function shouldSetupYDomain(typeConfig) {
   return 0 === typeConfig.dataFormat.indexOf('nvd3') &&
     -1 !== typeConfig.modules.settings.indexOf('YAxis');
 }
 
 /**
  * add nicely rounded yDomain to chart options, if chart has a yAxis
+ * @param obj chartOptions
+ * @param obj typeConfig
+ * @param array chartData
+ * @return obj Cloned chart options object with new yDomain
  */
 export default function applyYDomain(chartOptions, typeConfig, chartData) {
-  if (!_shouldSetupYDomain(typeConfig)) {
+  if (!shouldSetupYDomain(typeConfig)) {
     return chartOptions;
   }
 

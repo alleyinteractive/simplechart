@@ -4,6 +4,7 @@ import RuledBox from '../lib/RuledBox';
 import { getChartTypeObject } from '../../utils/chartTypeUtils';
 import update from 'react-addons-update';
 import { defaultBreakpoint } from '../../constants/chartTypes';
+import { debounce } from '../../utils/misc';
 
 class Chart extends Component {
 
@@ -17,12 +18,43 @@ class Chart extends Component {
     if (this.props.options.type) {
       this._loadChartType(this.props.options.type);
     }
+    this.setState({
+      activeBp: this._getActiveBreakpoint(
+        this.props.options.breakpoints,
+        this.props.widget
+      ),
+    });
+  }
+
+  /**
+   * Attach listener for breakpoints
+   */
+  componentDidMount() {
+    if (this.props.widget && this.props.options.breakpoints) {
+      window.addEventListener('resize', debounce(() => {
+        this.setState({
+          activeBp: this._getActiveBreakpoint(
+            this.props.options.breakpoints,
+            this.props.widget
+          ),
+        });
+      }, 150));
+    }
   }
 
   componentWillReceiveProps(nextProps) {
+    // handle if chart type changes
     if (this._getComponentName(nextProps) !== this._getComponentName(this.props)) { // eslint-disable-line max-len
       this._loadChartType(nextProps.options.type);
     }
+
+    // update breakpoint idx
+    this.setState({
+      activeBp: this._getActiveBreakpoint(
+        nextProps.options.breakpoints,
+        nextProps.widget
+      ),
+    });
   }
 
   _getComponentName(props) {
@@ -36,7 +68,7 @@ class Chart extends Component {
       });
   }
 
-  _getActiveBreakpoint(breakpoints) {
+  _getActiveBreakpoint(breakpoints, isWidget) {
     if (undefined === breakpoints ||
       !breakpoints.values ||
       !breakpoints.values.length
@@ -44,8 +76,37 @@ class Chart extends Component {
       return defaultBreakpoint;
     }
 
+    if (isWidget) {
+      return this._breakpointForWindow(breakpoints.values) || defaultBreakpoint;
+    }
+
     const idx = breakpoints.hasOwnProperty('active') ? breakpoints.active : 0;
     return breakpoints.values[idx] || defaultBreakpoint;
+  }
+
+  /**
+   * Get breakpoint object for current window size
+   * @param array breakpoints
+   * @return object Item from breakpoints array
+   */
+  _breakpointForWindow(breakpoints) {
+    // sort from highest to lowest, with "no max width" at the beginning
+    return breakpoints
+      .sort((prev, next) => {
+        if (next.noMaxWidth) {
+          return 1;
+        } else if (prev.noMaxWidth) {
+          return -1;
+        }
+        return next.maxWidth - prev.maxWidth;
+      })
+      // traverse to the smallest breakpoint
+      .reduce((acc, current) => {
+        if (current.noMaxWidth) {
+          return current;
+        }
+        return current.maxWidth >= window.innerWidth ? current : acc;
+      }, null);
   }
 
   /**
@@ -65,18 +126,15 @@ class Chart extends Component {
       return null;
     }
 
-    const activeBp = this._getActiveBreakpoint(this.props.options.breakpoints);
-
     const chartTypeComponent = React.createElement(
       this.state.chartTypeComponent,
       update(this.props, {
-        options: { height: { $set: activeBp.height } },
+        options: { height: { $set: this.state.activeBp.height } },
       })
     );
-
     return React.createElement(
       this.props.rulers ? RuledBox : 'div', // element type
-      this.props.rulers ? this._ruledBoxProps(activeBp) : {}, // props
+      this.props.rulers ? this._ruledBoxProps(this.state.activeBp) : {}, // props
       chartTypeComponent // children
     );
   }
