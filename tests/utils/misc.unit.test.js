@@ -21,7 +21,7 @@ test('getObjArrayKey test', () => {
 
 test('dataIsMultiSeries test', () => {
   let testDataMulti =  [ [1, 2], [3, 4] ];
-  let testDataSingle = [ 1, 2, 3];
+  let testDataSingle = [1, 2, 3];
   expect(utils.dataIsMultiSeries(testDataMulti)).toBe(true);
   expect(utils.dataIsMultiSeries(testDataSingle)).toBe(false);
 });
