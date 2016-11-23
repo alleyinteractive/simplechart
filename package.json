@@ -1,6 +1,6 @@
 {
   "name": "simplechart-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simplechart React",
   "scripts": {
     "start": "DEVELOPMENT=true node server.js",
