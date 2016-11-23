@@ -33,7 +33,7 @@ export function debounce(func, ...theArgs) {
  * @return bool True if multi-series, false if single-series
  */
 export function dataIsMultiSeries(data) {
-  return ('undefined' !== typeof data[0].key &&
+  return ('undefined' !== typeof data[0].keys &&
     'undefined' !== typeof data[0].values);
 }
 
