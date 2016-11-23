@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { Fixed, Button, SequenceMap } from 'rebass';
-import logoSvg from '!!raw!../../../img/simplechartLogo.svg';
-import * as styles from './ProgressHeader.css';
-import { appSteps } from '../../../constants/appSteps';
+import logoSvg from '!!raw!../../img/simplechartLogo.svg';
+import * as styles from './Header.css';
+import { appSteps } from '../../constants/appSteps';
 import { connect } from 'react-redux';
-import actionTrigger from '../../../actions';
-import { UPDATE_CURRENT_STEP } from '../../../constants';
-import SaveChart from '../../SaveChart';
-import { sendMessage } from '../../../utils/postMessage';
-import ErrorMessage from '../RebassComponents/ErrorMessage';
+import actionTrigger from '../../actions';
+import { UPDATE_CURRENT_STEP } from '../../constants';
+import SaveChart from '../SaveChart';
+import { sendMessage } from '../../utils/postMessage';
+import ErrorMessage from './ErrorMessage';
 
-class ProgressHeader extends Component {
+class Header extends Component {
 
   constructor() {
     super();
-    this._sequenceMap = this._sequenceMap.bind(this);
+    this._sequenceSteps = this._sequenceSteps.bind(this);
     this._cancelEdits = this._cancelEdits.bind(this);
     this._renderUnsavedWarning = this._renderUnsavedWarning.bind(this);
   }
@@ -41,19 +41,11 @@ class ProgressHeader extends Component {
     ));
   }
 
-  _sequenceMap() {
-    const mapSteps = appSteps.map((label, i) => ({
+  _sequenceSteps() {
+    return appSteps.map((label, i) => ({
       children: label,
-      href: `#step-${i}`,
       onClick: this._updateCurrentStep.bind(this, i),
     }));
-
-    return (
-      <SequenceMap
-        active={this.state.currentStep}
-        steps={mapSteps}
-      />
-    );
   }
 
   _cancelEdits() {
@@ -97,7 +89,10 @@ class ProgressHeader extends Component {
           />
 
           <div className={styles.sequenceContainer}>
-            {this._sequenceMap()}
+            <SequenceMap
+              active={this.state.currentStep}
+              steps={this._sequenceSteps()}
+            />
           </div>
 
           <div className={styles.actionsContainer}>
@@ -113,19 +108,18 @@ class ProgressHeader extends Component {
             >Exit</Button>
           </div>
         </div>
-        <div className={styles.unsavedWarning}>
-          {this._renderUnsavedWarning()}
-        </div>
+        <ErrorMessage code={this.props.errorCode} />
       </Fixed>
     );
   }
 }
 
-ProgressHeader.propTypes = {
+Header.propTypes = {
   saveData: React.PropTypes.object,
   currentStep: React.PropTypes.number,
   dispatch: React.PropTypes.func,
   unsavedChanges: React.PropTypes.bool,
+  errorCode: React.PropTypes.string,
 };
 
-export default connect()(ProgressHeader);
+export default connect()(Header);

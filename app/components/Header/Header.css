@@ -10,6 +10,13 @@
 .sequenceContainer {
   flex-grow: 99;
   margin: 0 20px;
+
+  a:hover {
+    cursor: pointer;
+    div:last-of-type {
+      color: rgb(17, 204, 119);
+    }
+  }
 }
 
 /**
@@ -20,14 +27,4 @@
   position: relative;
   left: -3.4px;
   top: -9.9px;
-}
-
-.unsavedWarning {
-  :global(a) {
-    color: white;
-    margin: 0 5px;
-    &:hover, &:focus {
-      text-decoration: none;
-    }
-  }
 }

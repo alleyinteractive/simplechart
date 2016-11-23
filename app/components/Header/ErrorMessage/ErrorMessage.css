@@ -1,0 +1,24 @@
+:global(.errorMessageContent) {
+  margin: 0;
+}
+
+:global(.errorMessageContent a) {
+  color: white;
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+}
+
+.container {
+  position: relative;
+}
+
+.closeContainer {
+  color: white;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  &:hover, &:focus {
+    color: black;
+  }
+}
