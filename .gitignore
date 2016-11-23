@@ -4,3 +4,4 @@ node_modules
 *.sh
 *_ignore_*
 static
+!docs/static
