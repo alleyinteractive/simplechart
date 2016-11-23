@@ -12,29 +12,30 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var WebpackGitHash = require('webpack-git-hash');
 var updateVersion = require('./updateVersion');
 
-var entry = {
-  widget: './app/widget',
-  app: './app/index'
-};
+/**
+ * Set up entry points
+ */
+var entry = { widget: [path.resolve('./app/widget')] };
+// Don't compile app if we're using the mock API for widget testing
+if (!process.env.MOCKAPI) {
+  entry.app = [path.resolve('./app/index')];
+  if (process.env.DEVELOPMENT) {
+    entry.app.unshift('react-hot-loader/patch');
+    entry.app.unshift('webpack/hot/only-dev-server');
+    entry.app.unshift('webpack-dev-server/client?http://localhost:8080');
+  }
+}
 
 var jsLoaders = ['babel'];
 
-if (process.env.DEVELOPMENT) {
-  entry.server = [
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server'
-  ];
-  jsLoaders.unshift(
-    'react-hot'
-  );
-}
-
+/**
+ * Set up plugins
+ */
 var gitHashOpts = {
   cleanup: true,
   callback: updateVersion
 };
-// If hash is passed from command line, use that. E.g:
-// $ npm run build abcd123
+// If hash is passed from command line, e.g. $ npm run build abcd123
 if (process.argv.length >= 5 && /^[a-z0-9]+$/.test(process.argv[4])) {
   gitHashOpts.skipHash = process.argv[4];
 }
@@ -43,13 +44,25 @@ var plugins = process.env.DEVELOPMENT ?
   [new webpack.HotModuleReplacementPlugin()] :
   [new WebpackGitHash(gitHashOpts)];
 
+/**
+ * Set up publicPath
+ */
+var publicPath = '/static/';
+if (process.env.DEVELOPMENT) {
+  publicPath = 'http://localhost:8080' + publicPath;
+}
+
+/**
+ * Export the full Webpack config
+ */
 module.exports = {
   devtool: 'source-map',
   entry: entry,
   output: {
     path: path.join(__dirname, 'static'),
-    publicPath: '/static/',
-    filename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[name].js' : '[name].[githash].js'
+    publicPath: publicPath,
+    filename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[name].js' : '[name].[githash].js',
+    chunkFilename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js'
   },
   plugins: plugins,
   postcss: function(webpack) {

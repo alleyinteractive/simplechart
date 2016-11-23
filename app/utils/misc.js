@@ -8,10 +8,10 @@
  */
 export function debounce(func, ...theArgs) {
   let timeout;
-  return function() {
+  return function setupDebounce() {
     const context = this;
     const args = theArgs;
-    const later = function() {
+    const later = function setupLater() {
       timeout = null;
       if (!theArgs[1]) {
         func.apply(context, args);
@@ -33,6 +33,36 @@ export function debounce(func, ...theArgs) {
  * @return bool True if multi-series, false if single-series
  */
 export function dataIsMultiSeries(data) {
-  return (typeof data[0].key !== 'undefined'
-    && typeof data[0].values !== 'undefined');
+  return ('undefined' !== typeof data[0].key &&
+    'undefined' !== typeof data[0].values);
+}
+
+/**
+ * get value from key or default if not set, also works for arrays
+ *
+ * @param obj obj Basic object or array
+ * @param str key Key to look for
+ * @param any defaultValue Default to return if key is not set
+ */
+export function getObjArrayKey(obj, key, defaultValue = '') {
+  return (obj && obj.hasOwnProperty(key)) ? obj[key] : defaultValue;
+}
+
+/**
+ * Capitalize the first char of a string, assumes first char is a letter
+ */
+export function capitalize(input) {
+  return input.charAt(0).toUpperCase() + input.slice(1);
+}
+
+/**
+ * Get array item at specified index, looping back
+ * if needed i.e. if (idx >= list.length)
+ *
+ * @param int idx
+ * @param array list
+ * @return any
+ */
+export function loopArrayItemAtIndex(idx, list) {
+  return list[idx % list.length];
 }

@@ -2,7 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AppComponent from '../Layout/AppComponent';
 import * as styles from './DataInput.css';
-import { RECEIVE_RAW_DATA } from '../../constants';
+import {
+  RECEIVE_RAW_DATA,
+  RECEIVE_ERROR,
+  CLEAR_ERROR,
+} from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
 import { Heading, Select, Button, Text } from 'rebass';
@@ -17,6 +21,10 @@ class DataInput extends AppComponent {
     this._submitData = this._submitData.bind(this);
     this._loadSampleData = this._loadSampleData.bind(this);
     this._setSampleDataSet = this._setSampleDataSet.bind(this);
+    this._beforeNextStep = this._beforeNextStep.bind(this);
+    this._nextCallback = this._nextCallback.bind(this);
+    this._handleInputBlur = this._handleInputBlur.bind(this);
+    this._handleInputChange = this._handleInputChange.bind(this);
 
     this.state = {
       rawData: '',
@@ -67,6 +75,30 @@ class DataInput extends AppComponent {
     });
   }
 
+  _beforeNextStep() {
+    // Check for empty data field
+    // Errors w/ invalid data would have already surfaced in rawDataMiddleware
+    // return value indicates if we can proceed to next step
+    return this.props.dataStatus.status &&
+      'success' === this.props.dataStatus.status;
+  }
+
+  _nextCallback(success) {
+    if (!success) {
+      this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e002'));
+    } else {
+      this.props.dispatch(actionTrigger(CLEAR_ERROR));
+    }
+  }
+
+  _handleInputBlur() {
+    this._submitData(this.state.rawData);
+  }
+
+  _handleInputChange(evt) {
+    this.setState({ rawData: evt.target.value });
+  }
+
   render() {
     let dataStatus = 'Waiting for data input';
     let dataStatusClass = 'initial';
@@ -81,14 +113,6 @@ class DataInput extends AppComponent {
       }
     }
 
-    const handleInputBlur = function() {
-      this._submitData(this.state.rawData);
-    }.bind(this);
-
-    const handleInputChange = function(evt) {
-      this.setState({ rawData: evt.target.value });
-    }.bind(this);
-
     return (
       <div className={this.parentStyles.appComponent}>
         <Heading level={2}>{appSteps[0]}</Heading>
@@ -98,8 +122,8 @@ class DataInput extends AppComponent {
             id="DataInput"
             className={styles.textarea}
             value={this.state.rawData}
-            onChange={handleInputChange}
-            onBlur={handleInputBlur}
+            onChange={this._handleInputChange}
+            onBlur={this._handleInputBlur}
             ref="dataInput"
           />
           <span className={styles[dataStatusClass]}>
@@ -118,16 +142,18 @@ class DataInput extends AppComponent {
               onChange={this._setSampleDataSet}
             />
             <Button
-              theme="secondary"
+              theme="warning"
               onClick={this._loadSampleData}
             >Load</Button>
           </div>
 
           <div className={styles.submitContainer}>
             <NextPrevButton
-              copy="Next"
+              text="Next"
               currentStep={0}
               dir="next"
+              shouldEnable={this._beforeNextStep()}
+              callback={this._nextCallback}
             />
           </div>
         </div>

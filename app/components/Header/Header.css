@@ -1,0 +1,30 @@
+.inner {
+  display: flex;
+  justify-content: space-between;
+  height: 45px;
+  padding: 10px;
+  border-bottom: 2px solid gray;
+  background: white;
+}
+
+.sequenceContainer {
+  flex-grow: 99;
+  margin: 0 20px;
+
+  a:hover {
+    cursor: pointer;
+    div:last-of-type {
+      color: rgb(17, 204, 119);
+    }
+  }
+}
+
+/**
+ * Specify positioning to account for bad SVG
+ */
+.logoContainer {
+  width: 80px;
+  position: relative;
+  left: -3.4px;
+  top: -9.9px;
+}
