@@ -76,7 +76,7 @@ export function receiveMessage(messageType, callback) {
 /**
  * Send message to parent window
  *
- * @param string messageType Parent will check a gainst evt.data.messageType
+ * @param string messageType Parent will check against evt.data.messageType
  * @param any data Optional data to accompany message as evt.data.data
  * @return none
  */
