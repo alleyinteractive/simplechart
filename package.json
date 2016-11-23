@@ -8,7 +8,8 @@
     "build": "webpack -p --progress",
     "locales": "node locales.js",
     "mock-api": "MOCKAPI=true DEVELOPMENT=true ./node_modules/babel-cli/bin/babel-node.js server.js",
-    "test": "jest"
+    "test": "jest",
+    "test-watch": "jest --watch"
   },
   "repository": {
     "type": "git",
