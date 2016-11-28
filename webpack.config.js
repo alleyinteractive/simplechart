@@ -55,7 +55,8 @@ module.exports = {
     path: path.join(__dirname, 'static'),
     publicPath: process.env.DEVELOPMENT ? 'http://localhost:8080/static/' : null,
     filename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[name].js' : '[name].[githash].js',
-    chunkFilename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js'
+    chunkFilename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js',
+    jsonpFunction: 'simplechartJsonp'
   },
   plugins: plugins,
   postcss: function(webpack) {
