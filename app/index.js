@@ -19,10 +19,11 @@ import { bootstrapAppData } from './actions';
 import App from './components/App';
 import { sendMessage } from './utils/postMessage';
 import * as NVD3Styles from 'style!raw!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
-
-// Create the store with redux-thunk middleware, which allows us to
-// do asyncronous things in the actions
 import rootReducer from './reducers/rootReducer';
+import getPublicPath from './utils/getPublicPath';
+
+// Set public path for loading chunks and other assets
+__webpack_public_path__ = __webpack_public_path__ || getPublicPath(); // eslint-disable-line camelcase,no-undef
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(
