@@ -67,7 +67,6 @@ export default function receiveChartType({ getState }) {
        */
       nextOpts = applyDataFormatters(nextOpts, nextConfig);
 
-
       dispatch(actionTrigger(
         RECEIVE_CHART_OPTIONS, nextOpts, action.src));
       dispatch(actionTrigger(
