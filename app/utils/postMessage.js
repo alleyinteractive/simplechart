@@ -13,14 +13,14 @@ function _isLocalDev() {
  * Check for being a child iframe.
  * Three cases: top window (true), same-origin iframe (false), cross-origin iframe (false)
  */
-function _isTopLevelWindow(window = window) {
+function _isTopLevelWindow(useWindow = window) {
   try {
     // presence of window.frameElement indicates a same-origin iframe
-    if (window.frameElement) {
+    if (useWindow.frameElement) {
       return false;
     }
     // this will be true or throw an error
-    return window.location.href === window.parent.location.href;
+    return useWindow.location.href === window.parent.location.href;
   } catch (err) {
     // will catch SecurityError if we attempted to access a cross-origin iframe
     return 'SecurityError' !== err.name;
@@ -35,10 +35,10 @@ export const _callbacks = {};
 /**
  * Setup postMessage receive callbacks
  */
-export function setupPostMessage(window = window) {
+export function setupPostMessage(useWindow = window) {
   function _messageHandler(evt) {
     // validate same-origin except if local dev server
-    if (evt.origin !== window.location.origin &&
+    if (evt.origin !== useWindow.location.origin &&
       !_isLocalDev()) {
       throw new Error(`Illegal postMessage from ${evt.origin}`);
     }
@@ -54,7 +54,7 @@ export function setupPostMessage(window = window) {
   }
 
   // set up listener
-  window.addEventListener('message', (evt) =>
+  useWindow.addEventListener('message', (evt) =>
     _messageHandler(evt)
   );
 }
@@ -80,8 +80,9 @@ export function receiveMessage(messageType, callback) {
  * @param any data Optional data to accompany message as evt.data.data
  * @return none
  */
-export function sendMessage(messageType, data = null, window = window) {
-  if (_isTopLevelWindow(window)) {
+export function sendMessage(messageType,
+  data = null, useWindow = window) {
+  if (_isTopLevelWindow(useWindow)) {
     if (!_isLocalDev()) {
       throw new Error(
         `No parent window available for postMessage type ${messageType}`);
