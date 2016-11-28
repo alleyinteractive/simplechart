@@ -20,7 +20,7 @@ function _getAxesConfig(formatter, chartOptions, typeConfig) {
 }
 
 export default function applyDataFormatters(chartOptions, typeConfig) {
-  if (!chartOptions.tickFormatSettings) {
+  if (!chartOptions.tickFormatSettings || !typeConfig) {
     return chartOptions;
   }
   // create data formatter function
