@@ -93,7 +93,7 @@ export function sendMessage(messageType,
   }
 
   // Send data to '*' if local dev, otherwise only allow same origin
-  window.parent.postMessage({
+  useWindow.parent.postMessage({
     messageType,
     data: JSON.parse(JSON.stringify(data)), // handles functions in the data
   }, _isLocalDev() ? '*' : window.location.origin);
