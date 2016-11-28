@@ -85,6 +85,15 @@ export default function receiveChartType({ getState }) {
         configType && configType !== getState().defaultsAppliedTo;
     }
 
+    /**
+     * set yDomain if needed
+     */
+    function _shouldApplyYDomain() {
+      return !nextOpts.yDomain && // current action is not setting yDomain
+        0 < getState().chartData.length && // we have data to analyze
+        getState().chartType.config; // we have a chart type to apply domain to
+    }
+
     function _shouldSetBreakpoints() {
       return !nextOpts.breakpoints && !getState().chartOptions.breakpoints;
     }
@@ -142,10 +151,7 @@ export default function receiveChartType({ getState }) {
       nextOpts = applyDataFormatters(nextOpts, getState().chartType.config);
     }
 
-    /**
-     * set yDomain if chartData and chartType are set up
-     */
-    if (0 < getState().chartData.length && getState().chartType.config) {
+    if (_shouldApplyYDomain()) {
       nextOpts = applyYDomain(
         nextOpts,
         getState().chartType.config,
