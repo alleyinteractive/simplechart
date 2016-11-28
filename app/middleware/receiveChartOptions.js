@@ -86,6 +86,15 @@ export default function receiveChartType({ getState }) {
     }
 
     /**
+     * Update data formatting function after manual change
+     */
+    function _shouldApplyDataFormatters() {
+      return getState().chartType.config && // must have chart type config in store
+        nextOpts.tickFormatSettings && // must have settings to use
+        !_actionIsBootstrap(); // bootstrapStore handles this for initial load
+    }
+
+    /**
      * set yDomain if needed
      */
     function _shouldApplyYDomain() {
@@ -145,8 +154,7 @@ export default function receiveChartType({ getState }) {
       ));
     }
 
-    // Apply tick/value formatting after manual update
-    if (nextOpts.tickFormatSettings && !_actionIsBootstrap()) {
+    if (_shouldApplyDataFormatters()) {
       // applyDataFormatters returns a cloned object
       nextOpts = applyDataFormatters(nextOpts, getState().chartType.config);
     }
