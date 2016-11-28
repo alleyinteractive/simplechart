@@ -129,7 +129,7 @@ export default function receiveChartType({ getState }) {
       nextOpts = update(nextOpts, { color: { $set: defaultPalette } });
     }
 
-    // Apply colors to chartData if needed
+    // Apply colors to chartData if needed and dispatch to store
     if (nextOpts.hasOwnProperty('color') && _shouldApplyColorsToData()) {
       dispatchChartData(
         dispatch,
