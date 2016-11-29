@@ -85,6 +85,24 @@ export default function receiveChartType({ getState }) {
         configType && configType !== getState().defaultsAppliedTo;
     }
 
+    /**
+     * Update data formatting function after manual change
+     */
+    function _shouldApplyDataFormatters() {
+      return getState().chartType.config && // must have chart type config in store
+        nextOpts.tickFormatSettings && // must have settings to use
+        !_actionIsBootstrap(); // bootstrapStore handles this for initial load
+    }
+
+    /**
+     * set yDomain if needed
+     */
+    function _shouldApplyYDomain() {
+      return !nextOpts.yDomain && // current action is not setting yDomain
+        0 < getState().chartData.length && // we have data to analyze
+        getState().chartType.config; // we have a chart type to apply domain to
+    }
+
     function _shouldSetBreakpoints() {
       return !nextOpts.breakpoints && !getState().chartOptions.breakpoints;
     }
@@ -111,7 +129,7 @@ export default function receiveChartType({ getState }) {
       nextOpts = update(nextOpts, { color: { $set: defaultPalette } });
     }
 
-    // Apply colors to chartData if needed
+    // Apply colors to chartData if needed and dispatch to store
     if (nextOpts.hasOwnProperty('color') && _shouldApplyColorsToData()) {
       dispatchChartData(
         dispatch,
@@ -136,16 +154,12 @@ export default function receiveChartType({ getState }) {
       ));
     }
 
-    // Apply tick/value formatting after manual update
-    if (nextOpts.tickFormatSettings && !_actionIsBootstrap()) {
+    if (_shouldApplyDataFormatters()) {
       // applyDataFormatters returns a cloned object
       nextOpts = applyDataFormatters(nextOpts, getState().chartType.config);
     }
 
-    /**
-     * set yDomain if chartData and chartType are set up
-     */
-    if (0 < getState().chartData.length && getState().chartType.config) {
+    if (_shouldApplyYDomain()) {
       nextOpts = applyYDomain(
         nextOpts,
         getState().chartType.config,

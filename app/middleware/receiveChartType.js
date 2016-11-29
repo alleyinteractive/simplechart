@@ -9,6 +9,7 @@ import {
 } from '../constants';
 import dispatchChartData from './utils/dispatchChartData';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
+import applyDataFormatters from './utils/applyDataFormatters';
 import applyYDomain from './utils/applyYDomain';
 import actionTrigger from '../actions';
 
@@ -60,6 +61,11 @@ export default function receiveChartType({ getState }) {
       if (0 < getState().chartData.length) {
         nextOpts = applyYDomain(nextOpts, nextConfig, getState().chartData);
       }
+
+      /**
+       * Apply tick formatting and return cloned opts object
+       */
+      nextOpts = applyDataFormatters(nextOpts, nextConfig);
 
       dispatch(actionTrigger(
         RECEIVE_CHART_OPTIONS, nextOpts, action.src));

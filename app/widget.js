@@ -8,10 +8,12 @@ import actionTrigger, { ajaxWidgetData, listenerWidgetData } from './actions';
 import { RECEIVE_WIDGET } from './constants';
 import Widget from './components/Widget';
 import * as NVD3Styles from 'style!raw!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
-
-// Create the store with redux-thunk middleware, which allows us to
-// do asyncronous things in the actions
 import rootReducer from './reducers/widget/rootReducer';
+import getPublicPath from './utils/getPublicPath';
+
+// Set public path for loading chunks and other assets
+__webpack_public_path__ = __webpack_public_path__ || getPublicPath(); // eslint-disable-line camelcase,no-undef
+
 const store = createStore(rootReducer, compose(
   applyMiddleware(thunk)
 ));
