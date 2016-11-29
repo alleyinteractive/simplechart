@@ -5,8 +5,8 @@
 /**
  * Check for local dev server
  */
-function _isLocalDev() {
-  return 'localhost:8080' === window.location.host;
+function _isLocalDev(useWindow = window) {
+  return 'localhost:8080' === useWindow.location.host;
 }
 
 /**
@@ -36,7 +36,7 @@ export const _callbacks = {};
  * Setup postMessage receive callbacks
  */
 export function setupPostMessage(useWindow = window) {
-  function _messageHandler(evt) {
+  function _messageHandler(evt, useWindow = window) {
     // validate same-origin except if local dev server
     if (evt.origin !== useWindow.location.origin &&
       !_isLocalDev()) {
@@ -83,8 +83,8 @@ export function receiveMessage(messageType, callback) {
 export function sendMessage(messageType,
   data = null, useWindow = window) {
   if (_isTopLevelWindow(useWindow)) {
-    if (!_isLocalDev()) {
-      throw new Error(
+    if (!_isLocalDev(useWindow)) {
+    throw new Error(
         `No parent window available for postMessage type ${messageType}`);
     } else {
       console.log(`mock sendMessage: ${messageType}`, data); // eslint-disable-line no-console
@@ -96,5 +96,5 @@ export function sendMessage(messageType,
   useWindow.parent.postMessage({
     messageType,
     data: JSON.parse(JSON.stringify(data)), // handles functions in the data
-  }, _isLocalDev() ? '*' : window.location.origin);
+  }, _isLocalDev() ? '*' : useWindow.location.origin);
 }
