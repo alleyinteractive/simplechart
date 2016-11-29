@@ -1,17 +1,17 @@
+/* global describe test expect jest */
+/* eslint no-undef: "error" */
+
 const postMessage = require('../../app/utils/postMessage.js');
 
 describe('postMessage.receiveMessage', () => {
-
-  let messageType = 'type';
-  let callback = 'callback';
+  const messageType = 'type';
+  const callback = 'callback';
 
   test('make sure callback empty at first', () => {
     expect(postMessage._callbacks[messageType]).toBeUndefined();
   });
-
   test('add a callback for message type', () => {
-    postMessage.receiveMessage(messageType,callback);
+    postMessage.receiveMessage(messageType, callback);
     expect(postMessage._callbacks[messageType]).toContain(callback);
   });
-
 });
