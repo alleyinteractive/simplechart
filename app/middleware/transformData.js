@@ -9,6 +9,7 @@ import dispatchChartData from './utils/dispatchChartData';
 export default function setChartData({ getState }) {
   return (dispatch) => (action) => {
     if (TRANSFORM_DATA === action.type) {
+      // will validate input and dispatch formatted data to store
       dispatchChartData(
         dispatch,
         getState().chartType.config || {},

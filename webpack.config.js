@@ -45,24 +45,18 @@ var plugins = process.env.DEVELOPMENT ?
   [new WebpackGitHash(gitHashOpts)];
 
 /**
- * Set up publicPath
- */
-var publicPath = '/static/';
-if (process.env.DEVELOPMENT) {
-  publicPath = 'http://localhost:8080' + publicPath;
-}
-
-/**
- * Export the full Webpack config
+ * Export the full Webpack config, note that publicPath is set in app/widget entry points
+ * per https://webpack.github.io/docs/configuration.html#output-publicpath
  */
 module.exports = {
   devtool: 'source-map',
   entry: entry,
   output: {
     path: path.join(__dirname, 'static'),
-    publicPath: publicPath,
+    publicPath: process.env.DEVELOPMENT ? 'http://localhost:8080/static/' : null,
     filename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[name].js' : '[name].[githash].js',
-    chunkFilename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js'
+    chunkFilename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js',
+    jsonpFunction: 'simplechartJsonp'
   },
   plugins: plugins,
   postcss: function(webpack) {
