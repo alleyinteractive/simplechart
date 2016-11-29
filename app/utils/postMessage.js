@@ -36,9 +36,9 @@ export const _callbacks = {};
  * Setup postMessage receive callbacks
  */
 export function setupPostMessage(useWindow = window) {
-  function _messageHandler(evt, useWindow = window) {
+  function _messageHandler(evt, messageWindow = window) {
     // validate same-origin except if local dev server
-    if (evt.origin !== useWindow.location.origin &&
+    if (evt.origin !== messageWindow.location.origin &&
       !_isLocalDev()) {
       throw new Error(`Illegal postMessage from ${evt.origin}`);
     }
@@ -55,7 +55,7 @@ export function setupPostMessage(useWindow = window) {
 
   // set up listener
   useWindow.addEventListener('message', (evt) =>
-    _messageHandler(evt)
+    _messageHandler(evt, useWindow)
   );
 }
 
@@ -84,7 +84,7 @@ export function sendMessage(messageType,
   data = null, useWindow = window) {
   if (_isTopLevelWindow(useWindow)) {
     if (!_isLocalDev(useWindow)) {
-    throw new Error(
+      throw new Error(
         `No parent window available for postMessage type ${messageType}`);
     } else {
       console.log(`mock sendMessage: ${messageType}`, data); // eslint-disable-line no-console
