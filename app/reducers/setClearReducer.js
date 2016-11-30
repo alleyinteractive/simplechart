@@ -15,8 +15,10 @@ export default function reducer(defaultValue, setAction, clearAction) {
       case clearAction:
         return defaultValue;
 
+      // Returning defaultValue when state is undefined is applicable
+      // when Redux is initializing the store
       default:
-        return state || defaultValue;
+        return (undefined !== state) ? state : defaultValue;
     }
   };
 }

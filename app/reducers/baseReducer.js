@@ -4,17 +4,19 @@
  * This uses `initState` to and `allowActions` to dynamically set the reducer's initial state
  * and specify which actions it should be applied to
  */
-export default function reducer(state, action, initState, allowActions) {
-  // Return new value for allowed action
-  if (0 <= allowActions.indexOf(action.type)) {
-    return action.data;
-  }
+export default function reducer(initState, allowActions) {
+  return (state, action) => {
+    // If current action type is allowed, return currrent action data
+    if (0 <= allowActions.indexOf(action.type)) {
+      return action.data;
+    }
 
-  // State should be undefined *only* during initial setup of expected action
-  if ('undefined' === typeof state) {
-    return initState;
-  }
+    // Applies only when Redux is initializing the store
+    if (undefined === state) {
+      return initState;
+    }
 
-  // Return current state of an action other than the one we're expecting
-  return state;
+    // Ignore this action
+    return state;
+  };
 }
