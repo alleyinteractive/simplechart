@@ -116,8 +116,11 @@ class DataInput extends AppComponent {
 
     return (
       <div className={this.parentStyles.appComponent}>
-        <Heading level={2}>{appSteps[0]}</Heading>
-        <HelpTrigger docName="dataInput" />
+        <Heading level={2}>
+          {appSteps[0]}
+          <HelpTrigger docName="dataInput" />
+        </Heading>
+
         <ListBlock list={this.inputRules} />
         <div>
           <textarea

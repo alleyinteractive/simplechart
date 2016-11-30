@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import actionTrigger from '../../actions';
-import { RECEIVE_HELP_DOCUMENT } from '../../constants';
-import infoSvg from '!!raw!../../img/icons/info-circle.svg';
-import * as styles from '../Layout/AccordionBlock/AccordionBlock.css';
+import actionTrigger from '../../../actions';
+import { RECEIVE_HELP_DOCUMENT } from '../../../constants';
+import infoSvg from '!!raw!../../../img/icons/info-circle.svg';
+import * as styles from './HelpTrigger.css';
 
 /**
  * Render SVG icon that opens the Help panel when clicked

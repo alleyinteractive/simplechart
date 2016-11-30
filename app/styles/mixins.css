@@ -1,0 +1,13 @@
+/**
+ * CSS mixins, include this file wherever
+ */
+@define-mixin icon $fill: white, $hoverFill: black {
+  .icon svg {
+    max-height: 20px;
+    max-width: 20px;
+    fill: $fill;
+    &:hover{
+      fill: $hoverFill;
+    }
+  }
+}
