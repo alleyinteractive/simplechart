@@ -7,6 +7,7 @@ import { combineReducers } from 'redux';
 import baseReducer from './baseReducer';
 import chartOptionsReducer from './chartOptionsReducer';
 import errorReducer from './errorReducer';
+import setClearReducer from './setClearReducer';
 import * as actions from '../constants';
 
 export default combineReducers({
@@ -26,6 +27,8 @@ export default combineReducers({
   dataStatus: (state, action) =>
     baseReducer(state, action, {}, [actions.PARSE_DATA_STATUS]),
   errorCode: errorReducer,
+  helpDocument: setClearReducer('',
+    actions.RECEIVE_HELP_DOCUMENT, actions.CLEAR_HELP_DOCUMENT),
   parsedData: (state, action) =>
     baseReducer(state, action, [], [actions.PARSE_RAW_DATA]),
   rawData: (state, action) =>
