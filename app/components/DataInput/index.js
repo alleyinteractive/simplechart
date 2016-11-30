@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import AppComponent from '../Layout/AppComponent';
 import * as styles from './DataInput.css';
 import {
-  RECEIVE_HELP_DOCUMENT,
   RECEIVE_RAW_DATA,
   RECEIVE_ERROR,
   CLEAR_ERROR,
@@ -14,6 +13,7 @@ import { Heading, Select, Button, Text } from 'rebass';
 import ListBlock from '../Layout/RebassComponents/ListBlock';
 import { appSteps } from '../../constants/appSteps';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
+import HelpTrigger from '../lib/HelpTrigger';
 
 class DataInput extends AppComponent {
 
@@ -26,7 +26,6 @@ class DataInput extends AppComponent {
     this._nextCallback = this._nextCallback.bind(this);
     this._handleInputBlur = this._handleInputBlur.bind(this);
     this._handleInputChange = this._handleInputChange.bind(this);
-    this._testHelp = this._testHelp.bind(this);
 
     this.state = {
       rawData: '',
@@ -101,11 +100,6 @@ class DataInput extends AppComponent {
     this.setState({ rawData: evt.target.value });
   }
 
-  _testHelp(evt) {
-    evt.preventDefault();
-    this.props.dispatch(actionTrigger(RECEIVE_HELP_DOCUMENT, 'dataInput'));
-  }
-
   render() {
     let dataStatus = 'Waiting for data input';
     let dataStatusClass = 'initial';
@@ -123,6 +117,7 @@ class DataInput extends AppComponent {
     return (
       <div className={this.parentStyles.appComponent}>
         <Heading level={2}>{appSteps[0]}</Heading>
+        <HelpTrigger docName="dataInput" />
         <ListBlock list={this.inputRules} />
         <div>
           <textarea
@@ -163,7 +158,6 @@ class DataInput extends AppComponent {
               callback={this._nextCallback}
             />
           </div>
-          <a onClick={this._testHelp} href="#0">Test Help</a>
         </div>
       </div>
     );
