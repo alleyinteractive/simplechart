@@ -5,6 +5,10 @@ import { RECEIVE_HELP_DOCUMENT } from '../../constants';
 import infoSvg from '!!raw!../../img/icons/info-circle.svg';
 import * as styles from '../Layout/AccordionBlock/AccordionBlock.css';
 
+/**
+ * Render SVG icon that opens the Help panel when clicked
+ * by sending the name of a Markdown doc to Redux
+ */
 class HelpTrigger extends Component {
   constructor() {
     super();

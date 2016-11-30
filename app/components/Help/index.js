@@ -2,17 +2,47 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import actionTrigger from '../../actions';
 import * as styles from './Help.css';
-import { CLEAR_HELP_DOCUMENT } from '../../constants';
+import { CLEAR_HELP_DOCUMENT, RECEIVE_ERROR } from '../../constants';
 
+/**
+ * Show Help content from Markdown file
+ */
 class Help extends Component {
   constructor() {
     super();
+    this._getHtml = this._getHtml.bind(this);
     this._clearDoc = this._clearDoc.bind(this);
+    this.state = { content: '' };
   }
 
+  componentWillMount() {
+    this.setState({ content: this._getHtml(this.props.docName) });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ content: this._getHtml(nextProps.docName) });
+  }
+
+  /**
+   * Get Markdown help doc contents as HTML
+   *
+   * @param string docName
+   * @return string Empty string or HTML content from Markdown file
+   */
   _getHtml(docName) {
-    const content = require(`../../pages/help/${docName}.md`);
-    return { __html: content || '' };
+    if (!docName) {
+      return '';
+    }
+
+    let content;
+    try {
+      content = require(`../../pages/help/${docName}.md`);
+    } catch (e) {
+      this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e008'));
+      content = '';
+    }
+
+    return content;
   }
 
   _clearDoc(evt) {
@@ -21,10 +51,10 @@ class Help extends Component {
   }
 
   render() {
-    return !this.props.docName ? null : (
+    return !this.state.content ? null : (
       <div className={styles.container}>
         <a href="#0" onClick={this._clearDoc}>Clear Help Document</a>
-        <div dangerouslySetInnerHTML={this._getHtml(this.props.docName)} />
+        <div dangerouslySetInnerHTML={{ __html: this.state.content }} />
       </div>
     );
   }
