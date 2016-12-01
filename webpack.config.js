@@ -6,6 +6,7 @@ var postcssNested = require('postcss-nested');
 var postcssCustomProps = require('postcss-custom-properties');
 var autoprefixer = require('autoprefixer');
 var postcssCalc = require('postcss-calc');
+var postcssColorFunction = require('postcss-color-function');
 var postcssMixins = require('postcss-mixins');
 var stylelint = require('stylelint');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -69,6 +70,7 @@ module.exports = {
       postcssCustomProps,
       autoprefixer,
       postcssCalc,
+      postcssColorFunction,
       stylelint(require('./stylelint.config.js')),
     ];
   },

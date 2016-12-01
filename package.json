@@ -54,6 +54,7 @@
     "markdown-loader": "0.1.7",
     "object.assign": "^4.0.3",
     "postcss": "^5.0.19",
+    "postcss-color-function": "2.0.1",
     "postcss-custom-properties": "^5.0.0",
     "postcss-import": "^8.0.2",
     "postcss-loader": "^0.8.2",
