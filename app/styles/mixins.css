@@ -1,0 +1,20 @@
+/**
+ * CSS mixins, include this file wherever
+ */
+
+@define-mixin iconSvg
+  $fill: white,
+  $hoverFill: black,
+  $cursor: inherit,
+  $size: 20px
+{
+  svg {
+    max-height: $size;
+    max-width: $size;
+    fill: $fill;
+    &:hover{
+      fill: $hoverFill;
+      cursor: $cursor;
+    }
+  }
+}

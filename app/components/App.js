@@ -4,6 +4,7 @@ import DataInput from './DataInput';
 import update from 'react-addons-update';
 import ChartEditor from './ChartEditor';
 import Header from './Header';
+import Help from './Help';
 import * as rebassHover from '../styles/RebassHover.css'; // eslint-disable-line no-unused-vars
 
 class App extends Component {
@@ -52,6 +53,7 @@ class App extends Component {
           errorCode={this.props.state.errorCode}
         />
         {this._renderAppComponent()}
+        <Help docName={this.props.state.helpDocument} />
       </div>
     );
   }
