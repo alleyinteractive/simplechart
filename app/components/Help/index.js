@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import actionTrigger from '../../actions';
 import * as styles from './Help.css';
 import { CLEAR_HELP_DOCUMENT, RECEIVE_ERROR } from '../../constants';
+import closeSvg from '!!raw!../../img/icons/times-circle.svg';
 
 /**
  * Show Help content from Markdown file
@@ -50,10 +51,20 @@ class Help extends Component {
     this.props.dispatch(actionTrigger(CLEAR_HELP_DOCUMENT));
   }
 
+  _closeIcon() {
+    return (
+      <span dangerouslySetInnerHTML={{ __html: closeSvg }} />
+    );
+  }
+
   render() {
     return !this.state.content ? null : (
       <div className={styles.container}>
-        <a href="#0" onClick={this._clearDoc}>Clear Help Document</a>
+        <a
+          href="#0"
+          onClick={this._clearDoc}
+          className={styles.closeHelp}
+        >Close{this._closeIcon()}</a>
         <div dangerouslySetInnerHTML={{ __html: this.state.content }} />
       </div>
     );
