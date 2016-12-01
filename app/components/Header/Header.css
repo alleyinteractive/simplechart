@@ -1,9 +1,13 @@
+@import '../../styles/layout';
+@import '../../styles/palette';
+
 .inner {
   display: flex;
   justify-content: space-between;
-  height: 45px;
+  box-sizing: border-box;
+  height: var(--header-height);
   padding: 10px;
-  border-bottom: 2px solid gray;
+  border-bottom: 2px solid var(--color-midgray);
   background: white;
 }
 
@@ -14,7 +18,7 @@
   a:hover {
     cursor: pointer;
     div:last-of-type {
-      color: rgb(17, 204, 119);
+      color: var(--color-green);
     }
   }
 }
