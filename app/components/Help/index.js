@@ -64,7 +64,7 @@ class Help extends Component {
           href="#0"
           onClick={this._clearDoc}
           className={styles.closeHelp}
-        >Close{this._closeIcon()}</a>
+        >{this._closeIcon()}</a>
         <div dangerouslySetInnerHTML={{ __html: this.state.content }} />
       </div>
     );

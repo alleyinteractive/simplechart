@@ -8,6 +8,7 @@
   bottom: 0;
   right: 0;
   box-sizing: border-box;
+  z-index: 99;
   width: 600px;
   background-color: white;
   padding: 20px;
@@ -15,14 +16,8 @@
 }
 
 .closeHelp {
-  color: var(--color-red);
   position: absolute;
   top: 15px;
   right: 15px;
-  font-size: .8em;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
   @mixin iconSvg var(--color-red), color(var(--color-red) a(80%));
 }
