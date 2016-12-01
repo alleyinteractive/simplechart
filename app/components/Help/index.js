@@ -46,25 +46,18 @@ class Help extends Component {
     return content;
   }
 
-  _clearDoc(evt) {
-    evt.preventDefault();
+  _clearDoc() {
     this.props.dispatch(actionTrigger(CLEAR_HELP_DOCUMENT));
-  }
-
-  _closeIcon() {
-    return (
-      <span dangerouslySetInnerHTML={{ __html: closeSvg }} />
-    );
   }
 
   render() {
     return !this.state.content ? null : (
       <div className={styles.container}>
-        <a
-          href="#0"
+        <span
           onClick={this._clearDoc}
           className={styles.closeHelp}
-        >{this._closeIcon()}</a>
+          dangerouslySetInnerHTML={{ __html: closeSvg }}
+        />
         <div dangerouslySetInnerHTML={{ __html: this.state.content }} />
       </div>
     );

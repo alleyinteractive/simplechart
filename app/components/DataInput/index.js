@@ -13,7 +13,6 @@ import { Heading, Select, Button, Text } from 'rebass';
 import ListBlock from '../Layout/RebassComponents/ListBlock';
 import { appSteps } from '../../constants/appSteps';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
-import HelpTrigger from '../lib/HelpTrigger';
 
 class DataInput extends AppComponent {
 
