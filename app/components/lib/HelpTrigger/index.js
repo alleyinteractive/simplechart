@@ -23,6 +23,7 @@ class HelpTrigger extends Component {
   render() {
     return (
       <span
+        style={ this.props.style || null }
         className={styles.icon}
         dangerouslySetInnerHTML={{ __html: infoSvg }}
         onClick={this._dispatch}
@@ -33,6 +34,7 @@ class HelpTrigger extends Component {
 
 HelpTrigger.propTypes = {
   docName: React.PropTypes.string,
+  style: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 };
 

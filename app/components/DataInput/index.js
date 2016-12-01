@@ -118,7 +118,10 @@ class DataInput extends AppComponent {
       <div className={this.parentStyles.appComponent}>
         <Heading level={2}>
           {appSteps[0]}
-          <HelpTrigger docName="dataInput" />
+          <HelpTrigger
+            docName="dataInput"
+            style={{ marginLeft: '10px' }}
+          />
         </Heading>
 
         <ListBlock list={this.inputRules} />
