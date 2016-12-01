@@ -16,6 +16,7 @@ class HelpTrigger extends Component {
   }
 
   _dispatch() {
+    // Toggling the panel is handled in middleware
     this.props.dispatch(
       actionTrigger(RECEIVE_HELP_DOCUMENT, this.props.docName));
   }
