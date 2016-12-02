@@ -51,6 +51,8 @@ class App extends Component {
           currentStep={this.props.state.currentStep}
           unsavedChanges={this.props.state.unsavedChanges}
           errorCode={this.props.state.errorCode}
+          saveCta={'bootstrap.new' === this.props.state.initializedBy ?
+            'Publish' : 'Update'}
         />
         {this._renderAppComponent()}
         <Help docName={this.props.state.helpDocument} />

@@ -3,6 +3,7 @@
  */
 export const UPDATE_CURRENT_STEP = 'UPDATE_CURRENT_STEP';
 export const UNSAVED_CHANGES = 'UNSAVED_CHANGES';
+export const RECEIVE_INITIALIZED_BY = 'RECEIVE_INITIALIZED_BY';
 
 /**
  * Errors
@@ -12,9 +13,6 @@ export const CLEAR_ERROR = 'CLEAR_ERROR';
 
 /**
  * Help document
- */
-/**
- * Errors
  */
 export const RECEIVE_HELP_DOCUMENT = 'RECEIVE_HELP_DOCUMENT';
 export const CLEAR_HELP_DOCUMENT = 'CLEAR_HELP_DOCUMENT';

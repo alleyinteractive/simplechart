@@ -22,6 +22,7 @@ export default combineReducers({
     actions.RECEIVE_ERROR, actions.CLEAR_ERROR),
   helpDocument: setClearReducer('',
     actions.RECEIVE_HELP_DOCUMENT, actions.CLEAR_HELP_DOCUMENT),
+  initializedBy: baseReducer('', [actions.RECEIVE_INITIALIZED_BY]),
   parsedData: baseReducer([], [actions.PARSE_RAW_DATA]),
   rawData: baseReducer('', [actions.RECEIVE_RAW_DATA]),
   transformedData: baseReducer({}, [actions.TRANSFORM_DATA]),

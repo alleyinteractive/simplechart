@@ -36,7 +36,7 @@ class SaveChart extends Component {
           rounded
           style={this.props.buttonStyleAttr}
           onClick={this._sendDataToParent}
-        >Save Chart</Button>
+        >{this.props.children}</Button>
       </span>
     );
   }
@@ -45,6 +45,7 @@ class SaveChart extends Component {
 SaveChart.propTypes = {
   saveData: React.PropTypes.object,
   buttonStyleAttr: React.PropTypes.object,
+  children: React.PropTypes.string,
   dispatch: React.PropTypes.func,
 };
 
