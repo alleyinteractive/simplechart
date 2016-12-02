@@ -9,23 +9,12 @@ import { UNSAVED_CHANGES } from '../../constants';
 class SaveChart extends Component {
   constructor() {
     super();
-    this._sendParentMessage = this._sendParentMessage.bind(this);
     this._sendDataToParent = this._sendDataToParent.bind(this);
   }
 
   _sendDataToParent() {
-    // send each element in saveData individually
-    Object.keys(this.props.saveData).forEach((key) =>
-      this._sendParentMessage(key)
-    );
     this.props.dispatch(actionTrigger(UNSAVED_CHANGES, false));
-    sendMessage('closeApp');
-  }
-
-  _sendParentMessage(key) {
-    if (this.props.saveData[key]) {
-      sendMessage(`save-${key}`, this.props.saveData[key]);
-    }
+    sendMessage('saveChart', this.props.saveData);
   }
 
   render() {
