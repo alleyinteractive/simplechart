@@ -2,7 +2,7 @@ import actionTrigger from '../actions';
 import {
   RECEIVE_ERROR,
   RECEIVE_DEFAULTS_APPLIED_TO,
-  RECEIVE_INITIALIZED_BY,
+  RECEIVE_CMS_STATUS,
   RECEIVE_RAW_DATA,
   RECEIVE_CHART_OPTIONS,
   RECEIVE_CHART_TYPE,
@@ -92,7 +92,7 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
   /**
    * Dispatch to store when not empty
    */
-  dispatch(actionTrigger(RECEIVE_INITIALIZED_BY, messageType, messageType));
+  dispatch(actionTrigger(RECEIVE_CMS_STATUS, messageType, messageType));
 
   // Handle rawData differently because it's a string
   if (recdData.rawData && recdData.rawData.length) {

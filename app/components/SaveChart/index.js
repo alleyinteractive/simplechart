@@ -5,6 +5,7 @@ import { Button } from 'rebass';
 import { connect } from 'react-redux';
 import actionTrigger from '../../actions';
 import { UNSAVED_CHANGES } from '../../constants';
+import saveChartLabels from '../../constants/saveChartLabels';
 
 class SaveChart extends Component {
   constructor() {
@@ -17,6 +18,10 @@ class SaveChart extends Component {
     sendMessage('saveChart', this.props.saveData);
   }
 
+  _getLabel(cmsStatus) {
+    return saveChartLabels[cmsStatus] || saveChartLabels.default;
+  }
+
   render() {
     return (
       <span>
@@ -25,7 +30,7 @@ class SaveChart extends Component {
           rounded
           style={this.props.buttonStyleAttr}
           onClick={this._sendDataToParent}
-        >{this.props.children}</Button>
+        >{this._getLabel(this.props.cmsStatus)}</Button>
       </span>
     );
   }
@@ -34,7 +39,7 @@ class SaveChart extends Component {
 SaveChart.propTypes = {
   saveData: React.PropTypes.object,
   buttonStyleAttr: React.PropTypes.object,
-  children: React.PropTypes.string,
+  cmsStatus: React.PropTypes.string,
   dispatch: React.PropTypes.func,
 };
 

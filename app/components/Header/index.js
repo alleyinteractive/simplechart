@@ -106,7 +106,8 @@ class Header extends Component {
             <SaveChart
               saveData={this.props.saveData}
               buttonStyleAttr={{ marginRight: '10px' }}
-            >{this.props.saveCta}</SaveChart>
+              cmsStatus={this.props.cmsStatus}
+            />
 
             <Button
               theme="error"
@@ -130,7 +131,7 @@ Header.propTypes = {
   dispatch: React.PropTypes.func,
   unsavedChanges: React.PropTypes.bool,
   errorCode: React.PropTypes.string,
-  saveCta: React.PropTypes.string,
+  cmsStatus: React.PropTypes.string,
 };
 
 export default connect()(Header);
