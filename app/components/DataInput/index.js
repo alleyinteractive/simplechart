@@ -133,20 +133,6 @@ class DataInput extends AppComponent {
         </div>
 
         <div className={styles.actionsContainer}>
-          <div className={styles.sampleDataContainer}>
-            <Select
-              className={styles.sampleDataContainer.Select}
-              style={{ marginBottom: 0 }}
-              label="Use sample data"
-              name="sample-data-select"
-              options={this._sampleDataOptions()}
-              onChange={this._setSampleDataSet}
-            />
-            <Button
-              theme="warning"
-              onClick={this._loadSampleData}
-            >Load</Button>
-          </div>
 
           <div className={styles.submitContainer}>
             <NextPrevButton
@@ -157,6 +143,24 @@ class DataInput extends AppComponent {
               callback={this._nextCallback}
             />
           </div>
+
+          { this.state.rawData ? '' : (
+            <div className={styles.sampleDataContainer}>
+              <Select
+                className={styles.sampleDataContainer.Select}
+                style={{ marginBottom: 0 }}
+                label="Use sample data"
+                name="sample-data-select"
+                options={this._sampleDataOptions()}
+                onChange={this._setSampleDataSet}
+              />
+              <Button
+                theme="warning"
+                onClick={this._loadSampleData}
+              >Load</Button>
+            </div>
+          )}
+
         </div>
       </div>
     );
