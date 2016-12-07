@@ -60,13 +60,13 @@ function renderWidget(el) {
         data: window._SimplechartWidgetData[el.id],
       }));
     }
-
-    // And listen for 'widgetData' event triggered on widget element
-    listenerWidgetData(el, store.dispatch);
   } else {
-    // Bye.
+    // Must have either data-url or data-var
     return;
   }
+
+  // And listen for 'widgetData' event triggered on widget element
+  listenerWidgetData(el, store.dispatch);
 
   /**
    * @todo change Widget props to like data={state[el.id]}

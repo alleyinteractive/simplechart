@@ -14,6 +14,7 @@ export default combineReducers({
   chartMetadata: baseReducer({}, [actions.RECEIVE_CHART_METADATA]),
   chartOptions: chartOptionsReducer,
   chartType: baseReducer({}, [actions.RECEIVE_CHART_TYPE]),
+  cmsStatus: baseReducer('', [actions.RECEIVE_CMS_STATUS]),
   currentStep: baseReducer(0, [actions.UPDATE_CURRENT_STEP]),
   defaultsAppliedTo: baseReducer('', [actions.RECEIVE_DEFAULTS_APPLIED_TO]),
   dataFields: baseReducer([], [actions.PARSE_DATA_FIELDS]),
