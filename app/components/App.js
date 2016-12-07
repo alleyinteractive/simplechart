@@ -24,6 +24,10 @@ class App extends Component {
     this._captureClicks(this.props.state.cmsStatus);
   }
 
+  /**
+   * Overlay should capture all clicks to prevent interaction
+   * with the editor while the CMS parent page is saving
+   */
   _captureClicks(cmsStatus) {
     if ('cms.isSaving' === cmsStatus) {
       const cover = document.getElementById('appCover');
@@ -76,7 +80,7 @@ class App extends Component {
         />
         {this._renderAppComponent()}
         <Help docName={this.props.state.helpDocument} />
-        { 'cms.isSaving' !== this.props.state.cmsStatus ? '' :
+        { 'cms.isSaving' !== this.props.state.cmsStatus ? null :
           (<div id="appCover" className={appCover} />)
         }
       </div>

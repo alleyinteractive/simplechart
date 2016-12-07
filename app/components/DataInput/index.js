@@ -144,7 +144,7 @@ class DataInput extends AppComponent {
             />
           </div>
 
-          { this.state.rawData ? '' : (
+          { this.state.rawData ? null : (
             <div className={styles.sampleDataContainer}>
               <Select
                 className={styles.sampleDataContainer.Select}
