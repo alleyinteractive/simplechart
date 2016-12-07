@@ -25,10 +25,10 @@ module.exports = {
   }
 }
 
-require('fs').stat(BINPATH + 'selenium.jar', function (err, stat) { // got it?
+require('fs').stat(BINPATH + 'selenium.jar', function (err, stat) {
   if (err || !stat || stat.size < 1) {
     require('selenium-download').ensure(BINPATH, function(error) {
-      if (error) throw new Error(error); // no point continuing so exit!
+      if (error) throw new Error(error)
       console.log('✔ Selenium & Chromedriver downloaded to:', BINPATH);
     });
   }
@@ -44,10 +44,9 @@ function imgpath (browser) {
   var a = browser.options.desiredCapabilities;
   var meta = [];
   meta.push(a.browserName ? a.browserName : 'any');
-  meta.push(a.name); // this is the test filename so always exists.
+  meta.push(a.name);
   var metadata = meta.join('~').toLowerCase().replace(/ /g, '');
   return SCREENSHOT_PATH + metadata + '_' + padLeft(FILECOUNT++) + '_';
 }
 
 module.exports.imgpath = imgpath;
-module.exports.SCREENSHOT_PATH = SCREENSHOT_PATH;
