@@ -11,7 +11,8 @@
     "mock-api": "MOCKAPI=true DEVELOPMENT=true ./node_modules/babel-cli/bin/babel-node.js server.js",
     "test": "jest",
     "test-watch": "jest --watch",
-    "test-integration": "nightwatch"
+    "test-integration": "nightwatch",
+    "postinstall": "node nightwatch.conf.js"
   },
   "repository": {
     "type": "git",
