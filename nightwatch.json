@@ -1,0 +1,22 @@
+{
+  "src_folders" : ["./tests/integration"],
+  "output_folder" : "./tests/artifacts/reports",
+  "selenium" : {
+    "start_process" : true,
+    "server_path" : "./node_modules/nightwatch/bin/selenium.jar",
+    "port" : 4444,
+    "cli_args" : {
+      "webdriver.chrome.driver" : "./node_modules/nightwatch/bin/chromedriver"
+    }
+  },
+  "test_settings" : {
+    "default" : {
+      "globals": {
+        "waitForConditionTimeout": 5000
+      },
+      "desiredCapabilities": {
+        "browserName": "chrome"
+      }
+    }
+  }
+}
