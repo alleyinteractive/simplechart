@@ -24,7 +24,7 @@
   position: relative;
 }
 
-.sampleDataContainer {
+.optionsContainer {
   width: 60%;
   display: flex;
   justify-content: space-between;
@@ -35,7 +35,14 @@
     flex-grow: 99;
     margin-right: 10px;
   }
+
 }
+
+.dateFormatter {
+  display: flex;
+  align-items: center;
+}
+
 
 .submitContainer {
   max-width: 15%;

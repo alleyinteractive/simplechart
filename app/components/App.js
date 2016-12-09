@@ -60,6 +60,7 @@ class App extends Component {
       return React.createElement(DataInput, {
         rawData: this.props.state.rawData,
         dataStatus: this.props.state.dataStatus,
+        dateFormatString: this.props.state.chartOptions.dateFormatString || '',
       });
     }
     return React.createElement(ChartEditor, {

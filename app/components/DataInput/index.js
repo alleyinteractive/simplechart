@@ -13,6 +13,7 @@ import { Heading, Select, Button, Text } from 'rebass';
 import ListBlock from '../Layout/RebassComponents/ListBlock';
 import { appSteps } from '../../constants/appSteps';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
+import DateFormatter from './DateFormatter';
 
 class DataInput extends AppComponent {
 
@@ -30,6 +31,7 @@ class DataInput extends AppComponent {
       rawData: '',
       sampleDataSet: 0,
     };
+
     this.inputRules = [
       'Enter <em>clean</em> comma-delimited text here.',
       'A header row is required.',
@@ -42,7 +44,9 @@ class DataInput extends AppComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ rawData: nextProps.rawData });
+    if (this.props.rawData !== nextProps.rawData) {
+      this.setState({ rawData: nextProps.rawData });
+    }
   }
 
   _submitData(data) {
@@ -58,15 +62,10 @@ class DataInput extends AppComponent {
   }
 
   _sampleDataOptions() {
-    function getOpt(set, i) {
-      return {
-        children: set.label,
-        value: i,
-      };
-    }
-    return sampleData.map((set, i) =>
-      getOpt(set, i)
-    );
+    return sampleData.map(({ label }, i) => ({
+      children: label,
+      value: i,
+    }));
   }
 
   _setSampleDataSet(evt) {
@@ -116,7 +115,6 @@ class DataInput extends AppComponent {
     return (
       <div className={this.parentStyles.appComponent}>
         <Heading level={2}>{appSteps[0]}</Heading>
-
         <ListBlock list={this.inputRules} />
         <div>
           <textarea
@@ -144,22 +142,27 @@ class DataInput extends AppComponent {
             />
           </div>
 
-          { this.state.rawData ? null : (
-            <div className={styles.sampleDataContainer}>
-              <Select
-                className={styles.sampleDataContainer.Select}
-                style={{ marginBottom: 0 }}
-                label="Use sample data"
-                name="sample-data-select"
-                options={this._sampleDataOptions()}
-                onChange={this._setSampleDataSet}
-              />
-              <Button
-                theme="warning"
-                onClick={this._loadSampleData}
-              >Load</Button>
-            </div>
-          )}
+            { this.state.rawData ? (
+                <DateFormatter
+                  dateFormatString={this.props.dateFormatString}
+                />
+              ) : (
+                <div className={styles.optionsContainer}>
+                  <Select
+                    className={styles.optionsContainer.Select}
+                    style={{ marginBottom: 0 }}
+                    label="Use sample data"
+                    name="sample-data-select"
+                    options={this._sampleDataOptions()}
+                    onChange={this._setSampleDataSet}
+                  />
+                  <Button
+                    theme="warning"
+                    onClick={this._loadSampleData}
+                  >Load</Button>
+                </div>
+              )
+            }
 
         </div>
       </div>
@@ -171,6 +174,7 @@ class DataInput extends AppComponent {
 DataInput.propTypes = {
   rawData: React.PropTypes.string,
   dataStatus: React.PropTypes.object,
+  dateFormatString: React.PropTypes.string,
   dispatch: React.PropTypes.func,
 };
 
