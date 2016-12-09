@@ -5,7 +5,7 @@ const rawDataHelpers = require('../../app/utils/rawDataHelpers.js');
 import Papa from '../../app/vendor/papaparse.4.1.2';
 import Baby from 'babyparse';
 
-describe('postMessage.parseRawdata', () => {
+describe('rawDataHelpers.parseRawData', () => {
   const rawData = 'Year,Make,Model\r\n1997,Ford,E350\r\n2000,Mercury,Cougar';
   const parsedData = [{ Make: 'Ford', Model: 'E350', Year: '1997' }, { Make: 'Mercury', Model: 'Cougar', Year: '2000' }];
   const fields = ['Year', 'Make', 'Model'];
@@ -30,5 +30,18 @@ describe('postMessage.parseRawdata', () => {
   test('baby bad', () => {
     const parsed = rawDataHelpers.parseRawData(Baby, RawDataBad);
     expect(parsed[2][0]).toEqual('Quoted field unterminated at row 0');
+  });
+});
+
+describe('rawDataHelpers.transformParsedData', () => {
+  const parsedData = [{ Make: 'Ford', Model: 'E350', Year: '1997' }, { Make: 'Mercury', Model: 'Cougar', Year: '2000' }];
+  const fields = ['Year', 'Make', 'Model'];
+  test('basic transformParsedData test', () => {
+    const transformedData = rawDataHelpers.transformParsedData(parsedData, fields); // eslint-disable-line max-len
+    expect(transformedData).toBeDefined();
+    expect(transformedData.nvd3SingleSeries).toBe(false);
+    expect(transformedData.nvd3MultiSeries).toBeTruthy();
+    expect(transformedData.nvd3MultiSeries[0].key).toEqual('Make');
+    expect(transformedData.nvd3MultiSeries[1].key).toEqual('Model');
   });
 });
