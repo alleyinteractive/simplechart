@@ -35,6 +35,18 @@ module.exports = {
 				'//h2[@class="Heading"]',
 				'Settings'
 			)
+			.click('(//button[@class="Button"])[3]')
+			.assert.containsText(
+				'//h2[@class="Heading"]',
+				'Data Format'
+			)
+			.click('(//button[@class="Button"])[3]')
+			.assert.containsText(
+				'//h2[@class="Heading"]',
+				'Layout'
+			)
+			.click('(//button[@class="Button"])[1]')
+			//@TODO Mock console log or otherwise verify save?
 			.end();
 	}
 };
