@@ -9,7 +9,7 @@ module.exports = {
 			.saveScreenshot(conf.imgpath(browser) + 'simplechart.png')
 			.end();
 	},
-	'Simplechart assert sample data': function(browser) {
+	'Simplechart assert basic use': function(browser) {
 		browser
 			.useXpath()
 			.url('http://localhost:8080')
@@ -21,6 +21,19 @@ module.exports = {
 			.assert.containsText(
 				'//p[@class="Text"]',
 				'Data input successful'
+			)
+			.click('(//button[@class="Button"])[4]')
+			.assert.containsText(
+				'//h2[@class="Heading"]',
+				'Chart Type'
+			)
+			.waitForElementVisible('(//label[@class="Label"])[3]')
+			.click('(//label[@class="Label"])[3]')
+			.waitForElementVisible('//div[@class="nv-chart"]')
+			.click('(//button[@class="Button"])[3]')
+			.assert.containsText(
+				'//h2[@class="Heading"]',
+				'Settings'
 			)
 			.end();
 	}
