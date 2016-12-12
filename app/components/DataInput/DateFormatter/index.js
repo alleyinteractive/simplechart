@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import * as styles from '../DataInput.css';
 import { Switch, Label } from 'rebass';
@@ -13,6 +14,14 @@ class DateFormatter extends Component {
     this.state = {
       formatterIsOpen: false,
     };
+  }
+
+  componentDidUpdate() {
+    if (this.state.formatterIsOpen) {
+      ReactDOM.findDOMNode(this)
+        .querySelector('[name="dateFormatString"]')
+        .focus();
+    }
   }
 
   _toggleFormatter(evt) {
