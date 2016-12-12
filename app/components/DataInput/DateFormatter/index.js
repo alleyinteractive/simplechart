@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as styles from '../DataInput.css';
 import { Switch, Label } from 'rebass';
 import DispatchField from '../../lib/DispatchField';
+import HelpTrigger from '../../lib/HelpTrigger';
 import { RECEIVE_CHART_OPTIONS } from '../../../constants';
 import * as dateUtils from '../../../utils/parseDate';
 
@@ -38,6 +39,7 @@ class DateFormatter extends Component {
           'Use date formatting?' :
           'Enter date format'
         }</Label>
+        <HelpTrigger docName="dateFormatter" />
         <Switch
           checked={this.state.formatterIsOpen}
           onClick={this._toggleFormatter}
@@ -52,7 +54,6 @@ class DateFormatter extends Component {
               style: { marginBottom: '0px' },
             }}
           />
-
         )}
       </div>
     );
