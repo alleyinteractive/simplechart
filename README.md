@@ -40,7 +40,4 @@ Over on the Wiki, we've documented some common extensions for Simplechart.
 ## Contributing to Simplechart
 We strongly encourage contributions, although we don't yet have formal contribution guidelines.
 
-If you're thinking of a patch, feel free to reach out via a Github issue, or by creating a fork and sending us a pull request.  
-
-## One Last Thing
-<p align="center">SimpleChart : Simplechart :: Wordpress : WordPress</p>
+If you're thinking of a patch, feel free to reach out via a Github issue, or by creating a fork and sending us a pull request. 
