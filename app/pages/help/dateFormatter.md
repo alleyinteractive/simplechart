@@ -218,3 +218,5 @@ Here is the complete set of formatting tokens:
     </tr>
   </tbody>
 </table>
+
+Date parsing by [fecha](https://www.npmjs.com/package/fecha)

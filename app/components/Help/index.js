@@ -4,6 +4,7 @@ import actionTrigger from '../../actions';
 import * as styles from './Help.css';
 import { CLEAR_HELP_DOCUMENT, RECEIVE_ERROR } from '../../constants';
 import closeSvg from '!!raw!../../img/icons/times-circle.svg';
+import markdownCSS from '!!style!css!../../../node_modules/github-markdown-css/github-markdown.css';  // eslint-disable-line no-unused-vars,max-len
 
 /**
  * Show Help content from Markdown file
@@ -58,7 +59,11 @@ class Help extends Component {
           className={styles.closeHelp}
           dangerouslySetInnerHTML={{ __html: closeSvg }}
         />
-        <div dangerouslySetInnerHTML={{ __html: this.state.content }} />
+        <div
+          className="markdown-body"
+          style={{ fontSize: '15px' }} // override default markdown style
+          dangerouslySetInnerHTML={{ __html: this.state.content }}
+        />
       </div>
     );
   }
