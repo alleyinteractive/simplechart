@@ -35,12 +35,14 @@
     flex-grow: 99;
     margin-right: 10px;
   }
-
 }
 
-.dateFormatter {
-  display: flex;
+.dateFormatterContainer {
+  justify-content: flex-start;
   align-items: center;
+  & > * {
+    margin-right: 20px;
+  }
 }
 
 

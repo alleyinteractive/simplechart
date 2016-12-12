@@ -33,27 +33,32 @@ class DateFormatter extends Component {
   }
 
   render() {
+    const containerClass =
+      `${styles.optionsContainer} ${styles.dateFormatterContainer}`;
+
     return (
-      <div className={styles.optionsContainer}>
+      <div className={containerClass}>
+        <Switch
+          checked={this.state.formatterIsOpen}
+          onClick={this._toggleFormatter}
+        />
         <Label>{!this.state.formatterIsOpen ?
           'Use date formatting?' :
           'Enter date format'
         }</Label>
         <HelpTrigger docName="dateFormatter" />
-        <Switch
-          checked={this.state.formatterIsOpen}
-          onClick={this._toggleFormatter}
-        />
         {!this.state.formatterIsOpen ? null : (
           <DispatchField
             action={RECEIVE_CHART_OPTIONS}
             fieldType="Input"
             fieldProps={{
-              label: 'e.g. MM/DD/YYYY for 06/25/2014',
+              hideLabel: true,
+              placeholder: 'e.g. MM/DD/YYYY for 06/25/2014',
               name: 'dateFormatString',
-              style: { marginBottom: '0px' },
+              style: { marginBottom: '0px', width: '300px' },
             }}
           />
+          // @todo test formatting against data, show result
         )}
       </div>
     );
