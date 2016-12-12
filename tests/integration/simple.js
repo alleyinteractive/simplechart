@@ -46,7 +46,13 @@ module.exports = {
 				'Layout'
 			)
 			.click('(//button[@class="Button"])[1]')
-			//@TODO Mock console log or otherwise verify save?
+			//@TODO Figure out how to verify save. Console.log not appearing
+			.getLog('browser', function(logEntriesArray) {
+				console.log('Log length: ' + logEntriesArray.length);
+				logEntriesArray.forEach(function(log) {
+				console.log('[' + log.level + '] ' + log.timestamp + ' : ' + log.message);
+				});
+			})
 			.end();
 	}
 };

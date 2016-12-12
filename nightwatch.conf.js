@@ -1,6 +1,6 @@
 const SCREENSHOT_PATH = "./tests/artifacts/screenshots/";
 const BINPATH = './node_modules/nightwatch/bin/';
-
+// @TODO Diagnose why log-level not working
 module.exports = {
   "src_folders" : ["./tests/integration"],
   "output_folder" : "./tests/artifacts/reports",
@@ -19,7 +19,12 @@ module.exports = {
         "waitForConditionTimeout": 5000
       },
       "desiredCapabilities": {
-        "browserName": "chrome"
+        "browserName": "chrome",
+        "javascriptEnabled" : true,
+        "acceptSslCerts" : true,
+        "chromeOptions" : {
+          "args" : ["log-level=0"]
+        }
       }
     }
   }
