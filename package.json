@@ -10,7 +10,9 @@
     "locales": "node locales.js",
     "mock-api": "MOCKAPI=true DEVELOPMENT=true ./node_modules/babel-cli/bin/babel-node.js server.js",
     "test": "jest",
-    "test-watch": "jest --watch"
+    "test-watch": "jest --watch",
+    "test-integration": "nightwatch",
+    "postinstall": "node nightwatch.conf.js"
   },
   "repository": {
     "type": "git",
@@ -53,6 +55,7 @@
     "file-loader": "^0.8.5",
     "jest": "^17.0.0",
     "lost": "^6.7.2",
+    "nightwatch": "^0.9.9",
     "object.assign": "^4.0.3",
     "postcss": "^5.0.19",
     "postcss-custom-properties": "^5.0.0",
@@ -63,7 +66,7 @@
     "react-addons-test-utils": "15.4.1",
     "react-hot-loader": "3.0.0-beta.6",
     "react-test-renderer": "15.4.1",
-    "react-addons-test-utils": "15.4.1",
+    "selenium-download": "^2.0.7",
     "style-loader": "^0.13.1",
     "stylelint": "^5.2.1",
     "url-loader": "^0.5.7",
