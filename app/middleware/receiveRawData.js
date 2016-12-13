@@ -11,7 +11,7 @@ import actionTrigger from '../actions';
 import Papa from '../vendor/papaparse.4.1.2';
 import { parseRawData, transformParsedData } from '../utils/rawDataHelpers';
 
-export default function rawDataMiddleware() {
+export default function rawDataMiddleware({ getState }) {
   return (dispatch) => (action) => {
     if (action.type !== RECEIVE_RAW_DATA) {
       return dispatch(action);
@@ -44,8 +44,11 @@ export default function rawDataMiddleware() {
           message: 'Data input successful',
         };
         storeUpdates.parsedData = parserResult[0];
-        storeUpdates.transformedData =
-          transformParsedData(parserResult[0], parserResult[1]);
+        storeUpdates.transformedData = transformParsedData(
+          parserResult[0],
+          parserResult[1],
+          getState().dateFormat
+        );
         dispatch(actionTrigger(CLEAR_ERROR));
       }
     }
