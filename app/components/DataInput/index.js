@@ -75,11 +75,17 @@ class DataInput extends AppComponent {
   }
 
   _beforeNextStep() {
-    // Check for empty data field
+    // Check for valid data input
     // Errors w/ invalid data would have already surfaced in rawDataMiddleware
-    // return value indicates if we can proceed to next step
-    return this.props.dataStatus.status &&
+    const dataSuccess = this.props.dataStatus.status &&
       'success' === this.props.dataStatus.status;
+
+    // Date formatting should be disabled or validated
+    const dateFormatSuccess = !this.props.dateFormat.enabled ||
+      this.props.dateFormat.validated;
+
+    // return value indicates if we can proceed to next step
+    return dataSuccess && dateFormatSuccess;
   }
 
   _nextCallback(success) {
