@@ -1,7 +1,7 @@
 /* global describe test expect jest */
 /* eslint no-undef: "error" */
 
-const postMessage = require('../../app/utils/postMessage.js');
+import * as postMessage from '../../app/utils/postMessage.js';
 
 describe('postMessage.receiveMessage', () => {
   const messageType = 'type';

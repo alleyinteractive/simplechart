@@ -1,7 +1,8 @@
 /* global describe test expect jest */
 /* eslint no-undef: "error" */
 
-const utils = require('../../app/utils/misc.js');
+import * as utils from '../../app/utils/misc.js';
+
 test('Capitalize test: turns alley into Alley', () => {
   expect(utils.capitalize('alley')).toBe('Alley');
 });

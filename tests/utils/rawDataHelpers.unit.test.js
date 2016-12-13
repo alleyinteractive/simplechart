@@ -1,7 +1,7 @@
 /* global describe test expect jest */
 /* eslint no-undef: "error" */
 
-const rawDataHelpers = require('../../app/utils/rawDataHelpers.js');
+import * as rawDataHelpers from '../../app/utils/rawDataHelpers.js';
 import Papa from '../../app/vendor/papaparse.4.1.2';
 import Baby from 'babyparse';
 
