@@ -10,4 +10,5 @@ export default {
   e005: 'Simplechart plugin may be out of date. Please update to the latest version.',
   e006: 'Only one breakpoint can be set to "No max width"',
   e007: 'Breakpoints cannot use the same max width',
+  e008: 'Sorry, we could not locate the Help content you requested.',
 };

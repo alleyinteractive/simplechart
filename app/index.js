@@ -11,6 +11,7 @@ import receiveRawData from './middleware/receiveRawData';
 import transformData from './middleware/transformData';
 import receiveChartType from './middleware/receiveChartType';
 import receiveChartOptions from './middleware/receiveChartOptions';
+import receiveHelpDocument from './middleware/receiveHelpDocument';
 import unsavedChanges from './middleware/unsavedChanges';
 import actionLogging from './middleware/actionLogging';
 
@@ -33,6 +34,7 @@ const store = createStore(rootReducer, composeEnhancers(
     transformData,
     receiveChartType,
     receiveChartOptions,
+    receiveHelpDocument,
     unsavedChanges,
     actionLogging
   )

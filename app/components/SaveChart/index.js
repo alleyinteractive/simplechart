@@ -5,27 +5,21 @@ import { Button } from 'rebass';
 import { connect } from 'react-redux';
 import actionTrigger from '../../actions';
 import { UNSAVED_CHANGES } from '../../constants';
+import saveChartLabels from '../../constants/saveChartLabels';
 
 class SaveChart extends Component {
   constructor() {
     super();
-    this._sendParentMessage = this._sendParentMessage.bind(this);
     this._sendDataToParent = this._sendDataToParent.bind(this);
   }
 
   _sendDataToParent() {
-    // send each element in saveData individually
-    Object.keys(this.props.saveData).forEach((key) =>
-      this._sendParentMessage(key)
-    );
     this.props.dispatch(actionTrigger(UNSAVED_CHANGES, false));
-    sendMessage('closeApp');
+    sendMessage('saveChart', this.props.saveData);
   }
 
-  _sendParentMessage(key) {
-    if (this.props.saveData[key]) {
-      sendMessage(`save-${key}`, this.props.saveData[key]);
-    }
+  _getLabel(cmsStatus) {
+    return saveChartLabels[cmsStatus] || saveChartLabels.default;
   }
 
   render() {
@@ -36,7 +30,7 @@ class SaveChart extends Component {
           rounded
           style={this.props.buttonStyleAttr}
           onClick={this._sendDataToParent}
-        >Save Chart</Button>
+        >{this._getLabel(this.props.cmsStatus)}</Button>
       </span>
     );
   }
@@ -45,6 +39,7 @@ class SaveChart extends Component {
 SaveChart.propTypes = {
   saveData: React.PropTypes.object,
   buttonStyleAttr: React.PropTypes.object,
+  cmsStatus: React.PropTypes.string,
   dispatch: React.PropTypes.func,
 };
 

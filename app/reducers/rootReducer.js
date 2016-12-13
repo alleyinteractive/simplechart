@@ -6,32 +6,25 @@
 import { combineReducers } from 'redux';
 import baseReducer from './baseReducer';
 import chartOptionsReducer from './chartOptionsReducer';
-import errorReducer from './errorReducer';
+import setClearReducer from './setClearReducer';
 import * as actions from '../constants';
 
 export default combineReducers({
-  chartData: (state, action) =>
-    baseReducer(state, action, [], [actions.RECEIVE_CHART_DATA]),
-  chartMetadata: (state, action) =>
-    baseReducer(state, action, {}, [actions.RECEIVE_CHART_METADATA]),
+  chartData: baseReducer([], [actions.RECEIVE_CHART_DATA]),
+  chartMetadata: baseReducer({}, [actions.RECEIVE_CHART_METADATA]),
   chartOptions: chartOptionsReducer,
-  chartType: (state, action) =>
-    baseReducer(state, action, {}, [actions.RECEIVE_CHART_TYPE]),
-  currentStep: (state, action) =>
-    baseReducer(state, action, 0, [actions.UPDATE_CURRENT_STEP]),
-  defaultsAppliedTo: (state, action) =>
-    baseReducer(state, action, '', [actions.RECEIVE_DEFAULTS_APPLIED_TO]),
-  dataFields: (state, action) =>
-    baseReducer(state, action, [], [actions.PARSE_DATA_FIELDS]),
-  dataStatus: (state, action) =>
-    baseReducer(state, action, {}, [actions.PARSE_DATA_STATUS]),
-  errorCode: errorReducer,
-  parsedData: (state, action) =>
-    baseReducer(state, action, [], [actions.PARSE_RAW_DATA]),
-  rawData: (state, action) =>
-    baseReducer(state, action, '', [actions.RECEIVE_RAW_DATA]),
-  transformedData: (state, action) =>
-    baseReducer(state, action, {}, [actions.TRANSFORM_DATA]),
-  unsavedChanges: (state, action) =>
-    baseReducer(state, action, false, [actions.UNSAVED_CHANGES]),
+  chartType: baseReducer({}, [actions.RECEIVE_CHART_TYPE]),
+  cmsStatus: baseReducer('', [actions.RECEIVE_CMS_STATUS]),
+  currentStep: baseReducer(0, [actions.UPDATE_CURRENT_STEP]),
+  defaultsAppliedTo: baseReducer('', [actions.RECEIVE_DEFAULTS_APPLIED_TO]),
+  dataFields: baseReducer([], [actions.PARSE_DATA_FIELDS]),
+  dataStatus: baseReducer({}, [actions.PARSE_DATA_STATUS]),
+  errorCode: setClearReducer('',
+    actions.RECEIVE_ERROR, actions.CLEAR_ERROR),
+  helpDocument: setClearReducer('',
+    actions.RECEIVE_HELP_DOCUMENT, actions.CLEAR_HELP_DOCUMENT),
+  parsedData: baseReducer([], [actions.PARSE_RAW_DATA]),
+  rawData: baseReducer('', [actions.RECEIVE_RAW_DATA]),
+  transformedData: baseReducer({}, [actions.TRANSFORM_DATA]),
+  unsavedChanges: baseReducer(false, [actions.UNSAVED_CHANGES]),
 });

@@ -1,5 +1,6 @@
 import {
   RECEIVE_ERROR,
+  RECEIVE_CMS_STATUS,
   RECEIVE_WIDGET,
   RECEIVE_WIDGET_DATA,
   RECEIVE_WIDGET_OPTIONS,
@@ -29,11 +30,14 @@ export function bootstrapAppData() {
     /**
      * Confirm data formatting then bootstrap the store
      */
-    function _initBootstrap(evt) {
-      if (evt.data &&
+    function _validateEvt(evt) {
+      return evt.data &&
         evt.data.hasOwnProperty('data') &&
-        evt.data.hasOwnProperty('messageType')
-      ) {
+        evt.data.hasOwnProperty('messageType');
+    }
+
+    function _initBootstrap(evt) {
+      if (_validateEvt(evt)) {
         bootstrapStore(dispatch, evt.data.messageType, evt.data.data);
       } else {
         dispatch(actionTrigger(RECEIVE_ERROR, 'e005'));
@@ -43,6 +47,11 @@ export function bootstrapAppData() {
     // Bootstrap chart editor from plugin postMessage
     receiveMessage('bootstrap.edit', _initBootstrap);
     receiveMessage('bootstrap.new', _initBootstrap);
+    receiveMessage('cms.isSaving', (evt) => {
+      if (_validateEvt(evt)) {
+        dispatch(actionTrigger(RECEIVE_CMS_STATUS, 'cms.isSaving'));
+      }
+    });
 
      // Handle messages from outdated plugin script
     receiveMessage('bootstrap.rawData', () =>

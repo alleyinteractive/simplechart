@@ -1,5 +1,13 @@
 import actionTrigger from '../actions';
-import * as actions from '../constants';
+import {
+  RECEIVE_ERROR,
+  RECEIVE_DEFAULTS_APPLIED_TO,
+  RECEIVE_CMS_STATUS,
+  RECEIVE_RAW_DATA,
+  RECEIVE_CHART_OPTIONS,
+  RECEIVE_CHART_TYPE,
+  RECEIVE_CHART_METADATA,
+} from '../constants';
 import update from 'react-addons-update';
 import { getChartTypeObject, getChartTypeDefaultOpts } from './chartTypeUtils';
 import defaultPalette from '../constants/defaultPalette';
@@ -29,7 +37,7 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
     });
     if (!Object.keys(nextChartType).length) {
       // error if missing or misconfigured chart type
-      dispatch(actionTrigger(actions.RECEIVE_ERROR, 'e005', messageType));
+      dispatch(actionTrigger(RECEIVE_ERROR, 'e005', messageType));
       return;
     }
   }
@@ -48,7 +56,7 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
       { $merge: nextOpts }
     );
     dispatch(actionTrigger(
-      actions.RECEIVE_DEFAULTS_APPLIED_TO,
+      RECEIVE_DEFAULTS_APPLIED_TO,
       nextChartType.config.type,
       messageType
     ));
@@ -84,17 +92,18 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
   /**
    * Dispatch to store when not empty
    */
+  dispatch(actionTrigger(RECEIVE_CMS_STATUS, messageType, messageType));
+
   // Handle rawData differently because it's a string
   if (recdData.rawData && recdData.rawData.length) {
-    dispatch(actionTrigger(
-      actions.RECEIVE_RAW_DATA, recdData.rawData, messageType));
+    dispatch(actionTrigger(RECEIVE_RAW_DATA, recdData.rawData, messageType));
   }
 
   // If object defined and not empty, dispatch to store
   [
-    { action: actions.RECEIVE_CHART_OPTIONS, data: nextOpts },
-    { action: actions.RECEIVE_CHART_TYPE, data: nextChartType },
-    { action: actions.RECEIVE_CHART_METADATA, data: recdData.chartMetadata },
+    { action: RECEIVE_CHART_OPTIONS, data: nextOpts },
+    { action: RECEIVE_CHART_TYPE, data: nextChartType },
+    { action: RECEIVE_CHART_METADATA, data: recdData.chartMetadata },
   ].forEach((item) => {
     if (undefined !== item.data && Object.keys(item.data).length) {
       dispatch(actionTrigger(item.action, item.data, messageType));

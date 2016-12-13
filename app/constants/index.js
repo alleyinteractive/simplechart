@@ -3,12 +3,19 @@
  */
 export const UPDATE_CURRENT_STEP = 'UPDATE_CURRENT_STEP';
 export const UNSAVED_CHANGES = 'UNSAVED_CHANGES';
+export const RECEIVE_CMS_STATUS = 'RECEIVE_CMS_STATUS';
 
 /**
  * Errors
  */
 export const RECEIVE_ERROR = 'RECEIVE_ERROR';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
+
+/**
+ * Help document
+ */
+export const RECEIVE_HELP_DOCUMENT = 'RECEIVE_HELP_DOCUMENT';
+export const CLEAR_HELP_DOCUMENT = 'CLEAR_HELP_DOCUMENT';
 
 /**
  * Widget actions

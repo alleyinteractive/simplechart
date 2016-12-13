@@ -1,0 +1,11 @@
+@import './layout';
+
+.appCover {
+  position: fixed;
+  top: var(--header-height);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: color(white a(70%));
+}

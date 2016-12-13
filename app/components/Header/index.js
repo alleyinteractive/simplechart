@@ -106,6 +106,7 @@ class Header extends Component {
             <SaveChart
               saveData={this.props.saveData}
               buttonStyleAttr={{ marginRight: '10px' }}
+              cmsStatus={this.props.cmsStatus}
             />
 
             <Button
@@ -130,6 +131,7 @@ Header.propTypes = {
   dispatch: React.PropTypes.func,
   unsavedChanges: React.PropTypes.bool,
   errorCode: React.PropTypes.string,
+  cmsStatus: React.PropTypes.string,
 };
 
 export default connect()(Header);
