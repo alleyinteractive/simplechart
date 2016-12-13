@@ -142,7 +142,7 @@ class DataInput extends AppComponent {
             />
           </div>
 
-            { this.state.rawData ? (
+            {this.state.rawData ? (
                 <DateFormatter
                   dateFormat={this.props.dateFormat}
                   dates={this.props.firstCol}
