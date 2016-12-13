@@ -144,7 +144,7 @@ class DataInput extends AppComponent {
 
             { this.state.rawData ? (
                 <DateFormatter
-                  dateFormatString={this.props.dateFormatString}
+                  dateFormat={this.props.dateFormat}
                   dates={this.props.firstCol}
                 />
               ) : (
@@ -175,7 +175,7 @@ class DataInput extends AppComponent {
 DataInput.propTypes = {
   rawData: React.PropTypes.string,
   dataStatus: React.PropTypes.object,
-  dateFormatString: React.PropTypes.string,
+  dateFormat: React.PropTypes.object,
   firstCol: React.PropTypes.array,
   dispatch: React.PropTypes.func,
 };

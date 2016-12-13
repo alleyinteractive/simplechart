@@ -48,3 +48,19 @@ export function format(timestamp, formatString) {
     return 'Date format error';
   }
 }
+
+/**
+ * Test format string against list parsed dates
+ *
+ * @param string formatString String to test
+ * @param array dates List of dates parsed from first column of CSV input
+ * @return null|string Null if all dates pass or string of first date that failed validation
+ */
+export function failedList(formatString, dates) {
+  return dates.reduce((acc, dateString) => {
+    if (acc) {
+      return acc;
+    }
+    return validate(dateString, formatString) ? null : dateString;
+  }, null);
+}
