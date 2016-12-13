@@ -52,7 +52,7 @@ describe('rawDataHelpers.transformParsedData', () => {
   const parsedData = [{ Make: 'Ford', Model: 'E350', Year: '1997' }, { Make: 'Mercury', Model: 'Cougar', Year: '2000' }];
   const fields = ['Year', 'Make', 'Model'];
   const parsedDataSingle = [{ Year: '2014', Data: '20' }, { Year: '2015', Data: '21' }, { Year: '2016', Data: '23' }, { Year: '2017', Data: '29' }];
-  const fieldsSingle = ['Year', 'Data']
+  const fieldsSingle = ['Year', 'Data'];
   test('basic transformParsedData multi series', () => {
     const transformedData = rawDataHelpers.transformParsedData(parsedData, fields); // eslint-disable-line max-len
     expect(transformedData).toBeDefined();

@@ -23,7 +23,7 @@ test('getObjArrayKey test', () => {
 });
 
 test('dataIsMultiSeries test', () => {
-  const testDataMulti = [ { key: 'Make', values: [ 2, 5 ] }, { key: 'Model', values: [ 7, 9 ] } ];
+  const testDataMulti = [{ key: 'Make', values: [2, 5] }, { key: 'Model', values: [7, 9] }];
   const testDataSingle = [1, 2, 3];
   expect(utils.dataIsMultiSeries(testDataMulti)).toBe(true);
   expect(utils.dataIsMultiSeries(testDataSingle)).toBe(false);
