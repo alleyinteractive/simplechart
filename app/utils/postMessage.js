@@ -80,8 +80,11 @@ export function receiveMessage(messageType, callback) {
  * @param any data Optional data to accompany message as evt.data.data
  * @return none
  */
-export function sendMessage(messageType,
-  data = null, useWindow = window) {
+export function sendMessage(
+  messageType,
+  data = null,
+  useWindow = window
+) {
   if (_isTopLevelWindow(useWindow)) {
     if (!_isLocalDev(useWindow)) {
       throw new Error(
