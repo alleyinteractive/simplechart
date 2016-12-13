@@ -7,6 +7,7 @@ import DispatchField from '../../lib/DispatchField';
 import HelpTrigger from '../../lib/HelpTrigger';
 import { RECEIVE_CHART_OPTIONS } from '../../../constants';
 import * as dateUtils from '../../../utils/parseDate';
+import { Text } from 'rebass';
 
 class DateFormatter extends Component {
   constructor() {
@@ -39,14 +40,21 @@ class DateFormatter extends Component {
     }
 
     // @todo Return null or dateString that failed instead of boolean
-    const validated = this.props.dates.reduce((acc, dateString) => {
-      if (!acc) {
+    const failedDate = this.props.dates.reduce((acc, dateString) => {
+      if (acc) {
         return acc;
       }
-      return dateUtils.validate(dateString, this.props.dateFormatString);
-    }, true);
+      return dateUtils.validate(dateString, this.props.dateFormatString) ?
+        null : dateString;
+    }, null);
 
-    return (<span>{ validated ? 'Validated!' : 'Invalid!'}</span>);
+    return (
+      <span className={styles[failedDate ? 'error' : 'success']}>
+        <Text small>{failedDate ?
+          `Invalid date format for ${failedDate}` : 'Date format validated'}
+        </Text>
+      </span>
+    );
   }
 
   render() {
@@ -73,6 +81,7 @@ class DateFormatter extends Component {
               placeholder: 'e.g. MM/DD/YYYY for 06/25/2014',
               name: 'dateFormatString',
               style: { marginBottom: '0px', width: '300px' },
+              value: this.props.dateFormatString,
             }}
           />
         )}

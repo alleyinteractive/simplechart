@@ -1,3 +1,5 @@
+@import '../../styles/palette.css';
+
 .textarea {
   height: 200px;
   width: 100%;
@@ -5,15 +7,15 @@
 }
 
 .error {
-  color: red;
+  color: var(--color-red);
 }
 
 .success {
-  color: green;
+  color: var(--color-green);
 }
 
 .initial {
-  color: gray;
+  color: var(--color-midgray);
 }
 
 .actionsContainer {
@@ -38,10 +40,11 @@
 }
 
 .dateFormatterContainer {
+  width: auto;
   justify-content: flex-start;
   align-items: center;
   & > * {
-    margin-right: 20px;
+    margin-right: 12px;
   }
 }
 
