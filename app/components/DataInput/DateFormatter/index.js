@@ -15,6 +15,13 @@ class DateFormatter extends Component {
     super();
     this._toggleFormatter = this._toggleFormatter.bind(this);
     this._handleChange = this._handleChange.bind(this);
+    this._validate = this._validate.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.dates.toString() !== this.props.dates.toString()) {
+      this._validate(nextProps.dateFormat.formatString, nextProps.dates);
+    }
   }
 
   componentDidUpdate() {
@@ -33,18 +40,21 @@ class DateFormatter extends Component {
   }
 
   _handleChange(fieldProps, newValue) {
-    const testResult = dateUtils.failedList(newValue, this.props.dates);
+    this._validate(newValue, this.props.dates);
+  }
+
+  _validate(formatString, dates) {
+    const testResult = dateUtils.failedList(formatString, dates);
     this.props.dispatch(actionTrigger(RECEIVE_DATE_FORMAT, {
       validated: !testResult,
       failedAt: testResult,
-      formatString: newValue,
+      formatString,
     }));
   }
 
   render() {
     const containerClass =
       `${styles.optionsContainer} ${styles.dateFormatterContainer}`;
-
     return (
       <div className={containerClass}>
         <Switch
