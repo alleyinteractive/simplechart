@@ -19,7 +19,7 @@
 .actionsContainer {
   margin-top: 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-end;
   position: relative;
 }
@@ -29,6 +29,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-left: 20px;
 
   :global(.Select) {
     flex-grow: 99;

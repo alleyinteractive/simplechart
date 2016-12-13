@@ -1,0 +1,23 @@
+@import '../../styles/layout';
+@import '../../styles/palette';
+@import '../../styles/mixins';
+
+.container {
+  position: fixed;
+  top: var(--header-height);
+  bottom: 0;
+  right: 0;
+  box-sizing: border-box;
+  z-index: 99;
+  width: 600px;
+  background-color: white;
+  padding: 20px;
+  border-left: 2px solid var(--color-midgray);
+}
+
+.closeHelp {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  @mixin iconSvg var(--color-red), color(var(--color-red) a(80%)), pointer;
+}

@@ -49,7 +49,9 @@ class ChartTypeSelector extends Component {
    * and disable chart types where data is incompatible
    */
   _renderTypeOption(typeConfig) {
+    // Disable the chart type when transformed data is not available for its dataFormat
     const disabled = !this.props.transformedData[typeConfig.dataFormat];
+
     return React.createElement(Radio, {
       key: typeConfig.type,
       circle: true,
@@ -60,6 +62,7 @@ class ChartTypeSelector extends Component {
       disabled,
       checked: (typeConfig.type === this._getChartType()),
       onChange: (evt) => this._selectChartType(evt.target.value),
+      style: disabled ? { cursor: 'default' } : {},
     });
   }
 

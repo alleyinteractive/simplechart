@@ -1,0 +1,14 @@
+/**
+ * Rebass default palette
+ * https://github.com/jxnblk/rebass/blob/master/src/config.js
+ */
+:root {
+  --color-black: #111;
+  --color-white: #fff;
+  --color-gray: #ddd;
+  --color-midgray: #888;
+  --color-blue: #08e;
+  --color-red: #f52;
+  --color-orange: #f70;
+  --color-green: #1c7;
+};

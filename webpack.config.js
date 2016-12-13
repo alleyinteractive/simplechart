@@ -6,7 +6,8 @@ var postcssNested = require('postcss-nested');
 var postcssCustomProps = require('postcss-custom-properties');
 var autoprefixer = require('autoprefixer');
 var postcssCalc = require('postcss-calc');
-var postcssLost = require('lost');
+var postcssColorFunction = require('postcss-color-function');
+var postcssMixins = require('postcss-mixins');
 var stylelint = require('stylelint');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var WebpackGitHash = require('webpack-git-hash');
@@ -64,11 +65,12 @@ module.exports = {
       postcssImport({
         addDependencyTo: webpack,
       }),
+      postcssMixins,
       postcssNested,
       postcssCustomProps,
       autoprefixer,
       postcssCalc,
-      postcssLost,
+      postcssColorFunction,
       stylelint(require('./stylelint.config.js')),
     ];
   },
@@ -90,6 +92,10 @@ module.exports = {
       {
         test: /\.(png|jpg)$/,
         loader: 'url?limit=25000',
+      },
+      {
+        test: /\.md$/,
+        loader: 'html!markdown'
       }
    ]
   }
