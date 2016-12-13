@@ -3,9 +3,9 @@
 
 import buildDeepObject from '../../app/utils/buildDeepOBject.js';
 
-const sampleString = 'alley.test.this';
-const sampleValue = 'function';
-const sampleObject = { alley: { test: { this: 'function' } } };
+const sampleString = 'alley.test.sample';
+const sampleValue = 'value';
+const sampleObject = { alley: { test: { sample: 'value' } } };
 
 describe('buildDeepObject', () => {
   test('turns string into deep object', () => {
