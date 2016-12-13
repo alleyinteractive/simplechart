@@ -6,12 +6,14 @@ import fecha from 'fecha';
 
 /**
  * @param string dateString The date string input, e.g. '03/20/1982'
- * @param string format The format to test, e.g. 'MM/DD/YYYY'
+ * @param string formatString The format to test, e.g. 'MM/DD/YYYY'
  * @return bool
  */
- export function validate(dateString, format) {
+export function validate(dateString, formatString) {
   try {
-    return dateString === fecha.format(fecha.parse(dateString, format), format);
+    return dateString === fecha.format(
+      fecha.parse(dateString, formatString), formatString
+    );
   } catch (e) {
     return false;
   }
@@ -21,12 +23,12 @@ import fecha from 'fecha';
  * Convert date string to UTC milliseconds
  *
  * @param string dateString The date string input, e.g. '03/20/1982'
- * @param string format The format to test, e.g. 'MM/DD/YYYY'
+ * @param string formatString The format to test, e.g. 'MM/DD/YYYY'
  * @return int|null
  */
-export function parse(dateString, format) {
+export function parse(dateString, formatString) {
   try {
-    return fecha.parse(dateString, format).getTime();
+    return fecha.parse(dateString, formatString).getTime();
   } catch (e) {
     return null;
   }
@@ -36,12 +38,12 @@ export function parse(dateString, format) {
  * Convert UTC milliseconds to date format
  *
  * @param int timestamp UTC milliseconds
- * @param string format The format to test, e.g. 'MM/DD/YYYY'
+ * @param string formatString The format to test, e.g. 'MM/DD/YYYY'
  * @return string Formatted date or 'Date error' if error
  */
-export function format(timestamp, format) {
+export function format(timestamp, formatString) {
   try {
-    return fecha.format(timestamp, format);
+    return fecha.format(timestamp, formatString);
   } catch (e) {
     return 'Date format error';
   }

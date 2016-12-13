@@ -12,6 +12,7 @@ class DateFormatter extends Component {
   constructor() {
     super();
     this._toggleFormatter = this._toggleFormatter.bind(this);
+    this._testFormatString = this._testFormatString.bind(this);
     this.state = {
       formatterIsOpen: false,
     };
@@ -30,6 +31,22 @@ class DateFormatter extends Component {
     this.setState({
       formatterIsOpen: !this.state.formatterIsOpen,
     });
+  }
+
+  _testFormatString() {
+    if (!this.props.dateFormatString) {
+      return null;
+    }
+
+    // @todo Return null or dateString that failed instead of boolean
+    const validated = this.props.dates.reduce((acc, dateString) => {
+      if (!acc) {
+        return acc;
+      }
+      return dateUtils.validate(dateString, this.props.dateFormatString);
+    }, true);
+
+    return (<span>{ validated ? 'Validated!' : 'Invalid!'}</span>);
   }
 
   render() {
@@ -58,8 +75,8 @@ class DateFormatter extends Component {
               style: { marginBottom: '0px', width: '300px' },
             }}
           />
-          // @todo test formatting against data, show result
         )}
+        {!this.state.formatterIsOpen ? null : this._testFormatString()}
       </div>
     );
   }
@@ -67,6 +84,7 @@ class DateFormatter extends Component {
 
 DateFormatter.propTypes = {
   dateFormatString: React.PropTypes.string,
+  dates: React.PropTypes.array,
   dispatch: React.PropTypes.func,
 };
 

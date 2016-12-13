@@ -14,6 +14,7 @@ class App extends Component {
     super();
     this._renderAppComponent = this._renderAppComponent.bind(this);
     this._getSaveData = this._getSaveData.bind(this);
+    this._firstParsedCol = this._firstParsedCol.bind(this);
   }
 
   componentDidMount() {
@@ -55,12 +56,18 @@ class App extends Component {
     });
   }
 
+  _firstParsedCol() {
+    const firstColKey = this.props.state.dataFields[0];
+    return this.props.state.parsedData.map((row) => row[firstColKey]);
+  }
+
   _renderAppComponent() {
     if (0 === this.props.state.currentStep) {
       return React.createElement(DataInput, {
         rawData: this.props.state.rawData,
         dataStatus: this.props.state.dataStatus,
         dateFormatString: this.props.state.chartOptions.dateFormatString || '',
+        firstCol: this._firstParsedCol(),
       });
     }
     return React.createElement(ChartEditor, {
