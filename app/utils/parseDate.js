@@ -56,7 +56,7 @@ export function format(timestamp, formatString) {
  * @param array dates List of dates parsed from first column of CSV input
  * @return null|string Null if all dates pass or string of first date that failed validation
  */
-export function failedList(formatString, dates) {
+export function disproveList(formatString, dates) {
   return dates.reduce((acc, dateString) => {
     if (acc) {
       return acc;

@@ -44,7 +44,7 @@ class DateFormatter extends Component {
   }
 
   _validate(formatString, dates) {
-    const testResult = dateUtils.failedList(formatString, dates);
+    const testResult = dateUtils.disproveList(formatString, dates);
     this.props.dispatch(actionTrigger(RECEIVE_DATE_FORMAT, {
       validated: !testResult,
       failedAt: testResult,
