@@ -4,7 +4,7 @@
  */
 
 import { combineReducers } from 'redux';
-import baseReducer from './baseReducer';
+import { baseReducer, mergeReducer } from './genericReducers';
 import chartOptionsReducer from './chartOptionsReducer';
 import setClearReducer from './setClearReducer';
 import * as actions from '../constants';
@@ -16,6 +16,7 @@ export default combineReducers({
   chartType: baseReducer({}, [actions.RECEIVE_CHART_TYPE]),
   cmsStatus: baseReducer('', [actions.RECEIVE_CMS_STATUS]),
   currentStep: baseReducer(0, [actions.UPDATE_CURRENT_STEP]),
+  dateFormat: mergeReducer({}, [actions.RECEIVE_DATE_FORMAT]),
   defaultsAppliedTo: baseReducer('', [actions.RECEIVE_DEFAULTS_APPLIED_TO]),
   dataFields: baseReducer([], [actions.PARSE_DATA_FIELDS]),
   dataStatus: baseReducer({}, [actions.PARSE_DATA_STATUS]),
