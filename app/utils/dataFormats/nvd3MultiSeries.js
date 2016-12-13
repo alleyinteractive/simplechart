@@ -51,10 +51,11 @@ export default function transformer(data, fields, dateFormat) {
   dataSeries.shift();
 
   // return false if any data series didn't validate
-  // e.g. if the first column didn't contain numbers
+  // e.g. if the first column didn't contain numbers or parseable Date
   // which would prevent us from doing a chart with an x-axis
   if (-1 !== dataSeries.indexOf(false)) {
     return false;
   }
+
   return dataSeries;
 }

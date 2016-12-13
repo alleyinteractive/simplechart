@@ -65,7 +65,11 @@ export default function receiveChartType({ getState }) {
       /**
        * Apply tick formatting and return cloned opts object
        */
-      nextOpts = applyDataFormatters(nextOpts, nextConfig);
+      nextOpts = applyDataFormatters(
+        nextOpts,
+        nextConfig,
+        getState().dateFormat
+      );
 
       dispatch(actionTrigger(
         RECEIVE_CHART_OPTIONS, nextOpts, action.src));
