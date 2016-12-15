@@ -4,6 +4,9 @@ node_modules
 *.sh
 *_ignore_*
 
+# Ignore test artifacts
+tests/artifacts/
+
 # Don't ignore static dir in the Jekyll site
 static
 !docs/static
