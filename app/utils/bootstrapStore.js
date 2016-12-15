@@ -11,7 +11,7 @@ import {
 import update from 'react-addons-update';
 import { getChartTypeObject, getChartTypeDefaultOpts } from './chartTypeUtils';
 import defaultPalette from '../constants/defaultPalette';
-import applyDataFormatters from '../middleware/utils/applyDataFormatters';
+import applyTickFormatters from '../middleware/utils/applyTickFormatters';
 import { defaultTickFormatSettings } from '../constants/defaultTickFormatSettings';
 
 /**
@@ -77,8 +77,8 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
   }
 
   // Turn static values into formatting functions
-  // applyDataFormatters() returns a cloned object
-  nextOpts = applyDataFormatters(nextOpts, nextChartType.config);
+  // applyTickFormatters() returns a cloned object
+  nextOpts = applyTickFormatters(nextOpts, nextChartType.config);
 
   /**
    * Apply default colors if needed
