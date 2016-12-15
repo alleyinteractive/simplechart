@@ -4,6 +4,7 @@ import React from 'react';
 import ErrorMessage from '../../app/utils/errorMessage.js';
 import ReactTestUtils from 'react-addons-test-utils';
 import { shallow } from 'enzyme';
+import createFragment from 'react-addons-create-fragment'
 
 // Enzyme shallow
 describe('Basic <ErrorMessage />', () => {
@@ -24,9 +25,11 @@ describe('Basic <ErrorMessage />', () => {
     expect(wrapper.prop('style')).toEqual(style);
   })
 
-  it ('should have the correct error code', () => {
+  it('should have the correct error code', () => {
     expect(wrapper.props().children).toEqual({ code: 'e002' });
   });
+
+  // @todo Test that the message matches expected for e002
 });
 
 describe('Custom <ErorMessage />', () => {
