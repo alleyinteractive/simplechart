@@ -1,10 +1,8 @@
 /* global describe test expect it jest */
 
 import React from 'react';
-import ErrorMessage from '../../app/utils/errorMessage.js';
-import ReactTestUtils from 'react-addons-test-utils';
+import ErrorMessage from '../../app/components/Header/ErrorMessage';
 import { shallow } from 'enzyme';
-import createFragment from 'react-addons-create-fragment'
 
 // Enzyme shallow
 describe('Basic <ErrorMessage />', () => {
