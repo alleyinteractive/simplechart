@@ -23,6 +23,9 @@
     "url": "https://github.com/alleyinteractive/simplechart-react/issues"
   },
   "jest": {
+    "moduleNameMapper": {
+      "\\.(css)$": "identity-obj-proxy"
+    },
     "testPathDirs": [
       "tests"
     ],
@@ -54,6 +57,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "html-loader": "0.4.4",
+    "identity-obj-proxy": "3.0.0",
     "jest": "^17.0.0",
     "lost": "^6.7.2",
     "nightwatch": "^0.9.9",
