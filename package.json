@@ -24,7 +24,8 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(css)$": "identity-obj-proxy"
+      "\\.(css)$": "identity-obj-proxy",
+      "\\.(ttf|eot|svg)$": "file-loader"
     },
     "testPathDirs": [
       "tests"
