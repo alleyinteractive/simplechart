@@ -6,7 +6,7 @@ import actionTrigger from '../../../../actions';
 import { RECEIVE_ERROR } from '../../../../constants';
 import { getChartTypeObject } from '../../../../utils/chartTypeUtils';
 import { nvd3Defaults } from '../../../../constants/chartTypes';
-import applyDataFormatters from '../../../../middleware/utils/applyDataFormatters';
+import applyTickFormatters from '../../../../middleware/utils/applyTickFormatters';
 import { shouldSetupYDomain } from '../../../../middleware/utils/applyYDomain';
 import getNiceDomain from '../../../../utils/dataFormats/getNiceDomain';
 
@@ -59,8 +59,8 @@ class NVD3Adapter extends Component {
     });
 
     // tickFormatSettings -> tick formatting functions
-    // applyDataFormatters() returns a cloned object
-    return applyDataFormatters(nextState, typeConfig);
+    // applyTickFormatters() returns a cloned object
+    return applyTickFormatters(nextState, typeConfig);
   }
 
   /**
