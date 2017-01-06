@@ -30,7 +30,6 @@ export const RECEIVE_WIDGET_METADATA = 'RECEIVE_WIDGET_METADATA';
  */
 // string from DataInput textarea
 export const RECEIVE_RAW_DATA = 'RECEIVE_RAW_DATA';
-
 // parse raw data to JSON
 export const PARSE_RAW_DATA = 'PARSE_RAW_DATA';
 export const PARSE_DATA_FIELDS = 'PARSE_DATA_FIELDS';
@@ -38,6 +37,8 @@ export const PARSE_DATA_FIELDS = 'PARSE_DATA_FIELDS';
 export const PARSE_DATA_STATUS = 'PARSE_DATA_STATUS';
 // transform parsed data for chart types
 export const TRANSFORM_DATA = 'TRANSFORM_DATA';
+// Date formatting info
+export const RECEIVE_DATE_FORMAT = 'RECEIVE_DATE_FORMAT';
 
 /**
  * Chart rendering actions

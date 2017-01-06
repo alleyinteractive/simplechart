@@ -14,7 +14,7 @@ import update from 'react-addons-update';
 import dispatchChartData from './utils/dispatchChartData';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
 import applyYDomain from './utils/applyYDomain';
-import applyDataFormatters from './utils/applyDataFormatters';
+import applyTickFormatters from './utils/applyTickFormatters';
 
 export default function receiveChartType({ getState }) {
   return (dispatch) => (action) => {
@@ -88,7 +88,7 @@ export default function receiveChartType({ getState }) {
     /**
      * Update data formatting function after manual change
      */
-    function _shouldApplyDataFormatters() {
+    function _shouldApplyTickFormatters() {
       return getState().chartType.config && // must have chart type config in store
         nextOpts.tickFormatSettings && // must have settings to use
         !_actionIsBootstrap(); // bootstrapStore handles this for initial load
@@ -154,9 +154,9 @@ export default function receiveChartType({ getState }) {
       ));
     }
 
-    if (_shouldApplyDataFormatters()) {
-      // applyDataFormatters returns a cloned object
-      nextOpts = applyDataFormatters(nextOpts, getState().chartType.config);
+    if (_shouldApplyTickFormatters()) {
+      // applyTickFormatters returns a cloned object
+      nextOpts = applyTickFormatters(nextOpts, getState().chartType.config);
     }
 
     if (_shouldApplyYDomain()) {
