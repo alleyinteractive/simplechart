@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { RECEIVE_CHART_METADATA } from '../../../constants';
 import DispatchField from '../../lib/DispatchField';
 import HelpTrigger from '../../lib/HelpTrigger';
+import * as styles from './ChartTitle.css';
 
 class ChartTitle extends Component {
   constructor() {
@@ -28,7 +29,7 @@ class ChartTitle extends Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.container} >
         <DispatchField
           action={RECEIVE_CHART_METADATA}
           fieldType="Input"
@@ -36,11 +37,11 @@ class ChartTitle extends Component {
             label: 'Chart title',
             name: 'metadata-title',
             value: this.state.title,
-            style: { maxWidth: '500px' },
+            style: { marginBottom: '0px' }, // override default Rebass style
           }}
           handler={this._handleInput}
         />
-        <HelpTrigger docName="chartTitle" />
+        <HelpTrigger docName="chartMetadata" />
       </div>
     );
   }

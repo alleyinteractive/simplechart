@@ -37,6 +37,7 @@ class DataInput extends AppComponent {
       'Enter <em>clean</em> comma-delimited text here.',
       'A header row is required.',
       'See sample data sets for formatting examples',
+      'Chart title is suggested but not required.',
     ];
   }
 
