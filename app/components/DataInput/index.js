@@ -9,11 +9,12 @@ import {
 } from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
-import { Heading, Select, Button, Text } from 'rebass';
+import { Label, Heading, Select, Button, Text } from 'rebass';
 import ListBlock from '../Layout/RebassComponents/ListBlock';
 import { appSteps } from '../../constants/appSteps';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 import DateFormatter from './DateFormatter';
+import ChartTitle from './ChartTitle';
 
 class DataInput extends AppComponent {
 
@@ -36,6 +37,7 @@ class DataInput extends AppComponent {
       'Enter <em>clean</em> comma-delimited text here.',
       'A header row is required.',
       'See sample data sets for formatting examples',
+      'Chart title is suggested but not required.',
     ];
   }
 
@@ -122,7 +124,9 @@ class DataInput extends AppComponent {
       <div className={this.parentStyles.appComponent}>
         <Heading level={2}>{appSteps[0]}</Heading>
         <ListBlock list={this.inputRules} />
+        <ChartTitle metadata={this.props.metadata} />
         <div>
+          <Label>Chart data</Label>
           <textarea
             id="DataInput"
             className={styles.textarea}
@@ -180,6 +184,7 @@ class DataInput extends AppComponent {
 
 DataInput.propTypes = {
   rawData: React.PropTypes.string,
+  metadata: React.PropTypes.object,
   dataStatus: React.PropTypes.object,
   dateFormat: React.PropTypes.object,
   firstCol: React.PropTypes.array,
