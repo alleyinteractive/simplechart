@@ -64,6 +64,7 @@ class App extends Component {
   _renderAppComponent() {
     if (0 === this.props.state.currentStep) {
       return React.createElement(DataInput, {
+        metadata: this.props.state.chartMetadata,
         rawData: this.props.state.rawData,
         dataStatus: this.props.state.dataStatus,
         dateFormat: this.props.state.dateFormat,

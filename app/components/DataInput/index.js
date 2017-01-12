@@ -14,6 +14,7 @@ import ListBlock from '../Layout/RebassComponents/ListBlock';
 import { appSteps } from '../../constants/appSteps';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 import DateFormatter from './DateFormatter';
+import ChartTitle from './ChartTitle';
 
 class DataInput extends AppComponent {
 
@@ -122,6 +123,7 @@ class DataInput extends AppComponent {
       <div className={this.parentStyles.appComponent}>
         <Heading level={2}>{appSteps[0]}</Heading>
         <ListBlock list={this.inputRules} />
+        <ChartTitle metadata={this.props.metadata} />
         <div>
           <textarea
             id="DataInput"
@@ -180,6 +182,7 @@ class DataInput extends AppComponent {
 
 DataInput.propTypes = {
   rawData: React.PropTypes.string,
+  metadata: React.PropTypes.object,
   dataStatus: React.PropTypes.object,
   dateFormat: React.PropTypes.object,
   firstCol: React.PropTypes.array,
