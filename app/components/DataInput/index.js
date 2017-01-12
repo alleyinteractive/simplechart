@@ -9,7 +9,7 @@ import {
 } from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
-import { Heading, Select, Button, Text } from 'rebass';
+import { Label, Heading, Select, Button, Text } from 'rebass';
 import ListBlock from '../Layout/RebassComponents/ListBlock';
 import { appSteps } from '../../constants/appSteps';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
@@ -126,6 +126,7 @@ class DataInput extends AppComponent {
         <ListBlock list={this.inputRules} />
         <ChartTitle metadata={this.props.metadata} />
         <div>
+          <Label>Chart data</Label>
           <textarea
             id="DataInput"
             className={styles.textarea}
