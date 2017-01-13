@@ -42,6 +42,13 @@ class NVD3Adapter extends Component {
       ref: { $set: 'chartNode' },
     });
 
+    /**
+     * @todo Make this part of chart type's config
+     */
+    if ('stackedAreaChart' === nextState.type && nextState.yDomain) {
+      delete nextState.yDomain;
+    }
+
     if (!this.props.widget) {
       return nextState;
     }
@@ -80,6 +87,7 @@ class NVD3Adapter extends Component {
   }
 
   render() {
+    console.log(this.state.datum[0].values[0]);
     return React.createElement(NVD3Chart, this.state);
   }
 }
