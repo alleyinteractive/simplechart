@@ -5,11 +5,14 @@
   "scripts": {
     "start": "DEVELOPMENT=true node server.js",
     "lint": "eslint src",
+    "test-lint": "eslint tests",
     "build": "webpack -p --progress",
     "locales": "node locales.js",
     "mock-api": "MOCKAPI=true DEVELOPMENT=true ./node_modules/babel-cli/bin/babel-node.js server.js",
     "test": "jest",
-    "test-watch": "jest --watch"
+    "test-watch": "jest --watch",
+    "test-integration": "nightwatch",
+    "postinstall": "node nightwatch.conf.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +23,10 @@
     "url": "https://github.com/alleyinteractive/simplechart-react/issues"
   },
   "jest": {
+    "moduleNameMapper": {
+      "\\.(css)$": "identity-obj-proxy",
+      "\\.(ttf|eot|svg)$": "file-loader"
+    },
     "testPathDirs": [
       "tests"
     ],
@@ -40,9 +47,10 @@
     "babel-preset-react": "6.16.0",
     "babel-preset-stage-0": "6.16.0",
     "babyparse": "0.4.6",
-    "css-loader": "0.25.0",
     "country-data": "0.0.31",
+    "css-loader": "0.25.0",
     "d3-format": "1.0.2",
+    "enzyme": "^2.6.0",
     "eslint": "3.8.1",
     "eslint-config-airbnb": "6.0.2",
     "eslint-loader": "^1.3.0",
@@ -50,7 +58,10 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "html-loader": "0.4.4",
+    "identity-obj-proxy": "3.0.0",
     "jest": "^17.0.0",
+    "lost": "^6.7.2",
+    "nightwatch": "^0.9.9",
     "markdown-loader": "0.1.7",
     "object.assign": "^4.0.3",
     "postcss": "^5.0.19",
@@ -61,7 +72,11 @@
     "postcss-mixins": "5.4.0",
     "postcss-nested": "^1.0.0",
     "raw-loader": "^0.5.1",
+    "react-addons-create-fragment": "15.4.1",
+    "react-addons-test-utils": "15.4.1",
     "react-hot-loader": "3.0.0-beta.6",
+    "react-test-renderer": "15.4.1",
+    "selenium-download": "^2.0.7",
     "style-loader": "^0.13.1",
     "stylelint": "^5.2.1",
     "url-loader": "^0.5.7",
@@ -76,10 +91,10 @@
     "fecha": "2.3.0",
     "github-markdown-css": "2.4.1",
     "isomorphic-fetch": "2.2.1",
-    "react": "15.2.1",
-    "react-addons-update": "15.2.1",
+    "react": "15.4.1",
+    "react-addons-update": "15.4.1",
     "react-colorpickr": "4.2.0",
-    "react-dom": "15.2.1",
+    "react-dom": "15.4.1",
     "react-nvd3": "0.5.7",
     "react-redux": "4.4.5",
     "rebass": "0.3.0",

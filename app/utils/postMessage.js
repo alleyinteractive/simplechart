@@ -5,22 +5,22 @@
 /**
  * Check for local dev server
  */
-function _isLocalDev() {
-  return 'localhost:8080' === window.location.host;
+function _isLocalDev(useWindow = window) {
+  return 'localhost:8080' === useWindow.location.host;
 }
 
 /**
  * Check for being a child iframe.
  * Three cases: top window (true), same-origin iframe (false), cross-origin iframe (false)
  */
-function _isTopLevelWindow() {
+function _isTopLevelWindow(useWindow = window) {
   try {
     // presence of window.frameElement indicates a same-origin iframe
-    if (window.frameElement) {
+    if (useWindow.frameElement) {
       return false;
     }
     // this will be true or throw an error
-    return window.location.href === window.parent.location.href;
+    return useWindow.location.href === window.parent.location.href;
   } catch (err) {
     // will catch SecurityError if we attempted to access a cross-origin iframe
     return 'SecurityError' !== err.name;
@@ -30,15 +30,15 @@ function _isTopLevelWindow() {
 /**
  * store for message handle callbacks
  */
-const _callbacks = {};
+export const _callbacks = {};
 
 /**
  * Setup postMessage receive callbacks
  */
-export function setupPostMessage() {
-  function _messageHandler(evt) {
+export function setupPostMessage(useWindow = window) {
+  function _messageHandler(evt, messageWindow = window) {
     // validate same-origin except if local dev server
-    if (evt.origin !== window.location.origin &&
+    if (evt.origin !== messageWindow.location.origin &&
       !_isLocalDev()) {
       throw new Error(`Illegal postMessage from ${evt.origin}`);
     }
@@ -54,8 +54,8 @@ export function setupPostMessage() {
   }
 
   // set up listener
-  window.addEventListener('message', (evt) =>
-    _messageHandler(evt)
+  useWindow.addEventListener('message', (evt) =>
+    _messageHandler(evt, useWindow)
   );
 }
 
@@ -80,9 +80,13 @@ export function receiveMessage(messageType, callback) {
  * @param any data Optional data to accompany message as evt.data.data
  * @return none
  */
-export function sendMessage(messageType, data = null) {
-  if (_isTopLevelWindow()) {
-    if (!_isLocalDev()) {
+export function sendMessage(
+  messageType,
+  data = null,
+  useWindow = window
+) {
+  if (_isTopLevelWindow(useWindow)) {
+    if (!_isLocalDev(useWindow)) {
       throw new Error(
         `No parent window available for postMessage type ${messageType}`);
     } else {
@@ -92,8 +96,8 @@ export function sendMessage(messageType, data = null) {
   }
 
   // Send data to '*' if local dev, otherwise only allow same origin
-  window.parent.postMessage({
+  useWindow.parent.postMessage({
     messageType,
     data: JSON.parse(JSON.stringify(data)), // handles functions in the data
-  }, _isLocalDev() ? '*' : window.location.origin);
+  }, _isLocalDev() ? '*' : useWindow.location.origin);
 }

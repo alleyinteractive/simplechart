@@ -11,10 +11,27 @@ class ErrorMessage extends Component {
   constructor() {
     super();
     this.closeErrorMessage = this.closeErrorMessage.bind(this);
-    this.state = { open: false, children: false };
+    this.state = {
+      open: false,
+      children: false,
+      messageProps: {},
+    };
+
+    this.defaultMessageProps = {
+      inverted: true,
+      rounded: true,
+      theme: 'error',
+    };
   }
 
   componentWillMount() {
+    // set default props to send to <Message />
+    this.setState({
+      messageProps: update(this.defaultMessageProps, {
+        $merge: this.props.override || {},
+      }),
+    });
+
     this.setState(this.toSetState(this.props));
   }
 
@@ -23,11 +40,21 @@ class ErrorMessage extends Component {
   }
 
   toSetState(props) {
-    // display message if we have an error code or JSX children
-    // clear children unless code e000 is passed
+    let innerHTML;
+    if (this.props.code && 'e000' !== this.props.code) {
+      // If valid non-ignore code provided
+      innerHTML = getErrorMessage(this.props.code);
+    } else if (!this.props.children) {
+      // Default message if no children or code provided
+      innerHTML = getErrorMessage('default');
+    } else {
+      // no need for innerHTML if children were provided
+      innerHTML = null;
+    }
+
     return {
       open: !!props.code || 0 < props.children.toString().length,
-      children: (props.code && 'e000' === props.code) ? props.children : false,
+      innerHTML,
     };
   }
 
@@ -41,26 +68,22 @@ class ErrorMessage extends Component {
       return null;
     }
 
-    const props = update({
-      inverted: true,
-      rounded: true,
-      theme: 'error',
-    }, { $merge: this.props.override || {} });
-
-    /**
-     * Allow passed children to override error code message
-     */
-    if (this.props.code && !this.state.children) {
-      props.dangerouslySetInnerHTML = getErrorMessage(this.props.code);
+    // Merge innerHTML into <Message /> props if needed
+    let messageRenderProps = this.state.messageProps;
+    if (this.state.innerHTML) {
+      messageRenderProps = update(messageRenderProps, {
+        dangerouslySetInnerHTML: { $set: this.state.innerHTML },
+      });
     }
 
     return (
       <div className={styles.container}>
         <div className={styles.errorMessageContent}>
-          {props.dangerouslySetInnerHTML ?
-            React.createElement(Message, props) :
-            React.createElement(Message, props, this.state.children)
-          }
+        {messageRenderProps.dangerouslySetInnerHTML ?
+          // Render <Message /> with provided error code message or children
+          React.createElement(Message, messageRenderProps) :
+          React.createElement(Message, messageRenderProps, this.props.children)
+        }
         </div>
         <span
           className={styles.closeContainer}
