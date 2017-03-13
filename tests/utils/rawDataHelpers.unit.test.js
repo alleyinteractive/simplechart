@@ -54,7 +54,7 @@ describe('rawDataHelpers.transformParsedData', () => {
   const parsedDataSingle = [{ Year: '2014', Data: '20' }, { Year: '2015', Data: '21' }, { Year: '2016', Data: '23' }, { Year: '2017', Data: '29' }];
   const fieldsSingle = ['Year', 'Data'];
   test('basic transformParsedData multi series', () => {
-    const transformedData = rawDataHelpers.transformParsedData(parsedData, fields); // eslint-disable-line max-len
+    const transformedData = rawDataHelpers.transformParsedData(parsedData, fields, { enabled: false }); // eslint-disable-line max-len
     expect(transformedData).toBeDefined();
     expect(transformedData.nvd3SingleSeries).toBe(false);
     expect(transformedData.nvd3MultiSeries).toBeTruthy();
@@ -62,7 +62,7 @@ describe('rawDataHelpers.transformParsedData', () => {
     expect(transformedData.nvd3MultiSeries[1].key).toEqual('Model');
   });
   test('basic transformParsedData single series', () => {
-    const transformedData = rawDataHelpers.transformParsedData(parsedDataSingle, fieldsSingle); // eslint-disable-line max-len
+    const transformedData = rawDataHelpers.transformParsedData(parsedDataSingle, fieldsSingle, { enabled: false }); // eslint-disable-line max-len
     expect(transformedData).toBeDefined();
     expect(transformedData.nvd3SingleSeries).toBeTruthy();
   });
