@@ -2,6 +2,8 @@
 
 Quickly create and structure interactive charts for use in a content management system (CMS).
 
+**[Demo Simplechart here.](http://simplechart.io/)**
+
 *See [Simplechart for WordPress](https://github.com/alleyinteractive/wordpress-simplechart) for the WordPress plugin.*
 
 ## Quick Start for Local Development
