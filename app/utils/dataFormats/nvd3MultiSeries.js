@@ -1,3 +1,4 @@
+import * as dateUtils from '../parseDate';
 /**
  * Transform multi-column CSV into data series
  * Used for lineChart, etc
@@ -6,14 +7,17 @@
  * @param array fields List of fields/columns in order
  * @return obj|bool Object of chart-ready data or false if data can't be used for this chart type
  */
-export default function transformer(data, fields) {
+export default function transformer(data, fields, dateFormat) {
   // e.g. "year"
   // we'll use this later when we set up the axes
   const xAxisLabel = fields[0];
 
   function getDataPoint(row, field) {
-    const xValue = parseFloat(row[xAxisLabel]);
-    if (isNaN(xValue)) {
+    const xValue = (dateFormat.enabled && dateFormat.validated) ?
+      dateUtils.parse(row[xAxisLabel], dateFormat.formatString) :
+      parseFloat(row[xAxisLabel]);
+
+    if (!xValue) {
       return false;
     }
 
@@ -47,10 +51,11 @@ export default function transformer(data, fields) {
   dataSeries.shift();
 
   // return false if any data series didn't validate
-  // e.g. if the first column didn't contain numbers
+  // e.g. if the first column didn't contain numbers or parseable Date
   // which would prevent us from doing a chart with an x-axis
   if (-1 !== dataSeries.indexOf(false)) {
     return false;
   }
+
   return dataSeries;
 }

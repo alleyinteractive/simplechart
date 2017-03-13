@@ -1,6 +1,6 @@
 {
   "name": "simplechart-react",
-  "version": "1.1.0",
+  "version": "1.1.4",
   "description": "Simplechart React",
   "scripts": {
     "start": "DEVELOPMENT=true node server.js",
@@ -88,6 +88,8 @@
     "deep-extend": "0.4.1",
     "deep-diff": "0.3.4",
     "es6-promise": "3.3.1",
+    "fecha": "2.3.0",
+    "github-markdown-css": "2.4.1",
     "isomorphic-fetch": "2.2.1",
     "react": "15.4.1",
     "react-addons-update": "15.4.1",

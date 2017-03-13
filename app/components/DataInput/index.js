@@ -9,10 +9,12 @@ import {
 } from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
-import { Heading, Select, Button, Text } from 'rebass';
+import { Label, Heading, Select, Button, Text } from 'rebass';
 import ListBlock from '../Layout/RebassComponents/ListBlock';
 import { appSteps } from '../../constants/appSteps';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
+import DateFormatter from './DateFormatter';
+import ChartTitle from './ChartTitle';
 
 class DataInput extends AppComponent {
 
@@ -30,10 +32,12 @@ class DataInput extends AppComponent {
       rawData: '',
       sampleDataSet: 0,
     };
+
     this.inputRules = [
       'Enter <em>clean</em> comma-delimited text here.',
       'A header row is required.',
       'See sample data sets for formatting examples',
+      'Chart title is suggested but not required.',
     ];
   }
 
@@ -42,7 +46,9 @@ class DataInput extends AppComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ rawData: nextProps.rawData });
+    if (this.props.rawData !== nextProps.rawData) {
+      this.setState({ rawData: nextProps.rawData });
+    }
   }
 
   _submitData(data) {
@@ -58,15 +64,10 @@ class DataInput extends AppComponent {
   }
 
   _sampleDataOptions() {
-    function getOpt(set, i) {
-      return {
-        children: set.label,
-        value: i,
-      };
-    }
-    return sampleData.map((set, i) =>
-      getOpt(set, i)
-    );
+    return sampleData.map(({ label }, i) => ({
+      children: label,
+      value: i,
+    }));
   }
 
   _setSampleDataSet(evt) {
@@ -76,11 +77,17 @@ class DataInput extends AppComponent {
   }
 
   _beforeNextStep() {
-    // Check for empty data field
+    // Check for valid data input
     // Errors w/ invalid data would have already surfaced in rawDataMiddleware
-    // return value indicates if we can proceed to next step
-    return this.props.dataStatus.status &&
+    const dataSuccess = this.props.dataStatus.status &&
       'success' === this.props.dataStatus.status;
+
+    // Date formatting should be disabled or validated
+    const dateFormatSuccess = !this.props.dateFormat.enabled ||
+      this.props.dateFormat.validated;
+
+    // return value indicates if we can proceed to next step
+    return dataSuccess && dateFormatSuccess;
   }
 
   _nextCallback(success) {
@@ -116,9 +123,10 @@ class DataInput extends AppComponent {
     return (
       <div className={this.parentStyles.appComponent}>
         <Heading level={2}>{appSteps[0]}</Heading>
-
         <ListBlock list={this.inputRules} />
+        <ChartTitle metadata={this.props.metadata} />
         <div>
+          <Label>Chart data</Label>
           <textarea
             id="DataInput"
             className={styles.textarea}
@@ -144,22 +152,28 @@ class DataInput extends AppComponent {
             />
           </div>
 
-          { this.state.rawData ? null : (
-            <div className={styles.sampleDataContainer}>
-              <Select
-                className={styles.sampleDataContainer.Select}
-                style={{ marginBottom: 0 }}
-                label="Use sample data"
-                name="sample-data-select"
-                options={this._sampleDataOptions()}
-                onChange={this._setSampleDataSet}
-              />
-              <Button
-                theme="warning"
-                onClick={this._loadSampleData}
-              >Load</Button>
-            </div>
-          )}
+            {this.state.rawData ? (
+                <DateFormatter
+                  dateFormat={this.props.dateFormat}
+                  dates={this.props.firstCol}
+                />
+              ) : (
+                <div className={styles.optionsContainer}>
+                  <Select
+                    className={styles.optionsContainer.Select}
+                    style={{ marginBottom: 0 }}
+                    label="Use sample data"
+                    name="sample-data-select"
+                    options={this._sampleDataOptions()}
+                    onChange={this._setSampleDataSet}
+                  />
+                  <Button
+                    theme="warning"
+                    onClick={this._loadSampleData}
+                  >Load</Button>
+                </div>
+              )
+            }
 
         </div>
       </div>
@@ -170,7 +184,10 @@ class DataInput extends AppComponent {
 
 DataInput.propTypes = {
   rawData: React.PropTypes.string,
+  metadata: React.PropTypes.object,
   dataStatus: React.PropTypes.object,
+  dateFormat: React.PropTypes.object,
+  firstCol: React.PropTypes.array,
   dispatch: React.PropTypes.func,
 };
 

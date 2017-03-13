@@ -1,6 +1,5 @@
 (function(){
   var widgetId = 'examplechart';
-  var initData = {};
   var widgetRendered = false;
 
   function triggerEvent(evtDetail) {
@@ -16,18 +15,14 @@
     }
   }
 
-  function updateWidget(key, value) {
-    // create evtDetail object
-    var evtDetail = {};
-    evtDetail[key] = value;
-    triggerEvent(evtDetail);
+  function updateWidget(data) {
+    triggerEvent(data);
   }
 
-  function initWidget(key, value) {
-    initData[key] = value;
+  function initWidget(data) {
     // Must have some data and a chart type, at minimum
-    if (initData.data.length > 0 && initData.options && initData.options.type) {
-      triggerEvent(initData);
+    if (data.data.length > 0 && data.options && data.options.type) {
+      triggerEvent(data);
       widgetRendered = true;
     }
   }
@@ -39,29 +34,20 @@
       return;
     }
 
-    // get messageType -> key
-    var key;
-    switch (evt.data.messageType) {
-      case 'save-chartData':
-        key = 'data';
-        break;
-
-      case 'save-chartOptions':
-        key = 'options';
-        break;
-
-      case 'save-chartMetadata':
-        key = 'metadata';
-        break;
-
-      default:
-        return;
+    if ('saveChart' !== evt.data.messageType) {
+      return;
     }
 
+    var widgetData = {
+      data: evt.data.data.chartData,
+      options: evt.data.data.chartOptions,
+      metadata: evt.data.data.chartOptions
+    };
+
     if (widgetRendered) {
-      updateWidget(key, evt.data.data);
+      updateWidget(widgetData);
     } else {
-      initWidget(key, evt.data.data);
+      initWidget(widgetData);
     }
 
   }

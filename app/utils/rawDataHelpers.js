@@ -31,13 +31,14 @@ export function parseRawData(parser, rawData) {
 /**
  * setup transformed for dataFormats
  */
-export function transformParsedData(parsedData, parsedFields) {
+export function transformParsedData(parsedData, parsedFields, dateFormat) {
   const transformed = {};
-  function setTransformed(type) {
-    transformed[type] = dataTransformers[type](parsedData, parsedFields);
-  }
-  Object.keys(dataTransformers).forEach((type) =>
-    setTransformed(type)
-  );
+  Object.keys(dataTransformers).forEach((type) => {
+    transformed[type] = dataTransformers[type](
+      parsedData,
+      parsedFields,
+      dateFormat
+    );
+  });
   return transformed;
 }
