@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Fixed, Button, SequenceMap } from 'rebass';
 import logoSvg from '!!raw!../../img/simplechartLogo.svg';
 import * as styles from './Header.css';
@@ -9,8 +9,14 @@ import { UPDATE_CURRENT_STEP } from '../../constants';
 import SaveChart from '../SaveChart';
 import { sendMessage } from '../../utils/postMessage';
 import ErrorMessage from './ErrorMessage';
+import { getIsNextStepAvailable } from '../../selectors';
 
 class Header extends Component {
+  static mapStateToProps(state) {
+    return Object.assign({}, state, {
+      isNextStepAvailable: getIsNextStepAvailable(state),
+    });
+  }
 
   constructor() {
     super();
@@ -34,29 +40,15 @@ class Header extends Component {
     });
   }
 
-  _updateCurrentStep(key, evt) {
-    console.log(this.props);
-    // Check for valid data input
-    // Errors w/ invalid data would have already surfaced in rawDataMiddleware
-    const dataSuccess = this.props.dataStatus.status &&
-      'success' === this.props.dataStatus.status;
-
-    // Date formatting should be disabled or validated
-    const dateFormatSuccess = !this.props.dateFormat.enabled ||
-      this.props.dateFormat.validated;
-
-    // return value indicates if we can proceed to next step
-
-    const isNextAvailable = dataSuccess && dateFormatSuccess;
-    console.log(key, this.props.currentStep);
-    if (isNextAvailable && key > this.props.currentStep) {
+  _updateCurrentStep(step, evt) {
+    if (step > this.state.currentStep && !this.props.isNextStepAvailable) {
       return;
     }
 
     evt.target.blur();
     this.props.dispatch(actionTrigger(
       UPDATE_CURRENT_STEP,
-      key
+      step
     ));
   }
 
@@ -144,14 +136,13 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  saveData: React.PropTypes.object,
-  currentStep: React.PropTypes.number,
-  dataStatus: React.PropTypes.object,
-  dateFormat: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
-  unsavedChanges: React.PropTypes.bool,
-  errorCode: React.PropTypes.string,
-  cmsStatus: React.PropTypes.string,
+  saveData: PropTypes.object,
+  currentStep: PropTypes.number,
+  dispatch: PropTypes.func,
+  unsavedChanges: PropTypes.bool,
+  errorCode: PropTypes.string,
+  cmsStatus: PropTypes.string,
+  isNextStepAvailable: PropTypes.bool,
 };
 
 export default connect()(Header);

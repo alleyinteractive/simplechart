@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 export const getIsNextStepAvailable = createSelector(
   (state) => state.dataStatus.status,
   (state) => state.dataFormat,
-  (status, dateFormat) => {
+  (status, dateFormat = {}) => {
     // Check for valid data input
     // Errors w/ invalid data would have already surfaced in rawDataMiddleware
     const dataSuccess = 'success' === status;
