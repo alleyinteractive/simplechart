@@ -145,4 +145,4 @@ Header.propTypes = {
   isNextStepAvailable: PropTypes.bool,
 };
 
-export default connect()(Header);
+export default connect(Header.mapStateToProps)(Header);
