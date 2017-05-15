@@ -70,8 +70,8 @@
     "webpack-git-hash": "1.0.2"
   },
   "dependencies": {
-    "deep-extend": "0.4.1",
     "deep-diff": "0.3.4",
+    "deep-extend": "0.4.1",
     "es6-promise": "3.3.1",
     "fecha": "2.3.0",
     "github-markdown-css": "2.4.1",
@@ -84,6 +84,7 @@
     "react-redux": "4.4.5",
     "rebass": "0.3.0",
     "redux": "3.5.2",
-    "redux-thunk": "2.1.0"
+    "redux-thunk": "2.1.0",
+    "reselect": "^3.0.1"
   }
 }

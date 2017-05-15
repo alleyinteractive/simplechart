@@ -35,6 +35,24 @@ class Header extends Component {
   }
 
   _updateCurrentStep(key, evt) {
+    console.log(this.props);
+    // Check for valid data input
+    // Errors w/ invalid data would have already surfaced in rawDataMiddleware
+    const dataSuccess = this.props.dataStatus.status &&
+      'success' === this.props.dataStatus.status;
+
+    // Date formatting should be disabled or validated
+    const dateFormatSuccess = !this.props.dateFormat.enabled ||
+      this.props.dateFormat.validated;
+
+    // return value indicates if we can proceed to next step
+
+    const isNextAvailable = dataSuccess && dateFormatSuccess;
+    console.log(key, this.props.currentStep);
+    if (isNextAvailable && key > this.props.currentStep) {
+      return;
+    }
+
     evt.target.blur();
     this.props.dispatch(actionTrigger(
       UPDATE_CURRENT_STEP,
@@ -128,6 +146,8 @@ class Header extends Component {
 Header.propTypes = {
   saveData: React.PropTypes.object,
   currentStep: React.PropTypes.number,
+  dataStatus: React.PropTypes.object,
+  dateFormat: React.PropTypes.object,
   dispatch: React.PropTypes.func,
   unsavedChanges: React.PropTypes.bool,
   errorCode: React.PropTypes.string,
