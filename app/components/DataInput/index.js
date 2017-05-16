@@ -15,8 +15,14 @@ import { appSteps } from '../../constants/appSteps';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 import DateFormatter from './DateFormatter';
 import ChartTitle from './ChartTitle';
+import { getIsNextStepAvailable } from '../../selectors';
 
 class DataInput extends AppComponent {
+  static mapStateToProps(state) {
+    return Object.assign({}, state, {
+      isNextStepAvailable: getIsNextStepAvailable(state),
+    });
+  }
 
   constructor() {
     super();
@@ -147,7 +153,7 @@ class DataInput extends AppComponent {
               text="Next"
               currentStep={0}
               dir="next"
-              shouldEnable={this._beforeNextStep()}
+              shouldEnable={this.props.isNextStepAvailable}
               callback={this._nextCallback}
             />
           </div>
@@ -189,6 +195,7 @@ DataInput.propTypes = {
   dateFormat: React.PropTypes.object,
   firstCol: React.PropTypes.array,
   dispatch: React.PropTypes.func,
+  isNextStepAvailable: React.PropTypes.bool,
 };
 
-export default connect()(DataInput);
+export default connect(DataInput.mapStateToProps)(DataInput);

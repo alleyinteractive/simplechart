@@ -9,8 +9,14 @@ import { UPDATE_CURRENT_STEP } from '../../constants';
 import SaveChart from '../SaveChart';
 import { sendMessage } from '../../utils/postMessage';
 import ErrorMessage from './ErrorMessage';
+import { getIsNextStepAvailable } from '../../selectors';
 
 class Header extends Component {
+  static mapStateToProps(state) {
+    return Object.assign({}, state, {
+      isNextStepAvailable: getIsNextStepAvailable(state),
+    });
+  }
 
   constructor() {
     super();
@@ -34,11 +40,15 @@ class Header extends Component {
     });
   }
 
-  _updateCurrentStep(key, evt) {
+  _updateCurrentStep(step, evt) {
+    if (step > this.state.currentStep && !this.props.isNextStepAvailable) {
+      return;
+    }
+
     evt.target.blur();
     this.props.dispatch(actionTrigger(
       UPDATE_CURRENT_STEP,
-      key
+      step
     ));
   }
 
@@ -132,6 +142,7 @@ Header.propTypes = {
   unsavedChanges: React.PropTypes.bool,
   errorCode: React.PropTypes.string,
   cmsStatus: React.PropTypes.string,
+  isNextStepAvailable: React.PropTypes.bool,
 };
 
-export default connect()(Header);
+export default connect(Header.mapStateToProps)(Header);
