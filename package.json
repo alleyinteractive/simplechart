@@ -3,9 +3,9 @@
   "version": "1.1.4",
   "description": "Simplechart React",
   "scripts": {
-    "start": "DEVELOPMENT=true node server.js",
+    "watch": "DEVELOPMENT=true node server.js",
     "lint": "eslint src",
-    "build": "webpack -p --progress",
+    "start": "webpack -p --progress",
     "locales": "node locales.js",
     "mock-api": "MOCKAPI=true DEVELOPMENT=true ./node_modules/babel-cli/bin/babel-node.js server.js",
     "test": "jest",
