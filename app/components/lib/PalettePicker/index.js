@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // Use Mapbox's colorpickr component
-import ColorPicker from 'react-colorpickr';
-import * as ColorPickrStyles // eslint-disable-line no-unused-vars
-  from 'style!raw!react-colorpickr/dist/colorpickr.css';
+import ColorPicker from '@mapbox/react-colorpickr';
+import 'style!raw!@mapbox/react-colorpickr/dist/colorpickr.css';
 import { debounce, loopArrayItemAtIndex } from '../../../utils/misc';
 import update from 'react-addons-update';
 import { RECEIVE_CHART_OPTIONS } from '../../../constants';
