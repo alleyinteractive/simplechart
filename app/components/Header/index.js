@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Fixed, Button, SequenceMap } from 'rebass';
 import logoSvg from '!!raw!../../img/simplechartLogo.svg';
 import * as styles from './Header.css';
@@ -136,13 +136,13 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  saveData: PropTypes.object,
-  currentStep: PropTypes.number,
-  dispatch: PropTypes.func,
-  unsavedChanges: PropTypes.bool,
-  errorCode: PropTypes.string,
-  cmsStatus: PropTypes.string,
-  isNextStepAvailable: PropTypes.bool,
+  saveData: React.PropTypes.object,
+  currentStep: React.PropTypes.number,
+  dispatch: React.PropTypes.func,
+  unsavedChanges: React.PropTypes.bool,
+  errorCode: React.PropTypes.string,
+  cmsStatus: React.PropTypes.string,
+  isNextStepAvailable: React.PropTypes.bool,
 };
 
 export default connect(Header.mapStateToProps)(Header);

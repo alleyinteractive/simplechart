@@ -85,6 +85,6 @@
     "rebass": "0.3.0",
     "redux": "3.5.2",
     "redux-thunk": "2.1.0",
-    "reselect": "^3.0.1"
+    "reselect": "3.0.x"
   }
 }
