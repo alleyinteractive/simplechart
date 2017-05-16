@@ -1,6 +1,5 @@
 var path = require('path');
 var webpack = require('webpack');
-var postcss = require('postcss');
 var postcssImport = require('postcss-import');
 var postcssNested = require('postcss-nested');
 var postcssCustomProps = require('postcss-custom-properties');
@@ -9,9 +8,9 @@ var postcssCalc = require('postcss-calc');
 var postcssColorFunction = require('postcss-color-function');
 var postcssMixins = require('postcss-mixins');
 var stylelint = require('stylelint');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var WebpackGitHash = require('webpack-git-hash');
 var updateVersion = require('./updateVersion');
+var isDevelopment = 'development' === process.env.NODE_ENV;
 
 /**
  * Set up entry points
@@ -20,7 +19,7 @@ var entry = { widget: [path.resolve('./app/widget')] };
 // Don't compile app if we're using the mock API for widget testing
 if (!process.env.MOCKAPI) {
   entry.app = [path.resolve('./app/index')];
-  if (process.env.DEVELOPMENT) {
+  if (isDevelopment) {
     entry.app.unshift('react-hot-loader/patch');
     entry.app.unshift('webpack/hot/only-dev-server');
     entry.app.unshift('webpack-dev-server/client?http://localhost:8080');
@@ -41,7 +40,7 @@ if (process.argv.length >= 5 && /^[a-z0-9]+$/.test(process.argv[4])) {
   gitHashOpts.skipHash = process.argv[4];
 }
 
-var plugins = process.env.DEVELOPMENT ?
+var plugins = isDevelopment ?
   [new webpack.HotModuleReplacementPlugin()] :
   [new WebpackGitHash(gitHashOpts)];
 
@@ -54,9 +53,9 @@ module.exports = {
   entry: entry,
   output: {
     path: path.join(__dirname, 'static'),
-    publicPath: process.env.DEVELOPMENT ? 'http://localhost:8080/static/' : null,
-    filename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[name].js' : '[name].[githash].js',
-    chunkFilename: process.env.DEVELOPMENT || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js',
+    publicPath: isDevelopment ? 'http://localhost:8080/static/' : null,
+    filename: isDevelopment || process.env.JEKYLL ? '[name].js' : '[name].[githash].js',
+    chunkFilename: isDevelopment || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js',
     jsonpFunction: 'simplechartJsonp'
   },
   plugins: plugins,
