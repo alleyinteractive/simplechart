@@ -17,7 +17,7 @@ You can confirm these packages are installed by running `node -v` or `npm -v` fr
 1. Clone the Simplechart repository to your local machine using `git clone git@github.com:alleyinteractive/simplechart.git`.
 2. Change directory to your newly created folder using `cd simplechart`.
 3. Install the Node packages listed in *package.json* by running `npm install`.
-4. Start the Node app using `npm start`.
+4. Start the Node app using `npm run watch`.
 
 Congrats! You should now be able to access Simplechart at `http://localhost:8080/index.html`.
 
