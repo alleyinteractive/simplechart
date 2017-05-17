@@ -1,5 +1,5 @@
 const path = require('path');
-const { HotModuleReplacementPlugin } = require('webpack');
+const { DefinePlugin, HotModuleReplacementPlugin, optimize: { UglifyJsPlugin } } = require('webpack');
 const postcssImport = require('postcss-import');
 const postcssNested = require('postcss-nested');
 const postcssCustomProps = require('postcss-custom-properties');
@@ -40,9 +40,19 @@ if (5 <= process.argv.length && /^[a-z0-9]+$/.test(process.argv[4])) {
   gitHashOpts.skipHash = process.argv[4];
 }
 
-const plugins = isDevelopment ?
-  [new HotModuleReplacementPlugin()] :
-  [new WebpackGitHash(gitHashOpts)];
+let plugins = [
+  new WebpackGitHash(gitHashOpts),
+  new DefinePlugin({
+    'process.env': {
+      NODE_ENV: JSON.stringify('production'),
+    },
+  }),
+  new UglifyJsPlugin(),
+];
+
+if (isDevelopment) {
+  plugins = [new HotModuleReplacementPlugin()];
+}
 
 /**
  * Export the full Webpack config, note that publicPath is set in app/widget entry points
