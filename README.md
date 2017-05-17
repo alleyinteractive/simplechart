@@ -9,7 +9,7 @@ Quickly create and structure interactive charts for use in a content management 
 ## Quick Start for Local Development
 You'll need just a couple things installed before running Simplechart.
 
-- Node
+- Node _LTS or newer_
 - NPM
 
 You can confirm these packages are installed by running `node -v` or `npm -v` from your terminal.
