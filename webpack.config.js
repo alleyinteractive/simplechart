@@ -1,5 +1,5 @@
 const path = require('path');
-const { DefinePlugin, HotModuleReplacementPlugin, optimize: { UglifyJsPlugin } } = require('webpack');
+const webpack = require('webpack');
 const postcssImport = require('postcss-import');
 const postcssNested = require('postcss-nested');
 const postcssCustomProps = require('postcss-custom-properties');
@@ -42,16 +42,16 @@ if (5 <= process.argv.length && /^[a-z0-9]+$/.test(process.argv[4])) {
 
 let plugins = [
   new WebpackGitHash(gitHashOpts),
-  new DefinePlugin({
+  new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify('production'),
     },
   }),
-  new UglifyJsPlugin(),
+  new webpack.optimize.UglifyJsPlugin(),
 ];
 
 if (isDevelopment) {
-  plugins = [new HotModuleReplacementPlugin()];
+  plugins = [new webpack.HotModuleReplacementPlugin()];
 }
 
 /**
@@ -69,10 +69,10 @@ module.exports = {
     jsonpFunction: 'simplechartJsonp',
   },
   plugins,
-  postcss(webpack) {
+  postcss(bundler) {
     return [
       postcssImport({
-        addDependencyTo: webpack,
+        addDependencyTo: bundler,
       }),
       postcssMixins,
       postcssNested,
