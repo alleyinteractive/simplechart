@@ -1,21 +1,21 @@
-var path = require('path');
-var webpack = require('webpack');
-var postcssImport = require('postcss-import');
-var postcssNested = require('postcss-nested');
-var postcssCustomProps = require('postcss-custom-properties');
-var autoprefixer = require('autoprefixer');
-var postcssCalc = require('postcss-calc');
-var postcssColorFunction = require('postcss-color-function');
-var postcssMixins = require('postcss-mixins');
-var stylelint = require('stylelint');
-var WebpackGitHash = require('webpack-git-hash');
-var updateVersion = require('./updateVersion');
-var isDevelopment = 'development' === process.env.NODE_ENV;
+const path = require('path');
+const { HotModuleReplacementPlugin } = require('webpack');
+const postcssImport = require('postcss-import');
+const postcssNested = require('postcss-nested');
+const postcssCustomProps = require('postcss-custom-properties');
+const autoprefixer = require('autoprefixer');
+const postcssCalc = require('postcss-calc');
+const postcssColorFunction = require('postcss-color-function');
+const postcssMixins = require('postcss-mixins');
+const stylelint = require('stylelint');
+const WebpackGitHash = require('webpack-git-hash');
+const updateVersion = require('./updateVersion');
+const isDevelopment = 'development' === process.env.NODE_ENV;
 
 /**
  * Set up entry points
  */
-var entry = { widget: [path.resolve('./app/widget')] };
+const entry = { widget: [path.resolve('./app/widget')] };
 // Don't compile app if we're using the mock API for widget testing
 if (!process.env.MOCKAPI) {
   entry.app = [path.resolve('./app/index')];
@@ -26,22 +26,22 @@ if (!process.env.MOCKAPI) {
   }
 }
 
-var jsLoaders = ['babel'];
+const jsLoaders = ['babel'];
 
 /**
  * Set up plugins
  */
-var gitHashOpts = {
+const gitHashOpts = {
   cleanup: true,
-  callback: updateVersion
+  callback: updateVersion,
 };
 // If hash is passed from command line, e.g. $ npm run build abcd123
-if (process.argv.length >= 5 && /^[a-z0-9]+$/.test(process.argv[4])) {
+if (5 <= process.argv.length && /^[a-z0-9]+$/.test(process.argv[4])) {
   gitHashOpts.skipHash = process.argv[4];
 }
 
-var plugins = isDevelopment ?
-  [new webpack.HotModuleReplacementPlugin()] :
+const plugins = isDevelopment ?
+  [new HotModuleReplacementPlugin()] :
   [new WebpackGitHash(gitHashOpts)];
 
 /**
@@ -50,16 +50,16 @@ var plugins = isDevelopment ?
  */
 module.exports = {
   devtool: 'source-map',
-  entry: entry,
+  entry,
   output: {
     path: path.join(__dirname, 'static'),
     publicPath: isDevelopment ? 'http://localhost:8080/static/' : null,
     filename: isDevelopment || process.env.JEKYLL ? '[name].js' : '[name].[githash].js',
     chunkFilename: isDevelopment || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js',
-    jsonpFunction: 'simplechartJsonp'
+    jsonpFunction: 'simplechartJsonp',
   },
-  plugins: plugins,
-  postcss: function(webpack) {
+  plugins,
+  postcss(webpack) {
     return [
       postcssImport({
         addDependencyTo: webpack,
@@ -94,8 +94,8 @@ module.exports = {
       },
       {
         test: /\.md$/,
-        loader: 'html!markdown'
-      }
-   ]
-  }
+        loader: 'html!markdown',
+      },
+    ],
+  },
 };
