@@ -78,6 +78,7 @@
     "fecha": "2.3.x",
     "github-markdown-css": "2.4.x",
     "isomorphic-fetch": "2.2.x",
+    "lodash": "4.17.x",
     "react": "15.2.x",
     "react-addons-update": "15.2.x",
     "react-dom": "15.2.x",

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NVD3Chart from 'react-nvd3';
 import update from 'react-addons-update';
 import { connect } from 'react-redux';
+import { cloneDeep } from 'lodash';
 import actionTrigger from '../../../../actions';
 import { RECEIVE_ERROR } from '../../../../constants';
 import { getChartTypeObject } from '../../../../utils/chartTypeUtils';
@@ -34,7 +35,7 @@ class NVD3Adapter extends Component {
 
   /**
    * In editor, merge data into options and add a ref
-   * In widget, also recreate funciton-based options that can't be sent as JSON
+   * In widget, also recreate function-based options that can't be sent as JSON
    */
   _buildStateFromProps(props) {
     let nextState = update(props.options, {
@@ -87,8 +88,7 @@ class NVD3Adapter extends Component {
   }
 
   render() {
-    console.log(this.state.datum[0].values[0]);
-    return React.createElement(NVD3Chart, this.state);
+    return React.createElement(NVD3Chart, cloneDeep(this.state));
   }
 }
 
