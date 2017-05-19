@@ -20,7 +20,6 @@ export default class NVD3Adapter extends Component {
    */
   _buildChartProps() {
     const { options, data, widget } = this.props;
-
     let nextState = update(options, {
       datum: { $set: this._dataTransform(options.type, data) },
       ref: { $set: 'chartNode' },
