@@ -65,6 +65,7 @@ export default class NVD3Adapter extends Component {
   render() {
     // Key prop is for forcing re-render of the chart to avoid chart refresh issue when the chart type changes.
     // https://github.com/NuCivic/react-nvd3/issues/59
+    // We clone the props, because nvd3 will mutate the datum that you pass to it.
     return (
       <NVD3Chart
         key={Math.random()}
