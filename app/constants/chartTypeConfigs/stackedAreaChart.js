@@ -9,8 +9,8 @@ export const config = {
     settings: ['XAxis', 'YAxis', 'Legend', 'Metadata', 'ColorPalette'],
   },
   getNiceDomain(data) {
-    const mapDatumToY = (datum) => datum.values.map((series) => series.y);
-    const addMaxY = (acc, datum) => acc + max(mapDatumToY(datum));
+    const mapSeriesToY = (datum) => datum.values.map((series) => series.y);
+    const addMaxY = (acc, datum) => acc + max(mapSeriesToY(datum));
     const yValuesSummed = data.reduce(addMaxY, 0);
     return [0, yValuesSummed];
   },
