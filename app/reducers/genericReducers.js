@@ -1,5 +1,5 @@
 import update from 'react-addons-update';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 /**
  * Reusable reducers for any parts of the store that don't need to do anything fancy

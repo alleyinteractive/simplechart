@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NVD3Chart from 'react-nvd3';
 import update from 'react-addons-update';
 import { connect } from 'react-redux';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import actionTrigger from '../../../../actions';
 import { RECEIVE_ERROR } from '../../../../constants';
 import { getChartTypeObject } from '../../../../utils/chartTypeUtils';
@@ -14,6 +14,7 @@ import getNiceDomain from '../../../../utils/dataFormats/getNiceDomain';
 class NVD3Adapter extends Component {
 
   componentWillMount() {
+    // We can simplify all of these
     this.setState(this._buildStateFromProps(this.props));
   }
 
@@ -42,13 +43,6 @@ class NVD3Adapter extends Component {
       datum: { $set: this._dataTransform(props.options.type, props.data) },
       ref: { $set: 'chartNode' },
     });
-
-    /**
-     * @todo Make this part of chart type's config
-     */
-    if ('stackedAreaChart' === nextState.type && nextState.yDomain) {
-      delete nextState.yDomain;
-    }
 
     if (!this.props.widget) {
       return nextState;
