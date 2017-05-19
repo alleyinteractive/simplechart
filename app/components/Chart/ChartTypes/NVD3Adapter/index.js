@@ -11,14 +11,14 @@ import getNiceDomain from '../../../../utils/dataFormats/getNiceDomain';
 export default class NVD3Adapter extends Component {
   constructor(props) {
     super(props);
-    this._buildChartProps = this._buildChartProps.bind(this);
+    this._mapToChartProps = this._mapToChartProps.bind(this);
   }
 
   /**
    * In editor, merge data into options and add a ref
    * In widget, also recreate function-based options that can't be sent as JSON
    */
-  _buildChartProps() {
+  _mapToChartProps() {
     const { options, data, widget } = this.props;
     let nextState = update(options, {
       datum: { $set: this._dataTransform(options.type, data) },
@@ -63,15 +63,12 @@ export default class NVD3Adapter extends Component {
   }
 
   render() {
+    // We clone the props, because nvd3 will mutate the datum that you pass to it.
+    const chartProps = cloneDeep(this._mapToChartProps());
+
     // Key prop is for forcing re-render of the chart to avoid chart refresh issue when the chart type changes.
     // https://github.com/NuCivic/react-nvd3/issues/59
-    // We clone the props, because nvd3 will mutate the datum that you pass to it.
-    return (
-      <NVD3Chart
-        key={Math.random()}
-        {...cloneDeep(this._buildChartProps())}
-      />
-    );
+    return <NVD3Chart key={Math.random()} {...chartProps} />;
   }
 }
 

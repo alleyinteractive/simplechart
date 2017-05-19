@@ -8,6 +8,7 @@ import cloneDeep from 'lodash/cloneDeep';
  * and specify which actions it should be applied to
  */
 export function baseReducer(initState, allowActions) {
+  // Initial state applies only when Redux is initializing the store
   return (state = initState, { type, data }) => {
     // If current action type is allowed, return current action data
     if (0 <= allowActions.indexOf(type)) {

@@ -23,9 +23,12 @@ export default function applyYDomain(chartOptions, typeConfig, chartData) {
     return chartOptions;
   }
 
-  const yDomain = typeConfig.getNiceDomain ?
-    typeConfig.getNiceDomain(chartData) :
-    getNiceDomain(typeConfig.dataFormat, chartData);
+  let yDomain;
+  if (typeConfig.hasOwnProperty('getNiceDomain')) {
+    yDomain = typeConfig.getNiceDomain(chartData);
+  } else {
+    yDomain = getNiceDomain(typeConfig.dataFormat, chartData);
+  }
 
   /**
    * @todo Recalculate yDomain when series visibility is toggled by clicking on dots in the legend
