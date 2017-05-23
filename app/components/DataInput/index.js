@@ -24,18 +24,17 @@ class DataInput extends AppComponent {
     });
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this._submitData = this._submitData.bind(this);
     this._loadSampleData = this._loadSampleData.bind(this);
     this._setSampleDataSet = this._setSampleDataSet.bind(this);
-    this._beforeNextStep = this._beforeNextStep.bind(this);
     this._nextCallback = this._nextCallback.bind(this);
     this._handleInputBlur = this._handleInputBlur.bind(this);
     this._handleInputChange = this._handleInputChange.bind(this);
 
     this.state = {
-      rawData: '',
+      rawData: props.rawData,
       sampleDataSet: 0,
     };
 
@@ -47,10 +46,6 @@ class DataInput extends AppComponent {
     ];
   }
 
-  componentWillMount() {
-    this.setState({ rawData: this.props.rawData });
-  }
-
   componentWillReceiveProps(nextProps) {
     if (this.props.rawData !== nextProps.rawData) {
       this.setState({ rawData: nextProps.rawData });
@@ -58,10 +53,9 @@ class DataInput extends AppComponent {
   }
 
   _submitData(data) {
-    // setState is async so we apply trim() twice
-    this.setState({ rawData: data.trim() });
-    this.props.dispatch(
-      actionTrigger(RECEIVE_RAW_DATA, data.trim())
+    const rawData = data.trim();
+    this.setState({ rawData }, () =>
+      this.props.dispatch(actionTrigger(RECEIVE_RAW_DATA, rawData))
     );
   }
 
@@ -80,20 +74,6 @@ class DataInput extends AppComponent {
     this.setState({
       sampleDataSet: evt.target.value,
     });
-  }
-
-  _beforeNextStep() {
-    // Check for valid data input
-    // Errors w/ invalid data would have already surfaced in rawDataMiddleware
-    const dataSuccess = this.props.dataStatus.status &&
-      'success' === this.props.dataStatus.status;
-
-    // Date formatting should be disabled or validated
-    const dateFormatSuccess = !this.props.dateFormat.enabled ||
-      this.props.dateFormat.validated;
-
-    // return value indicates if we can proceed to next step
-    return dataSuccess && dateFormatSuccess;
   }
 
   _nextCallback(success) {

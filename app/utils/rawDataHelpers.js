@@ -3,9 +3,9 @@ import { dataTransformers } from '../constants/dataTransformers';
 /**
  * Parse data and check for errors
  *
- * @param obj parser Parser to use, i.e. Papaparse for client-side, Babyparse for server-side
- * @param string rawData Raw data to parse
- * @return array
+ * @param {Object} parser Parser to use, i.e. Papaparse for client-side, Babyparse for server-side
+ * @param {String} rawData Raw data to parse
+ * @return {Array}
  *   obj data Parsed data
  *   array field Array of fields from original data, in order
  *   obj errors Parsing errors
@@ -41,4 +41,17 @@ export function transformParsedData(parsedData, parsedFields, dateFormat) {
     );
   });
   return transformed;
+}
+
+export function validateTransformedData(transformedDataMap) {
+  const isBadTransform = (format) => !transformedDataMap[format];
+  const failedToTransform = Object
+    .keys(transformedDataMap)
+    .every(isBadTransform);
+
+  if (failedToTransform) {
+    return ['Field 1 must contain valid dates or numbers for multiple series data.'];
+  }
+
+  return [];
 }

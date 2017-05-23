@@ -29,8 +29,8 @@ export function debounce(func, ...theArgs) {
 /**
  * Determine if data is multi-series or single series
  *
- * @param array data Data array
- * @return bool True if multi-series, false if single-series
+ * @param {Array} data Data array
+ * @return {Boolean} True if multi-series, false if single-series
  */
 export function dataIsMultiSeries(data) {
   return ('undefined' !== typeof data[0].key &&

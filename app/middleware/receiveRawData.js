@@ -9,65 +9,82 @@ import {
 } from '../constants';
 import actionTrigger from '../actions';
 import Papa from '../vendor/papaparse.4.1.2';
-import { parseRawData, transformParsedData } from '../utils/rawDataHelpers';
+import { parseRawData, transformParsedData, validateTransformedData } from '../utils/rawDataHelpers';
 
-export default function rawDataMiddleware({ getState }) {
-  return (dispatch) => (action) => {
+export default function rawDataMiddleware(store) {
+  return (next) => (action) => {
     if (action.type !== RECEIVE_RAW_DATA) {
-      return dispatch(action);
+      return next(action);
     }
 
-    const storeUpdates = {
+    const dateFormat = store.getState().dateFormat;
+    const state = {
       dataFields: [],
       dataStatus: {},
       parsedData: [],
       transformedData: {},
     };
+
+    // Case 1: Empty text area
     if (!action.data.length) {
-      // Case 1: Empty text area
-      dispatch(actionTrigger(CLEAR_ERROR));
-    } else {
-      const parserResult = parseRawData(Papa, action.data);
-
-      // Case 2: CSV parsing error(s)
-      if (parserResult[2].length) {
-        storeUpdates.dataStatus = {
-          status: 'error',
-          message: parserResult[2].join('; '),
-        };
-        dispatch(actionTrigger(RECEIVE_ERROR, 'e001'));
-      } else {
-        // Case 3: CSV parsing success
-        storeUpdates.dataFields = parserResult[1];
-        storeUpdates.dataStatus = {
-          status: 'success',
-          message: 'Data input successful',
-        };
-        storeUpdates.parsedData = parserResult[0];
-        storeUpdates.transformedData = transformParsedData(
-          parserResult[0],
-          parserResult[1],
-          getState().dateFormat
-        );
-        dispatch(actionTrigger(CLEAR_ERROR));
-      }
+      return dispatchRawDataState(next, action, state);
     }
-    // Empty for Case 1 and Case 2, array of fields for Case 3
-    dispatch(actionTrigger(
-      PARSE_DATA_FIELDS, storeUpdates.dataFields, action.src));
 
-    // Empty for Case 1, error for Case 2, success for Case 3
-    dispatch(actionTrigger(
-      PARSE_DATA_STATUS, storeUpdates.dataStatus, action.src));
+    const [data, fields, errors] = parseRawData(Papa, action.data);
+    const transformedDataMap = transformParsedData(
+      data,
+      fields,
+      dateFormat
+    );
+    const combinedErrors = errors.concat(
+      validateTransformedData(transformedDataMap)
+    );
 
-    // Empty for Case 1 and Case 2, array of data for Case 3
-    dispatch(actionTrigger(
-      PARSE_RAW_DATA, storeUpdates.parsedData, action.src));
+    // Case 2: CSV parsing error(s)
+    if (combinedErrors.length) {
+      return dispatchRawDataState(next, action, Object.assign(state, {
+        dataStatus: {
+          status: 'error',
+          message: combinedErrors.join('; '),
+        },
+      }));
+    }
 
-    // Empty for Case 1 and Case 2, object w compatible data formats for Case 3
-    dispatch(actionTrigger(
-      TRANSFORM_DATA, storeUpdates.transformedData, action.src));
-
-    return dispatch(action);
+    // Case 3: CSV parsing success
+    return dispatchRawDataState(next, action, Object.assign(state, {
+      dataFields: fields,
+      dataStatus: {
+        status: 'success',
+        message: 'Data input successful',
+      },
+      parsedData: data,
+      transformedData: transformedDataMap,
+    }));
   };
+}
+
+function dispatchRawDataState(dispatch, action, state) {
+  if ('error' !== state.dataStatus.status) {
+    dispatch(actionTrigger(CLEAR_ERROR));
+  } else {
+    dispatch(actionTrigger(RECEIVE_ERROR, 'e001'));
+  }
+
+  // Empty for Case 1 and Case 2, array of fields for Case 3
+  dispatch(actionTrigger(
+    PARSE_DATA_FIELDS, state.dataFields, action.src));
+
+  // Empty for Case 1, error for Case 2, success for Case 3
+  dispatch(actionTrigger(
+    PARSE_DATA_STATUS, state.dataStatus, action.src));
+
+  // Empty for Case 1 and Case 2, array of data for Case 3
+  dispatch(actionTrigger(
+    PARSE_RAW_DATA, state.parsedData, action.src));
+
+  // Empty for Case 1 and Case 2, object w compatible data formats for Case 3
+  dispatch(actionTrigger(
+    TRANSFORM_DATA, state.transformedData, action.src));
+
+  return dispatch(action);
 }
