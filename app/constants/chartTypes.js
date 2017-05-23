@@ -5,12 +5,14 @@ import * as pieChart from './chartTypeConfigs/pieChart';
 import * as discreteBarChart from './chartTypeConfigs/discreteBarChart';
 import * as lineChart from './chartTypeConfigs/lineChart';
 import * as stackedAreaChart from './chartTypeConfigs/stackedAreaChart';
+import * as scatterChart from './chartTypeConfigs/scatterChart';
 
 export const selectableChartTypes = [
   pieChart,
   discreteBarChart,
   lineChart,
   stackedAreaChart,
+  scatterChart,
 ];
 
 export const defaultBreakpoint = {

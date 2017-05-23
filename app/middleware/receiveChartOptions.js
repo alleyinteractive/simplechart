@@ -131,6 +131,7 @@ export default function receiveChartType({ getState }) {
 
     // Apply colors to chartData if needed and dispatch to store
     if (nextOpts.hasOwnProperty('color') && _shouldApplyColorsToData()) {
+      console.log('from chart options');
       dispatchChartData(
         dispatch,
         getState().chartType.config,

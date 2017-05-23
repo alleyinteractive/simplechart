@@ -10,6 +10,7 @@ export default function setChartData({ getState }) {
   return (dispatch) => (action) => {
     if (TRANSFORM_DATA === action.type) {
       // will validate input and dispatch formatted data to store
+      console.log('from transform');
       dispatchChartData(
         dispatch,
         getState().chartType.config || {},

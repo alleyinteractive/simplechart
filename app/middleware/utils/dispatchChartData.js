@@ -20,6 +20,7 @@ export default function dispatchChartData(
     const nextData = ('nvd3MultiSeries' === chartTypeConfig.dataFormat) ?
         applyColorsToData(colors, transformedData[chartTypeConfig.dataFormat]) :
         transformedData[chartTypeConfig.dataFormat];
+
     dispatch(actionTrigger(
       RECEIVE_CHART_DATA,
       nextData,

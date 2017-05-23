@@ -83,6 +83,7 @@ function dispatchRawDataState(dispatch, action, state) {
     PARSE_RAW_DATA, state.parsedData, action.src));
 
   // Empty for Case 1 and Case 2, object w compatible data formats for Case 3
+  // TODO: Refactor this
   dispatch(actionTrigger(
     TRANSFORM_DATA, state.transformedData, action.src));
 

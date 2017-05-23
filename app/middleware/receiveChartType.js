@@ -35,6 +35,7 @@ export default function receiveChartType({ getState }) {
      * Send chartData to store if dataFormat has changed
      */
     if (_shouldDispatchChartData()) {
+      console.log('from chart type');
       dispatchChartData(
         dispatch,
         nextConfig,
