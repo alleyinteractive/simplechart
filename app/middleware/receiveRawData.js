@@ -49,7 +49,22 @@ export default function rawDataMiddleware({ getState }) {
           fields,
           getState().dateFormat
         );
-        next(actionTrigger(CLEAR_ERROR));
+
+        const isBadTransform = (transformType) =>
+          !storeUpdates.transformedData[transformType];
+        const isDataInvalid = Object
+          .keys(storeUpdates.transformedData)
+          .every(isBadTransform);
+
+        if (isDataInvalid) {
+          next(actionTrigger(RECEIVE_ERROR, 'e001'));
+          storeUpdates.dataStatus = {
+            status: 'error',
+            message: 'Data formatting error',
+          };
+        } else {
+          next(actionTrigger(CLEAR_ERROR));
+        }
       }
     }
     // Empty for Case 1 and Case 2, array of fields for Case 3
