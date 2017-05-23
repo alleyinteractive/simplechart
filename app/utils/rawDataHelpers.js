@@ -42,3 +42,16 @@ export function transformParsedData(parsedData, parsedFields, dateFormat) {
   });
   return transformed;
 }
+
+export function validateTransformedData(transformedDataMap) {
+  const isBadTransform = (format) => !transformedDataMap[format];
+  const failedToTransform = Object
+    .keys(transformedDataMap)
+    .every(isBadTransform);
+
+  if (failedToTransform) {
+    return ['Field 1 must contain valid date or numbers for multiple series data.'];
+  }
+
+  return [];
+}
