@@ -4,8 +4,14 @@
 import * as pieChart from './chartTypeConfigs/pieChart';
 import * as discreteBarChart from './chartTypeConfigs/discreteBarChart';
 import * as lineChart from './chartTypeConfigs/lineChart';
+import * as stackedAreaChart from './chartTypeConfigs/stackedAreaChart';
 
-export const selectableChartTypes = [pieChart, discreteBarChart, lineChart];
+export const selectableChartTypes = [
+  pieChart,
+  discreteBarChart,
+  lineChart,
+  stackedAreaChart,
+];
 
 export const defaultBreakpoint = {
   noMaxWidth: true,

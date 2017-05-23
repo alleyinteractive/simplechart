@@ -1,4 +1,5 @@
 import update from 'react-addons-update';
+import cloneDeep from 'lodash/cloneDeep';
 
 /**
  * Reusable reducers for any parts of the store that don't need to do anything fancy
@@ -7,15 +8,11 @@ import update from 'react-addons-update';
  * and specify which actions it should be applied to
  */
 export function baseReducer(initState, allowActions) {
-  return (state, action) => {
-    // If current action type is allowed, return currrent action data
-    if (0 <= allowActions.indexOf(action.type)) {
-      return action.data;
-    }
-
-    // Applies only when Redux is initializing the store
-    if (undefined === state) {
-      return initState;
+  // Initial state applies only when Redux is initializing the store
+  return (state = initState, { type, data }) => {
+    // If current action type is allowed, return current action data
+    if (0 <= allowActions.indexOf(type)) {
+      return cloneDeep(data);
     }
 
     // Ignore this action

@@ -1,60 +1,43 @@
 import React, { Component } from 'react';
 import NVD3Chart from 'react-nvd3';
 import update from 'react-addons-update';
-import { connect } from 'react-redux';
-import actionTrigger from '../../../../actions';
-import { RECEIVE_ERROR } from '../../../../constants';
+import cloneDeep from 'lodash/cloneDeep';
 import { getChartTypeObject } from '../../../../utils/chartTypeUtils';
 import { nvd3Defaults } from '../../../../constants/chartTypes';
 import applyTickFormatters from '../../../../middleware/utils/applyTickFormatters';
 import { shouldSetupYDomain } from '../../../../middleware/utils/applyYDomain';
 import getNiceDomain from '../../../../utils/dataFormats/getNiceDomain';
 
-class NVD3Adapter extends Component {
-
-  componentWillMount() {
-    this.setState(this._buildStateFromProps(this.props));
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState(this._buildStateFromProps(nextProps));
-
-    try {
-      // Force the react-nvd3 to re-render the chart, when new props are received
-      this.refs.chartNode.rendering = true;
-      const wrapEl = this.refs.chartNode.refs.root.querySelector('g.nv-wrap');
-      if (wrapEl) {
-        wrapEl.parentNode.removeChild(wrapEl);
-      }
-    } catch (err) {
-      this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e004'));
-      console.log(err.message); // eslint-disable-line no-console
-    }
+export default class NVD3Adapter extends Component {
+  constructor(props) {
+    super(props);
+    this._mapToChartProps = this._mapToChartProps.bind(this);
   }
 
   /**
    * In editor, merge data into options and add a ref
-   * In widget, also recreate funciton-based options that can't be sent as JSON
+   * In widget, also recreate function-based options that can't be sent as JSON
    */
-  _buildStateFromProps(props) {
-    let nextState = update(props.options, {
-      datum: { $set: this._dataTransform(props.options.type, props.data) },
+  _mapToChartProps() {
+    const { options, data, widget } = this.props;
+    let nextState = update(options, {
+      datum: { $set: this._dataTransform(options.type, data) },
       ref: { $set: 'chartNode' },
     });
 
-    if (!this.props.widget) {
+    if (!widget) {
       return nextState;
     }
 
     // Widgets need to recreate function-based options
-    const typeConfig = getChartTypeObject(props.options.type).config;
+    const typeConfig = getChartTypeObject(options.type).config;
 
     nextState = update(nextState, {
       x: { $set: nvd3Defaults[typeConfig.dataFormat].x },
       y: { $set: nvd3Defaults[typeConfig.dataFormat].y },
       yDomain: { $apply: (oldYDomain) => { // eslint-disable-line arrow-body-style
         return (shouldSetupYDomain(typeConfig) && undefined === oldYDomain) ?
-          getNiceDomain(typeConfig.dataFormat, props.data) : oldYDomain;
+          getNiceDomain(typeConfig.dataFormat, data) : oldYDomain;
       } },
     });
 
@@ -80,7 +63,12 @@ class NVD3Adapter extends Component {
   }
 
   render() {
-    return React.createElement(NVD3Chart, this.state);
+    // We clone the props, because nvd3 will mutate the datum that you pass to it.
+    const chartProps = cloneDeep(this._mapToChartProps());
+
+    // Key prop is for forcing re-render of the chart to avoid chart refresh issue when the chart type changes.
+    // https://github.com/NuCivic/react-nvd3/issues/59
+    return <NVD3Chart key={Math.random()} {...chartProps} />;
   }
 }
 
@@ -91,7 +79,4 @@ NVD3Adapter.propTypes = {
     React.PropTypes.string,
     React.PropTypes.bool,
   ]),
-  dispatch: React.PropTypes.func,
 };
-
-export default connect()(NVD3Adapter);
