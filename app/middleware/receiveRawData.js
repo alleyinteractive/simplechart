@@ -18,7 +18,7 @@ export default function rawDataMiddleware(store) {
     }
 
     const dateFormat = store.getState().dateFormat;
-    const newState = {
+    const state = {
       dataFields: [],
       dataStatus: {},
       parsedData: [],
@@ -27,7 +27,7 @@ export default function rawDataMiddleware(store) {
 
     // Case 1: Empty text area
     if (!action.data.length) {
-      return dispatchNewState(next, action, newState);
+      return dispatchRawDataState(next, action, state);
     }
 
     const [data, fields, errors] = parseRawData(Papa, action.data);
@@ -42,7 +42,7 @@ export default function rawDataMiddleware(store) {
 
     // Case 2: CSV parsing error(s)
     if (combinedErrors.length) {
-      return dispatchNewState(next, action, Object.assign(newState, {
+      return dispatchRawDataState(next, action, Object.assign(state, {
         dataStatus: {
           status: 'error',
           message: combinedErrors.join('; '),
@@ -51,7 +51,7 @@ export default function rawDataMiddleware(store) {
     }
 
     // Case 3: CSV parsing success
-    return dispatchNewState(next, action, Object.assign(newState, {
+    return dispatchRawDataState(next, action, Object.assign(state, {
       dataFields: fields,
       dataStatus: {
         status: 'success',
@@ -63,7 +63,7 @@ export default function rawDataMiddleware(store) {
   };
 }
 
-function dispatchNewState(dispatch, action, state) {
+function dispatchRawDataState(dispatch, action, state) {
   if ('error' !== state.dataStatus.status) {
     dispatch(actionTrigger(CLEAR_ERROR));
   } else {
