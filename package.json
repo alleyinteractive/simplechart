@@ -3,13 +3,13 @@
   "version": "1.1.4",
   "description": "Simplechart React",
   "scripts": {
-    "watch": "NODE_ENV=development node server.js",
+    "build": "webpack -p --progress",
     "lint": "eslint src",
-    "start": "webpack -p --progress",
     "locales": "node locales.js",
     "mock-api": "MOCKAPI=true NODE_ENV=development ./node_modules/babel-cli/bin/babel-node.js server.js",
     "test": "jest",
-    "test-watch": "jest --watch"
+    "test-watch": "jest --watch",
+    "watch": "NODE_ENV=development node server.js"
   },
   "repository": {
     "type": "git",
@@ -48,6 +48,7 @@
     "eslint-config-airbnb": "6.0.x",
     "eslint-loader": "1.7.x",
     "eslint-plugin-react": "4.2.x",
+    "express": "4.15.x",
     "extract-text-webpack-plugin": "1.0.x",
     "file-loader": "0.8.x",
     "html-loader": "0.4.x",
