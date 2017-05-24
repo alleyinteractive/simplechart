@@ -3,7 +3,7 @@
  * If we were to do this in store.js, reducers wouldn't be hot reloadable.
  */
 import { combineReducers } from 'redux';
-import { baseReducer, mergeReducer } from './genericReducers';
+import { baseReducer, mergeReducer, createComposedReducer } from './genericReducers';
 import chartOptionsReducer from './chartOptionsReducer';
 import setClearReducer from './setClearReducer';
 import chartDataReducer from './chartDataReducer';
@@ -31,8 +31,8 @@ const defaultReducer = combineReducers({
   unsavedChanges: baseReducer(false, [actions.UNSAVED_CHANGES]),
 });
 
-export default function rootReducer(state, action) {
-  let newState = defaultReducer(state, action);
-  newState = rawDataReducer(newState, action);
-  return chartDataReducer(newState, action);
-}
+export default createComposedReducer([
+  defaultReducer,
+  rawDataReducer,
+  chartDataReducer,
+]);
