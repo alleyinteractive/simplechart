@@ -31,6 +31,6 @@ const defaultReducer = combineReducers({
 });
 
 export default function rootReducer(state, action) {
-  const newState = chartDataReducer(state, action);
-  return defaultReducer(newState, action);
+  const newState = defaultReducer(state, action);
+  return chartDataReducer(newState, action);
 }

@@ -2,17 +2,19 @@ import update from 'react-addons-update';
 import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE, TRANSFORM_DATA } from '../constants';
 import { dataIsMultiSeries, loopArrayItemAtIndex } from '../utils/misc';
 
-export default function chartDataReducer(state, action) {
+export default function chartDataReducer(state = {}, action) {
   let chartData = state.chartData;
 
-  switch (action) {
+  switch (action.type) {
     case RECEIVE_CHART_OPTIONS: {
       if (checkShouldApplyColors(state, action)) {
         chartData = reduceChartData(
-          state.chartType.config,
+          state.chartData,
+          state.chartType.config.dataFormat,
           state.transformedData,
           action.data.color
         );
+        console.log(chartData);
       }
       break;
     }
@@ -20,7 +22,8 @@ export default function chartDataReducer(state, action) {
     case RECEIVE_CHART_TYPE: {
       if (checkShouldDispatchChartData(state, action)) {
         chartData = reduceChartData(
-          action.data.config,
+          state.chartData,
+          action.data.config.dataFormat,
           state.transformedData,
           state.chartOptions.color
         );
@@ -31,7 +34,7 @@ export default function chartDataReducer(state, action) {
     case TRANSFORM_DATA: {
       chartData = reduceChartData(
         state.chartData,
-        state.chartType.config,
+        (state.chartType.config || {}).dataFormat,
         action.data,
         state.chartOptions.color
       );
@@ -41,19 +44,25 @@ export default function chartDataReducer(state, action) {
     default:
   }
 
-  return update(state, { $set: { chartData } });
+  return update(state, { chartData: { $set: chartData } });
 }
 
 function reduceChartData(chartData, dataFormat, transformedData, colors = []) {
-  if (!dataFormat) {
+  const firstAvailableFormat = Object
+    .keys(transformedData)
+    .find((format) => !!transformedData[format]);
+
+  const format = dataFormat || firstAvailableFormat;
+  console.log(format);
+  if (!format) {
     return chartData;
   }
 
   if ('nvd3MultiSeries' === dataFormat) {
-    return applyColorsToData(colors, transformedData[dataFormat]);
+    return applyColorsToData(colors, transformedData[format]);
   }
 
-  return transformedData[dataFormat];
+  return transformedData[format];
 }
 
 function checkShouldDispatchChartData(state, action) {
