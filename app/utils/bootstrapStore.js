@@ -8,7 +8,7 @@ import {
   RECEIVE_CHART_TYPE,
   RECEIVE_CHART_METADATA,
 } from '../constants';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import { getChartTypeObject, getChartTypeDefaultOpts } from './chartTypeUtils';
 import defaultPalette from '../constants/defaultPalette';
 import applyTickFormatters from '../middleware/utils/applyTickFormatters';

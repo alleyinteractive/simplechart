@@ -2,14 +2,15 @@
  * Combine all reducers in this file and export the combined reducers.
  * If we were to do this in store.js, reducers wouldn't be hot reloadable.
  */
-
 import { combineReducers } from 'redux';
-import { baseReducer, mergeReducer } from './genericReducers';
+import { baseReducer, mergeReducer, createComposedReducer } from './genericReducers';
 import chartOptionsReducer from './chartOptionsReducer';
 import setClearReducer from './setClearReducer';
+import chartDataReducer from './chartDataReducer';
+import rawDataReducer from './rawDataReducer';
 import * as actions from '../constants';
 
-export default combineReducers({
+const defaultReducer = combineReducers({
   chartData: baseReducer([], [actions.RECEIVE_CHART_DATA]),
   chartMetadata: baseReducer({}, [actions.RECEIVE_CHART_METADATA]),
   chartOptions: chartOptionsReducer,
@@ -29,3 +30,9 @@ export default combineReducers({
   transformedData: baseReducer({}, [actions.TRANSFORM_DATA]),
   unsavedChanges: baseReducer(false, [actions.UNSAVED_CHANGES]),
 });
+
+export default createComposedReducer([
+  defaultReducer,
+  rawDataReducer,
+  chartDataReducer,
+]);

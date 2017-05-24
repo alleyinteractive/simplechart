@@ -9,7 +9,6 @@ import { AppContainer } from 'react-hot-loader';
 import thunk from 'redux-thunk';
 import receiveRawData from './middleware/receiveRawData';
 import receiveDateFormat from './middleware/receiveDateFormat';
-import transformData from './middleware/transformData';
 import receiveChartType from './middleware/receiveChartType';
 import receiveChartOptions from './middleware/receiveChartOptions';
 import receiveHelpDocument from './middleware/receiveHelpDocument';
@@ -33,7 +32,6 @@ const store = createStore(rootReducer, composeEnhancers(
     thunk,
     receiveRawData,
     receiveDateFormat,
-    transformData,
     receiveChartType,
     receiveChartOptions,
     receiveHelpDocument,

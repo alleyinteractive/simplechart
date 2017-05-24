@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { Message, Close } from 'rebass';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import * as styles from './ErrorMessage.css';
 import getErrorMessage from '../../../utils/errorCodeUtils';
 import { CLEAR_ERROR } from '../../../constants';

@@ -19,7 +19,7 @@ import {
   RECEIVE_WIDGET_OPTIONS,
   RECEIVE_WIDGET_METADATA,
 } from '../../constants';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 
 export default function dataReducer(state = {}, action) {
   switch (action.type) {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import chartTypeLoader from '../../utils/chartTypeLoader';
 import RuledBox from '../lib/RuledBox';
 import { getChartTypeObject } from '../../utils/chartTypeUtils';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import { defaultBreakpoint } from '../../constants/chartTypes';
 import { debounce } from '../../utils/misc';
 

@@ -31,11 +31,11 @@ function _makeNice(range) {
 /**
  * Get "nice" rounded domain from dataset
  *
- * @param string format Data format from chart config object
- * @param array data Chart data transformed for data format
- * @return array Domain array of [min, max] values
+ * @param {String} format Data format from chart config object
+ * @param {Object[]} data Chart data transformed for data format
+ * @return {Array} Domain array of [min, max] values
  */
-export default function getNiceDomain(format, data) {
+export default function getRangeDomain(format, data) {
   const domain = 'nvd3SingleSeries' === format ?
     _getSeriesDomain(data, format) : _getMultiSeriesDomain(data, format);
   return _makeNice(domain);

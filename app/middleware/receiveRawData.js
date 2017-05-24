@@ -63,6 +63,7 @@ export default function rawDataMiddleware(store) {
   };
 }
 
+// TODO: Move this stuff to receiveRawData reducer
 function dispatchRawDataState(dispatch, action, state) {
   if ('error' !== state.dataStatus.status) {
     dispatch(actionTrigger(CLEAR_ERROR));

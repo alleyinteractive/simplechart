@@ -8,7 +8,7 @@ import actionTrigger from '../../actions';
 import AccordionBlock from '../Layout/AccordionBlock';
 import DispatchField from '../lib/DispatchField';
 import { Button } from 'rebass';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import { defaultBreakpoint } from '../../constants/chartTypes';
 
 class ChartLayout extends Component {

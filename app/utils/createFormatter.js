@@ -1,6 +1,6 @@
 import { format, formatLocale } from 'd3-format';
 import { locales, defaultLocaleIndex } from '../constants/d3Locales';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 
 function _getLocaleSettings(idx) {
   let localeData;
