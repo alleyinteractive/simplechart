@@ -1,1 +1,1 @@
-web: npm run build $SOURCE_VERSION && node dev-site.js $SOURCE_VERSION
+web: webpack -p "" "develop" && node dev-site.js "develop"
