@@ -1,6 +1,6 @@
 import { partial, flow as compose } from 'lodash';
 
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
 
 /**

@@ -10,7 +10,7 @@ import {
 import actionTrigger from '../actions';
 import defaultPalette from '../constants/defaultPalette';
 import { defaultBreakpointsOpt } from '../constants/chartTypes';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
 import applyYDomain from './utils/applyYDomain';
 import applyTickFormatters from './utils/applyTickFormatters';

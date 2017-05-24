@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE, TRANSFORM_DATA } from '../constants';
 import { dataIsMultiSeries, loopArrayItemAtIndex } from '../utils/misc';
 

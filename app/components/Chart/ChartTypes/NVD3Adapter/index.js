@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import NVD3Chart from 'react-nvd3';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
 import { getChartTypeObject, getChartTypeDefaultOpts } from '../../../../utils/chartTypeUtils';
 import applyYDomain from '../../../../middleware/utils/applyYDomain.js';

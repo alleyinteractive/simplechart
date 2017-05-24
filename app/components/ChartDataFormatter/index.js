@@ -8,7 +8,7 @@ import {
   defaultTickFormatSettings,
   multiplierOptions,
 } from '../../constants/defaultTickFormatSettings';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 
 class ChartDataFormatter extends Component {
   constructor() {

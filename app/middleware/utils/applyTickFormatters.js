@@ -1,4 +1,4 @@
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import createFormatter from '../../utils/createFormatter';
 import * as dateUtils from '../../utils/parseDate';
 

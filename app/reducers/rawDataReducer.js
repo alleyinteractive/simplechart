@@ -1,4 +1,4 @@
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import { RECEIVE_RAW_DATA } from '../constants';
 
 export default function rawDataReducer(state = {}, action) {

@@ -3,7 +3,7 @@ import {
   RECEIVE_CHART_OPTIONS_EXTEND,
   DELETE_CHART_OPTIONS,
 } from '../constants';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import deepExtend from 'deep-extend';
 
 export default function chartOptionsReducer(state = {}, action) {

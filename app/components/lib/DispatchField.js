@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Rebass from 'rebass';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import { connect } from 'react-redux';
 import actionTrigger from '../../actions';
 import buildDeepObject from '../../utils/buildDeepObject';

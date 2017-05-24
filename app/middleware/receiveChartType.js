@@ -18,6 +18,7 @@ export default function receiveChartType({ getState }) {
       return dispatch(action);
     }
     const nextConfig = action.data.config;
+    console.log(nextConfig);
 
     /**
      * Setup chart type default options if NOT bootstrapping from postMessage
@@ -29,6 +30,7 @@ export default function receiveChartType({ getState }) {
         getState().chartOptions,
         getState().defaultsAppliedTo
       );
+      console.log(nextOpts);
 
       /**
        * set yDomain if chartData is set up

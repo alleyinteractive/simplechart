@@ -2,7 +2,7 @@
  * Middleware that applies chart type default options and handles some special cases
  */
 import { getChartTypeDefaultOpts } from '../../utils/chartTypeUtils';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 
 export default function applyChartTypeDefaults(
   chartTypeConfig,

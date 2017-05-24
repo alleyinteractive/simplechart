@@ -5,7 +5,7 @@ import {
 } from '../constants';
 import actionTrigger from '../actions';
 import { transformParsedData } from '../utils/rawDataHelpers';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 
 /**
  * Re-apply data transformers if we've enabled a valid date formatting string
