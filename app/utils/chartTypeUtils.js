@@ -23,9 +23,9 @@ export function getChartTypeDefaultOpts(type) {
     if (typeObj.defaultOpts && 0 < Object.keys(typeObj.defaultOpts).length) {
       returnOpts = update(returnOpts, { $merge: typeObj.defaultOpts });
     }
-
     return returnOpts;
   }
+
   // non-NVD3 data formats would do something else here
   return {};
 }
