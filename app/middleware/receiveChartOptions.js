@@ -11,7 +11,6 @@ import actionTrigger from '../actions';
 import defaultPalette from '../constants/defaultPalette';
 import { defaultBreakpointsOpt } from '../constants/chartTypes';
 import update from 'react-addons-update';
-import dispatchChartData from './utils/dispatchChartData';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
 import applyYDomain from './utils/applyYDomain';
 import applyTickFormatters from './utils/applyTickFormatters';
@@ -29,32 +28,6 @@ export default function receiveChartType({ getState }) {
      */
     // Clone received options
     let nextOpts = update({}, { $set: action.data });
-
-    /**
-     * Determine from store if we need to apply colors to data series.
-     * True when dataFormat is nvd3MultiSeries and
-     * action comes from manual user change OR not all series have a color already
-     */
-    function _shouldApplyColorsToData() {
-      let shouldApply;
-      try {
-        if ('nvd3MultiSeries' !== getState().chartType.config.dataFormat) {
-          // Don't apply if data format isn't NVD3 multi series
-          shouldApply = false;
-        } else if ('PalettePicker' === action.src) {
-          // Apply if update came from manual user change
-          shouldApply = true;
-        } else {
-          // Test if at least one series doesn't have a color already
-          shouldApply = getState().chartData.reduce((acc, series) =>
-            (acc || !series.hasOwnProperty('color'))
-          , false);
-        }
-      } catch (err) {
-        shouldApply = false;
-      }
-      return shouldApply;
-    }
 
     /**
      * Was this dispatch triggered by bootstrap.new or bootstrap.edit?
@@ -127,18 +100,6 @@ export default function receiveChartType({ getState }) {
     // Set up colors if needed. This will apply when a new chart does not receive a custom color palette
     if (_shouldApplyDefaultPalette()) {
       nextOpts = update(nextOpts, { color: { $set: defaultPalette } });
-    }
-
-    // Apply colors to chartData if needed and dispatch to store
-    if (nextOpts.hasOwnProperty('color') && _shouldApplyColorsToData()) {
-      console.log('from chart options');
-      dispatchChartData(
-        dispatch,
-        getState().chartType.config,
-        getState().transformedData,
-        nextOpts.color,
-        action.src
-      );
     }
 
     // Apply default options

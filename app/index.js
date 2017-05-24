@@ -33,7 +33,6 @@ const store = createStore(rootReducer, composeEnhancers(
     thunk,
     receiveRawData,
     receiveDateFormat,
-    transformData,
     receiveChartType,
     receiveChartOptions,
     receiveHelpDocument,

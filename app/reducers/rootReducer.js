@@ -2,13 +2,11 @@
  * Combine all reducers in this file and export the combined reducers.
  * If we were to do this in store.js, reducers wouldn't be hot reloadable.
  */
-
-import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE, TRANSFORM_DATA } from '../constants';
 import { combineReducers } from 'redux';
 import { baseReducer, mergeReducer } from './genericReducers';
 import chartOptionsReducer from './chartOptionsReducer';
 import setClearReducer from './setClearReducer';
-import applyColorsToData from '../middleware/utils/applyColorsToData';
+import chartDataReducer from './chartDataReducer';
 import * as actions from '../constants';
 
 const defaultReducer = combineReducers({
@@ -33,67 +31,6 @@ const defaultReducer = combineReducers({
 });
 
 export default function rootReducer(state, action) {
-  let newState = state;
-
-  switch (action) {
-    case RECEIVE_CHART_OPTIONS: {
-      newState = {};
-      break;
-    }
-
-    case RECEIVE_CHART_TYPE: {
-      newState = {
-
-      };
-      break;
-    }
-
-    case TRANSFORM_DATA: {
-      newState = reduceChartData(
-        state.chartData,
-        state.chartType.config,
-        action.data,
-        state.chartOptions.color
-      );
-      break;
-    }
-
-    default:
-      break;
-  }
-
+  const newState = chartDataReducer(state, action);
   return defaultReducer(newState, action);
-}
-
-function reduceChartData(chartData, dataFormat, transformedData, colors = []) {
-  if (!dataFormat) {
-    return chartData;
-  }
-
-  if ('nvd3MultiSeries' === dataFormat) {
-    return applyColorsToData(colors, transformedData[dataFormat]);
-  }
-
-  return transformedData[dataFormat];
-}
-
-function _shouldDispatchChartData() {
-  return !getState().chartData.length || // chartData not already set up
-    !getState().chartType.config || //  chartType not already set up
-    !getState().chartType.config.dataFormat || // chartType didn't have dataFormat
-    getState().chartType.config.dataFormat !== nextConfig.dataFormat; // dataFormat has changed
-}
-
-/**
- * Send chartData to store if dataFormat has changed
- */
-if (_shouldDispatchChartData()) {
-  console.log('from chart type');
-  dispatchChartData(
-    dispatch,
-    nextConfig,
-    getState().transformedData,
-    getState().chartOptions.color,
-    action.src
-  );
 }
