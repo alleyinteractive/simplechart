@@ -7,6 +7,7 @@ import { baseReducer, mergeReducer } from './genericReducers';
 import chartOptionsReducer from './chartOptionsReducer';
 import setClearReducer from './setClearReducer';
 import chartDataReducer from './chartDataReducer';
+import rawDataReducer from './rawDataReducer';
 import * as actions from '../constants';
 
 const defaultReducer = combineReducers({
@@ -31,6 +32,7 @@ const defaultReducer = combineReducers({
 });
 
 export default function rootReducer(state, action) {
-  const newState = defaultReducer(state, action);
+  let newState = defaultReducer(state, action);
+  newState = rawDataReducer(newState, action);
   return chartDataReducer(newState, action);
 }
