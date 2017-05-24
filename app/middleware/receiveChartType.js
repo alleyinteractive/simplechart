@@ -34,7 +34,11 @@ export default function receiveChartType({ getState }) {
        * set yDomain if chartData is set up
        */
       if (0 < getState().chartData.length) {
-        nextOpts = applyYDomain(nextOpts, nextConfig, getState().chartData);
+        nextOpts = applyYDomain(
+          nextOpts,
+          nextConfig,
+          getState().transformedData[nextConfig.dataFormat]
+        );
       }
 
       /**

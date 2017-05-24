@@ -14,20 +14,17 @@ export default function chartDataReducer(state = {}, action) {
           state.transformedData,
           action.data.color
         );
-        console.log(chartData);
       }
       break;
     }
 
     case RECEIVE_CHART_TYPE: {
-      if (checkShouldDispatchChartData(state, action)) {
-        chartData = reduceChartData(
-          state.chartData,
-          action.data.config.dataFormat,
-          state.transformedData,
-          state.chartOptions.color
-        );
-      }
+      chartData = reduceChartData(
+        state.chartData,
+        action.data.config.dataFormat,
+        state.transformedData,
+        state.chartOptions.color
+      );
       break;
     }
 
@@ -53,7 +50,6 @@ function reduceChartData(chartData, dataFormat, transformedData, colors = []) {
     .find((format) => !!transformedData[format]);
 
   const format = dataFormat || firstAvailableFormat;
-  console.log(format);
   if (!format) {
     return chartData;
   }
@@ -63,13 +59,6 @@ function reduceChartData(chartData, dataFormat, transformedData, colors = []) {
   }
 
   return transformedData[format];
-}
-
-function checkShouldDispatchChartData(state, action) {
-  return !state.chartData.length || // chartData not already set up
-    !state.chartType.config || //  chartType not already set up
-    !state.chartType.config.dataFormat || // chartType didn't have dataFormat
-    state.chartType.config.dataFormat !== action.data.config.dataFormat; // dataFormat has changed
 }
 
 function checkShouldApplyColors(state, action) {
