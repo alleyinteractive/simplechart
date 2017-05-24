@@ -47,7 +47,6 @@ export default function receiveDateFormatMiddleware({ getState }) {
       return stateHasFormat;
     }
 
-    // TODO: refactor this
     if (_shouldUpdateDateFormatting()) {
       // Apply to transformedData
       const transformedData = transformParsedData(

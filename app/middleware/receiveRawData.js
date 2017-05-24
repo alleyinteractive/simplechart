@@ -63,6 +63,7 @@ export default function rawDataMiddleware(store) {
   };
 }
 
+// TODO: Move this stuff to receiveRawData reducer
 function dispatchRawDataState(dispatch, action, state) {
   if ('error' !== state.dataStatus.status) {
     dispatch(actionTrigger(CLEAR_ERROR));
@@ -83,7 +84,6 @@ function dispatchRawDataState(dispatch, action, state) {
     PARSE_RAW_DATA, state.parsedData, action.src));
 
   // Empty for Case 1 and Case 2, object w compatible data formats for Case 3
-  // TODO: Refactor this
   dispatch(actionTrigger(
     TRANSFORM_DATA, state.transformedData, action.src));
 

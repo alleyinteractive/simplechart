@@ -3,15 +3,16 @@ import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE, TRANSFORM_DATA } from '../co
 import { dataIsMultiSeries, loopArrayItemAtIndex } from '../utils/misc';
 
 export default function chartDataReducer(state = {}, action) {
-  let chartData = state.chartData;
+  const { chartData, chartOptions, chartType, transformedData } = state;
+  let newChartData = chartData;
 
   switch (action.type) {
     case RECEIVE_CHART_OPTIONS: {
       if (checkShouldApplyColors(state, action)) {
-        chartData = reduceChartData(
-          state.chartData,
-          state.chartType.config.dataFormat,
-          state.transformedData,
+        newChartData = reduceChartData(
+          chartData,
+          chartType.config.dataFormat,
+          transformedData,
           action.data.color
         );
       }
@@ -19,21 +20,21 @@ export default function chartDataReducer(state = {}, action) {
     }
 
     case RECEIVE_CHART_TYPE: {
-      chartData = reduceChartData(
-        state.chartData,
+      newChartData = reduceChartData(
+        chartData,
         action.data.config.dataFormat,
-        state.transformedData,
-        state.chartOptions.color
+        transformedData,
+        chartOptions.color
       );
       break;
     }
 
     case TRANSFORM_DATA: {
-      chartData = reduceChartData(
-        state.chartData,
-        (state.chartType.config || {}).dataFormat,
+      newChartData = reduceChartData(
+        chartData,
+        (chartType.config || {}).dataFormat,
         action.data,
-        state.chartOptions.color
+        chartOptions.color
       );
       break;
     }
@@ -41,15 +42,11 @@ export default function chartDataReducer(state = {}, action) {
     default:
   }
 
-  return update(state, { chartData: { $set: chartData } });
+  return update(state, { chartData: { $set: newChartData } });
 }
 
 function reduceChartData(chartData, dataFormat, transformedData, colors = []) {
-  const firstAvailableFormat = Object
-    .keys(transformedData)
-    .find((format) => !!transformedData[format]);
-
-  const format = dataFormat || firstAvailableFormat;
+  const format = dataFormat || findFirstAvailableFormat(transformedData);
   if (!format) {
     return chartData;
   }
@@ -94,4 +91,10 @@ export function applyColorsToData(colors = [], data = []) {
   return data.map((series, idx) =>
     Object.assign({}, series, { color: loopArrayItemAtIndex(idx, colors) })
   );
+}
+
+function findFirstAvailableFormat(transformedData) {
+  return Object
+    .keys(transformedData)
+    .find((format) => !!transformedData[format]);
 }
