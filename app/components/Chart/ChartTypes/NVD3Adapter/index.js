@@ -6,7 +6,7 @@ import { getChartTypeObject } from '../../../../utils/chartTypeUtils';
 import { nvd3Defaults } from '../../../../constants/chartTypes';
 import applyTickFormatters from '../../../../middleware/utils/applyTickFormatters';
 import { shouldSetupYDomain } from '../../../../middleware/utils/applyYDomain';
-import getNiceDomain from '../../../../utils/dataFormats/getNiceDomain';
+import getNiceDomain from '../../../../utils/dataFormats/getRangeDomain';
 
 export default class NVD3Adapter extends Component {
   constructor(props) {
