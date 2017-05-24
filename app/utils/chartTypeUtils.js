@@ -26,7 +26,6 @@ export function getChartTypeDefaultOpts(type) {
 
     return returnOpts;
   }
-
   // non-NVD3 data formats would do something else here
   return {};
 }

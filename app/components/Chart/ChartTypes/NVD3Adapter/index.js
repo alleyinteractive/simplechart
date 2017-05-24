@@ -27,7 +27,7 @@ export default class NVD3Adapter extends Component {
       return chartProps;
     }
 
-    // TODO: This isn't an ideal place for this logic, and is duplicated within various middleware.
+    // TODO: This isn't an ideal place for this logic, and it's also duplicated within middleware/reducers.
     // Widgets need to recreate function-based options
     const typeConfig = getChartTypeObject(options.type).config;
     const defaultOpts = getChartTypeDefaultOpts(options.type);

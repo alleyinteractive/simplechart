@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import update from 'react-addons-update';
 import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE, TRANSFORM_DATA } from '../constants';
 import { dataIsMultiSeries, loopArrayItemAtIndex } from '../utils/misc';
@@ -59,25 +60,23 @@ function reduceChartData(chartData, dataFormat, transformedData, colors = []) {
 }
 
 function checkShouldApplyColors(state, action) {
-  let shouldApply;
-  try {
-    if ('nvd3MultiSeries' !== state.chartType.config.dataFormat) {
-      // Don't apply if data format isn't NVD3 multi series
-      shouldApply = false;
-    } else if ('PalettePicker' === action.src) {
-      // Apply if update came from manual user change
-      shouldApply = true;
-    } else {
-      // Test if at least one series doesn't have a color already
-      shouldApply = state.chartData.reduce((acc, series) =>
-          (acc || !series.hasOwnProperty('color'))
-        , false);
-    }
-  } catch (err) {
-    shouldApply = false;
+  if (!action.data.hasOwnProperty('color')) {
+    return false;
   }
 
-  return action.data.hasOwnProperty('color') && shouldApply;
+  // Don't apply if data format isn't NVD3 multi series
+  if ('nvd3MultiSeries' !== get(state, 'chartType.config.dateFormat')) {
+    return false;
+  }
+
+  // Apply if update came from manual user change
+  if ('PalettePicker' === action.src) {
+    return true;
+  }
+
+  // Test if at least one series doesn't have a color already
+  const hasNoColor = state.chartData.find((series) => !series.hasOwnProperty('color'));
+  return !!hasNoColor;
 }
 
 /**
