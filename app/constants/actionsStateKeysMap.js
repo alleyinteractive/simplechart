@@ -12,6 +12,5 @@ export const actionsMap = {
   RECEIVE_CHART_OPTIONS: 'chartOptions',
   RECEIVE_DEFAULTS_APPLIED_TO: 'defaultsAppliedTo',
   RECEIVE_CHART_OPTIONS_EXTEND: 'chartOptions',
-  DELETE_CHART_OPTIONS: 'chartOptions',
   RECEIVE_CHART_METADATA: 'chartMetadata',
 };

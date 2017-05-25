@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import DispatchField from '../../lib/DispatchField';
 import {
-  RECEIVE_CHART_OPTIONS_EXTEND,
+  RECEIVE_CHART_OPTIONS,
 } from '../../../constants';
 import { getObjArrayKey } from '../../../utils/misc';
 
@@ -20,7 +20,7 @@ class XAxis extends Component {
         defaultExpand={this.props.defaultExpand}
       >
         <DispatchField
-          action={RECEIVE_CHART_OPTIONS_EXTEND}
+          action={RECEIVE_CHART_OPTIONS}
           fieldType="Input"
           fieldProps={{
             label: 'Axis Label',
@@ -30,7 +30,7 @@ class XAxis extends Component {
         />
 
         <DispatchField
-          action={RECEIVE_CHART_OPTIONS_EXTEND}
+          action={RECEIVE_CHART_OPTIONS}
           fieldType="Input"
           fieldProps={{
             label: 'Rotate Labels (degrees +/-)',

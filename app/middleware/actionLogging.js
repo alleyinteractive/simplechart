@@ -75,10 +75,7 @@ function _getDiff(oldVal, newVal, actionType) {
     let location;
 
     // Special case to skip RECEIVE_CHART_OPTIONS* since it merges in new fields
-    if ('D' === change.kind &&
-      (actions.RECEIVE_CHART_OPTIONS === actionType ||
-      actions.RECEIVE_CHART_OPTIONS_EXTEND === actionType)
-    ) {
+    if ('D' === change.kind && actions.RECEIVE_CHART_OPTIONS === actionType) {
       return log;
     }
 

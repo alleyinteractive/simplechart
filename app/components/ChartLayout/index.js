@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   RECEIVE_ERROR,
-  RECEIVE_CHART_OPTIONS_EXTEND,
+  RECEIVE_CHART_OPTIONS,
 } from '../../constants';
 import actionTrigger from '../../actions';
 import AccordionBlock from '../Layout/AccordionBlock';
@@ -129,7 +129,7 @@ class ChartLayout extends Component {
   _dispatchValues(values) {
     this.setState({ values });
     this.props.dispatch(actionTrigger(
-      RECEIVE_CHART_OPTIONS_EXTEND,
+      RECEIVE_CHART_OPTIONS,
       { breakpoints: { values } }
     ));
   }
@@ -139,7 +139,7 @@ class ChartLayout extends Component {
       this.setState({ active: idx });
     }
     this.props.dispatch(actionTrigger(
-      RECEIVE_CHART_OPTIONS_EXTEND,
+      RECEIVE_CHART_OPTIONS,
       { breakpoints: { active: idx } }
     ));
   }

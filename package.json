@@ -20,7 +20,7 @@
     "url": "https://github.com/alleyinteractive/simplechart-react/issues"
   },
   "jest": {
-    "testPathDirs": [
+    "roots": [
       "tests"
     ],
     "moduleFileExtensions": [
@@ -51,7 +51,7 @@
     "extract-text-webpack-plugin": "1.0.x",
     "file-loader": "0.8.x",
     "html-loader": "0.4.x",
-    "jest": "17.0.x",
+    "jest": "20.0.x",
     "markdown-loader": "0.1.x",
     "object.assign": "4.0.x",
     "postcss": "5.0.x",

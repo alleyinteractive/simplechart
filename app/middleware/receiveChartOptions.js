@@ -4,7 +4,6 @@
 
 import {
   RECEIVE_CHART_OPTIONS,
-  RECEIVE_CHART_OPTIONS_EXTEND,
   RECEIVE_DEFAULTS_APPLIED_TO,
 } from '../constants';
 import actionTrigger from '../actions';
@@ -17,9 +16,7 @@ import applyTickFormatters from './utils/applyTickFormatters';
 
 export default function receiveChartType({ getState }) {
   return (dispatch) => (action) => {
-    if (RECEIVE_CHART_OPTIONS !== action.type &&
-      RECEIVE_CHART_OPTIONS_EXTEND !== action.type
-    ) {
+    if (RECEIVE_CHART_OPTIONS !== action.type) {
       return dispatch(action);
     }
 
