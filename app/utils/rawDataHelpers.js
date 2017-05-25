@@ -32,6 +32,7 @@ export function parseRawData(parser, rawData) {
  * setup transformed for dataFormats
  */
 export function transformParsedData(parsedData, parsedFields, dateFormat) {
+  console.log(parsedData, parsedFields, dateFormat);
   const transformed = {};
   Object.keys(dataTransformers).forEach((type) => {
     transformed[type] = dataTransformers[type](
@@ -50,7 +51,7 @@ export function validateTransformedData(transformedDataMap) {
     .every(isBadTransform);
 
   if (failedToTransform) {
-    return ['Field 1 must contain valid dates or numbers for multiple series data.'];
+    return ['Data is not valid for any chart types.'];
   }
 
   return [];
