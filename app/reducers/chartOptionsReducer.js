@@ -3,7 +3,10 @@ import merge from 'lodash/fp/merge';
 import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE } from '../constants';
 
 export default function chartOptionsReducer(state = {}, action) {
-  const newState = Object.assign({ chartOptions: {} }, state);
+  let newState = state;
+  if (!newState.chartOptions) {
+    newState = Object.assign({}, newState, { chartOptions: {} });
+  }
 
   switch (action.type) {
     case RECEIVE_CHART_OPTIONS: {
