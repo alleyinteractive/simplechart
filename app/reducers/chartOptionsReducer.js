@@ -1,21 +1,16 @@
 import merge from 'lodash/fp/merge';
 
-import {
-  RECEIVE_CHART_OPTIONS,
-  RECEIVE_CHART_OPTIONS_EXTEND,
-} from '../constants';
-import update from 'immutability-helper';
+import { RECEIVE_CHART_OPTIONS } from '../constants';
 
 export default function chartOptionsReducer(state = {}, action) {
+  const newState = Object.assign({ chartOptions: {} }, state);
+
   switch (action.type) {
     case RECEIVE_CHART_OPTIONS: {
-      return update(state, { $merge: action.data });
+      return merge(newState, { chartOptions: action.data });
     }
 
-    case RECEIVE_CHART_OPTIONS_EXTEND:
-      return merge(state, action.data);
-
     default:
-      return state;
+      return newState;
   }
 }

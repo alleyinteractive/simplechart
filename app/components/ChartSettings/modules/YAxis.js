@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import DispatchField from '../../lib/DispatchField';
 import {
-  RECEIVE_CHART_OPTIONS_EXTEND,
+  RECEIVE_CHART_OPTIONS,
 } from '../../../constants';
 import { getObjArrayKey } from '../../../utils/misc';
 
@@ -38,7 +38,7 @@ class YAxis extends Component {
         defaultExpand={this.props.defaultExpand}
       >
         <DispatchField
-          action={RECEIVE_CHART_OPTIONS_EXTEND}
+          action={RECEIVE_CHART_OPTIONS}
           fieldType="Input"
           fieldProps={{
             label: 'Axis Label',
@@ -47,7 +47,7 @@ class YAxis extends Component {
           }}
         />
         <DispatchField
-          action={RECEIVE_CHART_OPTIONS_EXTEND}
+          action={RECEIVE_CHART_OPTIONS}
           fieldType="Input"
           fieldProps={{
             label: 'Minimum value',
@@ -59,7 +59,7 @@ class YAxis extends Component {
           handler={this._handleYDomain}
         />
         <DispatchField
-          action={RECEIVE_CHART_OPTIONS_EXTEND}
+          action={RECEIVE_CHART_OPTIONS}
           fieldType="Input"
           fieldProps={{
             label: 'Maximum value',

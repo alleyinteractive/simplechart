@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import DispatchField from '../../lib/DispatchField';
 import {
-  RECEIVE_CHART_OPTIONS_EXTEND,
+  RECEIVE_CHART_OPTIONS,
 } from '../../../constants';
 
 class Legend extends Component {
@@ -14,7 +14,7 @@ class Legend extends Component {
         defaultExpand={this.props.defaultExpand}
       >
         <DispatchField
-          action={RECEIVE_CHART_OPTIONS_EXTEND}
+          action={RECEIVE_CHART_OPTIONS}
           fieldType="Checkbox"
           fieldProps={{
             label: 'Show legend',

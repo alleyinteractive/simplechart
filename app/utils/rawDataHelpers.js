@@ -32,7 +32,6 @@ export function parseRawData(parser, rawData) {
  * setup transformed for dataFormats
  */
 export function transformParsedData(parsedData, parsedFields, dateFormat) {
-  console.log(parsedData, parsedFields, dateFormat);
   const transformed = {};
   Object.keys(dataTransformers).forEach((type) => {
     transformed[type] = dataTransformers[type](

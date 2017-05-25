@@ -10,10 +10,12 @@ import chartDataReducer from './chartDataReducer';
 import rawDataReducer from './rawDataReducer';
 import * as actions from '../constants';
 
+// TODO: Refactor this into something simpler.
+// Because the state design is significantly interdependent, combinedReducers (state slices) isn't very useful.
 const defaultReducer = combineReducers({
-  chartData: baseReducer([], [actions.RECEIVE_CHART_DATA]),
+  chartData: baseReducer([], []),
   chartMetadata: baseReducer({}, [actions.RECEIVE_CHART_METADATA]),
-  chartOptions: chartOptionsReducer,
+  chartOptions: baseReducer({}, []),
   chartType: baseReducer({}, [actions.RECEIVE_CHART_TYPE]),
   cmsStatus: baseReducer('', [actions.RECEIVE_CMS_STATUS]),
   currentStep: baseReducer(0, [actions.UPDATE_CURRENT_STEP]),
@@ -35,4 +37,5 @@ export default createComposedReducer([
   defaultReducer,
   rawDataReducer,
   chartDataReducer,
+  chartOptionsReducer,
 ]);

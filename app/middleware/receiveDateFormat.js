@@ -1,5 +1,5 @@
 import {
-  RECEIVE_CHART_OPTIONS_EXTEND,
+  RECEIVE_CHART_OPTIONS,
   RECEIVE_DATE_FORMAT,
   TRANSFORM_DATA,
 } from '../constants';
@@ -57,7 +57,7 @@ export default function receiveDateFormatMiddleware({ getState }) {
       dispatch(actionTrigger(TRANSFORM_DATA, transformedData));
 
       // To chartOptions
-      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS_EXTEND, {
+      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, {
         xAxis: { dateFormatString: nextDateFormat.formatString },
       }));
     }
