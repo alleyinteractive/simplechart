@@ -33,8 +33,10 @@ export default function transform(data, fields, dateFormat) {
   });
 
   const validateSeries = (series) => {
-    const validate = ({ x, y }) => !x || isNaN(x) || !y || isNaN(y);
-    return series.find(validate) || false;
+    const isInvalidPoint = ({ x, y }) => !x || isNaN(x) || !y || isNaN(y);
+    const isInvalidSeries = (aSeries) => aSeries.values.find(isInvalidPoint);
+
+    return series.find(isInvalidSeries) ? false : series;
   };
 
   const getSeries = compose(
