@@ -13,9 +13,7 @@ export default function transform(data, fields, dateFormat) {
   const [groupingLabel, xAxisLabel, yAxisLabel, sizeLabel] = fields;
 
   const createPoint = (row) => {
-    const getSize = (size) => (size ? Math.round(size) / 100 : 1);
     const isDateAxis = dateFormat.enabled && dateFormat.validated;
-
     const xValue = isDateAxis ?
       parseDate(row[xAxisLabel]) :
       parseFloat(row[xAxisLabel]);
@@ -23,7 +21,7 @@ export default function transform(data, fields, dateFormat) {
     return {
       x: xValue,
       y: parseFloat(row[yAxisLabel]),
-      size: getSize(row[sizeLabel]) || 1,
+      size: parseFloat(row[sizeLabel]),
     };
   };
 
