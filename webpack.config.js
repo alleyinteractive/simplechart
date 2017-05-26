@@ -1,76 +1,36 @@
 const path = require('path');
+const update = require('immutability-helper');
 const webpack = require('webpack');
 const WebpackGitHash = require('webpack-git-hash');
 const updateVersion = require('./updateVersion');
 const isDevelopment = 'development' === process.env.NODE_ENV;
 
-/**
- * Set up entry points
- */
-const entry = { widget: [path.resolve('./app/widget')] };
-// Don't compile app if we're using the mock API for widget testing
-if (!process.env.MOCKAPI) {
-  entry.app = [path.resolve('./app/index')];
-  if (isDevelopment) {
-    entry.app.unshift('react-hot-loader/patch');
-    entry.app.unshift('webpack/hot/only-dev-server');
-    entry.app.unshift('webpack-dev-server/client?http://localhost:8080');
-  }
-}
-
-/**
- * Set up plugins
- */
-const gitHashOpts = {
-  cleanup: true,
-  callback: updateVersion,
-};
-// If hash is passed from command line, e.g. $ npm run build abcd123
-if (5 <= process.argv.length && /^[a-z0-9]+$/.test(process.argv[4])) {
-  gitHashOpts.skipHash = process.argv[4];
-}
-
-let plugins = [
-  new WebpackGitHash(gitHashOpts),
-  new webpack.DefinePlugin({
-    'process.env': {
-      NODE_ENV: JSON.stringify('production'),
-    },
-  }),
-  new webpack.optimize.UglifyJsPlugin({
-    sourceMap: true,
-  }),
-  new webpack.LoaderOptionsPlugin({
-    minimize: true,
-  }),
-  new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    minChunks(module) {
-      const context = module.context;
-      return context && 0 <= context.indexOf('node_modules');
-    },
-  }),
-];
-
-if (isDevelopment) {
-  plugins = [new webpack.HotModuleReplacementPlugin()];
-}
-
-/**
- * Export the full Webpack config, note that publicPath is set in app/widget entry points
- * per https://webpack.github.io/docs/configuration.html#output-publicpath
- */
-module.exports = {
-  devtool: isDevelopment ? 'source-map' : 'cheap-source-map',
-  entry,
+let config = {
+  devtool: 'cheap-source-map',
+  entry: {
+    widget: [
+      path.resolve('./app/widget'),
+    ],
+    app: [
+      path.resolve('./app/index'),
+    ],
+  },
   output: {
     path: path.join(__dirname, 'static'),
     publicPath: isDevelopment ? 'http://localhost:8080/static/' : '',
-    filename: isDevelopment || process.env.JEKYLL ? '[name].js' : '[name].[githash].js',
-    chunkFilename: isDevelopment || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js',
+    filename: isDevelopment ? '[name].js' : '[name].[githash].js',
+    chunkFilename: isDevelopment ? '[id].chunk.js' : '[id].[githash].chunk.js',
     jsonpFunction: 'simplechartJsonp',
   },
-  plugins,
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks(module) {
+        const context = module.context;
+        return context && 0 <= context.indexOf('node_modules');
+      },
+    }),
+  ],
   module: {
     rules: [
       {
@@ -134,3 +94,68 @@ module.exports = {
     ],
   },
 };
+
+if (isDevelopment) {
+  config = update(config, {
+    devtool: {
+      $set: 'sourcemap',
+    },
+    entry: {
+      app: {
+        $unshift: [
+          'react-hot-loader/patch',
+          'webpack/hot/only-dev-server',
+          'webpack-dev-server/client?http://localhost:8080',
+        ],
+      },
+    },
+    plugins: {
+      $unshift: [
+        new webpack.HotModuleReplacementPlugin(),
+      ],
+    },
+  });
+}
+
+if (!isDevelopment) {
+  // If hash is passed from command line, e.g. $ npm run build abcd123
+  const hashProvided = 5 <= process.argv.length &&
+    /^[a-z0-9]+$/.test(process.argv[4]);
+
+  config = update(config, {
+    plugins: {
+      $unshift: [
+        new WebpackGitHash({
+          cleanup: true,
+          callback: updateVersion,
+          skipHash: hashProvided ? process.argv[4] : undefined,
+        }),
+        new webpack.DefinePlugin({
+          'process.env': {
+            NODE_ENV: JSON.stringify('production'),
+          },
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+          sourceMap: true,
+        }),
+        new webpack.LoaderOptionsPlugin({
+          minimize: true,
+        }),
+      ],
+    },
+  });
+}
+
+if (process.env.MOCKAPI) {
+  config = update(config, {
+    entry: {
+      $unset: 'app',
+    },
+  });
+}
+
+/**
+ * Export the full Webpack config, note that publicPath is set in app/widget entry points
+ * per https://webpack.github.io/docs/configuration.html#output-publicpath
+ */
+module.exports = config;
