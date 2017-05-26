@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Panel, PanelHeader, Space, Tooltip } from 'rebass';
-import infoSvg from '!!raw!../../../img/icons/info-circle.svg';
-import downSvg from '!!raw!../../../img/icons/chevron-circle-down.svg';
-import upSvg from '!!raw!../../../img/icons/chevron-circle-up.svg';
+import infoSvg from '!!raw-loader!../../../img/icons/info-circle.svg';
+import downSvg from '!!raw-loader!../../../img/icons/chevron-circle-down.svg';
+import upSvg from '!!raw-loader!../../../img/icons/chevron-circle-up.svg';
 import * as styles from './AccordionBlock.css';
 
 class AccordionBlock extends Component {

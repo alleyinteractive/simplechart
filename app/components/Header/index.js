@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Fixed, Button, SequenceMap } from 'rebass';
-import logoSvg from '!!raw!../../img/simplechartLogo.svg';
+import logoSvg from '!!raw-loader!../../img/simplechartLogo.svg';
 import * as styles from './Header.css';
 import { appSteps } from '../../constants/appSteps';
 import { connect } from 'react-redux';

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import actionTrigger from '../../actions';
 import * as styles from './Help.css';
 import { CLEAR_HELP_DOCUMENT, RECEIVE_ERROR } from '../../constants';
-import closeSvg from '!!raw!../../img/icons/times-circle.svg';
-import markdownCSS from '!!style!css!../../../node_modules/github-markdown-css/github-markdown.css';  // eslint-disable-line no-unused-vars,max-len
+import closeSvg from '!!raw-loader!../../img/icons/times-circle.svg';
+import markdownCSS from '!!style-loader!css-loader!../../../node_modules/github-markdown-css/github-markdown.css';  // eslint-disable-line no-unused-vars,max-len
 
 /**
  * Show Help content from Markdown file
