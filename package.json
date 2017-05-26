@@ -33,7 +33,7 @@
   "homepage": "https://github.com/alleyinteractive/simplechart-react",
   "license": "GPL-2.0",
   "devDependencies": {
-    "autoprefixer": "^7.1.1",
+    "autoprefixer": "7.1.x",
     "babel-cli": "6.18.x",
     "babel-core": "6.18.x",
     "babel-eslint": "7.0.x",
