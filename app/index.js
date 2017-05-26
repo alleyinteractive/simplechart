@@ -19,7 +19,7 @@ import actionLogging from './middleware/actionLogging';
 import { bootstrapAppData } from './actions';
 import App from './components/App';
 import { sendMessage } from './utils/postMessage';
-import * as NVD3Styles from 'style-loader!raw-loader!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
+import * as NVD3Styles from '!!style-loader!raw-loader!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
 import rootReducer from './reducers/rootReducer';
 import getPublicPath from './utils/getPublicPath';
 
