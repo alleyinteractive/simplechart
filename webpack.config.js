@@ -43,6 +43,13 @@ let plugins = [
   new webpack.LoaderOptionsPlugin({
     minimize: true,
   }),
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    minChunks(module) {
+      const context = module.context;
+      return context && 0 <= context.indexOf('node_modules');
+    },
+  }),
 ];
 
 if (isDevelopment) {
