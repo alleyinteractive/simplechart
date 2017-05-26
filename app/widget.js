@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import actionTrigger, { ajaxWidgetData, listenerWidgetData } from './actions';
 import { RECEIVE_WIDGET } from './constants';
 import Widget from './components/Widget';
-import * as NVD3Styles from 'style!raw!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
+import * as NVD3Styles from '!!style-loader!raw-loader!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
 import rootReducer from './reducers/widget/rootReducer';
 import getPublicPath from './utils/getPublicPath';
 

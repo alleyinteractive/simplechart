@@ -1,13 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const postcssImport = require('postcss-import');
-const postcssNested = require('postcss-nested');
-const postcssCustomProps = require('postcss-custom-properties');
-const autoprefixer = require('autoprefixer');
-const postcssCalc = require('postcss-calc');
-const postcssColorFunction = require('postcss-color-function');
-const postcssMixins = require('postcss-mixins');
-const stylelint = require('stylelint');
 const WebpackGitHash = require('webpack-git-hash');
 const updateVersion = require('./updateVersion');
 const isDevelopment = 'development' === process.env.NODE_ENV;
@@ -25,8 +17,6 @@ if (!process.env.MOCKAPI) {
     entry.app.unshift('webpack-dev-server/client?http://localhost:8080');
   }
 }
-
-const jsLoaders = ['babel'];
 
 /**
  * Set up plugins
@@ -47,7 +37,19 @@ let plugins = [
       NODE_ENV: JSON.stringify('production'),
     },
   }),
-  new webpack.optimize.UglifyJsPlugin(),
+  new webpack.optimize.UglifyJsPlugin({
+    sourceMap: true,
+  }),
+  new webpack.LoaderOptionsPlugin({
+    minimize: true,
+  }),
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    minChunks(module) {
+      const context = module.context;
+      return context && 0 <= context.indexOf('node_modules');
+    },
+  }),
 ];
 
 if (isDevelopment) {
@@ -59,52 +61,75 @@ if (isDevelopment) {
  * per https://webpack.github.io/docs/configuration.html#output-publicpath
  */
 module.exports = {
-  devtool: 'source-map',
+  devtool: isDevelopment ? 'source-map' : 'cheap-source-map',
   entry,
   output: {
     path: path.join(__dirname, 'static'),
-    publicPath: isDevelopment ? 'http://localhost:8080/static/' : null,
+    publicPath: isDevelopment ? 'http://localhost:8080/static/' : '',
     filename: isDevelopment || process.env.JEKYLL ? '[name].js' : '[name].[githash].js',
     chunkFilename: isDevelopment || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js',
     jsonpFunction: 'simplechartJsonp',
   },
   plugins,
-  postcss(bundler) {
-    return [
-      postcssImport({
-        addDependencyTo: bundler,
-      }),
-      postcssMixins,
-      postcssNested,
-      postcssCustomProps,
-      autoprefixer,
-      postcssCalc,
-      postcssColorFunction,
-      stylelint(require('./stylelint.config.js')),
-    ];
-  },
   module: {
-    preLoaders: [
-      { test: /\.js$/, loader: 'eslint', exclude: /node_modules/ },
-    ],
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loaders: jsLoaders,
+        enforce: 'pre',
+        exclude: /node_modules/,
+        use: {
+          loader: 'eslint-loader',
+        },
+      },
+      {
+        test: /\.js$/,
         include: path.join(__dirname, 'app'),
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+        ],
       },
       {
         test: /\.css$/,
-        exclude: /node_modules/,
-        loader: 'style!css?modules&localIdentName=[name]__[local]___[hash:base64:5]!postcss',
+        exclude: '/node_modules/',
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[name]__[local]___[hash:base64:5]',
+            },
+          },
+          {
+            loader: 'postcss-loader',
+          },
+        ],
       },
       {
         test: /\.(png|jpg)$/,
-        loader: 'url?limit=25000',
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 25000,
+            },
+          },
+        ],
       },
       {
         test: /\.md$/,
-        loader: 'html!markdown',
+        use: [
+          {
+            loader: 'html-loader',
+          },
+          {
+            loader: 'markdown-loader',
+          },
+        ],
       },
     ],
   },
