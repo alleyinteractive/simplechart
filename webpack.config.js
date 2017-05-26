@@ -61,7 +61,7 @@ if (isDevelopment) {
  * per https://webpack.github.io/docs/configuration.html#output-publicpath
  */
 module.exports = {
-  devtool: 'source-map',
+  devtool: isDevelopment ? 'source-map' : 'cheap-source-map',
   entry,
   output: {
     path: path.join(__dirname, 'static'),
