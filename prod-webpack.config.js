@@ -1,37 +1,17 @@
 const path = require('path');
 const webpack = require('webpack');
 const WebpackGitHash = require('webpack-git-hash');
-const updateVersion = require('./updateVersion');
-const isDevelopment = 'development' === process.env.NODE_ENV;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-/**
- * Set up entry points
- */
-const entry = { widget: [path.resolve('./app/widget')] };
-// Don't compile app if we're using the mock API for widget testing
-if (!process.env.MOCKAPI) {
-  entry.app = [path.resolve('./app/index')];
-  if (isDevelopment) {
-    entry.app.unshift('react-hot-loader/patch');
-    entry.app.unshift('webpack/hot/only-dev-server');
-    entry.app.unshift('webpack-dev-server/client?http://localhost:8080');
-  }
-}
-
-/**
- * Set up plugins
- */
-const gitHashOpts = {
-  cleanup: true,
-  callback: updateVersion,
-};
 // If hash is passed from command line, e.g. $ npm run build abcd123
-if (5 <= process.argv.length && /^[a-z0-9]+$/.test(process.argv[4])) {
-  gitHashOpts.skipHash = process.argv[4];
-}
+const hashProvided = 5 <= process.argv.length &&
+  /^[a-z0-9]+$/.test(process.argv[4]);
 
-let plugins = [
-  new WebpackGitHash(gitHashOpts),
+const plugins = [
+  new WebpackGitHash({
+    cleanup: true,
+    skipHash: hashProvided ? process.argv[4] : undefined,
+  }),
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify('production'),
@@ -50,24 +30,35 @@ let plugins = [
       return context && 0 <= context.indexOf('node_modules');
     },
   }),
+  new HtmlWebpackPlugin({
+    inject: false,
+    template: './index.hbs',
+    filename: path.join(__dirname, 'index.html'),
+    excludeChunks: ['widget'],
+  }),
+  new HtmlWebpackPlugin({
+    inject: false,
+    template: './widget.hbs',
+    filename: path.join(__dirname, 'widget.html'),
+    chunks: ['widget'],
+  }),
 ];
 
-if (isDevelopment) {
-  plugins = [new webpack.HotModuleReplacementPlugin()];
-}
-
-/**
- * Export the full Webpack config, note that publicPath is set in app/widget entry points
- * per https://webpack.github.io/docs/configuration.html#output-publicpath
- */
 module.exports = {
-  devtool: isDevelopment ? 'source-map' : 'cheap-source-map',
-  entry,
+  devtool: 'cheap-source-map',
+  entry: {
+    widget: [
+      path.resolve('./app/widget'),
+    ],
+    app: [
+      path.resolve('./app/index'),
+    ],
+  },
   output: {
     path: path.join(__dirname, 'static'),
-    publicPath: isDevelopment ? 'http://localhost:8080/static/' : '',
-    filename: isDevelopment || process.env.JEKYLL ? '[name].js' : '[name].[githash].js',
-    chunkFilename: isDevelopment || process.env.JEKYLL ? '[id].chunk.js' : '[id].[githash].chunk.js',
+    publicPath: '',
+    filename: '[name].[githash].js',
+    chunkFilename: '[id].[githash].chunk.js',
     jsonpFunction: 'simplechartJsonp',
   },
   plugins,
@@ -130,6 +121,10 @@ module.exports = {
             loader: 'markdown-loader',
           },
         ],
+      },
+      {
+        test: /\.hbs$/,
+        use: ['handlebars-loader'],
       },
     ],
   },
