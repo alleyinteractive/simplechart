@@ -62,8 +62,8 @@ export function setupPostMessage() {
 /**
  * Listen for a postMessage then do something with the event
  *
- * @param string messageType Message type checked against evt.data.messageType
- * @param function callback Callback function receiving the message event
+ * @param {String} messageType Message type checked against evt.data.messageType
+ * @param {Function} callback Callback function receiving the message event
  * @return none
  */
 export function receiveMessage(messageType, callback) {
@@ -76,8 +76,8 @@ export function receiveMessage(messageType, callback) {
 /**
  * Send message to parent window
  *
- * @param string messageType Parent will check against evt.data.messageType
- * @param any data Optional data to accompany message as evt.data.data
+ * @param {String} messageType Parent will check against evt.data.messageType
+ * @param {*} data Optional data to accompany message as evt.data.data
  * @return none
  */
 export function sendMessage(messageType, data = null) {
