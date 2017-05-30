@@ -12,7 +12,6 @@ import receiveDateFormat from './middleware/receiveDateFormat';
 import receiveChartType from './middleware/receiveChartType';
 import receiveChartOptions from './middleware/receiveChartOptions';
 import receiveHelpDocument from './middleware/receiveHelpDocument';
-import unsavedChanges from './middleware/unsavedChanges';
 import actionLogging from './middleware/actionLogging';
 
 // Other stuff
@@ -35,7 +34,6 @@ const store = createStore(rootReducer, composeEnhancers(
     receiveChartType,
     receiveChartOptions,
     receiveHelpDocument,
-    unsavedChanges,
     actionLogging
   )
 ));

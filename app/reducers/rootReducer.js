@@ -8,6 +8,7 @@ import chartOptionsReducer from './chartOptionsReducer';
 import setClearReducer from './setClearReducer';
 import chartDataReducer from './chartDataReducer';
 import rawDataReducer from './rawDataReducer';
+import unsavedChangesReducer from './unsavedChangesReducer';
 import * as actions from '../constants';
 
 // TODO: Refactor this into something simpler.
@@ -30,7 +31,7 @@ const defaultReducer = combineReducers({
   parsedData: baseReducer([], [actions.PARSE_RAW_DATA]),
   rawData: baseReducer('', [actions.RECEIVE_RAW_DATA]),
   transformedData: baseReducer({}, [actions.TRANSFORM_DATA]),
-  unsavedChanges: baseReducer(false, [actions.UNSAVED_CHANGES]),
+  unsavedChanges: unsavedChangesReducer,
 });
 
 export default createComposedReducer([
