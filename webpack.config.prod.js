@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const WebpackGitHash = require('webpack-git-hash');
-const updateVersion = require('./updateVersion');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // If hash is passed from command line, e.g. $ npm run build abcd123
 const hashProvided = 5 <= process.argv.length &&
@@ -10,7 +10,6 @@ const hashProvided = 5 <= process.argv.length &&
 const plugins = [
   new WebpackGitHash({
     cleanup: true,
-    callback: updateVersion,
     skipHash: hashProvided ? process.argv[4] : undefined,
   }),
   new webpack.DefinePlugin({
@@ -30,6 +29,18 @@ const plugins = [
       const context = module.context;
       return context && 0 <= context.indexOf('node_modules');
     },
+  }),
+  new HtmlWebpackPlugin({
+    inject: false,
+    template: './index.hbs',
+    filename: path.join(__dirname, 'index.html'),
+    excludeChunks: ['widget'],
+  }),
+  new HtmlWebpackPlugin({
+    inject: false,
+    template: './widget.hbs',
+    filename: path.join(__dirname, 'widget.html'),
+    chunks: ['widget'],
   }),
 ];
 
@@ -110,6 +121,10 @@ module.exports = {
             loader: 'markdown-loader',
           },
         ],
+      },
+      {
+        test: /\.hbs$/,
+        use: ['handlebars-loader'],
       },
     ],
   },
