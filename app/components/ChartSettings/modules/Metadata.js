@@ -5,7 +5,7 @@ import {
   RECEIVE_CHART_METADATA,
 } from '../../../constants';
 import { getObjArrayKey, capitalize } from '../../../utils/misc';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 
 class Metadata extends Component {
   constructor() {

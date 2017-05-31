@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 
 class ChartSettings extends Component {

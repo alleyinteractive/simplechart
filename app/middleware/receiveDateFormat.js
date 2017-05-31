@@ -1,11 +1,11 @@
 import {
-  RECEIVE_CHART_OPTIONS_EXTEND,
+  RECEIVE_CHART_OPTIONS,
   RECEIVE_DATE_FORMAT,
   TRANSFORM_DATA,
 } from '../constants';
 import actionTrigger from '../actions';
 import { transformParsedData } from '../utils/rawDataHelpers';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 
 /**
  * Re-apply data transformers if we've enabled a valid date formatting string
@@ -57,7 +57,7 @@ export default function receiveDateFormatMiddleware({ getState }) {
       dispatch(actionTrigger(TRANSFORM_DATA, transformedData));
 
       // To chartOptions
-      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS_EXTEND, {
+      dispatch(actionTrigger(RECEIVE_CHART_OPTIONS, {
         xAxis: { dateFormatString: nextDateFormat.formatString },
       }));
     }

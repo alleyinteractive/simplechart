@@ -9,18 +9,16 @@ import { AppContainer } from 'react-hot-loader';
 import thunk from 'redux-thunk';
 import receiveRawData from './middleware/receiveRawData';
 import receiveDateFormat from './middleware/receiveDateFormat';
-import transformData from './middleware/transformData';
 import receiveChartType from './middleware/receiveChartType';
 import receiveChartOptions from './middleware/receiveChartOptions';
 import receiveHelpDocument from './middleware/receiveHelpDocument';
-import unsavedChanges from './middleware/unsavedChanges';
 import actionLogging from './middleware/actionLogging';
 
 // Other stuff
 import { bootstrapAppData } from './actions';
 import App from './components/App';
 import { sendMessage } from './utils/postMessage';
-import * as NVD3Styles from 'style!raw!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
+import * as NVD3Styles from '!!style-loader!raw-loader!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
 import rootReducer from './reducers/rootReducer';
 import getPublicPath from './utils/getPublicPath';
 
@@ -33,11 +31,9 @@ const store = createStore(rootReducer, composeEnhancers(
     thunk,
     receiveRawData,
     receiveDateFormat,
-    transformData,
     receiveChartType,
     receiveChartOptions,
     receiveHelpDocument,
-    unsavedChanges,
     actionLogging
   )
 ));

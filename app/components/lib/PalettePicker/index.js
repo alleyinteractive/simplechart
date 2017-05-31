@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // Use Mapbox's colorpickr component
 import ColorPicker from '@mapbox/react-colorpickr';
-import 'style!raw!@mapbox/react-colorpickr/dist/colorpickr.css';
+import '!!style-loader!raw-loader!@mapbox/react-colorpickr/dist/colorpickr.css';
 import { debounce, loopArrayItemAtIndex } from '../../../utils/misc';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import { RECEIVE_CHART_OPTIONS } from '../../../constants';
 import actionTrigger from '../../../actions';
 import * as styles from './PalettePicker.css';

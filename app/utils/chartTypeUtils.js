@@ -1,7 +1,7 @@
 /**
  * Chart types registry
  */
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import { selectableChartTypes, nvd3Defaults } from '../constants/chartTypes';
 
 export function getChartTypeObject(type) {

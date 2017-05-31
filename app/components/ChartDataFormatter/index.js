@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 import { locales } from '../../constants/d3Locales';
-import { RECEIVE_CHART_OPTIONS_EXTEND } from '../../constants';
+import { RECEIVE_CHART_OPTIONS } from '../../constants';
 import DispatchField from '../lib/DispatchField';
 import {
   defaultTickFormatSettings,
   multiplierOptions,
 } from '../../constants/defaultTickFormatSettings';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 
 class ChartDataFormatter extends Component {
   constructor() {
@@ -54,7 +54,7 @@ class ChartDataFormatter extends Component {
       <div>
         <div>
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            action={RECEIVE_CHART_OPTIONS}
             fieldType="Select"
             fieldProps={{
               label: 'Format currency and thousands separator as:',
@@ -66,7 +66,7 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            action={RECEIVE_CHART_OPTIONS}
             fieldType="Checkbox"
             fieldProps={{
               label: 'Show currency symbol?',
@@ -77,7 +77,7 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            action={RECEIVE_CHART_OPTIONS}
             fieldType="Checkbox"
             fieldProps={{
               label: 'Use thousands separator',
@@ -88,7 +88,7 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            action={RECEIVE_CHART_OPTIONS}
             fieldType="Checkbox"
             fieldProps={{
               label: 'Display as percentage',
@@ -99,7 +99,7 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            action={RECEIVE_CHART_OPTIONS}
             fieldType="Input"
             fieldProps={{
               label: 'Leading text',
@@ -110,7 +110,7 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            action={RECEIVE_CHART_OPTIONS}
             fieldType="Input"
             fieldProps={{
               label: 'Trailing text',
@@ -121,7 +121,7 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            action={RECEIVE_CHART_OPTIONS}
             fieldType="Input"
             fieldProps={{
               label: 'Decimal places',
@@ -135,7 +135,7 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS_EXTEND}
+            action={RECEIVE_CHART_OPTIONS}
             fieldType="Select"
             fieldProps={{
               label: 'Multiply/divide values',

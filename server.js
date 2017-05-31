@@ -1,6 +1,6 @@
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
-var config = require('./webpack.config');
+const webpack = require('webpack');
+const WebpackDevServer = require('webpack-dev-server');
+const config = require('./dev-webpack.config');
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
@@ -10,10 +10,16 @@ new WebpackDevServer(webpack(config), {
     chunkModules: false,
     colors: true,
   },
-  setup: process.env.MOCKAPI ? require('./mock-api') : null,
-}).listen(8080, 'localhost', function (err, result) {
+  setup(app) {
+    if (process.env.MOCKAPI) {
+      require('./mock-api')(app);
+    }
+  },
+}).listen(8080, 'localhost', (err) => {
   if (err) {
     return console.log(err);
   }
+
   console.log('Listening at http://localhost:8080/');
+  return null;
 });

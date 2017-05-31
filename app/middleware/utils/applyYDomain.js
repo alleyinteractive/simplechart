@@ -1,5 +1,5 @@
-import update from 'react-addons-update';
-import getNiceDomain from '../../utils/dataFormats/getNiceDomain';
+import update from 'immutability-helper';
+import getRangeDomain from '../../utils/dataFormats/getRangeDomain';
 
 /**
  * Need to setup yDomain for NVD3 chart that requires YAXis
@@ -25,9 +25,9 @@ export default function applyYDomain(chartOptions, typeConfig, chartData) {
 
   let yDomain;
   if (typeConfig.hasOwnProperty('getNiceDomain')) {
-    yDomain = typeConfig.getNiceDomain(chartData);
+    yDomain = typeConfig.getNiceDomain(typeConfig.dataFormat, chartData);
   } else {
-    yDomain = getNiceDomain(typeConfig.dataFormat, chartData);
+    yDomain = getRangeDomain(typeConfig.dataFormat, chartData);
   }
 
   /**

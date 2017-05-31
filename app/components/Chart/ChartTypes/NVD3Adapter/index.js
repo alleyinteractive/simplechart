@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import NVD3Chart from 'react-nvd3';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
-import { getChartTypeObject } from '../../../../utils/chartTypeUtils';
-import { nvd3Defaults } from '../../../../constants/chartTypes';
+import { getChartTypeObject, getChartTypeDefaultOpts } from '../../../../utils/chartTypeUtils';
+import applyYDomain from '../../../../middleware/utils/applyYDomain.js';
 import applyTickFormatters from '../../../../middleware/utils/applyTickFormatters';
-import { shouldSetupYDomain } from '../../../../middleware/utils/applyYDomain';
-import getNiceDomain from '../../../../utils/dataFormats/getNiceDomain';
 
 export default class NVD3Adapter extends Component {
   constructor(props) {
@@ -20,30 +18,23 @@ export default class NVD3Adapter extends Component {
    */
   _mapToChartProps() {
     const { options, data, widget } = this.props;
-    let nextState = update(options, {
+    let chartProps = update(options, {
       datum: { $set: this._dataTransform(options.type, data) },
       ref: { $set: 'chartNode' },
     });
 
     if (!widget) {
-      return nextState;
+      return chartProps;
     }
 
+    // TODO: This isn't an ideal place for this logic, and it's also duplicated within middleware/reducers.
     // Widgets need to recreate function-based options
     const typeConfig = getChartTypeObject(options.type).config;
+    const defaultOpts = getChartTypeDefaultOpts(options.type);
+    chartProps = Object.assign({}, chartProps, typeConfig, defaultOpts);
+    chartProps = applyYDomain(chartProps, typeConfig, data);
 
-    nextState = update(nextState, {
-      x: { $set: nvd3Defaults[typeConfig.dataFormat].x },
-      y: { $set: nvd3Defaults[typeConfig.dataFormat].y },
-      yDomain: { $apply: (oldYDomain) => { // eslint-disable-line arrow-body-style
-        return (shouldSetupYDomain(typeConfig) && undefined === oldYDomain) ?
-          getNiceDomain(typeConfig.dataFormat, data) : oldYDomain;
-      } },
-    });
-
-    // tickFormatSettings -> tick formatting functions
-    // applyTickFormatters() returns a cloned object
-    return applyTickFormatters(nextState, typeConfig);
+    return applyTickFormatters(chartProps, typeConfig);
   }
 
   /**

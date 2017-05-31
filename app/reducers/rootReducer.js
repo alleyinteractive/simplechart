@@ -2,17 +2,21 @@
  * Combine all reducers in this file and export the combined reducers.
  * If we were to do this in store.js, reducers wouldn't be hot reloadable.
  */
-
 import { combineReducers } from 'redux';
-import { baseReducer, mergeReducer } from './genericReducers';
+import { baseReducer, mergeReducer, createComposedReducer } from './genericReducers';
 import chartOptionsReducer from './chartOptionsReducer';
 import setClearReducer from './setClearReducer';
+import chartDataReducer from './chartDataReducer';
+import rawDataReducer from './rawDataReducer';
+import unsavedChangesReducer from './unsavedChangesReducer';
 import * as actions from '../constants';
 
-export default combineReducers({
-  chartData: baseReducer([], [actions.RECEIVE_CHART_DATA]),
+// TODO: Refactor this into something simpler.
+// Because the state design is significantly interdependent, combinedReducers (state slices) isn't very useful.
+const defaultReducer = combineReducers({
+  chartData: baseReducer([], []),
   chartMetadata: baseReducer({}, [actions.RECEIVE_CHART_METADATA]),
-  chartOptions: chartOptionsReducer,
+  chartOptions: baseReducer({}, []),
   chartType: baseReducer({}, [actions.RECEIVE_CHART_TYPE]),
   cmsStatus: baseReducer('', [actions.RECEIVE_CMS_STATUS]),
   currentStep: baseReducer(0, [actions.UPDATE_CURRENT_STEP]),
@@ -27,5 +31,12 @@ export default combineReducers({
   parsedData: baseReducer([], [actions.PARSE_RAW_DATA]),
   rawData: baseReducer('', [actions.RECEIVE_RAW_DATA]),
   transformedData: baseReducer({}, [actions.TRANSFORM_DATA]),
-  unsavedChanges: baseReducer(false, [actions.UNSAVED_CHANGES]),
+  unsavedChanges: unsavedChangesReducer,
 });
+
+export default createComposedReducer([
+  defaultReducer,
+  rawDataReducer,
+  chartDataReducer,
+  chartOptionsReducer,
+]);

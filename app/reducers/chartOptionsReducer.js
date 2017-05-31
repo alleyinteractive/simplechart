@@ -1,45 +1,41 @@
-import {
-  RECEIVE_CHART_OPTIONS,
-  RECEIVE_CHART_OPTIONS_EXTEND,
-  DELETE_CHART_OPTIONS,
-} from '../constants';
-import update from 'react-addons-update';
-import deepExtend from 'deep-extend';
+import merge from 'lodash/fp/merge';
+
+import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE } from '../constants';
 
 export default function chartOptionsReducer(state = {}, action) {
-  // Loop through array of keys passed via DELETE_CHART_OPTIONS
-  // and delete from state if defined
-  function _deleteKeys(applyState) {
-    if (!action.data || !action.data.length) {
-      return applyState;
-    }
-    action.data.forEach((key) => {
-      if ('undefined' !== typeof applyState[key]) {
-        delete applyState[key]; // eslint-disable-line no-param-reassign
-      }
-    });
-    return applyState;
-  }
-
-  function _extendState(applyState) {
-    const newState = update({}, { $set: applyState });
-    deepExtend(newState, action.data);
-    return newState;
+  let newState = state;
+  if (!newState.chartOptions) {
+    newState = Object.assign({}, newState, { chartOptions: {} });
   }
 
   switch (action.type) {
     case RECEIVE_CHART_OPTIONS: {
-      return update(state, { $merge: action.data });
+      return merge(newState, { chartOptions: action.data });
     }
 
-    case RECEIVE_CHART_OPTIONS_EXTEND:
-      return update(state, { $apply: _extendState });
+    case RECEIVE_CHART_TYPE: {
+      const [, xLabel, yLabel] = state.dataFields;
+      const chartTypeConfig = action.data.config;
+      const hasChanged = state.chartType.type !== chartTypeConfig.type;
+      const isScatter = 'nvd3ScatterMultiSeries' === chartTypeConfig.dataFormat;
 
-    case DELETE_CHART_OPTIONS: {
-      return update(state, { $apply: _deleteKeys });
+      if (hasChanged && isScatter) {
+        return merge(newState, {
+          chartOptions: {
+            xAxis: {
+              axisLabel: xLabel,
+            },
+            yAxis: {
+              axisLabel: yLabel,
+            },
+          },
+        });
+      }
+      break;
     }
 
     default:
-      return state;
   }
+
+  return newState;
 }

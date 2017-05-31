@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DataInput from './DataInput';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import ChartEditor from './ChartEditor';
 import Header from './Header';
 import Help from './Help';

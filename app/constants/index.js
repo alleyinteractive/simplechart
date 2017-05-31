@@ -58,9 +58,6 @@ export const RECEIVE_DEFAULTS_APPLIED_TO = 'RECEIVE_DEFAULTS_APPLIED_TO';
 // Deep-extend object into chart options
 export const RECEIVE_CHART_OPTIONS_EXTEND = 'RECEIVE_CHART_OPTIONS_EXTEND';
 
-// delete specific keys from chart options
-export const DELETE_CHART_OPTIONS = 'DELETE_CHART_OPTIONS';
-
 // chart metadata
 export const RECEIVE_CHART_METADATA = 'RECEIVE_CHART_METADATA';
 

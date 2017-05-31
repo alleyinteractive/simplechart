@@ -8,7 +8,7 @@ import {
   RECEIVE_CHART_TYPE,
   RECEIVE_CHART_METADATA,
 } from '../constants';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import { getChartTypeObject, getChartTypeDefaultOpts } from './chartTypeUtils';
 import defaultPalette from '../constants/defaultPalette';
 import applyTickFormatters from '../middleware/utils/applyTickFormatters';
@@ -18,9 +18,9 @@ import { defaultTickFormatSettings } from '../constants/defaultTickFormatSetting
  * Handle bootstrapping the Redux store with data from a postMessage,
  * i.e. a chart previously saved in the CMS
  *
- * @param function dispatch Send to Redux
- * @param string messageType Should be bootstrap.new or bootstrap.edit
- * @param obj recdData Data received from parent window
+ * @param {Function} dispatch Send to Redux
+ * @param {String} messageType Should be bootstrap.new or bootstrap.edit
+ * @param {Object} recdData Data received from parent window
  */
 export default function bootstrapStore(dispatch, messageType, recdData) {
   const isNewChart = 'bootstrap.new' === messageType;

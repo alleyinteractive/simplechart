@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   RECEIVE_ERROR,
-  RECEIVE_CHART_OPTIONS_EXTEND,
+  RECEIVE_CHART_OPTIONS,
 } from '../../constants';
 import actionTrigger from '../../actions';
 import AccordionBlock from '../Layout/AccordionBlock';
 import DispatchField from '../lib/DispatchField';
 import { Button } from 'rebass';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import { defaultBreakpoint } from '../../constants/chartTypes';
 
 class ChartLayout extends Component {
@@ -129,7 +129,7 @@ class ChartLayout extends Component {
   _dispatchValues(values) {
     this.setState({ values });
     this.props.dispatch(actionTrigger(
-      RECEIVE_CHART_OPTIONS_EXTEND,
+      RECEIVE_CHART_OPTIONS,
       { breakpoints: { values } }
     ));
   }
@@ -139,7 +139,7 @@ class ChartLayout extends Component {
       this.setState({ active: idx });
     }
     this.props.dispatch(actionTrigger(
-      RECEIVE_CHART_OPTIONS_EXTEND,
+      RECEIVE_CHART_OPTIONS,
       { breakpoints: { active: idx } }
     ));
   }

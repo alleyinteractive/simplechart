@@ -1,4 +1,6 @@
-import update from 'react-addons-update';
+import { partial, flow as compose } from 'lodash';
+
+import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
 
 /**
@@ -34,5 +36,21 @@ export function mergeReducer(initState, allowActions) {
 
     // Ignore this action
     return state;
+  };
+}
+
+/**
+ * Create a middleware like reducer function that will pass the resulting state of
+ * each reducer to the next, as well as the original action.
+ *
+ * @param {Array} reducers
+ * @returns {function} A reducer function composed of reducer functions.
+ */
+export function createComposedReducer(reducers) {
+  return (state, action) => {
+    const applyAction = (reducer) =>
+      partial(reducer, partial.placeholder, action);
+    const reduce = compose(reducers.map(applyAction));
+    return reduce(state);
   };
 }

@@ -50,7 +50,7 @@ export function validateTransformedData(transformedDataMap) {
     .every(isBadTransform);
 
   if (failedToTransform) {
-    return ['Field 1 must contain valid dates or numbers for multiple series data.'];
+    return ['Data is not valid for any chart types.'];
   }
 
   return [];
