@@ -49,12 +49,8 @@
     "eslint-config-airbnb": "6.0.x",
     "eslint-loader": "1.7.x",
     "eslint-plugin-react": "4.2.x",
-<<<<<<< HEAD
     "express": "4.15.x",
-    "extract-text-webpack-plugin": "1.0.x",
-=======
     "extract-text-webpack-plugin": "2.1.x",
->>>>>>> 3a3df71167d7ab89808c2a0f971e2d558aaad984
     "file-loader": "0.8.x",
     "handlebars-loader": "1.5.x",
     "html-loader": "0.4.x",
