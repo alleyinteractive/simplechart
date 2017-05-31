@@ -37,18 +37,22 @@ export default class BritechartsAdapter extends Component {
     const chart = new this.chartMap[type]();
     const chartTooltip = new Tooltip();
 
+    // TODO: Map dateFormat.formatString, if available, to d3TimeString, and apply it to XFormat.
     chart
       .grid('horizontal')
       .width(chartWidth)
       .height(height)
       .colorSchema(color)
+      // .forceAxisFormat('custom')
+      // .forcedXFormat('%Y')
       .on('customMouseOver', chartTooltip.show)
       .on('customMouseMove', chartTooltip.update)
       .on('customMouseOut', chartTooltip.hide);
 
+    // TODO: Set title to settings y axis label if available.
     chartTooltip
       .topicLabel('values')
-      .title('Tooltip Title');
+      .title('Values');
 
     container.datum(data).call(chart);
 

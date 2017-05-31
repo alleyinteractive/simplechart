@@ -12,7 +12,7 @@ export default function transform(data, fields, dateFormat) {
       return parseDate(value, dateFormat.formatString);
     }
 
-    return value;
+    return new Date(value).toISOString();
   };
 
   const createPoint = (name, row) => ({
