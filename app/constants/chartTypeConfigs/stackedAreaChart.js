@@ -6,7 +6,7 @@ export const config = {
   dataFormat: 'britechartsStackedArea',
   componentName: 'BritechartsAdapter',
   modules: {
-    settings: ['XAxis', 'YAxis', 'Legend', 'Metadata', 'ColorPalette'],
+    settings: ['Legend', 'Metadata', 'ColorPalette'],
   },
   getNiceDomain: getSumDomain,
 };
