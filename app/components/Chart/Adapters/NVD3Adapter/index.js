@@ -6,6 +6,8 @@ import { getChartTypeObject, getChartTypeDefaultOpts } from '../../../../utils/c
 import applyYDomain from '../../../../middleware/utils/applyYDomain.js';
 import applyTickFormatters from '../../../../middleware/utils/applyTickFormatters';
 
+import '!!style-loader!raw-loader!nvd3/build/nv.d3.css';
+
 export default class NVD3Adapter extends Component {
   constructor(props) {
     super(props);
