@@ -1,23 +1,25 @@
-import StackedArea from 'britecharts/dist/umd/stacked-area.min';
-import d3Selection from 'd3-selection';
+import * as britecharts from 'britecharts';
+import * as d3Selection from 'd3-selection';
 
 import React, { Component } from 'react';
-import '!!style-loader!css-loader!britecharts/dist/css/common/common.css';
-import '!!style-loader!css-loader!britecharts/dist/css/charts/line.css';
+import '!!style-loader!raw-loader!britecharts/dist/css/britecharts.css';
 
-export default class StackedAreaChart extends Component {
+export default class BriteChartsAdapter extends Component {
   constructor(props) {
     super(props);
 
     this._setContainer = this._setContainer.bind(this);
     this._mapProps = this._mapProps.bind(this);
+
+    this.chartMap = {
+      stackedArea: britecharts.stackedArea,
+    };
   }
 
   componentDidUpdate() {
     const container = d3Selection.select(this.container);
+    const chart = this.chartMap[this.props.options.type];
     const { colorSchema, datum, height, width } = this._mapProps(container);
-
-    const chart = new StackedArea();
 
     if (container.node()) {
       chart
@@ -49,6 +51,7 @@ export default class StackedAreaChart extends Component {
       value: point.y,
     }));
 
+    // TODO: forceXAxis, forceYAxis
     return {
       colorSchema: options.color,
       datum,
@@ -67,7 +70,7 @@ export default class StackedAreaChart extends Component {
   }
 }
 
-StackedAreaChart.propTypes = {
+BriteChartsAdapter.propTypes = {
   data: React.PropTypes.array,
   options: React.PropTypes.object,
   widget: React.PropTypes.oneOfType([

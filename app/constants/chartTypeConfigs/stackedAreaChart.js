@@ -4,7 +4,7 @@ export const config = {
   type: 'stackedAreaChart',
   label: 'Stacked Area Chart',
   dataFormat: 'nvd3MultiSeries',
-  componentName: 'Britecharts/StackedAreaChart',
+  componentName: 'Britecharts',
   modules: {
     settings: ['XAxis', 'YAxis', 'Legend', 'Metadata', 'ColorPalette'],
   },
