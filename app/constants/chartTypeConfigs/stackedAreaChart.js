@@ -3,7 +3,7 @@ import getSumDomain from '../../utils/dataFormats/getSumDomain';
 export const config = {
   type: 'stackedAreaChart',
   label: 'Stacked Area Chart',
-  dataFormat: 'nvd3MultiSeries',
+  dataFormat: 'britechartsStackedArea',
   componentName: 'Britecharts',
   modules: {
     settings: ['XAxis', 'YAxis', 'Legend', 'Metadata', 'ColorPalette'],
