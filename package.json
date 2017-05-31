@@ -76,7 +76,9 @@
   },
   "dependencies": {
     "@mapbox/react-colorpickr": "4.3.x",
+    "britecharts": "^1.5.3",
     "d3": "3.5.16",
+    "d3-selection": "^1.1.0",
     "deep-diff": "0.3.x",
     "deep-extend": "0.4.x",
     "es6-promise": "3.3.x",

@@ -86,8 +86,8 @@ class Chart extends Component {
 
   /**
    * Get breakpoint object for current window size
-   * @param array breakpoints
-   * @return object Item from breakpoints array
+   * @param {Array} breakpoints
+   * @return {Object} Item from breakpoints array
    */
   _breakpointForWindow(breakpoints) {
     // sort from highest to lowest, with "no max width" at the beginning
