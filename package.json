@@ -7,6 +7,7 @@
     "lint": "eslint src",
     "locales": "node locales.js",
     "mock-api": "MOCKAPI=true NODE_ENV=development ./node_modules/babel-cli/bin/babel-node.js server.js",
+    "start": "npm run watch",
     "test": "jest",
     "test-watch": "jest --watch",
     "watch": "NODE_ENV=development node server.js"
