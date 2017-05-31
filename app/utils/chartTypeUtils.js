@@ -14,11 +14,16 @@ export function getChartTypeObject(type) {
 export function getChartTypeDefaultOpts(type) {
   const typeObj = getChartTypeObject(type);
 
+  const defaultOpts = {
+    type: typeObj.config.type,
+  };
+
   // Options for NVD3-based chart types
   if (0 === typeObj.config.dataFormat.indexOf('nvd3')) {
     // merge chart type into data format defaults
-    let returnOpts = update(nvd3Defaults[typeObj.config.dataFormat],
-      { $merge: { type: typeObj.config.type } });
+    let returnOpts = update(defaultOpts, {
+      $merge: nvd3Defaults[typeObj.config.dataFormat],
+    });
     // add any specific defaults if present
     if (typeObj.defaultOpts && 0 < Object.keys(typeObj.defaultOpts).length) {
       returnOpts = update(returnOpts, { $merge: typeObj.defaultOpts });
@@ -27,5 +32,5 @@ export function getChartTypeDefaultOpts(type) {
   }
 
   // non-NVD3 data formats would do something else here
-  return {};
+  return defaultOpts;
 }
