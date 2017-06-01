@@ -12,7 +12,11 @@ export default function transform(data, fields, dateFormat) {
       return parseDate(value, dateFormat.formatString);
     }
 
-    return new Date(value).toISOString();
+    try {
+      return new Date(value).toISOString();
+    } catch (err) {
+      return 'Date format error';
+    }
   };
 
   const mapSeriesData = (name, row) => ({

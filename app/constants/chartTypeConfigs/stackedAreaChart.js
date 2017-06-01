@@ -16,7 +16,7 @@ export const defaultOpts = {
   showLegend: true,
   showControls: false,
   mapLegendData(data) {
-    const legendMap = data.reduce(reduceData, {});
+    const legendMap = data.reduce(sumSeries, {});
     return Object
       .keys(legendMap)
       .map((name, index) => Object.assign(
@@ -26,7 +26,7 @@ export const defaultOpts = {
   },
 };
 
-function reduceData(acc, { name, value }) {
+function sumSeries(acc, { name, value }) {
   const quantity = acc[name] ? acc[name].quantity + value : value;
   return update(acc, {
     [name]: {
