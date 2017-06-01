@@ -9,7 +9,7 @@ import {
 } from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
-import { Label, Heading, Select, Button, Text } from 'rebass';
+import { Label, Heading, Select, Button, Text, Input } from 'rebass';
 import ListBlock from '../Layout/RebassComponents/ListBlock';
 import { appSteps } from '../../constants/appSteps';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
@@ -106,60 +106,89 @@ class DataInput extends AppComponent {
       }
     }
 
+    // put buttons underneath inputs
     return (
       <div className={this.parentStyles.appComponent}>
         <Heading level={2}>{appSteps[0]}</Heading>
-        <ListBlock list={this.inputRules} />
-        <ChartTitle metadata={this.props.metadata} />
-        <div>
-          <Label>Chart data</Label>
-          <textarea
-            id="DataInput"
-            className={styles.textarea}
-            value={this.state.rawData}
-            onChange={this._handleInputChange}
-            onBlur={this._handleInputBlur}
-            ref="dataInput"
-          />
-          <span className={styles[dataStatusClass]}>
-            <Text small>{dataStatus}</Text>
-          </span>
-        </div>
 
-        <div className={styles.actionsContainer}>
+        <div style={{ display: 'flex', marginTop: '30px' }}>
+          <div style={{ width: '330px' }}>
 
-          <div className={styles.submitContainer}>
-            <NextPrevButton
-              text="Next"
-              currentStep={0}
-              dir="next"
-              shouldEnable={this.props.isNextStepAvailable}
-              callback={this._nextCallback}
-            />
+            {!!this.state.rawData && <DateFormatter
+              dateFormat={this.props.dateFormat}
+              dates={this.props.firstCol}
+            />}
+
+            {!this.state.rawData && <div className={styles.optionsContainer}>
+              <Select
+                className={styles.optionsContainer.Select}
+                style={{ marginBottom: 0 }}
+                label="Use sample data"
+                name="sample-data-select"
+                options={this._sampleDataOptions()}
+                onChange={this._setSampleDataSet}
+              />
+              <Button
+                theme="warning"
+                onClick={this._loadSampleData}
+              >
+                Load
+              </Button>
+            </div>}
+
+            {!this.state.rawData && <div>
+              <Input
+                className={styles.optionsContainer.Select}
+                style={{ marginBottom: 0 }}
+                label="Google Sheet ID or Link"
+                name="sample-data-select"
+                options={this._sampleDataOptions()}
+                onChange={this._setSampleDataSet}
+              />
+              <Button
+                theme="warning"
+              >
+                Load
+              </Button>
+            </div>}
           </div>
 
-            {this.state.rawData ? (
-                <DateFormatter
-                  dateFormat={this.props.dateFormat}
-                  dates={this.props.firstCol}
+          <div style={{
+            paddingLeft: '20px',
+            borderLeft: '1px solid gray',
+            marginLeft: '20px',
+            flexGrow: 99,
+          }}>
+            <ListBlock list={this.inputRules} />
+            <ChartTitle metadata={this.props.metadata} />
+            <div>
+              <Label>Chart data</Label>
+              <textarea
+                id="DataInput"
+                className={styles.textarea}
+                value={this.state.rawData}
+                onChange={this._handleInputChange}
+                onBlur={this._handleInputBlur}
+                ref="dataInput"
+              />
+              <span className={styles[dataStatusClass]}>
+              <Text small>{dataStatus}</Text>
+            </span>
+            </div>
+
+            <div className={styles.actionsContainer}>
+
+              <div className={styles.submitContainer}>
+                <NextPrevButton
+                  text="Next"
+                  currentStep={0}
+                  dir="next"
+                  shouldEnable={this.props.isNextStepAvailable}
+                  callback={this._nextCallback}
                 />
-              ) : (
-                <div className={styles.optionsContainer}>
-                  <Select
-                    className={styles.optionsContainer.Select}
-                    style={{ marginBottom: 0 }}
-                    label="Use sample data"
-                    name="sample-data-select"
-                    options={this._sampleDataOptions()}
-                    onChange={this._setSampleDataSet}
-                  />
-                  <Button
-                    theme="warning"
-                    onClick={this._loadSampleData}
-                  >Load</Button>
-                </div>
-              )
-            }
+              </div>
+            </div>
+          </div>
 
         </div>
       </div>
