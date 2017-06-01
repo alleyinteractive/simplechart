@@ -34,7 +34,6 @@ export default class BritechartsAdapter extends Component {
   }
 
   _renderChart() {
-    console.log(this.props);
     const { data, options } = this.props;
     const { width, height, color, type, xAxis, yAxis, showLegend } = options;
 
@@ -42,7 +41,7 @@ export default class BritechartsAdapter extends Component {
     const chartWidth = width ||
       chartContainer.node().getBoundingClientRect().width;
 
-    const xAxisLabel = xAxis ? xAxis.axisLabel : null;
+    const xAxisLabel = xAxis ? xAxis.axisLabel : undefined;
     const chart = new this.chartMap[type]();
 
     // TODO: Figure out correct color pallete mapping
@@ -71,14 +70,14 @@ export default class BritechartsAdapter extends Component {
 
     chartContainer.datum(data).call(chart);
 
-    this._renderTooltip(chartContainer, chart, xAxisLabel || 'Values');
+    this._renderTooltip(chartContainer, chart, xAxisLabel);
 
     if (showLegend) {
       this._renderLegend(chartWidth);
     }
   }
 
-  _renderTooltip(chartContainer, chart, title) {
+  _renderTooltip(chartContainer, chart, title = 'Values') {
     const chartTooltip = new Tooltip();
 
     chart
@@ -96,17 +95,17 @@ export default class BritechartsAdapter extends Component {
   }
 
   _renderLegend(chartWidth) {
-    const { data, options: { height, color } } = this.props;
+    const { data, options } = this.props;
+    const { height, color, mapLegendData } = options;
     const legendContainer = d3Selection.select(this.legendRef);
     const chartLegend = new Legend();
 
     chartLegend
       .width(chartWidth * 0.8)
-      .height(height)
+      .height(height * 0.5)
       .colorSchema(color);
 
-    // TODO: The legend data needs to be structured correctly.
-    legendContainer.datum(data).call(chartLegend);
+    legendContainer.datum(mapLegendData(data)).call(chartLegend);
   }
 
   _setChartRef(ref) {

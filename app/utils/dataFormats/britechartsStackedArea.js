@@ -15,14 +15,14 @@ export default function transform(data, fields, dateFormat) {
     return new Date(value).toISOString();
   };
 
-  const createPoint = (name, row) => ({
+  const mapSeriesData = (name, row) => ({
     date: getDate(row[dateLabel]),
     name,
     value: parseFloat(row[name]),
   });
 
   const reduceData = (acc, row) => {
-    const points = seriesLabels.map((name) => createPoint(name, row));
+    const points = seriesLabels.map((name) => mapSeriesData(name, row));
     return acc.concat(points);
   };
 

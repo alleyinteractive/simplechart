@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import getSumDomain from '../../utils/dataFormats/getSumDomain';
 
 export const config = {
@@ -14,4 +15,25 @@ export const config = {
 export const defaultOpts = {
   showLegend: true,
   showControls: false,
+  mapLegendData(data) {
+    const legendMap = data.reduce(reduceData, {});
+    return Object
+      .keys(legendMap)
+      .map((name, index) => Object.assign(
+        legendMap[name],
+        { id: index }
+      ));
+  },
 };
+
+function reduceData(acc, { name, value }) {
+  const quantity = acc[name] ? acc[name].quantity + value : value;
+  return update(acc, {
+    [name]: {
+      $set: {
+        quantity,
+        name,
+      },
+    },
+  });
+}
