@@ -19,16 +19,13 @@ export const defaultOpts = {
     const legendMap = data.reduce(sumSeries, {});
     return Object
       .keys(legendMap)
-      .map((name, index) => Object.assign(
-        legendMap[name],
-        { id: index }
-      ));
+      .map((name, index) => Object.assign(legendMap[name], { id: index }));
   },
 };
 
-function sumSeries(acc, { name, value }) {
-  const quantity = acc[name] ? acc[name].quantity + value : value;
-  return update(acc, {
+function sumSeries(map, { name, value }) {
+  const quantity = map[name] ? map[name].quantity + value : value;
+  return update(map, {
     [name]: {
       $set: {
         quantity,
