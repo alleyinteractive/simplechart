@@ -9,9 +9,10 @@ const entry = {
 
 if (!process.env.MOCKAPI) {
   entry.app = [
-    path.resolve('./app/index'),
+    'react-hot-loader/patch',
     'webpack/hot/only-dev-server',
     'webpack-dev-server/client?http://localhost:8080',
+    path.resolve('./app/index'),
   ];
 }
 
