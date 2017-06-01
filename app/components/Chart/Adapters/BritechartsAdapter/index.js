@@ -45,7 +45,6 @@ class BritechartsAdapter extends Component {
     const xAxisLabel = xAxis ? xAxis.axisLabel : undefined;
     const chart = new this.chartMap[type]();
 
-    // TODO: Figure out correct color pallete mapping
     // TODO: Figure out data format
     chart
       .grid('horizontal')

@@ -61,7 +61,7 @@ class PalettePicker extends Component {
    * so we just strip those.
    */
   _getSeriesName(series) {
-    return /^"?(.*?)"?$/i.exec(series.key || series.label)[1];
+    return /^"?(.*?)"?$/i.exec(series.key || series.label || series.name)[1];
   }
 
   /**
