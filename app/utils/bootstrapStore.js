@@ -32,8 +32,9 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
    * fallback to NVD3 options.type for backwards compatibility
    */
   if (!isNewChart) {
-    nextChartType = update(nextChartType, { $set:
-      getChartTypeObject(recdData.chartType || recdData.chartOptions.type),
+    const chartType = recdData.chartType || recdData.chartOptions.type;
+    nextChartType = update(nextChartType, {
+      $set: getChartTypeObject(chartType) || {},
     });
     if (!Object.keys(nextChartType).length) {
       // error if missing or misconfigured chart type
