@@ -2,11 +2,12 @@ import Legend from 'britecharts/src/charts/legend';
 import StackedAreaChart from 'britecharts/src/charts/stacked-area';
 import Tooltip from 'britecharts/src/charts/Tooltip';
 import * as d3Selection from 'd3-selection';
-
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getD3TimeFormat } from '../../../../utils/parseDate';
 import '!!style-loader!raw-loader!britecharts/dist/css/britecharts.css';
 
-export default class BritechartsAdapter extends Component {
+class BritechartsAdapter extends Component {
   constructor(props) {
     super(props);
 
@@ -34,7 +35,7 @@ export default class BritechartsAdapter extends Component {
   }
 
   _renderChart() {
-    const { data, options } = this.props;
+    const { data, options, timeFormat } = this.props;
     const { width, height, color, type, xAxis, yAxis, showLegend } = options;
 
     const chartContainer = d3Selection.select(this.chartRef);
@@ -46,17 +47,17 @@ export default class BritechartsAdapter extends Component {
 
     // TODO: Figure out correct color pallete mapping
     // TODO: Figure out data format
-    // TODO: Legend
     chart
       .grid('horizontal')
       .width(chartWidth)
       .height(height)
       .colorSchema(color);
 
-    // TODO: Map dateFormat.formatString, if available, to d3TimeString, and apply it to XFormat.
-    // chart
-    //   .forceAxisFormat('custom')
-    //   .forcedXFormat('%Y')
+    if (timeFormat) {
+      chart
+        .forceAxisFormat('custom')
+        .forcedXFormat(timeFormat);
+    }
 
     // Labels only available for Stepchart
     // https://github.com/eventbrite/britecharts/issues/120
@@ -126,6 +127,7 @@ export default class BritechartsAdapter extends Component {
           className="britechart-chart-container"
         />
         <div
+          key={Math.random()}
           ref={this._setLegendRef}
           className="britechart-legend-container"
         />
@@ -136,9 +138,18 @@ export default class BritechartsAdapter extends Component {
 
 BritechartsAdapter.propTypes = {
   data: React.PropTypes.array,
+  timeFormat: React.PropTypes.string,
   options: React.PropTypes.object,
   widget: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.bool,
   ]),
 };
+
+function mapStateToProps(state) {
+  return {
+    timeFormat: getD3TimeFormat(state.dateFormat.formatString),
+  };
+}
+
+export default connect(mapStateToProps)(BritechartsAdapter);

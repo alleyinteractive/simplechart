@@ -64,3 +64,20 @@ export function disproveList(formatString, list) {
     return validate(dateString, formatString) ? null : dateString;
   }, null);
 }
+
+export function getD3TimeFormat(formatString = '') {
+  // TODO: Finish mapping
+  const formatMap = {
+    YYYY: '%Y',
+  };
+
+  let timeFormat = formatString;
+
+  Object
+    .keys(formatMap)
+    .forEach((token) => {
+      timeFormat = timeFormat.replace(token, formatMap[token]);
+    });
+
+  return timeFormat;
+}
