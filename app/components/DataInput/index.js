@@ -162,7 +162,7 @@ class DataInput extends AppComponent {
                   onChange={this._setSheetId}
                   style={{ marginBottom: 0 }}
                 />
-                <HelpTrigger docName="dateFormatter" />
+                <HelpTrigger docName="googleSheets" />
               </div>
               <div className={styles.actionsContainer}>
                 <Button
