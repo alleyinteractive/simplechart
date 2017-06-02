@@ -42,6 +42,7 @@ class DataInput extends AppComponent {
     this.state = {
       rawData: props.rawData,
       sampleDataSet: 0,
+      sheetId: '',
     };
 
     this.inputRules = [

@@ -57,9 +57,9 @@ export function parseId(input) {
 }
 
 /**
- * @param {Array[]} data
+ * @param {Object} response
  * @returns {String}
  */
-export function toCSV(data) {
-  return data.reduce((acc, row) => `${acc + row.join(',')}\n`, '');
+export function toCSV(response) {
+  return response.values.reduce((acc, row) => `${acc + row.join(',')}\n`, '');
 }

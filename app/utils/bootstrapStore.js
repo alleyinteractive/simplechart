@@ -30,7 +30,7 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
 
   // TODO: Most of this logic should live in a reducer. Refactor towards
   // a centralized "bootstrap" action.
-  dispatch(BOOTSTRAP_APP, recdData, messageType);
+  dispatch(actionTrigger(BOOTSTRAP_APP, recdData, messageType));
 
   /**
    * Set up chartType config object with
