@@ -28,8 +28,8 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
   let nextChartType = {};
   let nextOpts = update({}, { $set: recdData.chartOptions });
 
-  // TODO: Most of this logic should live in a reducer. Refactor towards
-  // a centralized "bootstrap" action.
+  // TODO: Most of the logic in this file should live in a reducer.
+  // Refactor towards a centralized "bootstrap" action.
   dispatch(actionTrigger(BOOTSTRAP_APP, recdData, messageType));
 
   /**
