@@ -5,18 +5,18 @@ import { RECEIVE_ERROR, RECEIVE_RAW_DATA, REQUEST_GOOGLE_SHEET } from '../consta
 /**
  * @param {String} sheetId  A google sheets id, or URL containing an id
  */
-export function requestGoogleSheet(sheetId) {
+export default function requestGoogleSheet(sheetId) {
   return (dispatch, getState) => {
-    const { sheetApiKey } = getState();
+    const { googleApiKey } = getState();
 
-    if (!sheetApiKey) {
+    if (!googleApiKey) {
       dispatch(actionTrigger(RECEIVE_ERROR, 'e009'));
       return;
     }
 
     dispatch(actionTrigger(REQUEST_GOOGLE_SHEET));
 
-    const url = buildUrl(parseId(sheetId), sheetApiKey);
+    const url = buildUrl(parseId(sheetId), googleApiKey);
     const options = {
       headers: {
         Accept: 'application/json',

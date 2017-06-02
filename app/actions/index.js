@@ -159,3 +159,5 @@ export function listenerWidgetData(widgetEl, dispatch) {
   }
   widgetEl.addEventListener('widgetData', receiveData, true);
 }
+
+export { default as requestGoogleSheet } from './requestGoogleSheet';

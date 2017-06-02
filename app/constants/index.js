@@ -4,6 +4,7 @@
 export const UPDATE_CURRENT_STEP = 'UPDATE_CURRENT_STEP';
 export const UNSAVED_CHANGES = 'UNSAVED_CHANGES';
 export const RECEIVE_CMS_STATUS = 'RECEIVE_CMS_STATUS';
+export const BOOTSTRAP_APP = 'BOOTSTRAP_APP';
 
 /**
  * Errors

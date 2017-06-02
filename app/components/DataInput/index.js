@@ -9,7 +9,7 @@ import {
   CLEAR_ERROR,
 } from '../../constants';
 import { sampleData } from '../../constants/sampleData';
-import actionTrigger from '../../actions';
+import actionTrigger, { requestGoogleSheet } from '../../actions';
 import { Divider, Label, Heading, Select, Button, Text, Input } from 'rebass';
 import ListBlock from '../Layout/RebassComponents/ListBlock';
 import { appSteps } from '../../constants/appSteps';
@@ -22,6 +22,7 @@ class DataInput extends AppComponent {
   static mapStateToProps(state) {
     return Object.assign({}, state, {
       isNextStepAvailable: getIsNextStepAvailable(state),
+      canLoadSheet: !!state.googleApiKey,
     });
   }
 
@@ -29,7 +30,9 @@ class DataInput extends AppComponent {
     super(props);
     this._submitData = this._submitData.bind(this);
     this._loadSampleData = this._loadSampleData.bind(this);
+    this._requestSheet = this._requestSheet.bind(this);
     this._setSampleDataSet = this._setSampleDataSet.bind(this);
+    this._setSheetId = this._setSheetId.bind(this);
     this._nextCallback = this._nextCallback.bind(this);
     this._handleInputBlur = this._handleInputBlur.bind(this);
     this._handleInputChange = this._handleInputChange.bind(this);
@@ -66,6 +69,10 @@ class DataInput extends AppComponent {
     this._submitData(sampleData[this.state.sampleDataSet].data);
   }
 
+  _requestSheet() {
+    this.props.dispatch(requestGoogleSheet(this.state.sheetId));
+  }
+
   _sampleDataOptions() {
     return sampleData.map(({ label }, i) => ({
       children: label,
@@ -74,9 +81,11 @@ class DataInput extends AppComponent {
   }
 
   _setSampleDataSet(evt) {
-    this.setState({
-      sampleDataSet: evt.target.value,
-    });
+    this.setState({ sampleDataSet: evt.target.value });
+  }
+
+  _setSheetId(evt) {
+    this.setState({ sheetId: evt.target.value });
   }
 
   _nextCallback(success) {
@@ -105,7 +114,13 @@ class DataInput extends AppComponent {
 
   render() {
     const { rawData } = this.state;
-    const { dateFormat, firstCol, metadata, isNextStepAvailable } = this.props;
+    const {
+      canLoadSheet,
+      dateFormat,
+      firstCol,
+      metadata,
+      isNextStepAvailable,
+    } = this.props;
 
     return (
       <div className={this.parentStyles.appComponent}>
@@ -127,22 +142,30 @@ class DataInput extends AppComponent {
                 onChange={this._setSampleDataSet}
               />
               <div className={styles.actionsContainer}>
-                <Button theme="warning" onClick={this._loadSampleData}>
+                <Button
+                  theme="warning"
+                  onClick={this._loadSampleData}
+                >
                   Load
                 </Button>
               </div>
             </div>}
 
-            <Divider style={{ marginTop: '20px' }} />
-
-            {!rawData && <div>
+            {!rawData && canLoadSheet && <div>
+              <Divider style={{ marginTop: '20px' }} />
               <Input
                 className={styles.inputBuilderMargin}
                 label="Google Sheet ID or Link"
                 name="google-sheets-id"
+                onChange={this._setSheetId}
               />
               <div className={styles.actionsContainer}>
-                <Button theme="warning">Load</Button>
+                <Button
+                  theme="warning"
+                  onClick={this._requestSheet}
+                >
+                  Load
+                </Button>
               </div>
             </div>}
           </div>
@@ -189,6 +212,7 @@ DataInput.propTypes = {
   dateFormat: React.PropTypes.object,
   firstCol: React.PropTypes.array,
   dispatch: React.PropTypes.func,
+  canLoadSheet: React.PropTypes.bool,
   isNextStepAvailable: React.PropTypes.bool,
 };
 
