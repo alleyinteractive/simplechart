@@ -17,6 +17,7 @@ beforeEach(() => {
 });
 
 const mockSheetId = 'abc123';
+const mockApiKey = 'fooBarBaz456';
 
 test('dispatches error if no api key in state', () => {
   getState.mockReturnValue({});
@@ -42,12 +43,16 @@ test('handles request to fetch sheet data', () => {
     },
   };
 
-  getState.mockReturnValue({ googleApiKey: 'fooBarBaz456' });
+  getState.mockReturnValue({ googleApiKey: mockApiKey });
 
   fetch.mockImplementation(() => Promise.resolve(mockResponse));
 
   const thunk = requestGoogleSheet(mockSheetId);
   thunk(dispatch, getState).then(() => {
+    const fetchUrlArg = fetch.mock.calls[0][0];
+    expect(fetchUrlArg)
+      .toBe(`https://sheets.googleapis.com/v4/spreadsheets/${mockSheetId}/values/A1:Z1000?key=${mockApiKey}`);
+
     expect(dispatch)
       .toHaveBeenCalledWith(actionTrigger(RECEIVE_RAW_DATA, mockCSV));
 
@@ -57,7 +62,7 @@ test('handles request to fetch sheet data', () => {
 });
 
 test('dispatches error if sheet request fails', () => {
-  getState.mockReturnValue({ googleApiKey: 'fooBarBaz456' });
+  getState.mockReturnValue({ googleApiKey: mockApiKey });
 
   fetch.mockImplementation(() => Promise.resolve({ status: '500' }));
 
