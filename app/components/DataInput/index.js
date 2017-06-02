@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import AppComponent from '../Layout/AppComponent';
 import * as styles from './DataInput.css';
+import * as editorStyles from '../ChartEditor/ChartEditor.css';
 import {
   RECEIVE_RAW_DATA,
   RECEIVE_ERROR,
@@ -9,7 +10,7 @@ import {
 } from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger from '../../actions';
-import { Label, Heading, Select, Button, Text, Input } from 'rebass';
+import { Divider, Label, Heading, Select, Button, Text, Input } from 'rebass';
 import ListBlock from '../Layout/RebassComponents/ListBlock';
 import { appSteps } from '../../constants/appSteps';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
@@ -32,6 +33,8 @@ class DataInput extends AppComponent {
     this._nextCallback = this._nextCallback.bind(this);
     this._handleInputBlur = this._handleInputBlur.bind(this);
     this._handleInputChange = this._handleInputChange.bind(this);
+    this._getDataClass = this._getDataClass.bind(this);
+    this._getDataMessage = this._getDataMessage.bind(this);
 
     this.state = {
       rawData: props.rawData,
@@ -92,109 +95,91 @@ class DataInput extends AppComponent {
     this.setState({ rawData: evt.target.value });
   }
 
+  _getDataMessage() {
+    return this.props.dataStatus.message || 'Waiting for data input';
+  }
+
+  _getDataClass() {
+    return this.props.dataStatus.status || 'initial';
+  }
+
   render() {
-    let dataStatus = 'Waiting for data input';
-    let dataStatusClass = 'initial';
+    const { rawData } = this.state;
+    const { dateFormat, firstCol, metadata, isNextStepAvailable } = this.props;
 
-    if (this.props.dataStatus) {
-      if (this.props.dataStatus.message) {
-        dataStatus = this.props.dataStatus.message;
-      }
-
-      if (this.props.dataStatus.status) {
-        dataStatusClass = this.props.dataStatus.status;
-      }
-    }
-
-    // put buttons underneath inputs
     return (
       <div className={this.parentStyles.appComponent}>
         <Heading level={2}>{appSteps[0]}</Heading>
 
-        <div style={{ display: 'flex', marginTop: '30px' }}>
-          <div style={{ width: '330px' }}>
-
-            {!!this.state.rawData && <DateFormatter
-              dateFormat={this.props.dateFormat}
-              dates={this.props.firstCol}
+        <div className={editorStyles.builderContainer}>
+          <div className={editorStyles.subcomponentContainer}>
+            {!!rawData && <DateFormatter
+              dateFormat={dateFormat}
+              dates={firstCol}
             />}
 
-            {!this.state.rawData && <div className={styles.optionsContainer}>
+            {!rawData && <div>
               <Select
-                className={styles.optionsContainer.Select}
-                style={{ marginBottom: 0 }}
+                className={styles.inputBuilderMargin}
                 label="Use sample data"
                 name="sample-data-select"
                 options={this._sampleDataOptions()}
                 onChange={this._setSampleDataSet}
               />
-              <Button
-                theme="warning"
-                onClick={this._loadSampleData}
-              >
-                Load
-              </Button>
+              <div className={styles.actionsContainer}>
+                <Button theme="warning" onClick={this._loadSampleData}>
+                  Load
+                </Button>
+              </div>
             </div>}
 
-            {!this.state.rawData && <div>
+            <Divider style={{ marginTop: '20px' }} />
+
+            {!rawData && <div>
               <Input
-                className={styles.optionsContainer.Select}
-                style={{ marginBottom: 0 }}
+                className={styles.inputBuilderMargin}
                 label="Google Sheet ID or Link"
-                name="sample-data-select"
-                options={this._sampleDataOptions()}
-                onChange={this._setSampleDataSet}
+                name="google-sheets-id"
               />
-              <Button
-                theme="warning"
-              >
-                Load
-              </Button>
+              <div className={styles.actionsContainer}>
+                <Button theme="warning">Load</Button>
+              </div>
             </div>}
           </div>
 
-          <div style={{
-            paddingLeft: '20px',
-            borderLeft: '1px solid gray',
-            marginLeft: '20px',
-            flexGrow: 99,
-          }}>
+          <div className={editorStyles.chartContainer}>
             <ListBlock list={this.inputRules} />
-            <ChartTitle metadata={this.props.metadata} />
+            <ChartTitle metadata={metadata} />
             <div>
               <Label>Chart data</Label>
               <textarea
                 id="DataInput"
                 className={styles.textarea}
-                value={this.state.rawData}
+                value={rawData}
                 onChange={this._handleInputChange}
                 onBlur={this._handleInputBlur}
                 ref="dataInput"
               />
-              <span className={styles[dataStatusClass]}>
-              <Text small>{dataStatus}</Text>
+              <span className={styles[this._getDataClass()]}>
+              <Text small>{this._getDataMessage()}</Text>
             </span>
             </div>
-
             <div className={styles.actionsContainer}>
-
               <div className={styles.submitContainer}>
                 <NextPrevButton
                   text="Next"
                   currentStep={0}
                   dir="next"
-                  shouldEnable={this.props.isNextStepAvailable}
+                  shouldEnable={isNextStepAvailable}
                   callback={this._nextCallback}
                 />
               </div>
             </div>
           </div>
-
         </div>
       </div>
     );
   }
-
 }
 
 DataInput.propTypes = {

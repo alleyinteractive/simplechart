@@ -18,6 +18,10 @@
   color: var(--color-midgray);
 }
 
+.inputBuilderMargin {
+  margin-bottom: 0
+}
+
 .actionsContainer {
   margin-top: 20px;
   display: flex;
