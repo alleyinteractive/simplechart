@@ -18,10 +18,6 @@
   color: var(--color-midgray);
 }
 
-.inputBuilderMargin {
-  margin-bottom: 0
-}
-
 .actionsContainer {
   margin-top: 20px;
   display: flex;
@@ -52,4 +48,14 @@
 
 .submitContainer {
   max-width: 15%;
+}
+
+.loadSheetContainer {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 15px;
+  :global(.Input) {
+    width: 100%;
+    margin-right: 15px;
+  }
 }

@@ -29,6 +29,7 @@ test('dispatches error if no api key in state', () => {
 });
 
 test('handles request to fetch sheet data', () => {
+  const mockCSV = `Group,Count\nGroup A,3\n`;
   const mockResponse = {
     status: '200',
     json() {
@@ -40,8 +41,6 @@ test('handles request to fetch sheet data', () => {
       };
     },
   };
-
-  const mockCSV = `Group,Count\nGroup A,3\n`;
 
   getState.mockReturnValue({ googleApiKey: 'fooBarBaz456' });
 

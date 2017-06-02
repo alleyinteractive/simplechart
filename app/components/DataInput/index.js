@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import AppComponent from '../Layout/AppComponent';
 import * as styles from './DataInput.css';
 import * as editorStyles from '../ChartEditor/ChartEditor.css';
+import HelpTrigger from '../lib/HelpTrigger';
 import {
   RECEIVE_RAW_DATA,
   RECEIVE_ERROR,
@@ -154,12 +155,15 @@ class DataInput extends AppComponent {
 
             {!rawData && canLoadSheet && <div>
               <Divider style={{ marginTop: '20px' }} />
-              <Input
-                className={styles.inputBuilderMargin}
-                label="Google Sheet ID or Link"
-                name="google-sheets-id"
-                onChange={this._setSheetId}
-              />
+              <div className={styles.loadSheetContainer}>
+                <Input
+                  label="Google Sheet ID or Link"
+                  name="google-sheets-id"
+                  onChange={this._setSheetId}
+                  style={{ marginBottom: 0 }}
+                />
+                <HelpTrigger docName="dateFormatter" />
+              </div>
               <div className={styles.actionsContainer}>
                 <Button
                   theme="warning"
