@@ -40,6 +40,8 @@ export const TRANSFORM_DATA = 'TRANSFORM_DATA';
 // Date formatting info
 export const RECEIVE_DATE_FORMAT = 'RECEIVE_DATE_FORMAT';
 
+export const REQUEST_GOOGLE_SHEET = 'REQUEST_GOOGLE_SHEET';
+
 /**
  * Chart rendering actions
  */

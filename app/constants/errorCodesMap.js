@@ -11,4 +11,6 @@ export default {
   e006: 'Only one breakpoint can be set to "No max width"',
   e007: 'Breakpoints cannot use the same max width',
   e008: 'Sorry, we could not locate the Help content you requested.',
+  e009: 'Google sheet integration has not been configured correctly.',
+  e010: 'Sorry, we could not load that Google sheet. Please ensure the sheet is publicly available.',
 };
