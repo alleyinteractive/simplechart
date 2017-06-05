@@ -8,7 +8,10 @@ import {
 
 jest.mock('isomorphic-fetch');
 
-let fetch, dispatch, getState;
+let fetch;
+let dispatch;
+let getState;
+
 beforeEach(() => {
   jest.resetAllMocks();
   fetch = require('isomorphic-fetch');
