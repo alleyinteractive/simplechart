@@ -20,8 +20,7 @@
     "webextensions": false, // Enable if using Web Extensions
     // Optional Testing Frameworks
     "jasmine": false, // Enable if using Jasmine testing framework
-    "protractor": false, // Enable if using Protractor testing framework
-    "mocha": false // Enable if using Mocha testing framework
+    "jest": true
   },
   "globals": {
     "jQuery": true,

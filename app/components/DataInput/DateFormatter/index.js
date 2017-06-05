@@ -63,9 +63,8 @@ class DateFormatter extends Component {
         />
         <Label>{!this.props.dateFormat.enabled ?
           'Use date formatting?' :
-          'Enter date format'
+          ''
         }</Label>
-        <HelpTrigger docName="dateFormatter" />
         {!this.props.dateFormat.enabled ? null : (
           <DispatchField
             handler={this._handleChange}
@@ -73,7 +72,7 @@ class DateFormatter extends Component {
             fieldProps={{
               hideLabel: true,
               label: '',
-              placeholder: 'e.g. MM/DD/YYYY for 06/25/2014',
+              placeholder: 'MM/DD/YYYY for 06/25/2014',
               name: 'formatString',
               style: { marginBottom: '0px', width: '300px' },
               value: this.props.dateFormat.formatString || '',
@@ -93,6 +92,7 @@ class DateFormatter extends Component {
             </Text>
           </span>)
         }
+        <HelpTrigger docName="dateFormatter" />
       </div>
     );
   }

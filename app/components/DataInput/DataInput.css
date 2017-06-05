@@ -27,11 +27,9 @@
 }
 
 .optionsContainer {
-  width: 60%;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-left: 20px;
 
   :global(.Select) {
     flex-grow: 99;
@@ -48,7 +46,16 @@
   }
 }
 
-
 .submitContainer {
   max-width: 15%;
+}
+
+.loadSheetContainer {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 15px;
+  :global(.Input) {
+    width: 100%;
+    margin-right: 15px;
+  }
 }

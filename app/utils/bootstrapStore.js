@@ -1,5 +1,6 @@
 import actionTrigger from '../actions';
 import {
+  BOOTSTRAP_APP,
   RECEIVE_ERROR,
   RECEIVE_DEFAULTS_APPLIED_TO,
   RECEIVE_CMS_STATUS,
@@ -26,6 +27,10 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
   const isNewChart = 'bootstrap.new' === messageType;
   let nextChartType = {};
   let nextOpts = update({}, { $set: recdData.chartOptions });
+
+  // TODO: Most of the logic in this file should live in a reducer.
+  // Refactor towards a centralized "bootstrap" action.
+  dispatch(actionTrigger(BOOTSTRAP_APP, recdData, messageType));
 
   /**
    * Set up chartType config object with
