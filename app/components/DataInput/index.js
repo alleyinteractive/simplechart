@@ -114,6 +114,53 @@ class DataInput extends AppComponent {
     return this.props.dataStatus.status || 'initial';
   }
 
+  _renderSampleDataSelect() {
+    return (
+      <div>
+        <Select
+          className={styles.inputBuilderMargin}
+          label="Use sample data"
+          name="sample-data-select"
+          options={this._sampleDataOptions()}
+          onChange={this._setSampleDataSet}
+        />
+        <div className={styles.actionsContainer}>
+          <Button
+            theme="warning"
+            onClick={this._loadSampleData}
+          >
+            Load
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  _renderGoogleSheetInput() {
+    return (
+      <div>
+        <Divider style={{ marginTop: '20px' }} />
+        <div className={styles.loadSheetContainer}>
+          <Input
+            label="Google Sheet ID or Link"
+            name="google-sheets-id"
+            onChange={this._setSheetId}
+            style={{ marginBottom: 0 }}
+          />
+          <HelpTrigger docName="googleSheets" />
+        </div>
+        <div className={styles.actionsContainer}>
+          <Button
+            theme="warning"
+            onClick={this._requestSheet}
+          >
+            Load
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { rawData } = this.state;
     const {
@@ -134,45 +181,8 @@ class DataInput extends AppComponent {
               dateFormat={dateFormat}
               dates={firstCol}
             />}
-
-            {!rawData && <div>
-              <Select
-                className={styles.inputBuilderMargin}
-                label="Use sample data"
-                name="sample-data-select"
-                options={this._sampleDataOptions()}
-                onChange={this._setSampleDataSet}
-              />
-              <div className={styles.actionsContainer}>
-                <Button
-                  theme="warning"
-                  onClick={this._loadSampleData}
-                >
-                  Load
-                </Button>
-              </div>
-            </div>}
-
-            {!rawData && canLoadSheet && <div>
-              <Divider style={{ marginTop: '20px' }} />
-              <div className={styles.loadSheetContainer}>
-                <Input
-                  label="Google Sheet ID or Link"
-                  name="google-sheets-id"
-                  onChange={this._setSheetId}
-                  style={{ marginBottom: 0 }}
-                />
-                <HelpTrigger docName="googleSheets" />
-              </div>
-              <div className={styles.actionsContainer}>
-                <Button
-                  theme="warning"
-                  onClick={this._requestSheet}
-                >
-                  Load
-                </Button>
-              </div>
-            </div>}
+            {!rawData && this._renderSampleDataSelect()}
+            {!rawData && canLoadSheet && this._renderGoogleSheetInput()}
           </div>
 
           <div className={editorStyles.chartContainer}>
