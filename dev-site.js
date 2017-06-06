@@ -7,7 +7,11 @@ const version = process.argv[2] || null;
 if (version) {
   const indexPath = path.join(__dirname, 'index.html');
   const indexHtml = fs.readFileSync(indexPath, 'utf8');
-  fs.writeFileSync(indexPath, indexHtml.replace('app.js', `app.${version}.js`));
+  const newHtml = indexHtml.replace(
+    /(app|vendor)\.js/g,
+    (match, substr) => `${substr}.${version}.js`
+  );
+  fs.writeFileSync(indexPath, newHtml);
 }
 
 // Start serving
