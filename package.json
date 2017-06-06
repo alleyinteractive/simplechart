@@ -4,6 +4,7 @@
   "description": "Simplechart React",
   "scripts": {
     "build": "webpack -p --progress --config=prod-webpack.config.js",
+    "dev-site": "rm -rf static; npm run build; node dev-site.js",
     "lint": "eslint src",
     "locales": "node locales.js",
     "mock-api": "MOCKAPI=true NODE_ENV=development ./node_modules/babel-cli/bin/babel-node.js server.js",
