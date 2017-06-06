@@ -9,6 +9,7 @@ import setClearReducer from './setClearReducer';
 import chartDataReducer from './chartDataReducer';
 import rawDataReducer from './rawDataReducer';
 import unsavedChangesReducer from './unsavedChangesReducer';
+import bootstrapReducer from './bootstrapReducer';
 import * as actions from '../constants';
 
 // TODO: Refactor this into something simpler.
@@ -26,6 +27,7 @@ const defaultReducer = combineReducers({
   dataStatus: baseReducer({}, [actions.PARSE_DATA_STATUS]),
   errorCode: setClearReducer('',
     actions.RECEIVE_ERROR, actions.CLEAR_ERROR),
+  googleApiKey: baseReducer(null, []),
   helpDocument: setClearReducer('',
     actions.RECEIVE_HELP_DOCUMENT, actions.CLEAR_HELP_DOCUMENT),
   parsedData: baseReducer([], [actions.PARSE_RAW_DATA]),
@@ -36,6 +38,7 @@ const defaultReducer = combineReducers({
 
 export default createComposedReducer([
   defaultReducer,
+  bootstrapReducer,
   rawDataReducer,
   chartDataReducer,
   chartOptionsReducer,

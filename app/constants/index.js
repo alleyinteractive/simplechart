@@ -4,6 +4,7 @@
 export const UPDATE_CURRENT_STEP = 'UPDATE_CURRENT_STEP';
 export const UNSAVED_CHANGES = 'UNSAVED_CHANGES';
 export const RECEIVE_CMS_STATUS = 'RECEIVE_CMS_STATUS';
+export const BOOTSTRAP_APP = 'BOOTSTRAP_APP';
 
 /**
  * Errors
@@ -39,6 +40,8 @@ export const PARSE_DATA_STATUS = 'PARSE_DATA_STATUS';
 export const TRANSFORM_DATA = 'TRANSFORM_DATA';
 // Date formatting info
 export const RECEIVE_DATE_FORMAT = 'RECEIVE_DATE_FORMAT';
+
+export const REQUEST_GOOGLE_SHEET = 'REQUEST_GOOGLE_SHEET';
 
 /**
  * Chart rendering actions

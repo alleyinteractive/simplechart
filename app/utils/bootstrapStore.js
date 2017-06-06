@@ -1,5 +1,6 @@
 import actionTrigger from '../actions';
 import {
+  BOOTSTRAP_APP,
   RECEIVE_ERROR,
   RECEIVE_DEFAULTS_APPLIED_TO,
   RECEIVE_CMS_STATUS,
@@ -27,13 +28,18 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
   let nextChartType = {};
   let nextOpts = update({}, { $set: recdData.chartOptions });
 
+  // TODO: Most of the logic in this file should live in a reducer.
+  // Refactor towards a centralized "bootstrap" action.
+  dispatch(actionTrigger(BOOTSTRAP_APP, recdData, messageType));
+
   /**
    * Set up chartType config object with
    * fallback to NVD3 options.type for backwards compatibility
    */
   if (!isNewChart) {
-    nextChartType = update(nextChartType, { $set:
-      getChartTypeObject(recdData.chartType || recdData.chartOptions.type),
+    const chartType = recdData.chartType || recdData.chartOptions.type;
+    nextChartType = update(nextChartType, {
+      $set: getChartTypeObject(chartType) || {},
     });
     if (!Object.keys(nextChartType).length) {
       // error if missing or misconfigured chart type
