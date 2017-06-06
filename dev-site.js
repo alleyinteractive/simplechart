@@ -1,3 +1,7 @@
+/**
+ * Tiny Express app to run a dev site using
+ * compiled Webpack files in the /static dir
+ */
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -20,8 +24,8 @@ if (version) {
 
   // replace app.js or app.1234abc.js with new version
   const newHtml = indexHtml.replace(
-    /(app|vendor)(?:\.\w+)?\.js/g,
-    (match, substr) => `${substr}.${version}.js`
+    /(?:\/static\/)?(app|vendor)(?:\.\w+)?\.js/g,
+    (match, substr) => `/static/${substr}.${version}.js`
   );
   fs.writeFileSync(indexPath, newHtml);
 }
