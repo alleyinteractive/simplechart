@@ -8,9 +8,10 @@
 }
 
 .chartContainer {
+  position: fixed;
+  border-left: 1px solid gray;
   padding-left: 20px;
   border-left: 1px solid gray;
-  margin-left: 20px;
   flex-grow: 99;
 }
 
