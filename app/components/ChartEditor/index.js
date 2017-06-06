@@ -15,10 +15,6 @@ export default class ChartEditor extends AppComponent {
     this._updateDimensions = this._updateDimensions.bind(this);
   }
 
-  componentWillMount() {
-    // this._updateDimensions();
-  }
-
   componentDidMount() {
     window.addEventListener('resize', this._updateDimensions);
     this._updateDimensions();
