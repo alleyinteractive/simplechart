@@ -10,8 +10,8 @@ import { appSteps } from '../../constants/appSteps';
 import * as styles from './ChartEditor.css';
 
 export default class ChartEditor extends AppComponent {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this._updateDimensions = this._updateDimensions.bind(this);
   }
 
@@ -21,12 +21,11 @@ export default class ChartEditor extends AppComponent {
   }
 
   _updateDimensions() {
+    const appComponent = document.querySelector('[class*=appComponent]');
     const subCompWidth =
       document.querySelector('[class*=subcomponentContainer]').clientWidth;
-    const offsetLeft = document.querySelector('[class*=appComponent]').offsetLeft;
-    const width =
-      document.querySelector('[class*=appComponent]').clientWidth -
-        subCompWidth;
+    const offsetLeft = appComponent.offsetLeft;
+    const width = appComponent.clientWidth - subCompWidth;
     const left = subCompWidth + offsetLeft + 20;
 
     this.setState({ width, left });
