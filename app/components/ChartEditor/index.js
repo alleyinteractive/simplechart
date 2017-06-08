@@ -10,6 +10,27 @@ import { appSteps } from '../../constants/appSteps';
 import * as styles from './ChartEditor.css';
 
 export default class ChartEditor extends AppComponent {
+  constructor(props) {
+    super(props);
+    this._updateDimensions = this._updateDimensions.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this._updateDimensions);
+    this._updateDimensions();
+  }
+
+  _updateDimensions() {
+    const appComponent = document.querySelector('[class*=appComponent]');
+    const subCompWidth =
+      document.querySelector('[class*=subcomponentContainer]').clientWidth;
+    const offsetLeft = appComponent.offsetLeft;
+    const width = appComponent.clientWidth - subCompWidth;
+    const left = subCompWidth + offsetLeft + 20;
+
+    this.setState({ width, left });
+  }
+
   _renderSubcomponent(step) {
     let subcomponent;
     switch (step) {
@@ -52,8 +73,11 @@ export default class ChartEditor extends AppComponent {
     if (!state.chartOptions.type) {
       return null;
     }
+
+    const { width, left } = this.state;
+
     return (
-      <div className={styles.chartContainer}>
+      <div className={styles.chartContainer} style={{ width, left }}>
         <h3>{state.chartMetadata.title}</h3>
         <Chart
           data={state.chartData}
