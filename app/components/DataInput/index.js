@@ -185,7 +185,7 @@ class DataInput extends AppComponent {
             {!rawData && canLoadSheet && this._renderGoogleSheetInput()}
           </div>
 
-          <div className={editorStyles.chartContainer}>
+          <div className={styles.dataContainer}>
             <ListBlock list={this.inputRules} />
             <ChartTitle metadata={metadata} />
             <div>

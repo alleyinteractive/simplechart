@@ -59,3 +59,10 @@
     margin-right: 15px;
   }
 }
+
+.dataContainer {
+  padding-left: 20px;
+  border-left: 1px solid gray;
+  margin-left: 20px;
+  flex-grow: 99;
+}
