@@ -4,7 +4,7 @@ import { RECEIVE_ERROR, RECEIVE_RAW_DATA, REQUEST_GOOGLE_SHEET } from '../consta
 
 /**
  * @param {String} sheetId  A google sheets id, or URL containing an id
- * @return {Promise}
+ * @return {function}
  */
 export default function requestGoogleSheet(sheetId) {
   return (dispatch, getState) => {

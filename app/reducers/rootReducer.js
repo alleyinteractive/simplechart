@@ -23,6 +23,7 @@ export const initialState = {
   dataStatus: {},
   errorCode: '',
   googleApiKey: null,
+  googleSheetId: null,
   helpDocument: '',
   parsedData: [],
   rawData: '',
@@ -43,6 +44,7 @@ const setActionReducer = createGenericReducer('$set', {
   [actions.PARSE_RAW_DATA]: 'parsedData',
   [actions.RECEIVE_RAW_DATA]: 'rawData',
   [actions.TRANSFORM_DATA]: 'transformedData',
+  [actions.REQUEST_GOOGLE_SHEET]: 'googleSheetId',
 });
 
 const clearActionMap = {
