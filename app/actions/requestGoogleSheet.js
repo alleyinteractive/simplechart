@@ -15,7 +15,7 @@ export default function requestGoogleSheet(sheetId) {
       return Promise.resolve();
     }
 
-    dispatch(actionTrigger(REQUEST_GOOGLE_SHEET));
+    dispatch(actionTrigger(REQUEST_GOOGLE_SHEET, sheetId));
 
     const url = buildUrl(parseId(sheetId), googleApiKey);
     const options = {

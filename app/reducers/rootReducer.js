@@ -2,42 +2,69 @@
  * Combine all reducers in this file and export the combined reducers.
  * If we were to do this in store.js, reducers wouldn't be hot reloadable.
  */
-import { combineReducers } from 'redux';
-import { baseReducer, mergeReducer, createComposedReducer } from './genericReducers';
+import { createGenericReducer, createComposedReducer } from './genericReducers';
 import chartOptionsReducer from './chartOptionsReducer';
-import setClearReducer from './setClearReducer';
 import chartDataReducer from './chartDataReducer';
 import rawDataReducer from './rawDataReducer';
 import unsavedChangesReducer from './unsavedChangesReducer';
 import bootstrapReducer from './bootstrapReducer';
 import * as actions from '../constants';
 
-// TODO: Refactor this into something simpler.
-// Because the state design is significantly interdependent, combinedReducers (state slices) isn't very useful.
-const defaultReducer = combineReducers({
-  chartData: baseReducer([], []),
-  chartMetadata: baseReducer({}, [actions.RECEIVE_CHART_METADATA]),
-  chartOptions: baseReducer({}, []),
-  chartType: baseReducer({}, [actions.RECEIVE_CHART_TYPE]),
-  cmsStatus: baseReducer('', [actions.RECEIVE_CMS_STATUS]),
-  currentStep: baseReducer(0, [actions.UPDATE_CURRENT_STEP]),
-  dateFormat: mergeReducer({}, [actions.RECEIVE_DATE_FORMAT]),
-  defaultsAppliedTo: baseReducer('', [actions.RECEIVE_DEFAULTS_APPLIED_TO]),
-  dataFields: baseReducer([], [actions.PARSE_DATA_FIELDS]),
-  dataStatus: baseReducer({}, [actions.PARSE_DATA_STATUS]),
-  errorCode: setClearReducer('',
-    actions.RECEIVE_ERROR, actions.CLEAR_ERROR),
-  googleApiKey: baseReducer(null, []),
-  helpDocument: setClearReducer('',
-    actions.RECEIVE_HELP_DOCUMENT, actions.CLEAR_HELP_DOCUMENT),
-  parsedData: baseReducer([], [actions.PARSE_RAW_DATA]),
-  rawData: baseReducer('', [actions.RECEIVE_RAW_DATA]),
-  transformedData: baseReducer({}, [actions.TRANSFORM_DATA]),
-  unsavedChanges: unsavedChangesReducer,
+export const initialState = {
+  chartData: [],
+  chartMetadata: {},
+  chartOptions: {},
+  chartType: {},
+  cmsStatus: '',
+  currentStep: 0,
+  dateFormat: {},
+  defaultsAppliedTo: '',
+  dataFields: [],
+  dataStatus: {},
+  errorCode: '',
+  googleApiKey: null,
+  helpDocument: '',
+  parsedData: [],
+  rawData: '',
+  transformedData: {},
+  unsavedChanges: false,
+};
+
+const setActionReducer = createGenericReducer('$set', {
+  [actions.RECEIVE_CHART_METADATA]: 'chartMetadata',
+  [actions.RECEIVE_CHART_TYPE]: 'chartType',
+  [actions.RECEIVE_CMS_STATUS]: 'cmsStatus',
+  [actions.UPDATE_CURRENT_STEP]: 'currentStep',
+  [actions.RECEIVE_DEFAULTS_APPLIED_TO]: 'defaultsAppliedTo',
+  [actions.PARSE_DATA_FIELDS]: 'dataField',
+  [actions.PARSE_DATA_STATUS]: 'dataStatus',
+  [actions.RECEIVE_ERROR]: 'errorCode',
+  [actions.RECEIVE_HELP_DOCUMENT]: 'helpDocument',
+  [actions.PARSE_RAW_DATA]: 'parsedData',
+  [actions.RECEIVE_RAW_DATA]: 'rawData',
+  [actions.TRANSFORM_DATA]: 'transformedData',
+});
+
+const clearActionMap = {
+  [actions.CLEAR_ERROR]: 'errorCode',
+  [actions.CLEAR_HELP_DOCUMENT]: 'helpDocument',
+};
+
+const clearActionReducer = createGenericReducer(
+  '$set',
+  clearActionMap,
+  (data, property) => initialState[property]
+);
+
+const mergeActionReducer = createGenericReducer('$merge', {
+  [actions.RECEIVE_DATE_FORMAT]: 'dateFormat',
 });
 
 export default createComposedReducer([
-  defaultReducer,
+  setActionReducer,
+  clearActionReducer,
+  mergeActionReducer,
+  unsavedChangesReducer,
   bootstrapReducer,
   rawDataReducer,
   chartDataReducer,

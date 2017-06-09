@@ -4,38 +4,29 @@ import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
 
 /**
- * Reusable reducers for any parts of the store that don't need to do anything fancy
- * See http://redux.js.org/docs/basics/Reducers.html for explanation of basic reducers
- * This uses `initState` to and `allowActions` to dynamically set the reducer's initial state
- * and specify which actions it should be applied to
+ * @param {string} command - An immutability helper command to apply to the state object property.
+ * @param {object} actionMap - A map of action types to state object properties.
+ * @param {function} [resolveValue] - A callback to resolve the value, otherwise the action data
+ *  will be cloned and applied to the object state property.
+ *
+ * @returns {function} - A reducer function
  */
-export function baseReducer(initState, allowActions) {
-  // Initial state applies only when Redux is initializing the store
-  return (state = initState, { type, data }) => {
-    // If current action type is allowed, return current action data
-    if (0 <= allowActions.indexOf(type)) {
-      return cloneDeep(data);
+export function createGenericReducer(command, actionMap, resolveValue = null) {
+  return (state, { type, data }) => {
+    const property = actionMap[type];
+    if (!property) {
+      return state;
     }
 
-    // Ignore this action
-    return state;
-  };
-}
+    const value = resolveValue ?
+      resolveValue(data, property) :
+      cloneDeep(data);
 
-export function mergeReducer(initState, allowActions) {
-  return (state, action) => {
-    // If current action type is allowed, return merged action data
-    if (0 <= allowActions.indexOf(action.type)) {
-      return update(state, { $merge: action.data });
-    }
-
-    // Applies only when Redux is initializing the store
-    if (undefined === state) {
-      return initState;
-    }
-
-    // Ignore this action
-    return state;
+    return update(state, {
+      [property]: {
+        [command]: value,
+      },
+    });
   };
 }
 
