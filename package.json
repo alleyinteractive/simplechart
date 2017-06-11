@@ -70,12 +70,14 @@
     "postcss-nested": "2.0.x",
     "raw-loader": "0.5.x",
     "react-hot-loader": "3.0.0-beta.7",
+    "ssh2-sftp-client": "1.1.x",
     "style-loader": "0.13.x",
     "stylelint": "5.2.x",
     "url-loader": "0.5.x",
     "webpack": "2.6.x",
     "webpack-dev-server": "2.4.x",
-    "webpack-git-hash": "1.0.x"
+    "webpack-git-hash": "1.0.x",
+    "yargs": "8.0.x"
   },
   "dependencies": {
     "@mapbox/react-colorpickr": "4.3.x",

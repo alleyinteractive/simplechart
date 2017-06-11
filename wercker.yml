@@ -1,0 +1,32 @@
+box: node:7.8.0
+no-response-timeout: 10
+build:
+  steps:
+    - script:
+        name: confirm develop branch
+        code: |
+          if [ "$WERCKER_GIT_BRANCH" != "develop" ]; then
+            echo "Must be on develop branch"
+            exit 0;
+          fi
+
+    - script:
+        name: echo nodejs information
+        code: |
+          echo "node version $(node -v) running"
+          echo "npm version $(npm -v) running"
+
+    # A Wercker step that calls `npm install` and caches `node_modules` dir
+    - npm-install
+
+    - script:
+        name: execute Simplechart build script
+        code: |
+          npm run build
+
+deploy:
+  steps:
+    - script:
+        name: deploy to Pantheon dev site
+        code: |
+          node pantheon-deploy.js --username="$SFTP_USER" --password="$SFTP_PASS" --host="$SFTP_HOST" --port="$SFTP_PORT"
