@@ -30,6 +30,7 @@ function getConnectionArgs() {
     if (args[key]) {
       acc[key] = args[key].toString();
     }
+    return acc;
   }, {});
 }
 
