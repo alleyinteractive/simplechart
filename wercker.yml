@@ -22,3 +22,10 @@ deploy:
         name: deploy to Pantheon dev site
         code: |
           node pantheon-deploy.js --username="$SFTP_USER" --password="$SFTP_PASS" --host="$SFTP_HOST" --port="$SFTP_PORT"
+
+    after-steps:
+        - install-packages:
+            packages: ruby
+        - wantedly/pretty-slack-notify@0.3.4:
+            webhook_url: $SLACK_WEBHOOK_URL
+            passed_message: Check out $DEV_SITE_URL
