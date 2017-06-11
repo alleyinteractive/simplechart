@@ -3,7 +3,13 @@ node_modules
 *.log
 *.sh
 *_ignore_*
+.wercker
 
 # Don't ignore static dir in the Jekyll site
 static
 !docs/static
+
+# Config for Patheon deploy
+pantheon-config.json
+_pantheon-config.json
+werckerDev.sh
