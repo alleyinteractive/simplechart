@@ -21,7 +21,7 @@ You can confirm these packages are installed by running `node -v` or `npm -v` fr
 
 Congrats! You should now be able to access Simplechart at `http://localhost:8080/index.html`.
 
-If you're ready to deploy the app, head over to the Wiki for the [Deployment Guide](TK).
+For local development within the WordPress plugin, we recommend the **[Simplechart Dev Mode plugin](https://github.com/alleyinteractive/simplechart-dev-site#local-js-app-development)**.
 
 ## Use Cases
 Simplechart provides the most utility at present when used in conjunction with [the WordPress plugin](https://github.com/alleyinteractive/wordpress-simplechart). You don't need to install this package to try the WordPress plugin.
@@ -42,4 +42,4 @@ Over on the Wiki, we've documented some common extensions for Simplechart.
 ## Contributing to Simplechart
 We strongly encourage contributions, although we don't yet have formal contribution guidelines.
 
-If you're thinking of a patch, feel free to reach out via a Github issue, or by creating a fork and sending us a pull request. 
+If you're thinking of a patch, feel free to reach out via a Github issue, or by creating a fork and sending us a pull request.
