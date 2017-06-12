@@ -4,6 +4,9 @@ import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
 
 /**
+ * Create a generic reducer that takes the action data payload and applies it directly to the
+ * state with an immutability helper command.
+ *
  * @param {string} command - An immutability helper command to apply to the state object property.
  * @param {object} actionMap - A map of action types to state object properties.
  * @param {function} [resolveValue] - A callback to resolve the value, otherwise the action data
