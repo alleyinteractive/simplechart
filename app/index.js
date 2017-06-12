@@ -19,24 +19,29 @@ import { bootstrapAppData } from './actions';
 import App from './components/App';
 import { sendMessage } from './utils/postMessage';
 import * as NVD3Styles from '!!style-loader!raw-loader!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
-import rootReducer from './reducers/rootReducer';
+import rootReducer, { initialState } from './reducers/rootReducer';
 import getPublicPath from './utils/getPublicPath';
 
 // Set public path for loading chunks and other assets
 __webpack_public_path__ = __webpack_public_path__ || getPublicPath(); // eslint-disable-line camelcase,no-undef
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(rootReducer, composeEnhancers(
-  applyMiddleware(
-    thunk,
-    receiveRawData,
-    receiveDateFormat,
-    receiveChartType,
-    receiveChartOptions,
-    receiveHelpDocument,
-    actionLogging
+
+const store = createStore(
+  rootReducer,
+  initialState,
+  composeEnhancers(
+    applyMiddleware(
+      thunk,
+      receiveRawData,
+      receiveDateFormat,
+      receiveChartType,
+      receiveChartOptions,
+      receiveHelpDocument,
+      actionLogging
+    )
   )
-));
+);
 
 store.dispatch(bootstrapAppData());
 

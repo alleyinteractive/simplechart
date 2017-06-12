@@ -4,7 +4,7 @@ import { RECEIVE_ERROR, RECEIVE_RAW_DATA, REQUEST_GOOGLE_SHEET } from '../consta
 
 /**
  * @param {String} sheetId  A google sheets id, or URL containing an id
- * @return {Promise}
+ * @return {function}
  */
 export default function requestGoogleSheet(sheetId) {
   return (dispatch, getState) => {
@@ -15,7 +15,7 @@ export default function requestGoogleSheet(sheetId) {
       return Promise.resolve();
     }
 
-    dispatch(actionTrigger(REQUEST_GOOGLE_SHEET));
+    dispatch(actionTrigger(REQUEST_GOOGLE_SHEET, sheetId));
 
     const url = buildUrl(parseId(sheetId), googleApiKey);
     const options = {

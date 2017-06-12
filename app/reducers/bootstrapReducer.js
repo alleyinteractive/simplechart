@@ -10,5 +10,8 @@ export default function bootstrapReducer(state = {}, action) {
     googleApiKey: {
       $set: action.data.googleApiKey,
     },
+    googleSheetId: {
+      $set: action.data.googleSheetId,
+    },
   });
 }

@@ -1,3 +1,4 @@
+import pick from 'lodash/fp/pick';
 import { createSelector } from 'reselect';
 
 const checkDataValid = createSelector(
@@ -36,3 +37,18 @@ export const getIsNextStepAvailable = createSelector(
     }
   }
 );
+
+export const getSaveData = (state) => {
+  // Pluck from state only the keys we want to eventually save to the CMS
+  const properties = [
+    'rawData',
+    'chartData',
+    'chartMetadata',
+    'chartOptions',
+    'googleSheetId',
+  ];
+
+  return Object.assign(pick(properties, state), {
+    chartType: state.chartType.config ? state.chartType.config.type : '',
+  });
+};
