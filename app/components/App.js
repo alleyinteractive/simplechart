@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DataInput from './DataInput';
-import update from 'immutability-helper';
 import ChartEditor from './ChartEditor';
 import Header from './Header';
 import Help from './Help';
@@ -13,7 +12,6 @@ class App extends Component {
   constructor() {
     super();
     this._renderAppComponent = this._renderAppComponent.bind(this);
-    this._getSaveData = this._getSaveData.bind(this);
     this._firstParsedCol = this._firstParsedCol.bind(this);
   }
 
@@ -41,21 +39,6 @@ class App extends Component {
     }
   }
 
-  /**
-   * Pluck from state only the keys we want to eventually save to the CMS
-   */
-  _getSaveData() {
-    return update(this.props.state, { $apply: (state) =>
-      ({
-        rawData: state.rawData,
-        chartData: state.chartData,
-        chartMetadata: state.chartMetadata,
-        chartOptions: state.chartOptions,
-        chartType: state.chartType.config ? state.chartType.config.type : '',
-      }),
-    });
-  }
-
   _firstParsedCol() {
     const firstColKey = this.props.state.dataFields[0];
     return this.props.state.parsedData.map((row) => row[firstColKey]);
@@ -81,7 +64,6 @@ class App extends Component {
       // set height 100% so child divs inherit it
       <div style={{ height: '100%' }}>
         <Header
-          saveData={this._getSaveData()}
           currentStep={this.props.state.currentStep}
           unsavedChanges={this.props.state.unsavedChanges}
           errorCode={this.props.state.errorCode}

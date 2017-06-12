@@ -1,4 +1,5 @@
-import { getIsNextStepAvailable } from '../../app/selectors';
+import { initialState } from '../../app/reducers/rootReducer';
+import { getIsNextStepAvailable, getSaveData } from '../../app/selectors';
 
 const validState = {
   currentStep: 0,
@@ -43,4 +44,14 @@ describe('getIsNextStepAvailable', () => {
 
     expect(getIsNextStepAvailable(state)).toBe(false);
   });
+});
+
+test('getSaveData prunes app state to a shape ready for persistence', () => {
+  const result = getSaveData(initialState);
+  expect(result).toHaveProperty('rawData');
+  expect(result).toHaveProperty('chartData');
+  expect(result).toHaveProperty('chartMetadata');
+  expect(result).toHaveProperty('chartOptions');
+  expect(result).toHaveProperty('googleSheetId');
+  expect(result).toHaveProperty('chartType', '');
 });

@@ -22,17 +22,19 @@ beforeEach(() => {
 const mockSheetId = 'abc123';
 const mockApiKey = 'fooBarBaz456';
 
-test('dispatches error if no api key in state', () => {
+test('dispatches error if no api key in state', (done) => {
   getState.mockReturnValue({});
 
   const thunk = requestGoogleSheet(mockSheetId);
   thunk(dispatch, getState).then(() => {
     expect(dispatch)
       .toHaveBeenCalledWith(actionTrigger(RECEIVE_ERROR, 'e009'));
+
+    done();
   });
 });
 
-test('handles request to fetch sheet data', () => {
+test('handles request to fetch sheet data', (done) => {
   const mockCSV = `Group,Count\nGroup A,3\n`;
   const mockResponse = {
     status: '200',
@@ -60,11 +62,13 @@ test('handles request to fetch sheet data', () => {
       .toHaveBeenCalledWith(actionTrigger(RECEIVE_RAW_DATA, mockCSV));
 
     expect(dispatch)
-      .toHaveBeenCalledWith(actionTrigger(REQUEST_GOOGLE_SHEET));
+      .toHaveBeenCalledWith(actionTrigger(REQUEST_GOOGLE_SHEET, mockSheetId));
+
+    done();
   });
 });
 
-test('dispatches error if sheet request fails', () => {
+test('dispatches error if sheet request fails', (done) => {
   getState.mockReturnValue({ googleApiKey: mockApiKey });
 
   fetch.mockImplementation(() => Promise.resolve({ status: '500' }));
@@ -73,5 +77,7 @@ test('dispatches error if sheet request fails', () => {
   thunk(dispatch, getState).then(() => {
     expect(dispatch)
       .toHaveBeenCalledWith(actionTrigger(RECEIVE_ERROR, 'e010'));
+
+    done();
   });
 });

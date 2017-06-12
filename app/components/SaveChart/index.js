@@ -6,10 +6,17 @@ import { connect } from 'react-redux';
 import actionTrigger from '../../actions';
 import { UNSAVED_CHANGES } from '../../constants';
 import saveChartLabels from '../../constants/saveChartLabels';
+import { getSaveData } from '../../selectors';
 
 class SaveChart extends Component {
-  constructor() {
-    super();
+  static mapStateToProps(state) {
+    return {
+      saveData: getSaveData(state),
+    };
+  }
+
+  constructor(props) {
+    super(props);
     this._sendDataToParent = this._sendDataToParent.bind(this);
   }
 
@@ -43,4 +50,4 @@ SaveChart.propTypes = {
   dispatch: React.PropTypes.func,
 };
 
-export default connect()(SaveChart);
+export default connect(SaveChart.mapStateToProps)(SaveChart);
