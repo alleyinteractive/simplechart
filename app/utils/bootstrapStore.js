@@ -30,8 +30,6 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
 
   // TODO: Most of the logic in this file should live in a reducer.
   // Refactor towards a centralized "bootstrap" action.
-
-  // Need to setup googleSheetId to exist in cms rehydration process.
   dispatch(actionTrigger(BOOTSTRAP_APP, recdData, messageType));
 
   /**

@@ -43,7 +43,7 @@ class DataInput extends AppComponent {
     this.state = {
       rawData: props.rawData,
       sampleDataSet: 0,
-      sheetId: props.googleSheetId,
+      googleSheetId: props.googleSheetId,
     };
 
     this.inputRules = [
@@ -54,9 +54,13 @@ class DataInput extends AppComponent {
     ];
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.rawData !== nextProps.rawData) {
-      this.setState({ rawData: nextProps.rawData });
+  componentWillReceiveProps({ rawData, googleSheetId }) {
+    if (this.props.rawData !== rawData) {
+      this.setState({ rawData });
+    }
+
+    if (this.props.googleSheetId !== googleSheetId) {
+      this.setState({ googleSheetId });
     }
   }
 
@@ -72,7 +76,7 @@ class DataInput extends AppComponent {
   }
 
   _requestSheet() {
-    this.props.dispatch(requestGoogleSheet(this.state.sheetId));
+    this.props.dispatch(requestGoogleSheet(this.state.googleSheetId));
   }
 
   _sampleDataOptions() {
@@ -87,7 +91,7 @@ class DataInput extends AppComponent {
   }
 
   _setSheetId(evt) {
-    this.setState({ sheetId: evt.target.value });
+    this.setState({ googleSheetId: evt.target.value });
   }
 
   _nextCallback(success) {
@@ -146,6 +150,7 @@ class DataInput extends AppComponent {
             name="google-sheets-id"
             onChange={this._setSheetId}
             style={{ marginBottom: 0 }}
+            value={this.state.googleSheetId}
           />
           <HelpTrigger docName="googleSheets" />
         </div>

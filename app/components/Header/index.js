@@ -114,7 +114,6 @@ class Header extends Component {
 
           <div className={styles.actionsContainer}>
             <SaveChart
-              saveData={this.props.saveData}
               buttonStyleAttr={{ marginRight: '10px' }}
               cmsStatus={this.props.cmsStatus}
             />
@@ -136,7 +135,6 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  saveData: React.PropTypes.object,
   currentStep: React.PropTypes.number,
   dispatch: React.PropTypes.func,
   unsavedChanges: React.PropTypes.bool,
