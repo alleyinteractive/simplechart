@@ -8,7 +8,7 @@ export default function unsavedChangesReducer(state = {}, action) {
   let value = state.unsavedChanges;
 
   if (chartChanged) {
-    value = false;
+    value = true;
   } else if (type === UNSAVED_CHANGES) {
     value = data;
   }
