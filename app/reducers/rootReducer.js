@@ -37,7 +37,7 @@ const setActionReducer = createGenericReducer('$set', {
   [actions.RECEIVE_CMS_STATUS]: 'cmsStatus',
   [actions.UPDATE_CURRENT_STEP]: 'currentStep',
   [actions.RECEIVE_DEFAULTS_APPLIED_TO]: 'defaultsAppliedTo',
-  [actions.PARSE_DATA_FIELDS]: 'dataField',
+  [actions.PARSE_DATA_FIELDS]: 'dataFields',
   [actions.PARSE_DATA_STATUS]: 'dataStatus',
   [actions.RECEIVE_ERROR]: 'errorCode',
   [actions.RECEIVE_HELP_DOCUMENT]: 'helpDocument',
