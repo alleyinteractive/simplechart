@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Panel, PanelHeader, Space, Tooltip } from 'rebass';
 import infoSvg from '!!raw-loader!../../../img/icons/info-circle.svg';
 import downSvg from '!!raw-loader!../../../img/icons/chevron-circle-down.svg';
@@ -96,12 +97,12 @@ class AccordionBlock extends Component {
 }
 
 AccordionBlock.propTypes = {
-  children: React.PropTypes.any.isRequired,
-  title: React.PropTypes.string,
-  defaultExpand: React.PropTypes.bool,
-  updateExpandOnProps: React.PropTypes.bool,
-  tooltip: React.PropTypes.string,
-  toggleCallback: React.PropTypes.func,
+  children: PropTypes.any.isRequired,
+  title: PropTypes.string,
+  defaultExpand: PropTypes.bool,
+  updateExpandOnProps: PropTypes.bool,
+  tooltip: PropTypes.string,
+  toggleCallback: PropTypes.func,
 };
 
 export default AccordionBlock;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import update from 'immutability-helper';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 
@@ -77,10 +78,10 @@ class ChartSettings extends Component {
 }
 
 ChartSettings.propTypes = {
-  metadata: React.PropTypes.object,
-  options: React.PropTypes.object,
-  data: React.PropTypes.array,
-  typeConfig: React.PropTypes.object,
+  metadata: PropTypes.object,
+  options: PropTypes.object,
+  data: PropTypes.array,
+  typeConfig: PropTypes.object,
 };
 
 export default ChartSettings;

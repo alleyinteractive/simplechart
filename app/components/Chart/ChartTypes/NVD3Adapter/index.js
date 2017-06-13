@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import NVD3Chart from 'react-nvd3';
 import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
@@ -64,10 +65,10 @@ export default class NVD3Adapter extends Component {
 }
 
 NVD3Adapter.propTypes = {
-  data: React.PropTypes.array,
-  options: React.PropTypes.object,
-  widget: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.bool,
+  data: PropTypes.array,
+  options: PropTypes.object,
+  widget: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
   ]),
 };

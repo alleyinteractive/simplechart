@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   RECEIVE_ERROR,
@@ -225,8 +226,8 @@ class ChartLayout extends Component {
 }
 
 ChartLayout.propTypes = {
-  options: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
+  options: PropTypes.object,
+  dispatch: PropTypes.func,
 };
 
 export default connect()(ChartLayout);

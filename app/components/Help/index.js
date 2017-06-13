@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import actionTrigger from '../../actions';
 import * as styles from './Help.css';
@@ -70,8 +71,8 @@ class Help extends Component {
 }
 
 Help.propTypes = {
-  docName: React.PropTypes.string,
-  dispatch: React.PropTypes.func,
+  docName: PropTypes.string,
+  dispatch: PropTypes.func,
 };
 
 export default connect()(Help);

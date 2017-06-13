@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { RECEIVE_CHART_METADATA } from '../../../constants';
 import DispatchField from '../../lib/DispatchField';
@@ -48,8 +49,8 @@ class ChartTitle extends Component {
 }
 
 ChartTitle.propTypes = {
-  metadata: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
+  metadata: PropTypes.object,
+  dispatch: PropTypes.func,
 };
 
 export default connect()(ChartTitle);

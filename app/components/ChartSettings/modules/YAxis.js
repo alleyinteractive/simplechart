@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import DispatchField from '../../lib/DispatchField';
 import {
@@ -76,8 +77,8 @@ class YAxis extends Component {
 }
 
 YAxis.propTypes = {
-  options: React.PropTypes.object,
-  defaultExpand: React.PropTypes.bool,
+  options: PropTypes.object,
+  defaultExpand: PropTypes.bool,
 };
 
 export default YAxis;

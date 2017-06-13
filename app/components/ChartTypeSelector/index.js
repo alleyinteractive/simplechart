@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   CLEAR_ERROR,
@@ -86,9 +87,9 @@ class ChartTypeSelector extends Component {
 }
 
 ChartTypeSelector.propTypes = {
-  transformedData: React.PropTypes.object,
-  typeObj: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
+  transformedData: PropTypes.object,
+  typeObj: PropTypes.object,
+  dispatch: PropTypes.func,
 };
 
 export default connect()(ChartTypeSelector);
