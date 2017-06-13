@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AppComponent from '../Layout/AppComponent';
 import * as styles from './DataInput.css';
@@ -226,14 +227,14 @@ class DataInput extends AppComponent {
 }
 
 DataInput.propTypes = {
-  rawData: React.PropTypes.string,
-  metadata: React.PropTypes.object,
-  dataStatus: React.PropTypes.object,
-  dateFormat: React.PropTypes.object,
-  firstCol: React.PropTypes.array,
-  dispatch: React.PropTypes.func,
-  canLoadSheet: React.PropTypes.bool,
-  isNextStepAvailable: React.PropTypes.bool,
+  rawData: PropTypes.string,
+  metadata: PropTypes.object,
+  dataStatus: PropTypes.object,
+  dateFormat: PropTypes.object,
+  firstCol: PropTypes.array,
+  dispatch: PropTypes.func,
+  canLoadSheet: PropTypes.bool,
+  isNextStepAvailable: PropTypes.bool,
 };
 
 export default connect(DataInput.mapStateToProps)(DataInput);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import PalettePicker from '../../lib/PalettePicker';
 
@@ -25,9 +26,9 @@ class ColorPalette extends Component {
 }
 
 ColorPalette.propTypes = {
-  options: React.PropTypes.object,
-  data: React.PropTypes.array,
-  defaultExpand: React.PropTypes.bool,
+  options: PropTypes.object,
+  data: PropTypes.array,
+  defaultExpand: PropTypes.bool,
 };
 
 export default ColorPalette;

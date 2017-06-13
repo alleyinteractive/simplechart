@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Rebass from 'rebass';
 import * as styles from './RebassComponents.css';
 
@@ -25,5 +26,5 @@ export default class ListBlock extends Component {
 }
 
 ListBlock.propTypes = {
-  list: React.PropTypes.array,
+  list: PropTypes.array,
 };

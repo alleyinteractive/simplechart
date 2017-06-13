@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Message, Close } from 'rebass';
 import update from 'immutability-helper';
 import * as styles from './ErrorMessage.css';
@@ -74,10 +75,10 @@ class ErrorMessage extends Component {
 }
 
 ErrorMessage.propTypes = {
-  override: React.PropTypes.object,
-  code: React.PropTypes.string,
-  dispatch: React.PropTypes.func,
-  children: React.PropTypes.any.isRequired,
+  override: PropTypes.object,
+  code: PropTypes.string,
+  dispatch: PropTypes.func,
+  children: PropTypes.any.isRequired,
 };
 
 export default connect()(ErrorMessage);

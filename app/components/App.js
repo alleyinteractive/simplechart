@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DataInput from './DataInput';
 import ChartEditor from './ChartEditor';
@@ -80,7 +81,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  state: React.PropTypes.object,
+  state: PropTypes.object,
 };
 
 // Which props to inject from the global atomic state

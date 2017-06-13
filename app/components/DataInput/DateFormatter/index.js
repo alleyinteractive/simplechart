@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import * as styles from '../DataInput.css';
@@ -99,9 +100,9 @@ class DateFormatter extends Component {
 }
 
 DateFormatter.propTypes = {
-  dateFormat: React.PropTypes.object,
-  dates: React.PropTypes.array,
-  dispatch: React.PropTypes.func,
+  dateFormat: PropTypes.object,
+  dates: PropTypes.array,
+  dispatch: PropTypes.func,
 };
 
 export default connect()(DateFormatter);

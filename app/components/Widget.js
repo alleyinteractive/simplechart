@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Chart from './Chart';
 import ReactDOM from 'react-dom';
@@ -75,9 +76,9 @@ class Widget extends Component {
 }
 
 Widget.propTypes = {
-  data: React.PropTypes.object,
-  widget: React.PropTypes.string,
-  placeholder: React.PropTypes.string,
+  data: PropTypes.object,
+  widget: PropTypes.string,
+  placeholder: PropTypes.string,
 };
 
 // Which props to inject from the global atomic state

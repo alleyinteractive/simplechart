@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import actionTrigger from '../../../actions';
 import { RECEIVE_HELP_DOCUMENT } from '../../../constants';
@@ -34,9 +35,9 @@ class HelpTrigger extends Component {
 }
 
 HelpTrigger.propTypes = {
-  docName: React.PropTypes.string,
-  style: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
+  docName: PropTypes.string,
+  style: PropTypes.object,
+  dispatch: PropTypes.func,
 };
 
 export default connect()(HelpTrigger);
