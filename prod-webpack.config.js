@@ -45,7 +45,7 @@ const plugins = [
 ];
 
 module.exports = {
-  devtool: 'cheap-source-map',
+  devtool: 'sourcemap',
   entry: {
     widget: [
       path.resolve('./app/widget'),
