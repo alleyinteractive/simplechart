@@ -1,3 +1,8 @@
+/**
+ * For IE11 support
+ */
+import fetch from 'isomorphic-fetch';
+import { polyfill } from 'es6-promise';
 import {
   RECEIVE_ERROR,
   RECEIVE_CMS_STATUS,
@@ -9,11 +14,7 @@ import {
 import { receiveMessage, setupPostMessage } from '../utils/postMessage';
 import bootstrapStore from '../utils/bootstrapStore';
 
-/**
- * For IE11 support
- */
-import fetch from 'isomorphic-fetch';
-import { polyfill } from 'es6-promise'; polyfill();
+polyfill();
 
 export default function actionTrigger(type, data, src = '') {
   return { type, data, src };
@@ -30,14 +31,14 @@ export function bootstrapAppData() {
     /**
      * Confirm data formatting then bootstrap the store
      */
-    function _validateEvt(evt) {
+    function validateEvt(evt) {
       return evt.data &&
-        evt.data.hasOwnProperty('data') &&
-        evt.data.hasOwnProperty('messageType');
+        evt.data.data &&
+        evt.data.messageType;
     }
 
-    function _initBootstrap(evt) {
-      if (_validateEvt(evt)) {
+    function initBootstrap(evt) {
+      if (validateEvt(evt)) {
         bootstrapStore(dispatch, evt.data.messageType, evt.data.data);
       } else {
         dispatch(actionTrigger(RECEIVE_ERROR, 'e005'));
@@ -45,10 +46,10 @@ export function bootstrapAppData() {
     }
 
     // Bootstrap chart editor from plugin postMessage
-    receiveMessage('bootstrap.edit', _initBootstrap);
-    receiveMessage('bootstrap.new', _initBootstrap);
+    receiveMessage('bootstrap.edit', initBootstrap);
+    receiveMessage('bootstrap.new', initBootstrap);
     receiveMessage('cms.isSaving', (evt) => {
-      if (_validateEvt(evt)) {
+      if (validateEvt(evt)) {
         dispatch(actionTrigger(RECEIVE_CMS_STATUS, 'cms.isSaving'));
       }
     });

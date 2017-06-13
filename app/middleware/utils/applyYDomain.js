@@ -24,7 +24,7 @@ export default function applyYDomain(chartOptions, typeConfig, chartData) {
   }
 
   let yDomain;
-  if (typeConfig.hasOwnProperty('getNiceDomain')) {
+  if (typeConfig.getNiceDomain) {
     yDomain = typeConfig.getNiceDomain(typeConfig.dataFormat, chartData);
   } else {
     yDomain = getRangeDomain(typeConfig.dataFormat, chartData);

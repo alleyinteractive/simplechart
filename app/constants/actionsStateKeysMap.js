@@ -1,4 +1,4 @@
-export const actionsMap = {
+export const actionsMap = { // eslint-disable-line
   UPDATE_CURRENT_STEP: 'currentStep',
   RECEIVE_ERROR: 'errorCode',
   CLEAR_ERROR: 'errorCode',

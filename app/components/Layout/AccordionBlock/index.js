@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Panel, PanelHeader, Space, Tooltip } from 'rebass';
-import infoSvg from '!!raw-loader!../../../img/icons/info-circle.svg';
-import downSvg from '!!raw-loader!../../../img/icons/chevron-circle-down.svg';
-import upSvg from '!!raw-loader!../../../img/icons/chevron-circle-up.svg';
+import infoSvg from '!!raw-loader!../../../img/icons/info-circle.svg'; // eslint-disable-line
+import downSvg from '!!raw-loader!../../../img/icons/chevron-circle-down.svg'; // eslint-disable-line
+import upSvg from '!!raw-loader!../../../img/icons/chevron-circle-up.svg';  // eslint-disable-line
 import * as styles from './AccordionBlock.css';
 
 class AccordionBlock extends Component {
+  static svgIcon(svgString, iconClass = '') {
+    return (
+      <span
+        className={`${styles.icon} ${styles[iconClass]}`}
+        dangerouslySetInnerHTML={{ __html: svgString }}
+      />
+    );
+  }
 
   constructor() {
     super();
@@ -40,15 +48,6 @@ class AccordionBlock extends Component {
     }
   }
 
-  svgIcon(svgString, iconClass = '') {
-    return (
-      <span
-        className={`${styles.icon} ${styles[iconClass]}`}
-        dangerouslySetInnerHTML={{ __html: svgString }}
-      />
-    );
-  }
-
   renderPanelHeader(toggleIcon) {
     return (
       <div>
@@ -63,7 +62,7 @@ class AccordionBlock extends Component {
             {this.svgIcon(infoSvg, 'info')}
           </Tooltip>
           <Space auto x={1} />
-          <span onClick={this.toggleExpanded}>
+          <span onClick={this.toggleExpanded} role="button" tabIndex={0}>
             {this.svgIcon(toggleIcon)}
           </span>
         </PanelHeader>
@@ -98,11 +97,11 @@ class AccordionBlock extends Component {
 
 AccordionBlock.propTypes = {
   children: PropTypes.any.isRequired,
-  title: PropTypes.string,
-  defaultExpand: PropTypes.bool,
-  updateExpandOnProps: PropTypes.bool,
-  tooltip: PropTypes.string,
-  toggleCallback: PropTypes.func,
+  title: PropTypes.string.isRequired,
+  defaultExpand: PropTypes.bool.isRequired,
+  updateExpandOnProps: PropTypes.bool.isRequired,
+  tooltip: PropTypes.string.isRequired,
+  toggleCallback: PropTypes.func.isRequired,
 };
 
 export default AccordionBlock;

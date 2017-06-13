@@ -1,8 +1,8 @@
 /**
  * Middleware that applies chart type default options and handles some special cases
  */
-import { getChartTypeDefaultOpts } from '../../utils/chartTypeUtils';
 import update from 'immutability-helper';
+import { getChartTypeDefaultOpts } from '../../utils/chartTypeUtils';
 
 export default function applyChartTypeDefaults(
   chartTypeConfig,

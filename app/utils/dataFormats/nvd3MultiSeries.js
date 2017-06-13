@@ -3,9 +3,10 @@ import * as dateUtils from '../parseDate';
  * Transform multi-column CSV into data series
  * Used for lineChart, etc
  *
- * @param obj data Parsed data input
- * @param array fields List of fields/columns in order
- * @return obj|bool Object of chart-ready data or false if data can't be used for this chart type
+ * @param {Object} data Parsed data input
+ * @param {Array} fields List of fields/columns in order
+ * @param {String} dateFormat
+ * @return {(Object|Boolean)}Object of chart-ready data or false if data can't be used for this chart type
  */
 export default function transformer(data, fields, dateFormat) {
   // e.g. "year"

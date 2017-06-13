@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Button } from 'rebass';
+import update from 'immutability-helper';
 import {
   RECEIVE_ERROR,
   RECEIVE_CHART_OPTIONS,
@@ -8,20 +10,44 @@ import {
 import actionTrigger from '../../actions';
 import AccordionBlock from '../Layout/AccordionBlock';
 import DispatchField from '../lib/DispatchField';
-import { Button } from 'rebass';
-import update from 'immutability-helper';
 import { defaultBreakpoint } from '../../constants/chartTypes';
 
 class ChartLayout extends Component {
+  /**
+   * Determine if a "no max width" breakpoint can be added
+   *
+   * @param {array} breakpoints
+   * @return bool False if any breakpoint has noMaxWidth -> true; otherwise true
+   */
+  static canAddNoMaxWidth(breakpoints) {
+    return 0 === breakpoints.filter((point) => point.noMaxWidth).length;
+  }
+
+  /**
+   * Determine if a breakpoint already exists with a certain max width
+   *
+   * @param {(int|string)} updateIdx Index in breakpoints array that we are attempting to overwrite
+   * @param {int} maxWidth Max width value we are attempting to set
+   * @param {array} breakpoints List of all current breakpoints
+   * @return {boolean} True is max width already exists, false if not
+   */
+  static maxWidthIsSet(updateIdx, maxWidth, breakpoints) {
+    return 0 !== breakpoints.filter((point, idx) =>
+        (parseInt(updateIdx, 10) !== idx && // account for numeric strings
+        !point.noMaxWidth && // ok to duplicate an ignored maxWidth
+        maxWidth === point.maxWidth) // now check duplication
+      ).length;
+  }
+
   constructor() {
     super();
-    this._renderBreakpoint = this._renderBreakpoint.bind(this);
-    this._handleChange = this._handleChange.bind(this);
-    this._addBreakpoint = this._addBreakpoint.bind(this);
-    this._removeBreakpoint = this._removeBreakpoint.bind(this);
-    this._dispatchValues = this._dispatchValues.bind(this);
-    this._updateActiveBreakpoint = this._updateActiveBreakpoint.bind(this);
-    this._isSingleBp = this._isSingleBp.bind(this);
+    this.renderBreakpoint = this.renderBreakpoint.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.addBreakpoint = this.addBreakpoint.bind(this);
+    this.removeBreakpoint = this.removeBreakpoint.bind(this);
+    this.dispatchValues = this.dispatchValues.bind(this);
+    this.updateActiveBreakpoint = this.updateActiveBreakpoint.bind(this);
+    this.isSingleBp = this.isSingleBp.bind(this);
 
     this.state = {
       active: 0,
@@ -50,46 +76,20 @@ class ChartLayout extends Component {
 
     // Make sure that noMaxWidth is enforced if there is only 1 breakpoint
     if (1 === nextBp.values.length && !nextBp.values[0].noMaxWidth) {
-      this._dispatchValues(update(nextBp.values, { 0: {
+      this.dispatchValues(update(nextBp.values, { 0: {
         noMaxWidth: { $set: true },
       } }));
     }
   }
 
-  /**
-   * Determine if a "no max width" breakpoint can be added
-   *
-   * @param array breakpoints
-   * @return bool False if any breakpoint has noMaxWidth -> true; otherwise true
-   */
-  _canAddNoMaxWidth(breakpoints) {
-    return 0 === breakpoints.filter((point) => point.noMaxWidth).length;
-  }
-
-  /**
-   * Determine if a breakpoint already exists with a certain max width
-   *
-   * @param int|string updateIdx Index in breakpoints array that we are attempting to overwrite
-   * @param int maxWidth Max width value we are attempting to set
-   * @param array breakpoints List of all current breakpoints
-   * @return bool True is max width already exists, false if not
-   */
-  _maxWidthIsSet(updateIdx, maxWidth, breakpoints) {
-    return 0 !== breakpoints.filter((point, idx) =>
-      (parseInt(updateIdx, 10) !== idx && // account for numeric strings
-        !point.noMaxWidth && // ok to duplicate an ignored maxWidth
-        maxWidth === point.maxWidth) // now check duplication
-    ).length;
-  }
-
-  _handleChange(fieldProps, newValue) {
+  handleChange(fieldProps, newValue) {
     // break field name into index and key
     const fieldNameParts = fieldProps.name.split('.');
 
     // Error if trying to set multiple breakpoints to noMaxWidth
     if ('noMaxWidth' === fieldNameParts[1] &&
       newValue &&
-      !this._canAddNoMaxWidth(this.state.values)
+      !this.canAddNoMaxWidth(this.state.values)
     ) {
       this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e006'));
       return;
@@ -97,37 +97,37 @@ class ChartLayout extends Component {
 
     // Error if setting multiple breakpoints to same maxWidth
     if ('maxWidth' === fieldNameParts[1] &&
-      this._maxWidthIsSet(fieldNameParts[0], newValue, this.state.values)
+      this.maxWidthIsSet(fieldNameParts[0], newValue, this.state.values)
     ) {
       this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e007'));
       return;
     }
 
     // merge new value as key into the updated index
-    this._dispatchValues(update(this.state.values, {
+    this.dispatchValues(update(this.state.values, {
       [fieldNameParts[0]]: { $merge: { [fieldNameParts[1]]: newValue } },
     }));
   }
 
-  _removeBreakpoint(evt) {
+  removeBreakpoint(evt) {
     const idx = parseInt(evt.target.getAttribute('data-index'), 10);
     if (isNaN(idx)) {
       return;
     }
-    this._dispatchValues(update(this.state.values, {
+    this.dispatchValues(update(this.state.values, {
       $splice: [[idx, 1]],
     }));
   }
 
-  _addBreakpoint() {
-    this._dispatchValues(update(this.state.values, {
+  addBreakpoint() {
+    this.dispatchValues(update(this.state.values, {
       $push: [
         update(defaultBreakpoint, { noMaxWidth: { $set: false } }),
       ],
     }));
   }
 
-  _dispatchValues(values) {
+  dispatchValues(values) {
     this.setState({ values });
     this.props.dispatch(actionTrigger(
       RECEIVE_CHART_OPTIONS,
@@ -135,7 +135,7 @@ class ChartLayout extends Component {
     ));
   }
 
-  _updateActiveBreakpoint(idx, isExpanded) {
+  updateActiveBreakpoint(idx, isExpanded) {
     if (isExpanded) {
       this.setState({ active: idx });
     }
@@ -145,14 +145,14 @@ class ChartLayout extends Component {
     ));
   }
 
-  _isSingleBp() {
+  isSingleBp() {
     return 1 >= this.state.values.length;
   }
 
-  _renderBreakpoint(point, idx) {
+  renderBreakpoint(point, idx) {
     const pointTitle = `Breakpoint ${1 + idx}`;
     const callback = (isExpanded) => {
-      this._updateActiveBreakpoint(idx, isExpanded);
+      this.updateActiveBreakpoint(idx, isExpanded);
     };
     return (
       <AccordionBlock
@@ -166,12 +166,12 @@ class ChartLayout extends Component {
         <DispatchField
           fieldType="Checkbox"
           fieldProps={{
-            label: this._isSingleBp() ? 'All widths' : 'No max width',
+            label: this.isSingleBp() ? 'All widths' : 'No max width',
             name: `${idx}.noMaxWidth`,
-            disabled: this._isSingleBp(),
+            disabled: this.isSingleBp(),
             checked: point.noMaxWidth,
           }}
-          handler={this._handleChange}
+          handler={this.handleChange}
         />
         {point.noMaxWidth ? '' : (
           <DispatchField
@@ -185,7 +185,7 @@ class ChartLayout extends Component {
               step: 1,
               min: 350,
             }}
-            handler={this._handleChange}
+            handler={this.handleChange}
           />
         )}
         <DispatchField
@@ -198,13 +198,13 @@ class ChartLayout extends Component {
             step: 1,
             min: 100,
           }}
-          handler={this._handleChange}
+          handler={this.handleChange}
         />
-        {this._isSingleBp() ? '' : (
+        {this.isSingleBp() ? '' : (
           <Button
             theme="error"
             data-index={idx}
-            onClick={this._removeBreakpoint}
+            onClick={this.removeBreakpoint}
           >Remove</Button>
         )}
       </AccordionBlock>
@@ -214,11 +214,11 @@ class ChartLayout extends Component {
   render() {
     return (
       <div>
-        {this.state.values.map(this._renderBreakpoint)}
+        {this.state.values.map(this.renderBreakpoint)}
         <Button
           theme="success"
           big
-          onClick={this._addBreakpoint}
+          onClick={this.addBreakpoint}
         >Add Breakpoint</Button>
       </div>
     );
@@ -226,8 +226,8 @@ class ChartLayout extends Component {
 }
 
 ChartLayout.propTypes = {
-  options: PropTypes.object,
-  dispatch: PropTypes.func,
+  options: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect()(ChartLayout);

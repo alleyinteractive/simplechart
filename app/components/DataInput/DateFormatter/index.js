@@ -2,49 +2,48 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
+import { Switch, Label, Text } from 'rebass';
 import * as styles from '../DataInput.css';
-import { Switch, Label } from 'rebass';
 import DispatchField from '../../lib/DispatchField';
 import HelpTrigger from '../../lib/HelpTrigger';
 import { RECEIVE_DATE_FORMAT } from '../../../constants';
 import * as dateUtils from '../../../utils/parseDate';
-import { Text } from 'rebass';
 import actionTrigger from '../../../actions';
 
 class DateFormatter extends Component {
   constructor() {
     super();
-    this._toggleFormatter = this._toggleFormatter.bind(this);
-    this._handleChange = this._handleChange.bind(this);
-    this._validate = this._validate.bind(this);
+    this.toggleFormatter = this.toggleFormatter.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.validate = this.validate.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.dates.toString() !== this.props.dates.toString()) {
-      this._validate(nextProps.dateFormat.formatString, nextProps.dates);
+      this.validate(nextProps.dateFormat.formatString, nextProps.dates);
     }
   }
 
   componentDidUpdate() {
     if (this.props.dateFormat.enabled) {
-      ReactDOM.findDOMNode(this)
+      ReactDOM.findDOMNode(this) // eslint-disable-line
         .querySelector('[name="formatString"]')
         .focus();
     }
   }
 
-  _toggleFormatter(evt) {
+  toggleFormatter(evt) {
     evt.preventDefault();
     this.props.dispatch(actionTrigger(RECEIVE_DATE_FORMAT, {
       enabled: !this.props.dateFormat.enabled,
     }));
   }
 
-  _handleChange(fieldProps, newValue) {
-    this._validate(newValue, this.props.dates);
+  handleChange(fieldProps, newValue) {
+    this.validate(newValue, this.props.dates);
   }
 
-  _validate(formatString, dates) {
+  validate(formatString, dates) {
     const testResult = dateUtils.disproveList(formatString, dates);
     this.props.dispatch(actionTrigger(RECEIVE_DATE_FORMAT, {
       validated: !testResult,
@@ -60,7 +59,7 @@ class DateFormatter extends Component {
       <div className={containerClass}>
         <Switch
           checked={this.props.dateFormat.enabled}
-          onClick={this._toggleFormatter}
+          onClick={this.toggleFormatter}
         />
         <Label>{!this.props.dateFormat.enabled ?
           'Use date formatting?' :
@@ -68,7 +67,7 @@ class DateFormatter extends Component {
         }</Label>
         {!this.props.dateFormat.enabled ? null : (
           <DispatchField
-            handler={this._handleChange}
+            handler={this.handleChange}
             fieldType="Input"
             fieldProps={{
               hideLabel: true,
@@ -100,9 +99,9 @@ class DateFormatter extends Component {
 }
 
 DateFormatter.propTypes = {
-  dateFormat: PropTypes.object,
-  dates: PropTypes.array,
-  dispatch: PropTypes.func,
+  dateFormat: PropTypes.object.isRequired,
+  dates: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect()(DateFormatter);

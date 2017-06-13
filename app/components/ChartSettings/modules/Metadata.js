@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import update from 'immutability-helper';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import DispatchField from '../../lib/DispatchField';
 import {
   RECEIVE_CHART_METADATA,
 } from '../../../constants';
 import { getObjArrayKey, capitalize } from '../../../utils/misc';
-import update from 'immutability-helper';
 
-class Metadata extends Component {
+export default class Metadata extends Component {
   constructor() {
     super();
-    this._handler = this._handler.bind(this);
+    this.handler = this.handler.bind(this);
     this.state = {
       title: '',
       caption: '',
@@ -27,7 +27,7 @@ class Metadata extends Component {
     this.setState(nextProps.metadata);
   }
 
-  _handler(fieldProps, value) {
+  handler(fieldProps, value) {
     const theUpdate = {
       [fieldProps.name]: value,
     };
@@ -55,7 +55,7 @@ class Metadata extends Component {
                   name: key,
                   value: getObjArrayKey(this.state, key, ''),
                 }}
-                handler={this._handler}
+                handler={this.handler}
               />
             </div>
           )
@@ -66,8 +66,6 @@ class Metadata extends Component {
 }
 
 Metadata.propTypes = {
-  metadata: PropTypes.object,
-  defaultExpand: PropTypes.bool,
+  metadata: PropTypes.object.isRequired,
+  defaultExpand: PropTypes.bool.isRequired,
 };
-
-export default Metadata;

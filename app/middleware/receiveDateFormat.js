@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import {
   RECEIVE_CHART_OPTIONS,
   RECEIVE_DATE_FORMAT,
@@ -5,7 +6,6 @@ import {
 } from '../constants';
 import actionTrigger from '../actions';
 import { transformParsedData } from '../utils/rawDataHelpers';
-import update from 'immutability-helper';
 
 /**
  * Re-apply data transformers if we've enabled a valid date formatting string
@@ -26,7 +26,7 @@ export default function receiveDateFormatMiddleware({ getState }) {
      * Determine if date formatting has changed and needs to be updated.
      * For example, if change is from one invalid string to another invalid string, no update needed
      */
-    function _shouldUpdateDateFormatting() {
+    function shouldUpdateDateFormatting() {
       const stateHasFormat =
         stateFormat.enabled && stateFormat.validated;
       const nextHasFormat = nextDateFormat.enabled && nextDateFormat.validated;
@@ -47,7 +47,7 @@ export default function receiveDateFormatMiddleware({ getState }) {
       return stateHasFormat;
     }
 
-    if (_shouldUpdateDateFormatting()) {
+    if (shouldUpdateDateFormatting()) {
       // Apply to transformedData
       const transformedData = transformParsedData(
         getState().parsedData,

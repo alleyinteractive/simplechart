@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Divider, Label, Heading, Select, Button, Text, Input } from 'rebass';
 import AppComponent from '../Layout/AppComponent';
 import * as styles from './DataInput.css';
 import * as editorStyles from '../ChartEditor/ChartEditor.css';
@@ -12,7 +13,6 @@ import {
 } from '../../constants';
 import { sampleData } from '../../constants/sampleData';
 import actionTrigger, { requestGoogleSheet } from '../../actions';
-import { Divider, Label, Heading, Select, Button, Text, Input } from 'rebass';
 import ListBlock from '../Layout/RebassComponents/ListBlock';
 import { appSteps } from '../../constants/appSteps';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
@@ -28,18 +28,25 @@ class DataInput extends AppComponent {
     });
   }
 
+  static sampleDataOptions() {
+    return sampleData.map(({ label }, i) => ({
+      children: label,
+      value: i,
+    }));
+  }
+
   constructor(props) {
     super(props);
-    this._submitData = this._submitData.bind(this);
-    this._loadSampleData = this._loadSampleData.bind(this);
-    this._requestSheet = this._requestSheet.bind(this);
-    this._setSampleDataSet = this._setSampleDataSet.bind(this);
-    this._setSheetId = this._setSheetId.bind(this);
-    this._nextCallback = this._nextCallback.bind(this);
-    this._handleInputBlur = this._handleInputBlur.bind(this);
-    this._handleInputChange = this._handleInputChange.bind(this);
-    this._getDataClass = this._getDataClass.bind(this);
-    this._getDataMessage = this._getDataMessage.bind(this);
+    this.submitData = this.submitData.bind(this);
+    this.loadSampleData = this.loadSampleData.bind(this);
+    this.requestSheet = this.requestSheet.bind(this);
+    this.setSampleDataSet = this.setSampleDataSet.bind(this);
+    this.setSheetId = this.setSheetId.bind(this);
+    this.nextCallback = this.nextCallback.bind(this);
+    this.handleInputBlur = this.handleInputBlur.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.getDataClass = this.getDataClass.bind(this);
+    this.getDataMessage = this.getDataMessage.bind(this);
 
     this.state = {
       rawData: props.rawData,
@@ -65,37 +72,30 @@ class DataInput extends AppComponent {
     }
   }
 
-  _submitData(data) {
+  submitData(data) {
     const rawData = data.trim();
     this.setState({ rawData }, () =>
       this.props.dispatch(actionTrigger(RECEIVE_RAW_DATA, rawData))
     );
   }
 
-  _loadSampleData() {
-    this._submitData(sampleData[this.state.sampleDataSet].data);
+  loadSampleData() {
+    this.submitData(sampleData[this.state.sampleDataSet].data);
   }
 
-  _requestSheet() {
+  requestSheet() {
     this.props.dispatch(requestGoogleSheet(this.state.googleSheetId));
   }
 
-  _sampleDataOptions() {
-    return sampleData.map(({ label }, i) => ({
-      children: label,
-      value: i,
-    }));
-  }
-
-  _setSampleDataSet(evt) {
+  setSampleDataSet(evt) {
     this.setState({ sampleDataSet: evt.target.value });
   }
 
-  _setSheetId(evt) {
+  setSheetId(evt) {
     this.setState({ googleSheetId: evt.target.value });
   }
 
-  _nextCallback(success) {
+  nextCallback(success) {
     if (!success) {
       this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e002'));
     } else {
@@ -103,36 +103,36 @@ class DataInput extends AppComponent {
     }
   }
 
-  _handleInputBlur() {
-    this._submitData(this.state.rawData);
+  handleInputBlur() {
+    this.submitData(this.state.rawData);
   }
 
-  _handleInputChange(evt) {
+  handleInputChange(evt) {
     this.setState({ rawData: evt.target.value });
   }
 
-  _getDataMessage() {
+  getDataMessage() {
     return this.props.dataStatus.message || 'Waiting for data input';
   }
 
-  _getDataClass() {
+  getDataClass() {
     return this.props.dataStatus.status || 'initial';
   }
 
-  _renderSampleDataSelect() {
+  renderSampleDataSelect() {
     return (
       <div>
         <Select
           className={styles.inputBuilderMargin}
           label="Use sample data"
           name="sample-data-select"
-          options={this._sampleDataOptions()}
-          onChange={this._setSampleDataSet}
+          options={this.sampleDataOptions()}
+          onChange={this.setSampleDataSet}
         />
         <div className={styles.actionsContainer}>
           <Button
             theme="warning"
-            onClick={this._loadSampleData}
+            onClick={this.loadSampleData}
           >
             Load
           </Button>
@@ -141,7 +141,7 @@ class DataInput extends AppComponent {
     );
   }
 
-  _renderGoogleSheetInput() {
+  renderGoogleSheetInput() {
     return (
       <div>
         <Divider style={{ marginTop: '20px' }} />
@@ -149,7 +149,7 @@ class DataInput extends AppComponent {
           <Input
             label="Google Sheet ID or Link"
             name="google-sheets-id"
-            onChange={this._setSheetId}
+            onChange={this.setSheetId}
             style={{ marginBottom: 0 }}
             value={this.state.googleSheetId}
           />
@@ -158,7 +158,7 @@ class DataInput extends AppComponent {
         <div className={styles.actionsContainer}>
           <Button
             theme="warning"
-            onClick={this._requestSheet}
+            onClick={this.requestSheet}
           >
             Load
           </Button>
@@ -187,8 +187,8 @@ class DataInput extends AppComponent {
               dateFormat={dateFormat}
               dates={firstCol}
             />}
-            {!rawData && this._renderSampleDataSelect()}
-            {!rawData && canLoadSheet && this._renderGoogleSheetInput()}
+            {!rawData && this.renderSampleDataSelect()}
+            {!rawData && canLoadSheet && this.renderGoogleSheetInput()}
           </div>
 
           <div className={styles.dataContainer}>
@@ -200,13 +200,12 @@ class DataInput extends AppComponent {
                 id="DataInput"
                 className={styles.textarea}
                 value={rawData}
-                onChange={this._handleInputChange}
-                onBlur={this._handleInputBlur}
-                ref="dataInput"
+                onChange={this.handleInputChange}
+                onBlur={this.handleInputBlur}
               />
-              <span className={styles[this._getDataClass()]}>
-              <Text small>{this._getDataMessage()}</Text>
-            </span>
+              <span className={styles[this.getDataClass()]}>
+                <Text small>{this.getDataMessage()}</Text>
+              </span>
             </div>
             <div className={styles.actionsContainer}>
               <div className={styles.submitContainer}>
@@ -215,7 +214,7 @@ class DataInput extends AppComponent {
                   currentStep={0}
                   dir="next"
                   shouldEnable={isNextStepAvailable}
-                  callback={this._nextCallback}
+                  callback={this.nextCallback}
                 />
               </div>
             </div>

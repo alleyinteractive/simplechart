@@ -60,7 +60,7 @@ function reduceChartData(chartData, dataFormat, transformedData, colors = []) {
 }
 
 function checkShouldApplyColors(state, action) {
-  if (!action.data.hasOwnProperty('color')) {
+  if (!action.data.color) {
     return false;
   }
 
@@ -75,7 +75,7 @@ function checkShouldApplyColors(state, action) {
   }
 
   // Test if at least one series doesn't have a color already
-  const hasNoColor = state.chartData.find((series) => !series.hasOwnProperty('color'));
+  const hasNoColor = state.chartData.find((series) => !series.color);
   return !!hasNoColor;
 }
 

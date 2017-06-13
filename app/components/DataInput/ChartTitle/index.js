@@ -9,7 +9,7 @@ import * as styles from './ChartTitle.css';
 class ChartTitle extends Component {
   constructor() {
     super();
-    this._handleInput = this._handleInput.bind(this);
+    this.handleInput = this.handleInput.bind(this);
   }
 
   componentWillMount() {
@@ -20,7 +20,7 @@ class ChartTitle extends Component {
     this.setState({ title: nextProps.metadata.title || '' });
   }
 
-  _handleInput(fieldProps, value) {
+  handleInput(fieldProps, value) {
     return {
       title: value,
       caption: this.props.metadata.caption || '',
@@ -40,7 +40,7 @@ class ChartTitle extends Component {
             value: this.state.title,
             style: { marginBottom: '0px' }, // override default Rebass style
           }}
-          handler={this._handleInput}
+          handler={this.handleInput}
         />
         <HelpTrigger docName="chartMetadata" />
       </div>
@@ -49,8 +49,7 @@ class ChartTitle extends Component {
 }
 
 ChartTitle.propTypes = {
-  metadata: PropTypes.object,
-  dispatch: PropTypes.func,
+  metadata: PropTypes.object.isRequired,
 };
 
 export default connect()(ChartTitle);

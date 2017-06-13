@@ -1,7 +1,7 @@
 /**
  * RECEIVE_CHART_OPTIONS middleware
  */
-
+import update from 'immutability-helper';
 import {
   RECEIVE_CHART_OPTIONS,
   RECEIVE_DEFAULTS_APPLIED_TO,
@@ -9,7 +9,6 @@ import {
 import actionTrigger from '../actions';
 import defaultPalette from '../constants/defaultPalette';
 import { defaultBreakpointsOpt } from '../constants/chartTypes';
-import update from 'immutability-helper';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
 import applyYDomain from './utils/applyYDomain';
 import applyTickFormatters from './utils/applyTickFormatters';
@@ -29,7 +28,7 @@ export default function receiveChartType({ getState }) {
     /**
      * Was this dispatch triggered by bootstrap.new or bootstrap.edit?
      */
-    function _actionIsBootstrap() {
+    function actionIsBootstrap() {
       return 0 === action.src.indexOf('bootstrap');
     }
 
@@ -37,8 +36,8 @@ export default function receiveChartType({ getState }) {
      * Apply default palette if we haven't already received colors and we're not receiving them now
      * @todo Handle non-NVD3 types
      */
-    function _shouldApplyDefaultPalette() {
-      return !_actionIsBootstrap() &&
+    function shouldApplyDefaultPalette() {
+      return !actionIsBootstrap() &&
         (!nextOpts.color || !nextOpts.color.length) &&
         (!getState().chartOptions.color || !getState().chartOptions.color.length); // eslint-disable-line max-len
     }
@@ -47,33 +46,33 @@ export default function receiveChartType({ getState }) {
      * Return true if we are not bootstrapping from postMessage and
      * default options not already applied for this chart type
      */
-    function _shouldApplyChartTypeDefaults() {
+    function shouldApplyChartTypeDefaults() {
       const configType = getState().chartType.config ?
         getState().chartType.config.type : null;
 
-      return !_actionIsBootstrap() &&
+      return !actionIsBootstrap() &&
         configType && configType !== getState().defaultsAppliedTo;
     }
 
     /**
      * Update data formatting function after manual change
      */
-    function _shouldApplyTickFormatters() {
+    function shouldApplyTickFormatters() {
       return getState().chartType.config && // must have chart type config in store
         nextOpts.tickFormatSettings && // must have settings to use
-        !_actionIsBootstrap(); // bootstrapStore handles this for initial load
+        !actionIsBootstrap(); // bootstrapStore handles this for initial load
     }
 
     /**
      * set yDomain if needed
      */
-    function _shouldApplyYDomain() {
+    function shouldApplyYDomain() {
       return !nextOpts.yDomain && // current action is not setting yDomain
         0 < getState().chartData.length && // we have data to analyze
         getState().chartType.config; // we have a chart type to apply domain to
     }
 
-    function _shouldSetBreakpoints() {
+    function shouldSetBreakpoints() {
       return !nextOpts.breakpoints && !getState().chartOptions.breakpoints;
     }
 
@@ -81,7 +80,7 @@ export default function receiveChartType({ getState }) {
      * Return the object we should merge into the default breakpoints object,
      * setting default height to stored height if needed
      */
-    function _setupBreakpointsOpt() {
+    function setupBreakpointsOpt() {
       const defaultHeight = nextOpts.height || getState().chartOptions.height;
       if (undefined === defaultHeight) {
         return defaultBreakpointsOpt;
@@ -95,12 +94,12 @@ export default function receiveChartType({ getState }) {
      */
 
     // Set up colors if needed. This will apply when a new chart does not receive a custom color palette
-    if (_shouldApplyDefaultPalette()) {
+    if (shouldApplyDefaultPalette()) {
       nextOpts = update(nextOpts, { color: { $set: defaultPalette } });
     }
 
     // Apply default options
-    if (_shouldApplyChartTypeDefaults()) {
+    if (shouldApplyChartTypeDefaults()) {
       nextOpts = applyChartTypeDefaults(
         getState().chartType.config,
         nextOpts,
@@ -113,12 +112,12 @@ export default function receiveChartType({ getState }) {
       ));
     }
 
-    if (_shouldApplyTickFormatters()) {
+    if (shouldApplyTickFormatters()) {
       // applyTickFormatters returns a cloned object
       nextOpts = applyTickFormatters(nextOpts, getState().chartType.config);
     }
 
-    if (_shouldApplyYDomain()) {
+    if (shouldApplyYDomain()) {
       nextOpts = applyYDomain(
         nextOpts,
         getState().chartType.config,
@@ -129,9 +128,9 @@ export default function receiveChartType({ getState }) {
     /**
      * Set default breakpoints object
      */
-    if (_shouldSetBreakpoints()) {
+    if (shouldSetBreakpoints()) {
       nextOpts = update(nextOpts, { breakpoints: {
-        $set: _setupBreakpointsOpt(),
+        $set: setupBreakpointsOpt(),
       } });
     }
 

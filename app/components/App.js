@@ -9,26 +9,11 @@ import * as rebassHover from '../styles/RebassHover.css'; // eslint-disable-line
 import { appCover } from '../styles/App.css';
 
 class App extends Component {
-
-  constructor() {
-    super();
-    this._renderAppComponent = this._renderAppComponent.bind(this);
-    this._firstParsedCol = this._firstParsedCol.bind(this);
-  }
-
-  componentDidMount() {
-    this._captureClicks(this.props.state.cmsStatus);
-  }
-
-  componentDidUpdate() {
-    this._captureClicks(this.props.state.cmsStatus);
-  }
-
   /**
    * Overlay should capture all clicks to prevent interaction
    * with the editor while the CMS parent page is saving
    */
-  _captureClicks(cmsStatus) {
+  static captureClicks(cmsStatus) {
     if ('cms.isSaving' === cmsStatus) {
       const cover = document.getElementById('appCover');
       if (cover) {
@@ -40,19 +25,33 @@ class App extends Component {
     }
   }
 
-  _firstParsedCol() {
+  constructor() {
+    super();
+    this.renderAppComponent = this.renderAppComponent.bind(this);
+    this.firstParsedCol = this.firstParsedCol.bind(this);
+  }
+
+  componentDidMount() {
+    this.captureClicks(this.props.state.cmsStatus);
+  }
+
+  componentDidUpdate() {
+    this.captureClicks(this.props.state.cmsStatus);
+  }
+
+  firstParsedCol() {
     const firstColKey = this.props.state.dataFields[0];
     return this.props.state.parsedData.map((row) => row[firstColKey]);
   }
 
-  _renderAppComponent() {
+  renderAppComponent() {
     if (0 === this.props.state.currentStep) {
       return React.createElement(DataInput, {
         metadata: this.props.state.chartMetadata,
         rawData: this.props.state.rawData,
         dataStatus: this.props.state.dataStatus,
         dateFormat: this.props.state.dateFormat,
-        firstCol: this._firstParsedCol(),
+        firstCol: this.firstParsedCol(),
       });
     }
     return React.createElement(ChartEditor, {
@@ -70,7 +69,7 @@ class App extends Component {
           errorCode={this.props.state.errorCode}
           cmsStatus={this.props.state.cmsStatus}
         />
-        {this._renderAppComponent()}
+        {this.renderAppComponent()}
         <Help docName={this.props.state.helpDocument} />
         { 'cms.isSaving' !== this.props.state.cmsStatus ? null :
           (<div id="appCover" className={appCover} />)
@@ -81,7 +80,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  state: PropTypes.object,
+  state: PropTypes.object.isRequired,
 };
 
 // Which props to inject from the global atomic state

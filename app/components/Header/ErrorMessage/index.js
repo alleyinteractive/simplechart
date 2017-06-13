@@ -9,6 +9,15 @@ import { CLEAR_ERROR } from '../../../constants';
 import actionTrigger from '../../../actions';
 
 class ErrorMessage extends Component {
+  static toSetState(props) {
+    // display message if we have an error code or JSX children
+    // clear children unless code e000 is passed
+    return {
+      open: !!props.code || 0 < props.children.toString().length,
+      children: (props.code && 'e000' === props.code) ? props.children : false,
+    };
+  }
+
   constructor() {
     super();
     this.closeErrorMessage = this.closeErrorMessage.bind(this);
@@ -21,15 +30,6 @@ class ErrorMessage extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState(this.toSetState(nextProps));
-  }
-
-  toSetState(props) {
-    // display message if we have an error code or JSX children
-    // clear children unless code e000 is passed
-    return {
-      open: !!props.code || 0 < props.children.toString().length,
-      children: (props.code && 'e000' === props.code) ? props.children : false,
-    };
   }
 
   closeErrorMessage() {
@@ -66,6 +66,8 @@ class ErrorMessage extends Component {
         <span
           className={styles.closeContainer}
           onClick={this.closeErrorMessage}
+          role="button"
+          tabIndex={0}
         >
           <Close />
         </span>
@@ -75,10 +77,9 @@ class ErrorMessage extends Component {
 }
 
 ErrorMessage.propTypes = {
-  override: PropTypes.object,
-  code: PropTypes.string,
-  dispatch: PropTypes.func,
-  children: PropTypes.any.isRequired,
+  override: PropTypes.object.isRequired,
+  code: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect()(ErrorMessage);

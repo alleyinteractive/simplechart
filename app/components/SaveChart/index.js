@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { sendMessage } from '../../utils/postMessage';
 import { Button } from 'rebass';
 import { connect } from 'react-redux';
+import { sendMessage } from '../../utils/postMessage';
 import actionTrigger from '../../actions';
 import { UNSAVED_CHANGES } from '../../constants';
 import saveChartLabels from '../../constants/saveChartLabels';
@@ -16,18 +16,18 @@ class SaveChart extends Component {
     };
   }
 
+  static getLabel(cmsStatus) {
+    return saveChartLabels[cmsStatus] || saveChartLabels.default;
+  }
+
   constructor(props) {
     super(props);
-    this._sendDataToParent = this._sendDataToParent.bind(this);
+    this.sendDataToParent = this.sendDataToParent.bind(this);
   }
 
-  _sendDataToParent() {
+  sendDataToParent() {
     this.props.dispatch(actionTrigger(UNSAVED_CHANGES, false));
     sendMessage('saveChart', this.props.saveData);
-  }
-
-  _getLabel(cmsStatus) {
-    return saveChartLabels[cmsStatus] || saveChartLabels.default;
   }
 
   render() {
@@ -37,18 +37,18 @@ class SaveChart extends Component {
           theme="success"
           rounded
           style={this.props.buttonStyleAttr}
-          onClick={this._sendDataToParent}
-        >{this._getLabel(this.props.cmsStatus)}</Button>
+          onClick={this.sendDataToParent}
+        >{this.getLabel(this.props.cmsStatus)}</Button>
       </span>
     );
   }
 }
 
 SaveChart.propTypes = {
-  saveData: PropTypes.object,
-  buttonStyleAttr: PropTypes.object,
-  cmsStatus: PropTypes.string,
-  dispatch: PropTypes.func,
+  saveData: PropTypes.object.isRequired,
+  buttonStyleAttr: PropTypes.object.isRequired,
+  cmsStatus: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect(SaveChart.mapStateToProps)(SaveChart);
