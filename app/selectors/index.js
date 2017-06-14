@@ -18,7 +18,7 @@ const checkDataValid = createSelector(
 );
 
 const checkChartTypeSelected = ({ chartType }) =>
-  chartType.config && chartType.defaultOpts;
+  Boolean(chartType.config && chartType.defaultOpts);
 
 export const getIsNextStepAvailable = createSelector(
   (state) => state.currentStep,

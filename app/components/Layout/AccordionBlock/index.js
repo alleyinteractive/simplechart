@@ -43,9 +43,8 @@ class AccordionBlock extends Component {
     this.setState({
       expanded: !this.state.expanded,
     });
-    if (this.props.toggleCallback) {
-      this.props.toggleCallback(!this.state.expanded);
-    }
+
+    this.props.toggleCallback(!this.state.expanded);
   }
 
   renderPanelHeader(toggleIcon) {
@@ -95,13 +94,18 @@ class AccordionBlock extends Component {
   }
 }
 
+AccordionBlock.defaultProps = {
+  updateExpandOnProps: false,
+  toggleCallback: () => {},
+};
+
 AccordionBlock.propTypes = {
   children: PropTypes.any.isRequired,
   title: PropTypes.string.isRequired,
   defaultExpand: PropTypes.bool.isRequired,
-  updateExpandOnProps: PropTypes.bool.isRequired,
+  updateExpandOnProps: PropTypes.bool,
   tooltip: PropTypes.string.isRequired,
-  toggleCallback: PropTypes.func.isRequired,
+  toggleCallback: PropTypes.func,
 };
 
 export default AccordionBlock;

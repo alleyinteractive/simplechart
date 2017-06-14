@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import actionTrigger from '../../actions';
 import buildDeepObject from '../../utils/buildDeepObject';
 
-class DispatchFields extends Component {
+class DispatchField extends Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
@@ -45,7 +45,7 @@ class DispatchFields extends Component {
 
   dispatchField(value) {
     // If no action provided, just call the handler
-    if (undefined === this.props.action && this.props.handler) {
+    if ('' === this.props.action && this.props.handler) {
       this.props.handler(this.props.fieldProps, value);
       return;
     }
@@ -66,12 +66,16 @@ class DispatchFields extends Component {
   }
 }
 
-DispatchFields.propTypes = {
+DispatchField.defaultProps = {
+  action: '',
+};
+
+DispatchField.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  action: PropTypes.string.isRequired,
+  action: PropTypes.string,
   fieldProps: PropTypes.object.isRequired,
   fieldType: PropTypes.string.isRequired,
   handler: PropTypes.func.isRequired,
 };
 
-export default connect()(DispatchFields);
+export default connect()(DispatchField);

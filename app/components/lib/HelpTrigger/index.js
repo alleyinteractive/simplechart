@@ -25,7 +25,7 @@ class HelpTrigger extends Component {
   render() {
     return (
       <span
-        style={this.props.style || null}
+        style={Object.keys(this.props.style).length ? this.props.style : null}
         className={styles.icon}
         dangerouslySetInnerHTML={{ __html: infoSvg }} // eslint-disable-line react/no-danger
         onClick={this.dispatch}
@@ -36,9 +36,13 @@ class HelpTrigger extends Component {
   }
 }
 
+HelpTrigger.defaultProps = {
+  style: {},
+};
+
 HelpTrigger.propTypes = {
   docName: PropTypes.string.isRequired,
-  style: PropTypes.object.isRequired,
+  style: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
 };
 

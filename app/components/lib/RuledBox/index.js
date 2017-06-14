@@ -12,10 +12,10 @@ class RuledBox extends Component {
   /**
    * Get a <span> for each tick for insertion into the ruler element
    */
-  static getTicksHTML(rulerLength) {
+  static renderTicks(rulerLength) {
     // Very unlikely edge case
     if (rulerLength < rulerDefaults.tickMinor) {
-      return { __html: '' };
+      return [];
     }
     let dist = rulerDefaults.tickMinor;
     const output = [];
@@ -29,7 +29,7 @@ class RuledBox extends Component {
       // <span style="flex-basis:10px"></span>
       // <span class="labeled" style="flex-basis:10px"><span>100</span></span>
       output.push(<span
-        key={rulerDefaults.tickMinor}
+        key={dist}
         className={`${labeled ? styles.labeled : ''}`}
         style={{ flexBasis: `${rulerDefaults.tickMinor}px` }}
       >
@@ -74,7 +74,7 @@ class RuledBox extends Component {
 
     return (
       <div className={`${styles.ruler} ${styles[dimension]}`}>
-        {RuledBox.getTicksHTML(this.props[dimension])}
+        {RuledBox.renderTicks(this.props[dimension])}
       </div>
     );
   }

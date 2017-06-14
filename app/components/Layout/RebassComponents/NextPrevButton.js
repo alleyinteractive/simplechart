@@ -41,10 +41,7 @@ class NextPrevButton extends Component {
       );
     }
 
-    // If a callback is provided, call it
-    if ('function' === typeof this.props.callback) {
-      this.props.callback(buttonIsEnabled);
-    }
+    this.props.callback(buttonIsEnabled);
   }
 
   render() {
@@ -62,7 +59,8 @@ class NextPrevButton extends Component {
 }
 
 NextPrevButton.defaultProps = {
-  shouldEnable: false,
+  shouldEnable: true,
+  callback: () => {},
 };
 
 NextPrevButton.propTypes = {
@@ -70,7 +68,7 @@ NextPrevButton.propTypes = {
   currentStep: PropTypes.number.isRequired,
   dir: PropTypes.string.isRequired,
   shouldEnable: PropTypes.bool,
-  callback: PropTypes.func.isRequired,
+  callback: PropTypes.func,
   dispatch: PropTypes.func.isRequired,
 };
 
