@@ -54,7 +54,7 @@ class Chart extends Component {
     }
 
     if (isWidget) {
-      return this.breakpointForWindow(breakpoints.values) || defaultBreakpoint;
+      return Chart.breakpointForWindow(breakpoints.values) || defaultBreakpoint;
     }
 
     const idx = breakpoints.active ? breakpoints.active : 0;
@@ -76,7 +76,7 @@ class Chart extends Component {
       this.loadChartType(this.props.options.type);
     }
     this.setState({
-      activeBp: this.getActiveBreakpoint(
+      activeBp: Chart.getActiveBreakpoint(
         this.props.options.breakpoints,
         this.props.widget
       ),
@@ -90,7 +90,7 @@ class Chart extends Component {
     if (this.props.widget && this.props.options.breakpoints) {
       window.addEventListener('resize', debounce(() => {
         this.setState({
-          activeBp: this.getActiveBreakpoint(
+          activeBp: Chart.getActiveBreakpoint(
             this.props.options.breakpoints,
             this.props.widget
           ),
@@ -101,13 +101,13 @@ class Chart extends Component {
 
   componentWillReceiveProps(nextProps) {
     // handle if chart type changes
-    if (this.getComponentName(nextProps) !== this.getComponentName(this.props)) { // eslint-disable-line max-len
+    if (Chart.getComponentName(nextProps) !== Chart.getComponentName(this.props)) { // eslint-disable-line max-len
       this.loadChartType(nextProps.options.type);
     }
 
     // update breakpoint idx
     this.setState({
-      activeBp: this.getActiveBreakpoint(
+      activeBp: Chart.getActiveBreakpoint(
         nextProps.options.breakpoints,
         nextProps.widget
       ),
@@ -134,7 +134,8 @@ class Chart extends Component {
     );
     return React.createElement(
       this.props.rulers ? RuledBox : 'div', // element type
-      this.props.rulers ? this.ruledBoxProps(this.state.activeBp) : {}, // props
+      this.props.rulers ? Chart.ruledBoxProps(this.state.activeBp) : {}, // props
+
       chartTypeComponent // children
     );
   }

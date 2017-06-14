@@ -89,7 +89,7 @@ class ChartLayout extends Component {
     // Error if trying to set multiple breakpoints to noMaxWidth
     if ('noMaxWidth' === fieldNameParts[1] &&
       newValue &&
-      !this.canAddNoMaxWidth(this.state.values)
+      !ChartLayout.canAddNoMaxWidth(this.state.values)
     ) {
       this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e006'));
       return;
@@ -97,7 +97,7 @@ class ChartLayout extends Component {
 
     // Error if setting multiple breakpoints to same maxWidth
     if ('maxWidth' === fieldNameParts[1] &&
-      this.maxWidthIsSet(fieldNameParts[0], newValue, this.state.values)
+      ChartLayout.maxWidthIsSet(fieldNameParts[0], newValue, this.state.values)
     ) {
       this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e007'));
       return;

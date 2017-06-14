@@ -44,7 +44,7 @@ class Widget extends Component {
       return;
     }
     if (this.state.data) {
-      this.renderMetadata(widget, this.state.data.metadata || {});
+      Widget.renderMetadata(widget, this.state.data.metadata || {});
     }
   }
 

@@ -30,13 +30,15 @@ class ChartDataFormatter extends Component {
 
   componentWillMount() {
     this.setState(
-      this.handleProps(this.props.options.tickFormatSettings || {})
+      ChartDataFormatter.handleProps(
+        this.props.options.tickFormatSettings || {}
+      )
     );
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState(
-      this.handleProps(nextProps.options.tickFormatSettings || {})
+      ChartDataFormatter.handleProps(nextProps.options.tickFormatSettings || {})
     );
   }
 
@@ -60,7 +62,7 @@ class ChartDataFormatter extends Component {
             fieldProps={{
               label: 'Format currency and thousands separator as:',
               name: 'tickFormatSettings.locale',
-              options: this.localeOptions(),
+              options: ChartDataFormatter.localeOptions(),
               value: this.state.locale,
             }}
             handler={this.handleChange}

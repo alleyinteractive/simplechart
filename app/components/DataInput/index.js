@@ -126,7 +126,7 @@ class DataInput extends AppComponent {
           className={styles.inputBuilderMargin}
           label="Use sample data"
           name="sample-data-select"
-          options={this.sampleDataOptions()}
+          options={DataInput.sampleDataOptions()}
           onChange={this.setSampleDataSet}
         />
         <div className={styles.actionsContainer}>

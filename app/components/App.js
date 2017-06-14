@@ -32,11 +32,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.captureClicks(this.props.state.cmsStatus);
+    App.captureClicks(this.props.state.cmsStatus);
   }
 
   componentDidUpdate() {
-    this.captureClicks(this.props.state.cmsStatus);
+    App.captureClicks(this.props.state.cmsStatus);
   }
 
   firstParsedCol() {

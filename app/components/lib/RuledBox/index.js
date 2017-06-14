@@ -72,7 +72,7 @@ class RuledBox extends Component {
     return (
       <div
         className={`${styles.ruler} ${styles[dimension]}`}
-        dangerouslySetInnerHTML={this.getTicksHTML(this.props[dimension])}
+        dangerouslySetInnerHTML={RuledBox.getTicksHTML(this.props[dimension])}
       />
     );
   }
@@ -81,7 +81,7 @@ class RuledBox extends Component {
     return (
       <div
         className={styles.container}
-        style={this.getInlineStyles(this.props)}
+        style={RuledBox.getInlineStyles(this.props)}
       >
         {this.renderRuler('width')}
         {this.renderRuler('height')}

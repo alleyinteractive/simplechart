@@ -50,7 +50,7 @@ class PalettePicker extends Component {
         const seriesColor = loopArrayItemAtIndex(idx, props.palette);
         // Setup series label and current color
         const seriesForState = {
-          label: this.getSeriesName(series),
+          label: PalettePicker.getSeriesName(series),
           current: seriesColor,
         };
 

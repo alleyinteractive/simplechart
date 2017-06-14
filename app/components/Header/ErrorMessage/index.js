@@ -25,11 +25,11 @@ class ErrorMessage extends Component {
   }
 
   componentWillMount() {
-    this.setState(this.toSetState(this.props));
+    this.setState(ErrorMessage.toSetState(this.props));
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(this.toSetState(nextProps));
+    this.setState(ErrorMessage.toSetState(nextProps));
   }
 
   closeErrorMessage() {

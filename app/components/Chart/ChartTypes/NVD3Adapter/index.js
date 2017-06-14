@@ -36,7 +36,7 @@ export default class NVD3Adapter extends Component {
   mapToChartProps() {
     const { options, data, widget } = this.props;
     let chartProps = update(options, {
-      datum: { $set: this.dataTransform(options.type, data) },
+      datum: { $set: NVD3Adapter.dataTransform(options.type, data) },
       ref: { $set: 'chartNode' },
     });
 

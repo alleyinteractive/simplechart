@@ -59,11 +59,11 @@ class AccordionBlock extends Component {
           <Tooltip
             title={this.props.tooltip}
           >
-            {this.svgIcon(infoSvg, 'info')}
+            {AccordionBlock.svgIcon(infoSvg, 'info')}
           </Tooltip>
           <Space auto x={1} />
           <span onClick={this.toggleExpanded} role="button" tabIndex={0}>
-            {this.svgIcon(toggleIcon)}
+            {AccordionBlock.svgIcon(toggleIcon)}
           </span>
         </PanelHeader>
       </div>

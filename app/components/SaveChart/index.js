@@ -38,7 +38,7 @@ class SaveChart extends Component {
           rounded
           style={this.props.buttonStyleAttr}
           onClick={this.sendDataToParent}
-        >{this.getLabel(this.props.cmsStatus)}</Button>
+        >{SaveChart.getLabel(this.props.cmsStatus)}</Button>
       </span>
     );
   }
