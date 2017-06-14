@@ -8,6 +8,7 @@ import * as styles from './RuledBox.css';
 import rulerDefaults from './rulerDefaults';
 
 class RuledBox extends Component {
+
   /**
    * Get a <span> for each tick for insertion into the ruler element
    */
@@ -17,7 +18,7 @@ class RuledBox extends Component {
       return { __html: '' };
     }
     let dist = rulerDefaults.tickMinor;
-    let output = '';
+    const output = [];
 
     // Build HTML of tick spans
     while (dist <= rulerLength) {
@@ -27,17 +28,19 @@ class RuledBox extends Component {
       // Append in one of these formats:
       // <span style="flex-basis:10px"></span>
       // <span class="labeled" style="flex-basis:10px"><span>100</span></span>
-      output += `<span
-        class="${labeled ? styles.labeled : ''}"
-        style="flex-basis:${rulerDefaults.tickMinor}px"
+      output.push(<span
+        key={rulerDefaults.tickMinor}
+        className={`${labeled ? styles.labeled : ''}`}
+        style={{ flexBasis: `${rulerDefaults.tickMinor}px` }}
       >
-        ${labeled ? `<span>${dist}</span>` : ''}
-      </span>`;
+        {labeled && <span>{dist}</span>}
+      </span>);
 
       // Increment the distance covered so far
       dist += rulerDefaults.tickMinor;
     }
-    return { __html: output };
+
+    return output;
   }
 
   static getInlineStyles(props) {
@@ -70,10 +73,9 @@ class RuledBox extends Component {
     }
 
     return (
-      <div
-        className={`${styles.ruler} ${styles[dimension]}`}
-        dangerouslySetInnerHTML={RuledBox.getTicksHTML(this.props[dimension])}
-      />
+      <div className={`${styles.ruler} ${styles[dimension]}`}>
+        {RuledBox.getTicksHTML(this.props[dimension])}
+      </div>
     );
   }
 

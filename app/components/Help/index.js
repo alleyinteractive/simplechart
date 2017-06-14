@@ -60,12 +60,12 @@ class Help extends Component {
           tabIndex={0}
           onClick={this.clearDoc}
           className={styles.closeHelp}
-          dangerouslySetInnerHTML={{ __html: closeSvg }}
+          dangerouslySetInnerHTML={{ __html: closeSvg }} // eslint-disable-line react/no-danger
         />
         <div
           className="markdown-body"
           style={{ fontSize: '15px' }} // override default markdown style
-          dangerouslySetInnerHTML={{ __html: this.state.content }}
+          dangerouslySetInnerHTML={{ __html: this.state.content }} // eslint-disable-line react/no-danger
         />
       </div>
     );

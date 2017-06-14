@@ -27,7 +27,7 @@ class HelpTrigger extends Component {
       <span
         style={this.props.style || null}
         className={styles.icon}
-        dangerouslySetInnerHTML={{ __html: infoSvg }}
+        dangerouslySetInnerHTML={{ __html: infoSvg }} // eslint-disable-line react/no-danger
         onClick={this.dispatch}
         role="button"
         tabIndex={0}

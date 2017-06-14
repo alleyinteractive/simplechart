@@ -55,7 +55,7 @@ class DataInput extends AppComponent {
     };
 
     this.inputRules = [
-      'Enter <em>clean</em> comma-delimited text here.',
+      <span>Enter <em>clean</em> comma-delimited text here.</span>,
       'A header row is required.',
       'See sample data sets for formatting examples',
       'Chart title is suggested but not required.',

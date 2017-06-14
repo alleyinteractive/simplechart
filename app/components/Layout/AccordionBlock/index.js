@@ -11,7 +11,7 @@ class AccordionBlock extends Component {
     return (
       <span
         className={`${styles.icon} ${styles[iconClass]}`}
-        dangerouslySetInnerHTML={{ __html: svgString }}
+        dangerouslySetInnerHTML={{ __html: svgString }} // eslint-disable-line react/no-danger
       />
     );
   }

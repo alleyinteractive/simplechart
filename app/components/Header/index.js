@@ -103,7 +103,7 @@ class Header extends Component {
         <div className={styles.inner}>
           <div
             className={styles.logoContainer}
-            dangerouslySetInnerHTML={{ __html: logoSvg }}
+            dangerouslySetInnerHTML={{ __html: logoSvg }} // eslint-disable-line react/no-danger
           />
 
           <div className={styles.sequenceContainer}>

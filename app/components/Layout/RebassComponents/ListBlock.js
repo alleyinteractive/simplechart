@@ -4,7 +4,6 @@ import Rebass from 'rebass';
 import * as styles from './RebassComponents.css';
 
 export default function ListBlock(props) {
-  const markup = (htmlString) => ({ __html: htmlString });
   return (
     <Rebass.Block
       borderLeft
@@ -15,8 +14,7 @@ export default function ListBlock(props) {
           (<li
             className={styles.listBlockItem}
             key={i} // eslint-disable-line
-            dangerouslySetInnerHTML={markup(item)}
-          />)
+          >{item}</li>)
         )}
       </ul>
     </Rebass.Block>
