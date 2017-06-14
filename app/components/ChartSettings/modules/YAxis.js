@@ -23,7 +23,6 @@ class YAxis extends Component {
     let domain = this.props.options.yDomain || [];
     if ('yDomain.min' === fieldProps.name) {
       domain[0] = value;
-      return domain;
     } else if (0 === domain.length) {
       domain = [0, value];
     } else {
