@@ -3,7 +3,7 @@ import update from 'immutability-helper';
 import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE, TRANSFORM_DATA } from '../constants';
 import { dataIsMultiSeries, loopArrayItemAtIndex } from '../utils/misc';
 
-export default function chartDataReducer(state = {}, action) {
+export default function chartDataReducer(state, action) {
   const { chartData, chartOptions, chartType, transformedData } = state;
   let newChartData = chartData;
 

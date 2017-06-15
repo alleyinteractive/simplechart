@@ -5,7 +5,7 @@ import applyChartTypeDefaults from '../middleware/utils/applyChartTypeDefaults';
 import applyTickFormatters from '../middleware/utils/applyTickFormatters';
 import applyYDomain from '../middleware/utils/applyYDomain';
 
-export default function chartOptionsReducer(state = {}, action) {
+export default function chartOptionsReducer(state, action) {
   let newState = state;
   if (!newState.chartOptions) {
     newState = Object.assign({}, newState, { chartOptions: {} });
