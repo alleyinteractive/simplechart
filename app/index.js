@@ -35,7 +35,6 @@ const store = createStore(
       thunk,
       receiveRawData,
       receiveDateFormat,
-      receiveChartType,
       receiveChartOptions,
       receiveHelpDocument,
       actionLogging
