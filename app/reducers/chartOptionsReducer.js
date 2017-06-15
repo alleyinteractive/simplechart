@@ -12,7 +12,7 @@ export default function chartOptionsReducer(state, action) {
     }
 
     case RECEIVE_CHART_TYPE: {
-      return reduceChartOptions(state, action.data.config, action.src);
+      return reduceReceiveChartType(state, action);
     }
 
     default:
@@ -21,11 +21,12 @@ export default function chartOptionsReducer(state, action) {
   return state;
 }
 
-function reduceChartOptions(state, chartTypeConfig, src) {
+function reduceReceiveChartType(state, { data, src }) {
   let chartOptions = state.chartOptions;
+  const { config } = data;
 
-  const hasChanged = state.chartType.type !== chartTypeConfig.type;
-  const isScatter = 'nvd3ScatterMultiSeries' === chartTypeConfig.dataFormat;
+  const hasChanged = state.chartType.type !== config.type;
+  const isScatter = 'nvd3ScatterMultiSeries' === config.dataFormat;
   if (hasChanged && isScatter) {
     chartOptions = applyAxisLabels(chartOptions, state.dataFields);
   }
@@ -33,7 +34,7 @@ function reduceChartOptions(state, chartTypeConfig, src) {
   // Setup chart type default options if NOT bootstrapping from postMessage
   if (0 !== src.indexOf('bootstrap')) {
     chartOptions = applyChartTypeDefaults(
-      chartTypeConfig,
+      config,
       state.chartOptions,
       state.defaultsAppliedTo
     );
@@ -42,22 +43,23 @@ function reduceChartOptions(state, chartTypeConfig, src) {
     if (0 < state.chartData.length) {
       chartOptions = applyYDomain(
         chartOptions,
-        chartTypeConfig,
-        state.transformedData[chartTypeConfig.dataFormat]
+        config,
+        state.transformedData[config.dataFormat]
       );
     }
 
     // Apply tick formatting and return cloned opts object
     chartOptions = applyTickFormatters(
       chartOptions,
-      chartTypeConfig,
+      config,
       state.dateFormat
     );
   }
 
   return merge(state, {
+    chartType: data,
     chartOptions,
-    defaultsAppliedTo: chartTypeConfig.type,
+    defaultsAppliedTo: config.type,
   });
 }
 

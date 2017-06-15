@@ -30,7 +30,6 @@ class ChartTypeSelector extends Component {
   }
 
   _selectChartType(selectedName) {
-    // fix this
     const typeObj = getChartTypeObject(selectedName);
     if (typeObj) {
       this.props.dispatch(actionTrigger(RECEIVE_CHART_TYPE, typeObj));
