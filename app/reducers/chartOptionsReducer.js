@@ -60,6 +60,7 @@ function reduceReceiveChartType(state, { data, src }) {
     chartType: data,
     chartOptions,
     defaultsAppliedTo: config.type,
+    errorCode: '',
   });
 }
 
