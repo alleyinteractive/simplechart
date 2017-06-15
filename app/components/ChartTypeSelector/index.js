@@ -22,12 +22,6 @@ class ChartTypeSelector extends Component {
     this._getChartType = this._getChartType.bind(this);
   }
 
-  componentWillMount() {
-    if (this._getChartType()) {
-      this._selectChartType(this._getChartType());
-    }
-  }
-
   _getChartType() {
     if (!this.props.typeObj.config || !this.props.typeObj.config.type) {
       return null;
