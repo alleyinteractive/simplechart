@@ -8,6 +8,7 @@ class ChartSettings extends Component {
     super();
     this._hasModule = this._hasModule.bind(this);
     this._renderModule = this._renderModule.bind(this);
+    this._toggleModuleCallback = this._toggleModuleCallback.bind(this);
     this._shouldDefaultExpand = this._shouldDefaultExpand.bind(this);
   }
 
@@ -21,6 +22,14 @@ class ChartSettings extends Component {
     return -1 !== this.state.modules.indexOf(name);
   }
 
+  _toggleModuleCallback(expanded, name) {
+    if (expanded) {
+      this.setState({
+        activeSettings: name,
+      });
+    }
+  }
+
   _renderModule(name) {
     if (!this._hasModule(name)) {
       return null;
@@ -28,7 +37,10 @@ class ChartSettings extends Component {
 
     // Setup props, handling special cases for Metadata and ColorPalette
     const moduleProps = update({}, {
-      defaultExpand: { $set: this._shouldDefaultExpand() },
+      defaultExpand: { $set: this._shouldDefaultExpand(name) },
+      toggleCallback: {
+        $set: (expanded) => this._toggleModuleCallback(expanded, name),
+      },
       options: { $set: 'Metadata' !== name ? this.props.options : {} },
       metadata: { $set: 'Metadata' === name ? this.props.metadata : {} },
       data: { $set: 'ColorPalette' === name ? this.props.data : [] },
@@ -37,12 +49,12 @@ class ChartSettings extends Component {
     return React.createElement(module, moduleProps);
   }
 
-  _shouldDefaultExpand() {
+  _shouldDefaultExpand(name) {
     let nModules = this.state.modules.length;
     if (this.props.typeConfig.settingsComponent) {
       nModules++;
     }
-    return 1 === nModules;
+    return 1 === nModules || name === this.state.activeSettings;
   }
 
   _renderCustomSettings(config) {
@@ -52,7 +64,8 @@ class ChartSettings extends Component {
     const module = require(`./modules/custom/${config.settingsComponent}`).default;
     return React.createElement(module, {
       options: this.props.options,
-      defaultExpand: this._shouldDefaultExpand(),
+      defaultExpand: this._shouldDefaultExpand(name),
+      toggleCallback: (expanded) => this._toggleModuleCallback(expanded, name),
     });
   }
 
@@ -60,11 +73,7 @@ class ChartSettings extends Component {
     return (
       <div>
         <div>
-          {this._renderModule('XAxis')}
-          {this._renderModule('YAxis')}
-          {this._renderModule('Legend')}
-          {this._renderModule('Metadata')}
-          {this._renderModule('ColorPalette')}
+          {this.state.modules.map((name) => this._renderModule(name))}
           {this._renderCustomSettings(this.props.typeConfig)}
         </div>
         <NextPrevButton

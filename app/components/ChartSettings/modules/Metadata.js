@@ -43,6 +43,8 @@ class Metadata extends Component {
         title="Metadata"
         tooltip="Title, caption, credit"
         defaultExpand={this.props.defaultExpand}
+        toggleCallback={this.props.toggleCallback}
+        updateExpandOnProps
       >
         {Object.keys(this.state).map((key) =>
           (
@@ -68,6 +70,7 @@ class Metadata extends Component {
 Metadata.propTypes = {
   metadata: PropTypes.object,
   defaultExpand: PropTypes.bool,
+  toggleCallback: PropTypes.func,
 };
 
 export default Metadata;

@@ -13,6 +13,8 @@ export default class Legend extends Component {
         title="Pie Chart Settings"
         tooltip="Specific settings for pie charts"
         defaultExpand={this.props.defaultExpand}
+        toggleCallback={this.props.toggleCallback}
+        updateExpandOnProps
       >
         <DispatchField
           action={RECEIVE_CHART_OPTIONS}
@@ -31,4 +33,5 @@ export default class Legend extends Component {
 Legend.propTypes = {
   options: PropTypes.object,
   defaultExpand: PropTypes.bool,
+  toggleCallback: PropTypes.func,
 };

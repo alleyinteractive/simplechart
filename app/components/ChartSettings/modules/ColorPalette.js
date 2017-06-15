@@ -15,6 +15,8 @@ class ColorPalette extends Component {
         title="Color palette"
         tooltip="Set data series colors"
         defaultExpand={this.props.defaultExpand}
+        toggleCallback={this.props.toggleCallback}
+        updateExpandOnProps
       >
         <PalettePicker
           palette={this.props.options.color || []}
@@ -29,6 +31,7 @@ ColorPalette.propTypes = {
   options: PropTypes.object,
   data: PropTypes.array,
   defaultExpand: PropTypes.bool,
+  toggleCallback: PropTypes.func,
 };
 
 export default ColorPalette;
