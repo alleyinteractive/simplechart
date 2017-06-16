@@ -1,5 +1,9 @@
 import actionTrigger from '../../app/actions';
-import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE } from '../../app/constants';
+import {
+  RECEIVE_CHART_OPTIONS,
+  RECEIVE_CHART_TYPE,
+  RECEIVE_DATE_FORMAT,
+} from '../../app/constants';
 import reduce from '../../app/reducers/chartOptionsReducer';
 import { selectableChartTypes, nvd3Defaults } from '../../app/constants/chartTypes.js';
 
@@ -31,7 +35,7 @@ test('merges chart options ', () => {
   expect(reduce(mockState, action)).toEqual(expected);
 });
 
-describe('receiveChartType', () => {
+describe(RECEIVE_CHART_TYPE, () => {
   let mockState;
   beforeEach(() => {
     mockState = {
@@ -95,5 +99,49 @@ describe('receiveChartType', () => {
 
     expect(result).toMatchObject(nvd3Defaults.nvd3MultiSeries);
     expect(result).toHaveProperty('yDomain', [1, 1]);
+  });
+});
+
+describe(RECEIVE_DATE_FORMAT, () => {
+  let mockState;
+  beforeEach(() => {
+    mockState = {
+      chartOptions: {},
+      parsedData: [{ Country: '2000', Foo: '3259.3' }],
+      dataFields: ['Country', 'Foo'],
+    };
+  });
+
+  test('merges action payload', () => {
+    const payload = {
+      enabled: true,
+      validated: false,
+      formatString: 'asdf',
+    };
+
+    const action = actionTrigger(RECEIVE_DATE_FORMAT, payload);
+
+    expect(reduce(mockState, action).chartOptions).toMatchObject({
+      dateFormat: payload,
+    });
+  });
+
+  test('applies chartOptions and transformedData if valid', () => {
+    const action = actionTrigger(RECEIVE_DATE_FORMAT, {
+      enabled: true,
+      validated: true,
+      formatString: 'YYYY',
+    });
+
+    expect(reduce(mockState, action)).toMatchObject({
+      chartOptions: {
+        xAxis: {
+          dateFormatString: 'YYYY',
+        },
+      },
+      transformedData: {
+        nvd3SingleSeries: [{ label: '2000', value: 3259.3 }],
+      },
+    });
   });
 });

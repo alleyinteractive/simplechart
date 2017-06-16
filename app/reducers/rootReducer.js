@@ -14,7 +14,11 @@ export const initialState = {
   chartData: [],
   chartMetadata: {},
   chartOptions: {
-    dateFormat: {},
+    dateFormat: {
+      enabled: false,
+      validated: false,
+      formatString: '',
+    },
   },
   chartType: {},
   cmsStatus: '',
