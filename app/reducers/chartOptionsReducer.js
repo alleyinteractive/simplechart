@@ -1,19 +1,24 @@
 import merge from 'lodash/fp/merge';
-
-import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE } from '../constants';
+import {
+  RECEIVE_CHART_OPTIONS,
+  RECEIVE_CHART_TYPE,
+  RECEIVE_DATE_FORMAT,
+} from '../constants';
 import applyChartTypeDefaults from '../middleware/utils/applyChartTypeDefaults';
 import applyTickFormatters from '../middleware/utils/applyTickFormatters';
 import applyYDomain from '../middleware/utils/applyYDomain';
+import { transformParsedData } from '../utils/rawDataHelpers';
 
 export default function chartOptionsReducer(state, action) {
   switch (action.type) {
-    case RECEIVE_CHART_OPTIONS: {
+    case RECEIVE_CHART_OPTIONS:
       return merge(state, { chartOptions: action.data });
-    }
 
-    case RECEIVE_CHART_TYPE: {
+    case RECEIVE_CHART_TYPE:
       return reduceReceiveChartType(state, action);
-    }
+
+    case RECEIVE_DATE_FORMAT:
+      return reduceReceiveDateFormat(state, action);
 
     default:
   }
@@ -73,5 +78,28 @@ function applyAxisLabels(chartOptions, dataFields) {
     yAxis: {
       axisLabel: yLabel,
     },
+  });
+}
+
+function reduceReceiveDateFormat(state, action) {
+  const dateFormat = merge(state.chartOptions.dateFormat, action.data);
+
+  const isValid = dateFormat.enabled && dateFormat.validated;
+  if (!isValid) {
+    return merge(state, { chartOptions: { dateFormat } });
+  }
+
+  return merge(state, {
+    chartOptions: {
+      dateFormat,
+      xAxis: {
+        dateFormatString: dateFormat.formatString,
+      },
+    },
+    transformedData: transformParsedData(
+      state.parsedData,
+      state.dataFields,
+      dateFormat
+    ),
   });
 }
