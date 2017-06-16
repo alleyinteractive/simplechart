@@ -7,6 +7,7 @@ import {
 import applyChartTypeDefaults from '../middleware/utils/applyChartTypeDefaults';
 import applyTickFormatters from '../middleware/utils/applyTickFormatters';
 import applyYDomain from '../middleware/utils/applyYDomain';
+import { transformParsedData } from '../utils/rawDataHelpers';
 
 export default function chartOptionsReducer(state, action) {
   switch (action.type) {
@@ -17,7 +18,7 @@ export default function chartOptionsReducer(state, action) {
       return reduceReceiveChartType(state, action);
 
     case RECEIVE_DATE_FORMAT:
-      return merge(state, { chartOptions: { dateFormat: action.data } });
+      return reduceReceiveDateFormat(state, action);
 
     default:
   }
@@ -77,5 +78,28 @@ function applyAxisLabels(chartOptions, dataFields) {
     yAxis: {
       axisLabel: yLabel,
     },
+  });
+}
+
+function reduceReceiveDateFormat(state, action) {
+  const dateFormat = merge(state.chartOptions.dateFormat, action.data);
+
+  const isValid = dateFormat.enabled && dateFormat.validated;
+  if (!isValid) {
+    return merge(state, { chartOptions: { dateFormat } });
+  }
+
+  return merge(state, {
+    chartOptions: {
+      dateFormat,
+      xAxis: {
+        dateFormatString: dateFormat.formatString,
+      },
+    },
+    transformedData: transformParsedData(
+      state.parsedData,
+      state.dataFields,
+      dateFormat
+    ),
   });
 }
