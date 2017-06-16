@@ -17,7 +17,7 @@ export default function receiveDateFormatMiddleware({ getState }) {
     }
 
     // Get complete dateFormat by merging new keys into state
-    const stateFormat = getState().dateFormat;
+    const stateFormat = getState().chartOptions.dateFormat;
     const nextDateFormat = update(stateFormat, {
       $merge: action.data,
     });

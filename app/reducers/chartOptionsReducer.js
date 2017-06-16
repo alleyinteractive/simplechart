@@ -1,19 +1,23 @@
 import merge from 'lodash/fp/merge';
-
-import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE } from '../constants';
+import {
+  RECEIVE_CHART_OPTIONS,
+  RECEIVE_CHART_TYPE,
+  RECEIVE_DATE_FORMAT,
+} from '../constants';
 import applyChartTypeDefaults from '../middleware/utils/applyChartTypeDefaults';
 import applyTickFormatters from '../middleware/utils/applyTickFormatters';
 import applyYDomain from '../middleware/utils/applyYDomain';
 
 export default function chartOptionsReducer(state, action) {
   switch (action.type) {
-    case RECEIVE_CHART_OPTIONS: {
+    case RECEIVE_CHART_OPTIONS:
       return merge(state, { chartOptions: action.data });
-    }
 
-    case RECEIVE_CHART_TYPE: {
+    case RECEIVE_CHART_TYPE:
       return reduceReceiveChartType(state, action);
-    }
+
+    case RECEIVE_DATE_FORMAT:
+      return merge(state, { chartOptions: { dateFormat: action.data } });
 
     default:
   }

@@ -13,11 +13,12 @@ import * as actions from '../constants';
 export const initialState = {
   chartData: [],
   chartMetadata: {},
-  chartOptions: {},
+  chartOptions: {
+    dateFormat: {},
+  },
   chartType: {},
   cmsStatus: '',
   currentStep: 0,
-  dateFormat: {},
   defaultsAppliedTo: '',
   dataFields: [],
   dataStatus: {},
@@ -57,14 +58,9 @@ const clearActionReducer = createGenericReducer(
   (data, property) => initialState[property]
 );
 
-const mergeActionReducer = createGenericReducer('$merge', {
-  [actions.RECEIVE_DATE_FORMAT]: 'dateFormat',
-});
-
 export default createComposedReducer([
   setActionReducer,
   clearActionReducer,
-  mergeActionReducer,
   unsavedChangesReducer,
   bootstrapReducer,
   rawDataReducer,
