@@ -1,4 +1,4 @@
-import update from 'immutability-helper';
+import merge from 'lodash/fp/merge';
 import { BOOTSTRAP_APP } from '../constants';
 
 export default function bootstrapReducer(state, action) {
@@ -6,12 +6,9 @@ export default function bootstrapReducer(state, action) {
     return state;
   }
 
-  return update(state, {
-    googleApiKey: {
-      $set: action.data.googleApiKey,
-    },
-    googleSheetId: {
-      $set: action.data.googleSheetId,
-    },
+  return merge(state, {
+    chartOptions: action.data.chartOptions,
+    googleApiKey: action.data.googleApiKey,
+    googleSheetId: action.data.googleSheetId,
   });
 }
