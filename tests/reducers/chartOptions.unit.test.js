@@ -1,9 +1,10 @@
 import actionTrigger from '../../app/actions';
 import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE } from '../../app/constants';
 import reduce from '../../app/reducers/chartOptionsReducer';
+import { selectableChartTypes, nvd3Defaults } from '../../app/constants/chartTypes.js';
 
 test('merges chart options ', () => {
-  const state = {
+  const mockState = {
     chartOptions: {
       type: 'scatterChart',
       showLegend: true,
@@ -27,24 +28,48 @@ test('merges chart options ', () => {
     },
   };
 
-  expect(reduce(state, action)).toEqual(expected);
+  expect(reduce(mockState, action)).toEqual(expected);
 });
 
 describe('receiveChartType', () => {
-  test('merges related properties', () => {
+  let mockState;
+  beforeEach(() => {
+    mockState = {
+      chartData: [
+        { key: 'foo', values: [{ x: 1, y: 1 }] },
+      ],
+      chartOptions: {},
+      chartType: {
+        type: 'lineChart',
+      },
+      dataFields: ['Foo', 'Bar', 'Baz'],
+      errorCode: 'e006',
+      transformedData: {
+        nvd3MultiSeries: [
+          { key: 'foo', values: [{ x: 1, y: 1 }] },
+        ],
+      },
+    };
+  });
 
+  test('merges related properties', () => {
+    const actionPayload = {
+      config: {
+        type: 'bubbleChart',
+      },
+      defaultOpts: {},
+    };
+
+    const action = actionTrigger(RECEIVE_CHART_TYPE, actionPayload, 'bootstrap.edit');
+
+    expect(reduce(mockState, action)).toMatchObject({
+      chartType: actionPayload,
+      defaultsAppliedTo: 'bubbleChart',
+      errorCode: '',
+    });
   });
 
   test('applies axis labels if selecting scatter', () => {
-    const state = {
-      chartData: [],
-      chartOptions: {},
-      chartType: {
-        type: 'bubbleChart',
-      },
-      dataFields: ['Foo', 'Bar', 'Baz'],
-    };
-
     const action = actionTrigger(RECEIVE_CHART_TYPE, {
       config: {
         type: 'scatterChart',
@@ -52,7 +77,7 @@ describe('receiveChartType', () => {
       },
     }, 'bootstrap.edit');
 
-    const expected = {
+    expect(reduce(mockState, action)).toMatchObject({
       chartOptions: {
         xAxis: {
           axisLabel: 'Bar',
@@ -61,20 +86,14 @@ describe('receiveChartType', () => {
           axisLabel: 'Baz',
         },
       },
-    };
-
-    expect(reduce(state, action)).toMatchObject(expected);
+    });
   });
 
-  test('applies chartTypeDefaults if not "bootstrapping"', () => {
+  test('applies chartOptions if not "bootstrapping"', () => {
+    const action = actionTrigger(RECEIVE_CHART_TYPE, selectableChartTypes[2]);
+    const result = reduce(mockState, action).chartOptions;
 
-  });
-
-  test('applies yDomain if one has not already been applies', () => {
-
-  });
-
-  test('applies tick formatters', () => {
-
+    expect(result).toMatchObject(nvd3Defaults.nvd3MultiSeries);
+    expect(result).toHaveProperty('yDomain', [1, 1]);
   });
 });
