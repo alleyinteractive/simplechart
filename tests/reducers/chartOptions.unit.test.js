@@ -1,3 +1,4 @@
+import actionTrigger from '../../app/actions';
 import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE } from '../../app/constants';
 import reduce from '../../app/reducers/chartOptionsReducer';
 
@@ -10,15 +11,12 @@ test('merges chart options ', () => {
     },
   };
 
-  const action = {
-    type: RECEIVE_CHART_OPTIONS,
-    data: {
-      type: 'bubbleChart',
-      showLegend: true,
-      showControls: false,
-      color: ['#1f77b4'],
-    },
-  };
+  const action = actionTrigger(RECEIVE_CHART_OPTIONS, {
+    type: 'bubbleChart',
+    showLegend: true,
+    showControls: false,
+    color: ['#1f77b4'],
+  });
 
   const expected = {
     chartOptions: {
@@ -32,34 +30,51 @@ test('merges chart options ', () => {
   expect(reduce(state, action)).toEqual(expected);
 });
 
-test('merges axis labels if selecting scatter', () => {
-  const state = {
-    chartOptions: {},
-    chartType: {
-      type: 'bubbleChart',
-    },
-    dataFields: ['Foo', 'Bar', 'Baz'],
-  };
+describe('receiveChartType', () => {
+  test('merges related properties', () => {
 
-  const action = {
-    type: RECEIVE_CHART_TYPE,
-    data: {
+  });
+
+  test('applies axis labels if selecting scatter', () => {
+    const state = {
+      chartData: [],
+      chartOptions: {},
+      chartType: {
+        type: 'bubbleChart',
+      },
+      dataFields: ['Foo', 'Bar', 'Baz'],
+    };
+
+    const action = actionTrigger(RECEIVE_CHART_TYPE, {
       config: {
         type: 'scatterChart',
         dataFormat: 'nvd3ScatterMultiSeries',
       },
-    },
-  };
-  const expected = {
-    chartOptions: {
-      xAxis: {
-        axisLabel: 'Bar',
-      },
-      yAxis: {
-        axisLabel: 'Baz',
-      },
-    },
-  };
+    }, 'bootstrap.edit');
 
-  expect(reduce(state, action)).toMatchObject(expected);
+    const expected = {
+      chartOptions: {
+        xAxis: {
+          axisLabel: 'Bar',
+        },
+        yAxis: {
+          axisLabel: 'Baz',
+        },
+      },
+    };
+
+    expect(reduce(state, action)).toMatchObject(expected);
+  });
+
+  test('applies chartTypeDefaults if not "bootstrapping"', () => {
+
+  });
+
+  test('applies yDomain if one has not already been applies', () => {
+
+  });
+
+  test('applies tick formatters', () => {
+
+  });
 });

@@ -25,12 +25,6 @@ function reduceReceiveChartType(state, { data, src }) {
   let chartOptions = state.chartOptions;
   const { config } = data;
 
-  const hasChanged = state.chartType.type !== config.type;
-  const isScatter = 'nvd3ScatterMultiSeries' === config.dataFormat;
-  if (hasChanged && isScatter) {
-    chartOptions = applyAxisLabels(chartOptions, state.dataFields);
-  }
-
   // Setup chart type default options if NOT bootstrapping from postMessage
   if (0 !== src.indexOf('bootstrap')) {
     chartOptions = applyChartTypeDefaults(
@@ -56,6 +50,12 @@ function reduceReceiveChartType(state, { data, src }) {
     );
   }
 
+  const hasChanged = state.chartType.type !== config.type;
+  const isScatter = 'nvd3ScatterMultiSeries' === config.dataFormat;
+  if (hasChanged && isScatter) {
+    chartOptions = applyAxisLabels(chartOptions, state.dataFields);
+  }
+
   return merge(state, {
     chartType: data,
     chartOptions,
@@ -67,13 +67,11 @@ function reduceReceiveChartType(state, { data, src }) {
 function applyAxisLabels(chartOptions, dataFields) {
   const [, xLabel, yLabel] = dataFields;
   return merge(chartOptions, {
-    chartOptions: {
-      xAxis: {
-        axisLabel: xLabel,
-      },
-      yAxis: {
-        axisLabel: yLabel,
-      },
+    xAxis: {
+      axisLabel: xLabel,
+    },
+    yAxis: {
+      axisLabel: yLabel,
     },
   });
 }
