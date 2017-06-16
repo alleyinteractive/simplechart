@@ -9,7 +9,6 @@ import { AppContainer } from 'react-hot-loader';
 import thunk from 'redux-thunk';
 import receiveRawData from './middleware/receiveRawData';
 import receiveDateFormat from './middleware/receiveDateFormat';
-import receiveChartType from './middleware/receiveChartType';
 import receiveChartOptions from './middleware/receiveChartOptions';
 import receiveHelpDocument from './middleware/receiveHelpDocument';
 import actionLogging from './middleware/actionLogging';
@@ -35,7 +34,6 @@ const store = createStore(
       thunk,
       receiveRawData,
       receiveDateFormat,
-      receiveChartType,
       receiveChartOptions,
       receiveHelpDocument,
       actionLogging

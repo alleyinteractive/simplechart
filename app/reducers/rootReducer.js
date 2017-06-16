@@ -33,7 +33,6 @@ export const initialState = {
 
 const setActionReducer = createGenericReducer('$set', {
   [actions.RECEIVE_CHART_METADATA]: 'chartMetadata',
-  [actions.RECEIVE_CHART_TYPE]: 'chartType',
   [actions.RECEIVE_CMS_STATUS]: 'cmsStatus',
   [actions.UPDATE_CURRENT_STEP]: 'currentStep',
   [actions.RECEIVE_DEFAULTS_APPLIED_TO]: 'defaultsAppliedTo',
