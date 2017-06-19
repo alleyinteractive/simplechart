@@ -9,60 +9,63 @@ import {
   reduceReceiveChartType,
   reduceReceiveDateFormat,
 } from '../../app/reducers/chartOptionsReducer';
-import { selectableChartTypes, nvd3Defaults } from '../../app/constants/chartTypes.js';
+import {
+  defaultBreakpointsOpt,
+  selectableChartTypes,
+  nvd3Defaults,
+} from '../../app/constants/chartTypes.js';
+import defaultPalette from '../../app/constants/defaultPalette';
 
 describe(RECEIVE_CHART_OPTIONS, () => {
-  // test('applies default color palette', () => {
-  //
-  // });
-  //
-  // test('applies chart type config defaults', () => {
-  //
-  // });
-  //
-  // test('applies tick formatters', () => {
-  //
-  // });
-  //
-  // test('applies y domain', () => {
-  //
-  // });
-  //
-  // test('applies default break points', () => {
-  //
-  // });
-  //
-  // test('merges chart options ', () => {
-  //   const mockState = {
-  //     chartData: [],
-  //     chartOptions: {
-  //       type: 'scatterChart',
-  //       showLegend: true,
-  //       color: [],
-  //     },
-  //     chartType: {
-  //       config: {},
-  //     },
-  //   };
-  //
-  //   const action = actionTrigger(RECEIVE_CHART_OPTIONS, {
-  //     type: 'bubbleChart',
-  //     showLegend: true,
-  //     showControls: false,
-  //     color: ['#1f77b4'],
-  //   });
-  //
-  //   const expected = {
-  //     chartOptions: {
-  //       type: 'bubbleChart',
-  //       showLegend: true,
-  //       showControls: false,
-  //       color: ['#1f77b4'],
-  //     },
-  //   };
-  //
-  //   expect(reduce(mockState, action)).toEqual(expected);
-  // });
+  let mockState;
+  beforeEach(() => {
+    mockState = {
+      chartData: [
+        { key: 'foo', values: [{ x: 1, y: 1 }] },
+      ],
+      chartOptions: {
+        height: null,
+      },
+      chartType: {
+        config: {
+          dataFormat: 'nvd3',
+          modules: {
+            settings: ['YAxis'],
+          },
+        },
+      },
+    };
+  });
+
+  test('applies default color palette', () => {
+    const action = actionTrigger(RECEIVE_CHART_OPTIONS, { color: [] });
+    const result = reduceReceiveChartOptions(mockState, action);
+
+    expect(result.chartOptions.color).toEqual(defaultPalette);
+  });
+
+  test('applies tick formatters', () => {
+    const action = actionTrigger(RECEIVE_CHART_OPTIONS, {
+      tickFormatSettings: {
+        locale: 23,
+      },
+    });
+
+    const result = reduceReceiveChartOptions(mockState, action);
+    expect(result.chartOptions).toHaveProperty('yAxis');
+  });
+
+  test('applies y domain', () => {
+    const action = actionTrigger(RECEIVE_CHART_OPTIONS);
+    const result = reduceReceiveChartOptions(mockState, action);
+    expect(result.chartOptions).toHaveProperty('yDomain', [1, 1]);
+  });
+
+  test('applies default break points', () => {
+    const action = actionTrigger(RECEIVE_CHART_OPTIONS, { height: 400 });
+    const result = reduceReceiveChartOptions(mockState, action);
+    expect(result.chartOptions).toHaveProperty('breakpoints', defaultBreakpointsOpt);
+  });
 });
 
 describe('reduceReceiveChartType', () => {
@@ -94,7 +97,6 @@ describe('reduceReceiveChartType', () => {
 
     const action = actionTrigger(RECEIVE_CHART_TYPE, actionPayload, 'bootstrap.edit');
     const result = reduceReceiveChartType(mockState, action);
-
     expect(result).toMatchObject({
       chartType: actionPayload,
     });
@@ -108,7 +110,6 @@ describe('reduceReceiveChartType', () => {
       },
     });
     const result = reduceReceiveChartType(mockState, action);
-
     expect(result).toMatchObject({
       chartOptions: {
         xAxis: {
@@ -124,7 +125,6 @@ describe('reduceReceiveChartType', () => {
   test('applies chartOptions if not "bootstrapping"', () => {
     const action = actionTrigger(RECEIVE_CHART_TYPE, selectableChartTypes[2]);
     const result = reduceReceiveChartType(mockState, action).chartOptions;
-
     expect(result).toMatchObject(nvd3Defaults.nvd3MultiSeries);
     expect(result).toHaveProperty('yDomain', null);
   });
@@ -149,7 +149,6 @@ describe(RECEIVE_DATE_FORMAT, () => {
 
     const action = actionTrigger(RECEIVE_DATE_FORMAT, payload);
     const result = reduceReceiveDateFormat(mockState, action);
-
     expect(result.chartOptions).toMatchObject({
       dateFormat: payload,
     });
