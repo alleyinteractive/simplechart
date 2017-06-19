@@ -31,7 +31,7 @@ export default function chartOptionsReducer(state, action) {
 }
 
 function reduceChartOptions(state, chartOptions, src) {
-  const { chartData, chartType: { config }, defaultsAppliedTo } = state;
+  const { chartData, chartType: { config } } = state;
   let newOptions = chartOptions;
   const currentOptions = state.chartOptions;
   const isBootstrap = 0 === src.indexOf('bootstrap');
@@ -40,12 +40,6 @@ function reduceChartOptions(state, chartOptions, src) {
     !isBootstrap && (!newOptions.color || !newOptions.color.length);
   if (shouldApplyDefaultPalette) {
     newOptions = merge(newOptions, { color: defaultPalette });
-  }
-
-  const shouldApplyChartTypeDefaults = !isBootstrap && config.type &&
-    config.type !== defaultsAppliedTo;
-  if (shouldApplyChartTypeDefaults) {
-    newOptions = applyChartTypeDefaults(config, newOptions, defaultsAppliedTo);
   }
 
   const shouldApplyTickFormatters = newOptions.tickFormatSettings &&
@@ -71,16 +65,19 @@ function reduceChartOptions(state, chartOptions, src) {
 
   return merge(state, {
     chartOptions: newOptions,
-    defaultsAppliedTo: config.type,
     errorCode: '',
   });
 }
 
 function reduceReceiveChartType(state, { data, src }) {
+  const { chartType: { config } } = state;
+  const chartTypeChanged = (config ? config.type : null) !== data.config.type;
+
   // Clear yDomain on chart type change to have a default one generated.
   let chartOptions = set('yDomain', null, state.chartOptions);
+  const isBootstrap = 0 === src.indexOf('bootstrap');
 
-  const shouldPrepopulateLabels = state.chartType.type !== data.config.type &&
+  const shouldPrepopulateLabels = chartTypeChanged &&
     'nvd3ScatterMultiSeries' === data.config.dataFormat;
   if (shouldPrepopulateLabels) {
     const [, xLabel, yLabel] = state.dataFields;
@@ -92,6 +89,11 @@ function reduceReceiveChartType(state, { data, src }) {
         axisLabel: yLabel,
       },
     });
+  }
+
+  const shouldApplyChartTypeDefaults = !isBootstrap && chartTypeChanged;
+  if (shouldApplyChartTypeDefaults) {
+    chartOptions = applyChartTypeDefaults(data.config, chartOptions);
   }
 
   const newState = set('chartType', cloneDeep(data), state);

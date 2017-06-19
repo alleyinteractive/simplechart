@@ -7,37 +7,59 @@ import {
 import reduce from '../../app/reducers/chartOptionsReducer';
 import { selectableChartTypes, nvd3Defaults } from '../../app/constants/chartTypes.js';
 
-// test('merges chart options ', () => {
-//   const mockState = {
-//     chartData: [],
-//     chartOptions: {
-//       type: 'scatterChart',
-//       showLegend: true,
-//       color: [],
-//     },
-//     chartType: {
-//       config: {},
-//     },
-//   };
-//
-//   const action = actionTrigger(RECEIVE_CHART_OPTIONS, {
-//     type: 'bubbleChart',
-//     showLegend: true,
-//     showControls: false,
-//     color: ['#1f77b4'],
-//   });
-//
-//   const expected = {
-//     chartOptions: {
-//       type: 'bubbleChart',
-//       showLegend: true,
-//       showControls: false,
-//       color: ['#1f77b4'],
-//     },
-//   };
-//
-//   expect(reduce(mockState, action)).toEqual(expected);
-// });
+describe(RECEIVE_CHART_OPTIONS, () => {
+  test('applies default color palette', () => {
+
+  });
+
+  test('applies chart type config defaults', () => {
+
+  });
+
+  test('applies tick formatters', () => {
+
+  });
+
+  test('applies y domain', () => {
+
+  });
+
+  test('applies default break points', () => {
+
+  });
+
+  test('merges chart options ', () => {
+    const mockState = {
+      chartData: [],
+      chartOptions: {
+        type: 'scatterChart',
+        showLegend: true,
+        color: [],
+      },
+      chartType: {
+        config: {},
+      },
+    };
+
+    const action = actionTrigger(RECEIVE_CHART_OPTIONS, {
+      type: 'bubbleChart',
+      showLegend: true,
+      showControls: false,
+      color: ['#1f77b4'],
+    });
+
+    const expected = {
+      chartOptions: {
+        type: 'bubbleChart',
+        showLegend: true,
+        showControls: false,
+        color: ['#1f77b4'],
+      },
+    };
+
+    expect(reduce(mockState, action)).toEqual(expected);
+  });
+});
 
 describe(RECEIVE_CHART_TYPE, () => {
   let mockState;
@@ -78,7 +100,6 @@ describe(RECEIVE_CHART_TYPE, () => {
 
     expect(reduce(mockState, action)).toMatchObject({
       chartType: actionPayload,
-      defaultsAppliedTo: 'bubbleChart',
       errorCode: '',
     });
   });
