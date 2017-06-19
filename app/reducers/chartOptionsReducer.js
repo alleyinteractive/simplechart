@@ -9,9 +9,9 @@ import {
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
 import applyTickFormatters from './utils/applyTickFormatters';
 import applyYDomain from './utils/applyYDomain';
-import { transformParsedData } from '../utils/rawDataHelpers';
 import { defaultBreakpointsOpt } from '../constants/chartTypes';
 import defaultPalette from '../constants/defaultPalette';
+import { transformParsedData } from '../utils/rawDataHelpers';
 
 export default function chartOptionsReducer(state, action) {
   switch (action.type) {
@@ -35,7 +35,6 @@ function reduceChartOptions(state, chartOptions, src) {
   let newOptions = chartOptions;
   const currentOptions = state.chartOptions;
   const isBootstrap = 0 === src.indexOf('bootstrap');
-  const configType = config ? config.type : null;
 
   const shouldApplyDefaultPalette = !currentOptions.color.length &&
     !isBootstrap && (!newOptions.color || !newOptions.color.length);
@@ -43,8 +42,8 @@ function reduceChartOptions(state, chartOptions, src) {
     newOptions = merge(newOptions, { color: defaultPalette });
   }
 
-  const shouldApplyChartTypeDefaults = !isBootstrap && configType &&
-    configType !== defaultsAppliedTo;
+  const shouldApplyChartTypeDefaults = !isBootstrap && config.type &&
+    config.type !== defaultsAppliedTo;
   if (shouldApplyChartTypeDefaults) {
     newOptions = applyChartTypeDefaults(config, newOptions, defaultsAppliedTo);
   }
@@ -61,12 +60,11 @@ function reduceChartOptions(state, chartOptions, src) {
     newOptions = applyYDomain(newOptions, config, chartData);
   }
 
-  const defaultHeight = newOptions.height || currentOptions.height;
-  const shouldApplyDefaultBreakpoint = !newOptions.breakpoints &&
+  const shouldApplyBreakpoints = !newOptions.breakpoints &&
     !currentOptions.breakpoints;
-  if (shouldApplyDefaultBreakpoint) {
+  if (shouldApplyBreakpoints) {
     const breakpoints = merge(defaultBreakpointsOpt, {
-      values: [{ height: defaultHeight }],
+      values: [{ height: newOptions.height || currentOptions.height }],
     });
     newOptions = merge(newOptions, { breakpoints });
   }
