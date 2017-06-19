@@ -19,6 +19,7 @@ export const initialState = {
       validated: false,
       formatString: '',
     },
+    color: [],
   },
   chartType: {},
   cmsStatus: '',

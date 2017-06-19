@@ -4,8 +4,8 @@ import NVD3Chart from 'react-nvd3';
 import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
 import { getChartTypeObject, getChartTypeDefaultOpts } from '../../../../utils/chartTypeUtils';
-import applyYDomain from '../../../../middleware/utils/applyYDomain.js';
-import applyTickFormatters from '../../../../middleware/utils/applyTickFormatters';
+import applyYDomain from '../../../../reducers/utils/applyYDomain.js';
+import applyTickFormatters from '../../../../reducers/utils/applyTickFormatters';
 
 export default class NVD3Adapter extends Component {
   constructor(props) {
