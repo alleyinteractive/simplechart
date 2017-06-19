@@ -16,7 +16,7 @@ import {
 } from '../../app/constants/chartTypes.js';
 import defaultPalette from '../../app/constants/defaultPalette';
 
-describe(RECEIVE_CHART_OPTIONS, () => {
+describe('reduceReceiveChartOptions', () => {
   let mockState;
   beforeEach(() => {
     mockState = {

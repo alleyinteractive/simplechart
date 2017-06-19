@@ -52,8 +52,7 @@ export function reduceReceiveChartOptions(state, { data, src }) {
     }
   }
 
-  const shouldApplyYDomain = !newOptions.yDomain &&
-    0 < chartData.length && config;
+  const shouldApplyYDomain = chartData.length && config && !newOptions.yDomain;
   if (shouldApplyYDomain) {
     newOptions = applyYDomain(newOptions, config, chartData);
   }
