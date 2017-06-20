@@ -7,7 +7,7 @@ import ChartDataFormatter from '../ChartDataFormatter';
 import ChartSettings from '../ChartSettings';
 import ChartTypeSelector from '../ChartTypeSelector';
 import ChartLayout from '../ChartLayout';
-import { appSteps } from '../../constants/appSteps';
+import appSteps from '../../constants/appSteps';
 import * as styles from './ChartEditor.css';
 
 export default class ChartEditor extends AppComponent {

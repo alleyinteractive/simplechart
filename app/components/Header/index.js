@@ -4,7 +4,7 @@ import { Fixed, Button, SequenceMap } from 'rebass';
 import { connect } from 'react-redux';
 import logoSvg from '../../img/simplechartLogo.svg';
 import * as styles from './Header.css';
-import { appSteps } from '../../constants/appSteps';
+import appSteps from '../../constants/appSteps';
 import actionTrigger, { closeApp } from '../../actions';
 import { UPDATE_CURRENT_STEP } from '../../constants';
 import SaveChart from '../SaveChart';

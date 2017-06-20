@@ -10,10 +10,10 @@ export default function ListBlock(props) {
       px={2}
     >
       <ul>
-        {props.list.map((item, i) =>
+        {props.list.map((item) =>
           (<li
             className={styles.listBlockItem}
-            key={i} // eslint-disable-line
+            key={item}
           >{item}</li>)
         )}
       </ul>

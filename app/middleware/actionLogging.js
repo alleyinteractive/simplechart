@@ -2,7 +2,7 @@
 import diff from 'deep-diff';
 import enableActionLogging from '../constants/enableActionLogging';
 import * as actions from '../constants';
-import { actionsMap } from '../constants/actionsStateKeysMap';
+import actionsMap from '../constants/actionsStateKeysMap';
 
 function getStringChange(oldVal, newVal) {
   if (oldVal === newVal) {
@@ -145,7 +145,7 @@ function isEnabled() {
   if (!enableActionLogging.enabled) {
     return false;
   }
-  return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? // eslint-disable-line
+  return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? // eslint-disable-line no-underscore-dangle
     enableActionLogging.enableIfReduxDevTools : true;
 }
 

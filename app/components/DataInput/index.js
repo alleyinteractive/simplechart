@@ -11,10 +11,10 @@ import {
   RECEIVE_ERROR,
   CLEAR_ERROR,
 } from '../../constants';
-import { sampleData } from '../../constants/sampleData';
+import sampleData from '../../constants/sampleData';
 import actionTrigger, { requestGoogleSheet } from '../../actions';
 import ListBlock from '../Layout/RebassComponents/ListBlock';
-import { appSteps } from '../../constants/appSteps';
+import appSteps from '../../constants/appSteps';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 import DateFormatter from './DateFormatter';
 import ChartTitle from './ChartTitle';

@@ -76,8 +76,12 @@ class ErrorMessage extends Component {
   }
 }
 
+ErrorMessage.defaultProps = {
+  override: {},
+};
+
 ErrorMessage.propTypes = {
-  override: PropTypes.object.isRequired,
+  override: PropTypes.object,
   code: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
 };

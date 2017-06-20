@@ -5,7 +5,7 @@ import stockMarkets from './stockMarkets.csv';
 import engineMpg from './engineMpg.csv';
 import products from './productsRevenueRatingProductionCost.csv';
 
-export const sampleData = [ // eslint-disable-line
+export default [
   {
     label: 'Single Data Series',
     data: singleSeries,

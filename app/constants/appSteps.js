@@ -1,4 +1,4 @@
-export const appSteps = [ // eslint-disable-line
+export default [
   'Data Input',
   'Chart Type',
   'Settings',
