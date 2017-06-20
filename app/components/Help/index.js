@@ -6,6 +6,7 @@ import actionTrigger from '../../actions';
 import * as styles from './Help.css';
 import { CLEAR_HELP_DOCUMENT, RECEIVE_ERROR } from '../../constants';
 import closeSvg from '../../img/icons/times-circle.svg';
+import helpPages from '../../pages/help';
 
 /**
  * Show Help content from Markdown file
@@ -37,12 +38,9 @@ class Help extends Component {
       return '';
     }
 
-    let content;
-    try {
-      content = require(`../../pages/help/${docName}.md`); // eslint-disable-line
-    } catch (e) {
+    const content = helpPages[docName] || '';
+    if (!content.length) {
       this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e008'));
-      content = '';
     }
 
     return content;
