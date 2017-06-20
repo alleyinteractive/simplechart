@@ -101,7 +101,9 @@ class Chart extends Component {
 
   componentWillReceiveProps(nextProps) {
     // handle if chart type changes
-    if (Chart.getComponentName(nextProps) !== Chart.getComponentName(this.props)) { // eslint-disable-line max-len
+    if (
+      Chart.getComponentName(nextProps) !== Chart.getComponentName(this.props)
+    ) {
       this.loadChartType(nextProps.options.type);
     }
 

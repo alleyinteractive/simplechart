@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { AppContainer } from 'react-hot-loader';
 
-import '!!style-loader!raw-loader!nvd3/build/nv.d3.css'; // eslint-disable-line import/no-webpack-loader-syntax
+import 'nvd3/build/nv.d3.css';
 
 // Middleware
 import thunk from 'redux-thunk';

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import update from 'immutability-helper';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
+import modules from './modules';
+import customModules from './modules/custom';
 
 class ChartSettings extends Component {
   constructor() {
@@ -33,11 +35,13 @@ class ChartSettings extends Component {
     if (!config.settingsComponent) {
       return null;
     }
-    const module = require(`./modules/custom/${config.settingsComponent}`).default; // eslint-disable-line
-    return React.createElement(module, {
-      options: this.props.options,
-      defaultExpand: this.shouldDefaultExpand(),
-    });
+    const Module = customModules[config.settingsComponent];
+    return (
+      <Module
+        options={this.props.options}
+        defaultExpand={this.shouldDefaultExpand()}
+      />
+    );
   }
 
   renderModule(name) {
@@ -52,8 +56,9 @@ class ChartSettings extends Component {
       metadata: { $set: 'Metadata' === name ? this.props.metadata : {} },
       data: { $set: 'ColorPalette' === name ? this.props.data : [] },
     });
-    const module = require(`./modules/${name}`).default; // eslint-disable-line
-    return React.createElement(module, moduleProps);
+
+    const Module = modules[name];
+    return <Module {...moduleProps} />;
   }
 
   render() {
