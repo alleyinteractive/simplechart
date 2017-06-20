@@ -14,7 +14,7 @@ let getState;
 
 beforeEach(() => {
   jest.resetAllMocks();
-  fetch = require('isomorphic-fetch'); // eslint-disable-line
+  fetch = require('isomorphic-fetch'); // eslint-disable-line global-require
   dispatch = jest.fn();
   getState = jest.fn();
 });

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Switch, Label, Text } from 'rebass';
 import * as styles from '../DataInput.css';
@@ -26,9 +25,7 @@ class DateFormatter extends Component {
 
   componentDidUpdate() {
     if (this.props.dateFormat.enabled) {
-      ReactDOM.findDOMNode(this) // eslint-disable-line
-        .querySelector('[name="formatString"]')
-        .focus();
+      this.node.querySelector('[name="formatString"]').focus();
     }
   }
 
@@ -56,7 +53,12 @@ class DateFormatter extends Component {
     const containerClass =
       `${styles.optionsContainer} ${styles.dateFormatterContainer}`;
     return (
-      <div className={containerClass}>
+      <div
+        className={containerClass}
+        ref={(node) => {
+          this.node = node;
+        }}
+      >
         <Switch
           checked={this.props.dateFormat.enabled}
           onClick={this.toggleFormatter}

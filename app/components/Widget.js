@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ReactDOM from 'react-dom';
 import Chart from './Chart';
 
 class Widget extends Component {
@@ -38,11 +37,12 @@ class Widget extends Component {
 
   componentDidUpdate() {
     let widget;
-    try {
-      widget = ReactDOM.findDOMNode(this).parentElement.parentElement; // eslint-disable-line
-    } catch (err) {
+    if (this.node) {
+      widget = this.node.parentElement.parentElement;
+    } else {
       return;
     }
+
     if (this.state.data) {
       Widget.renderMetadata(widget, this.state.data.metadata || {});
     }
@@ -52,6 +52,9 @@ class Widget extends Component {
     if (this.state.data) {
       return (
         <Chart
+          ref={(node) => {
+            this.node = node;
+          }}
           data={this.state.data.data}
           options={this.state.data.options}
           metadata={this.state.data.metadata}
