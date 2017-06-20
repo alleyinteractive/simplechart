@@ -97,6 +97,7 @@ class AccordionBlock extends Component {
 AccordionBlock.defaultProps = {
   updateExpandOnProps: false,
   toggleCallback: () => {},
+  tooltip: '',
 };
 
 AccordionBlock.propTypes = {
@@ -104,7 +105,7 @@ AccordionBlock.propTypes = {
   title: PropTypes.string.isRequired,
   defaultExpand: PropTypes.bool.isRequired,
   updateExpandOnProps: PropTypes.bool,
-  tooltip: PropTypes.string.isRequired,
+  tooltip: PropTypes.string,
   toggleCallback: PropTypes.func,
 };
 

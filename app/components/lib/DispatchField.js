@@ -68,6 +68,7 @@ class DispatchField extends Component {
 
 DispatchField.defaultProps = {
   action: '',
+  handler: () => {},
 };
 
 DispatchField.propTypes = {
@@ -75,7 +76,7 @@ DispatchField.propTypes = {
   action: PropTypes.string,
   fieldProps: PropTypes.object.isRequired,
   fieldType: PropTypes.string.isRequired,
-  handler: PropTypes.func.isRequired,
+  handler: PropTypes.func,
 };
 
 export default connect()(DispatchField);
