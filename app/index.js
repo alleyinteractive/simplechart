@@ -10,9 +10,6 @@ import '!!style-loader!raw-loader!nvd3/build/nv.d3.css'; // eslint-disable-line 
 // Middleware
 import thunk from 'redux-thunk';
 import receiveRawData from './middleware/receiveRawData';
-import receiveDateFormat from './middleware/receiveDateFormat';
-import receiveChartType from './middleware/receiveChartType';
-import receiveChartOptions from './middleware/receiveChartOptions';
 import receiveHelpDocument from './middleware/receiveHelpDocument';
 import actionLogging from './middleware/actionLogging';
 
@@ -35,9 +32,6 @@ const store = createStore(
     applyMiddleware(
       thunk,
       receiveRawData,
-      receiveDateFormat,
-      receiveChartType,
-      receiveChartOptions,
       receiveHelpDocument,
       actionLogging
     )

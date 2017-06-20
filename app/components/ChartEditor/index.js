@@ -14,6 +14,8 @@ export default class ChartEditor extends AppComponent {
   constructor(props) {
     super(props);
     this.updateDimensions = this.updateDimensions.bind(this);
+    this.displayChart = this.displayChart.bind(this);
+    this.state = {};
   }
 
   componentDidMount() {

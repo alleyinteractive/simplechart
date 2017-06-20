@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 const checkDataValid = createSelector(
   (state) => state.dataStatus.status,
-  (state) => state.dateFormat,
+  (state) => state.chartOptions.dateFormat,
   (status, dateFormat = {}) => {
     // Check for valid data input
     // Errors w/ invalid data would have already surfaced in rawDataMiddleware

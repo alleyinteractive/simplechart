@@ -1,6 +1,3 @@
-/**
- * For IE11 support
- */
 import fetch from 'isomorphic-fetch';
 import { polyfill } from 'es6-promise';
 import {
@@ -10,10 +7,12 @@ import {
   RECEIVE_WIDGET_DATA,
   RECEIVE_WIDGET_OPTIONS,
   RECEIVE_WIDGET_METADATA,
+  UPDATE_CURRENT_STEP,
 } from '../constants';
-import { receiveMessage, setupPostMessage } from '../utils/postMessage';
+import { receiveMessage, setupPostMessage, sendMessage } from '../utils/postMessage';
 import bootstrapStore from '../utils/bootstrapStore';
 
+// For IE11 support
 polyfill();
 
 export default function actionTrigger(type, data, src = '') {
@@ -159,6 +158,13 @@ export function listenerWidgetData(widgetEl, dispatch) {
     }
   }
   widgetEl.addEventListener('widgetData', receiveData, true);
+}
+
+export function closeApp() {
+  return (dispatch) => {
+    sendMessage('closeApp');
+    dispatch(actionTrigger(UPDATE_CURRENT_STEP, 0));
+  };
 }
 
 export { default as requestGoogleSheet } from './requestGoogleSheet';

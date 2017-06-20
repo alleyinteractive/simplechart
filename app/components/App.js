@@ -50,7 +50,7 @@ class App extends Component {
         metadata: this.props.state.chartMetadata,
         rawData: this.props.state.rawData,
         dataStatus: this.props.state.dataStatus,
-        dateFormat: this.props.state.dateFormat,
+        dateFormat: this.props.state.chartOptions.dateFormat,
         firstCol: this.firstParsedCol(),
       });
     }

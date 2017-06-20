@@ -4,16 +4,9 @@
 import update from 'immutability-helper';
 import { getChartTypeDefaultOpts } from '../../utils/chartTypeUtils';
 
-export default function applyChartTypeDefaults(
-  chartTypeConfig,
-  chartOptions,
-  defaultsAppliedTo
-) {
+export default function applyChartTypeDefaults(chartTypeConfig, chartOptions) {
   // In case we got no chart type, or defaults already set for this chart type
-  if (!chartTypeConfig ||
-    !chartTypeConfig.type ||
-    defaultsAppliedTo === chartTypeConfig.type
-  ) {
+  if (!chartTypeConfig || !chartTypeConfig.type) {
     return chartOptions;
   }
 

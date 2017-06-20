@@ -5,10 +5,9 @@ import { connect } from 'react-redux';
 import logoSvg from '!!raw-loader!../../img/simplechartLogo.svg'; // eslint-disable-line
 import * as styles from './Header.css';
 import { appSteps } from '../../constants/appSteps';
-import actionTrigger from '../../actions';
+import actionTrigger, { closeApp } from '../../actions';
 import { UPDATE_CURRENT_STEP } from '../../constants';
 import SaveChart from '../SaveChart';
-import { sendMessage } from '../../utils/postMessage';
 import ErrorMessage from './ErrorMessage';
 import { getIsNextStepAvailable } from '../../selectors';
 
@@ -62,7 +61,7 @@ class Header extends Component {
 
   cancelEdits() {
     if (!this.props.unsavedChanges) {
-      sendMessage('closeApp');
+      this.props.dispatch(closeApp());
       return;
     }
     this.setState({ showUnsavedWarning: true });
@@ -70,7 +69,7 @@ class Header extends Component {
 
   closeUnsavedWarning(evt) {
     if (evt.target.hasAttribute('data-closeApp')) {
-      sendMessage('closeApp');
+      this.props.dispatch(closeApp());
     }
     this.setState({ showUnsavedWarning: false });
   }
