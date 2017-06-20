@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // If hash is passed from command line, e.g. $ npm run build abcd123
 const hashProvided = 5 <= process.argv.length &&
   /^[a-z0-9]+$/.test(process.argv[4]);
+const modulesDir = path.resolve(__dirname, 'node_modules');
 
 const plugins = [
   new WebpackGitHash({
@@ -33,13 +34,13 @@ const plugins = [
   new HtmlWebpackPlugin({
     inject: false,
     template: './index.hbs',
-    filename: path.join(__dirname, 'index.html'),
+    filename: path.resolve(__dirname, 'index.html'),
     excludeChunks: ['widget'],
   }),
   new HtmlWebpackPlugin({
     inject: false,
     template: './widget.hbs',
-    filename: path.join(__dirname, 'widget.html'),
+    filename: path.resolve(__dirname, 'widget.html'),
     chunks: ['widget'],
   }),
 ];
@@ -55,7 +56,7 @@ module.exports = {
     ],
   },
   output: {
-    path: path.join(__dirname, 'static'),
+    path: path.resolve(__dirname, 'static'),
     publicPath: '',
     filename: '[name].[githash].js',
     chunkFilename: '[id].[githash].chunk.js',
@@ -67,27 +68,19 @@ module.exports = {
       {
         test: /\.js$/,
         enforce: 'pre',
-        exclude: /node_modules/,
-        use: {
-          loader: 'eslint-loader',
-        },
+        exclude: modulesDir,
+        use: ['eslint-loader'],
       },
       {
         test: /\.js$/,
-        include: path.join(__dirname, 'app'),
-        use: [
-          {
-            loader: 'babel-loader',
-          },
-        ],
+        include: path.resolve(__dirname, 'app'),
+        use: ['babel-loader'],
       },
       {
         test: /\.css$/,
-        exclude: '/node_modules/',
+        exclude: modulesDir,
         use: [
-          {
-            loader: 'style-loader',
-          },
+          'style-loader',
           {
             loader: 'css-loader',
             options: {
@@ -95,9 +88,7 @@ module.exports = {
               localIdentName: '[name]__[local]___[hash:base64:5]',
             },
           },
-          {
-            loader: 'postcss-loader',
-          },
+          'postcss-loader',
         ],
       },
       {
@@ -114,13 +105,25 @@ module.exports = {
       {
         test: /\.md$/,
         use: [
-          {
-            loader: 'html-loader',
-          },
-          {
-            loader: 'markdown-loader',
-          },
+          'html-loader',
+          'markdown-loader',
         ],
+      },
+      {
+        test: /\.css$/,
+        include: modulesDir,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.(svg|csv)$/,
+        include: [
+          path.resolve(__dirname, 'app/img'),
+          path.resolve(__dirname, 'app/constants/sampleData')
+        ],
+        use: ['raw-loader'],
       },
       {
         test: /\.hbs$/,

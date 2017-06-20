@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import actionTrigger from '../../../actions';
 import { RECEIVE_HELP_DOCUMENT } from '../../../constants';
-import infoSvg from '!!raw-loader!../../../img/icons/info-circle.svg'; // eslint-disable-line
+import infoSvg from '../../../img/icons/info-circle.svg';
 import * as styles from './HelpTrigger.css';
 
 /**

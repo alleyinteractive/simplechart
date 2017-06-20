@@ -1,9 +1,9 @@
-import singleSeries from '!!raw-loader!./singleSeries.csv'; // eslint-disable-line
-import countriesByYear from '!!raw-loader!./countriesByYear.csv'; // eslint-disable-line
-import emissionsPerCountry from '!!raw-loader!./emissionsPerCountry.csv'; // eslint-disable-line
-import stockMarkets from '!!raw-loader!./stockMarkets.csv'; // eslint-disable-line
-import engineMpg from '!!raw-loader!./engineMpg.csv'; // eslint-disable-line
-import products from '!!raw-loader!./productsRevenueRatingProductionCost.csv'; // eslint-disable-line
+import singleSeries from './singleSeries.csv';
+import countriesByYear from './countriesByYear.csv';
+import emissionsPerCountry from './emissionsPerCountry.csv';
+import stockMarkets from './stockMarkets.csv';
+import engineMpg from './engineMpg.csv';
+import products from './productsRevenueRatingProductionCost.csv';
 
 export const sampleData = [ // eslint-disable-line
   {

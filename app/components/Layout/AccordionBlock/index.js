@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Panel, PanelHeader, Space, Tooltip } from 'rebass';
-import infoSvg from '!!raw-loader!../../../img/icons/info-circle.svg'; // eslint-disable-line
-import downSvg from '!!raw-loader!../../../img/icons/chevron-circle-down.svg'; // eslint-disable-line
-import upSvg from '!!raw-loader!../../../img/icons/chevron-circle-up.svg';  // eslint-disable-line
+import infoSvg from '../../../img/icons/info-circle.svg';
+import downSvg from '../../../img/icons/chevron-circle-down.svg';
+import upSvg from '../../../img/icons/chevron-circle-up.svg';
 import * as styles from './AccordionBlock.css';
 
 class AccordionBlock extends Component {

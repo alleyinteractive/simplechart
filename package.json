@@ -99,6 +99,7 @@
     "react-redux": "4.4.x",
     "rebass": "0.3.x",
     "redux": "3.5.x",
+    "redux-devtools-extension": "2.13.x",
     "redux-thunk": "2.1.x",
     "reselect": "3.0.x"
   }

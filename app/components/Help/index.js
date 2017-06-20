@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import 'github-markdown-css/github-markdown.css';
 import actionTrigger from '../../actions';
 import * as styles from './Help.css';
 import { CLEAR_HELP_DOCUMENT, RECEIVE_ERROR } from '../../constants';
-import closeSvg from '!!raw-loader!../../img/icons/times-circle.svg'; // eslint-disable-line
-import markdownCSS from '!!style-loader!css-loader!../../../node_modules/github-markdown-css/github-markdown.css';  // eslint-disable-line
+import closeSvg from '../../img/icons/times-circle.svg';
 
 /**
  * Show Help content from Markdown file

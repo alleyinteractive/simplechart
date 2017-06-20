@@ -2,7 +2,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { AppContainer } from 'react-hot-loader';
 
 import '!!style-loader!raw-loader!nvd3/build/nv.d3.css'; // eslint-disable-line import/no-webpack-loader-syntax
@@ -23,12 +24,10 @@ import getPublicPath from './utils/getPublicPath';
 // Set public path for loading chunks and other assets
 __webpack_public_path__ = __webpack_public_path__ || getPublicPath(); // eslint-disable-line camelcase,no-undef
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // eslint-disable-line no-underscore-dangle
-
 const store = createStore(
   rootReducer,
   initialState,
-  composeEnhancers(
+  composeWithDevTools(
     applyMiddleware(
       thunk,
       receiveRawData,

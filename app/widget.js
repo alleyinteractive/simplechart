@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import '!!style-loader!raw-loader!nvd3/build/nv.d3.css'; // eslint-disable-line import/no-webpack-loader-syntax
+import 'nvd3/build/nv.d3.css';
 
 import actionTrigger, { ajaxWidgetData, listenerWidgetData } from './actions';
 import { RECEIVE_WIDGET } from './constants';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Fixed, Button, SequenceMap } from 'rebass';
 import { connect } from 'react-redux';
-import logoSvg from '!!raw-loader!../../img/simplechartLogo.svg'; // eslint-disable-line
+import logoSvg from '../../img/simplechartLogo.svg';
 import * as styles from './Header.css';
 import { appSteps } from '../../constants/appSteps';
 import actionTrigger, { closeApp } from '../../actions';

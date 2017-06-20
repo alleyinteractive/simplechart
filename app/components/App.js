@@ -5,7 +5,7 @@ import DataInput from './DataInput';
 import ChartEditor from './ChartEditor';
 import Header from './Header';
 import Help from './Help';
-import * as rebassHover from '../styles/RebassHover.css'; // eslint-disable-line no-unused-vars
+import '../styles/RebassHover.css';
 import { appCover } from '../styles/App.css';
 
 class App extends Component {

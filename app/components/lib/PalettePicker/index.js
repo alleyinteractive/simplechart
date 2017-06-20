@@ -5,7 +5,7 @@ import update from 'immutability-helper';
 import { Select } from 'rebass';
 // Use Mapbox's colorpickr component
 import ColorPicker from '@mapbox/react-colorpickr';
-import '!!style-loader!raw-loader!@mapbox/react-colorpickr/dist/colorpickr.css'; // eslint-disable-line
+import '@mapbox/react-colorpickr/dist/colorpickr.css';
 import { debounce, loopArrayItemAtIndex } from '../../../utils/misc';
 import { RECEIVE_CHART_OPTIONS } from '../../../constants';
 import actionTrigger from '../../../actions';
