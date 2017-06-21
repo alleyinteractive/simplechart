@@ -9,6 +9,11 @@ import {
 import { getObjArrayKey, capitalize } from '../../../utils/misc';
 
 export default class Metadata extends Component {
+  static propTypes = {
+    metadata: PropTypes.object.isRequired,
+    defaultExpand: PropTypes.bool.isRequired,
+  };
+
   state = {
     title: '',
     caption: '',
@@ -60,8 +65,3 @@ export default class Metadata extends Component {
     );
   }
 }
-
-Metadata.propTypes = {
-  metadata: PropTypes.object.isRequired,
-  defaultExpand: PropTypes.bool.isRequired,
-};

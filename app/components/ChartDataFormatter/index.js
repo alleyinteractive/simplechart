@@ -12,6 +12,10 @@ import {
 } from '../../constants/defaultTickFormatSettings';
 
 class ChartDataFormatter extends Component {
+  static propTypes = {
+    options: PropTypes.object.isRequired,
+  };
+
   static handleProps(settings) {
     return update(defaultTickFormatSettings, { $merge: settings });
   }
@@ -154,9 +158,5 @@ class ChartDataFormatter extends Component {
     );
   }
 }
-
-ChartDataFormatter.propTypes = {
-  options: PropTypes.object.isRequired,
-};
 
 export default connect()(ChartDataFormatter);

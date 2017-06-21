@@ -10,6 +10,12 @@ import * as dateUtils from '../../../utils/parseDate';
 import actionTrigger from '../../../actions';
 
 class DateFormatter extends Component {
+  static propTypes = {
+    dateFormat: PropTypes.object.isRequired,
+    dates: PropTypes.array.isRequired,
+    dispatch: PropTypes.func.isRequired,
+  };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.dates.toString() !== this.props.dates.toString()) {
       this.validate(nextProps.dateFormat.formatString, nextProps.dates);
@@ -92,11 +98,5 @@ class DateFormatter extends Component {
     );
   }
 }
-
-DateFormatter.propTypes = {
-  dateFormat: PropTypes.object.isRequired,
-  dates: PropTypes.array.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
 
 export default connect()(DateFormatter);

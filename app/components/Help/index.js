@@ -12,6 +12,11 @@ import helpPages from '../../pages/help';
  * Show Help content from Markdown file
  */
 class Help extends Component {
+  static propTypes = {
+    docName: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
+  };
+
   state = { content: '' };
 
   componentWillMount() {
@@ -64,10 +69,5 @@ class Help extends Component {
     );
   }
 }
-
-Help.propTypes = {
-  docName: PropTypes.string.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
 
 export default connect()(Help);

@@ -6,6 +6,20 @@ import { UPDATE_CURRENT_STEP } from '../../../constants';
 import actionTrigger from '../../../actions';
 
 class NextPrevButton extends Component {
+  static propTypes = {
+    text: PropTypes.string.isRequired,
+    currentStep: PropTypes.number.isRequired,
+    dir: PropTypes.string.isRequired,
+    shouldEnable: PropTypes.bool,
+    callback: PropTypes.func,
+    dispatch: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    shouldEnable: true,
+    callback: () => {},
+  };
+
   /**
    * Default to enabling button
    */
@@ -48,19 +62,5 @@ class NextPrevButton extends Component {
     );
   }
 }
-
-NextPrevButton.defaultProps = {
-  shouldEnable: true,
-  callback: () => {},
-};
-
-NextPrevButton.propTypes = {
-  text: PropTypes.string.isRequired,
-  currentStep: PropTypes.number.isRequired,
-  dir: PropTypes.string.isRequired,
-  shouldEnable: PropTypes.bool,
-  callback: PropTypes.func,
-  dispatch: PropTypes.func.isRequired,
-};
 
 export default connect()(NextPrevButton);

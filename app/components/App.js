@@ -9,6 +9,10 @@ import '../styles/RebassHover.css';
 import { appCover } from '../styles/App.css';
 
 class App extends Component {
+  static propTypes = {
+    state: PropTypes.object.isRequired,
+  };
+
   /**
    * Overlay should capture all clicks to prevent interaction
    * with the editor while the CMS parent page is saving
@@ -72,10 +76,6 @@ class App extends Component {
     );
   }
 }
-
-App.propTypes = {
-  state: PropTypes.object.isRequired,
-};
 
 // Which props to inject from the global atomic state
 export default connect((state) =>

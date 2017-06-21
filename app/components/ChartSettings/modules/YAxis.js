@@ -8,6 +8,10 @@ import {
 import { getObjArrayKey } from '../../../utils/misc';
 
 export default class YAxis extends Component {
+  static propTypes = {
+    options: PropTypes.object.isRequired,
+    defaultExpand: PropTypes.bool.isRequired,
+  };
 
   handleYDomain = (fieldProps, value) => {
     let domain = this.props.options.yDomain || [];
@@ -64,8 +68,3 @@ export default class YAxis extends Component {
     );
   }
 }
-
-YAxis.propTypes = {
-  options: PropTypes.object.isRequired,
-  defaultExpand: PropTypes.bool.isRequired,
-};

@@ -13,6 +13,11 @@ import { selectableChartTypes } from '../../constants/chartTypes';
 import { getChartTypeObject } from '../../utils/chartTypeUtils';
 
 class ChartTypeSelector extends Component {
+  static propTypes = {
+    transformedData: PropTypes.object.isRequired,
+    typeObj: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
+  };
 
   componentWillMount() {
     if (this.getChartType()) {
@@ -76,11 +81,5 @@ class ChartTypeSelector extends Component {
     );
   }
 }
-
-ChartTypeSelector.propTypes = {
-  transformedData: PropTypes.object.isRequired,
-  typeObj: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
 
 export default connect()(ChartTypeSelector);

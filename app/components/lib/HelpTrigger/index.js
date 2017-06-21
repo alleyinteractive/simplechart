@@ -11,6 +11,16 @@ import * as styles from './HelpTrigger.css';
  * by sending the name of a Markdown doc to Redux
  */
 class HelpTrigger extends Component {
+  static propTypes = {
+    docName: PropTypes.string.isRequired,
+    style: PropTypes.object,
+    dispatch: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    style: {},
+  };
+
   dispatch = () => {
     // Toggling the panel is handled in middleware
     this.props.dispatch(
@@ -30,15 +40,5 @@ class HelpTrigger extends Component {
     );
   }
 }
-
-HelpTrigger.defaultProps = {
-  style: {},
-};
-
-HelpTrigger.propTypes = {
-  docName: PropTypes.string.isRequired,
-  style: PropTypes.object,
-  dispatch: PropTypes.func.isRequired,
-};
 
 export default connect()(HelpTrigger);

@@ -13,6 +13,11 @@ import DispatchField from '../lib/DispatchField';
 import { defaultBreakpoint } from '../../constants/chartTypes';
 
 class ChartLayout extends Component {
+  static propTypes = {
+    options: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
+  };
+
   /**
    * Determine if a "no max width" breakpoint can be added
    *
@@ -211,10 +216,5 @@ class ChartLayout extends Component {
     );
   }
 }
-
-ChartLayout.propTypes = {
-  options: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
 
 export default connect()(ChartLayout);

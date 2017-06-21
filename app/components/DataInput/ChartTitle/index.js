@@ -7,6 +7,10 @@ import HelpTrigger from '../../lib/HelpTrigger';
 import * as styles from './ChartTitle.css';
 
 class ChartTitle extends Component {
+  static propTypes = {
+    metadata: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     this.setState({ title: this.props.metadata.title || '' });
   }
@@ -40,9 +44,5 @@ class ChartTitle extends Component {
     );
   }
 }
-
-ChartTitle.propTypes = {
-  metadata: PropTypes.object.isRequired,
-};
 
 export default connect()(ChartTitle);

@@ -11,6 +11,10 @@ import appSteps from '../../constants/appSteps';
 import * as styles from './ChartEditor.css';
 
 export default class ChartEditor extends AppComponent {
+  static propTypes = {
+    appState: PropTypes.object,
+  };
+
   state = {};
 
   componentDidMount() {
@@ -105,7 +109,3 @@ export default class ChartEditor extends AppComponent {
     );
   }
 }
-
-ChartEditor.propTypes = {
-  appState: PropTypes.object,
-};

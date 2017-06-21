@@ -10,6 +10,13 @@ import saveChartLabels from '../../constants/saveChartLabels';
 import { getSaveData } from '../../selectors';
 
 class SaveChart extends Component {
+  static propTypes = {
+    saveData: PropTypes.object.isRequired,
+    buttonStyleAttr: PropTypes.object.isRequired,
+    cmsStatus: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
+  };
+
   static mapStateToProps(state) {
     return {
       saveData: getSaveData(state),
@@ -38,12 +45,5 @@ class SaveChart extends Component {
     );
   }
 }
-
-SaveChart.propTypes = {
-  saveData: PropTypes.object.isRequired,
-  buttonStyleAttr: PropTypes.object.isRequired,
-  cmsStatus: PropTypes.string.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
 
 export default connect(SaveChart.mapStateToProps)(SaveChart);

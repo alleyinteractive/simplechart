@@ -9,6 +9,16 @@ import { CLEAR_ERROR } from '../../../constants';
 import actionTrigger from '../../../actions';
 
 class ErrorMessage extends Component {
+  static propTypes = {
+    override: PropTypes.object,
+    code: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    override: {},
+  };
+
   static toSetState(props) {
     // display message if we have an error code or JSX children
     // clear children unless code e000 is passed
@@ -71,15 +81,5 @@ class ErrorMessage extends Component {
     );
   }
 }
-
-ErrorMessage.defaultProps = {
-  override: {},
-};
-
-ErrorMessage.propTypes = {
-  override: PropTypes.object,
-  code: PropTypes.string.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
 
 export default connect()(ErrorMessage);

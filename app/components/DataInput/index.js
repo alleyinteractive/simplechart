@@ -21,6 +21,17 @@ import ChartTitle from './ChartTitle';
 import { getIsNextStepAvailable } from '../../selectors';
 
 class DataInput extends AppComponent {
+  static propTypes = {
+    rawData: PropTypes.string,
+    metadata: PropTypes.object,
+    dataStatus: PropTypes.object,
+    dateFormat: PropTypes.object,
+    firstCol: PropTypes.array,
+    dispatch: PropTypes.func,
+    canLoadSheet: PropTypes.bool,
+    isNextStepAvailable: PropTypes.bool,
+  };
+
   static mapStateToProps(state) {
     return Object.assign({}, state, {
       isNextStepAvailable: getIsNextStepAvailable(state),
@@ -206,16 +217,5 @@ class DataInput extends AppComponent {
     );
   }
 }
-
-DataInput.propTypes = {
-  rawData: PropTypes.string,
-  metadata: PropTypes.object,
-  dataStatus: PropTypes.object,
-  dateFormat: PropTypes.object,
-  firstCol: PropTypes.array,
-  dispatch: PropTypes.func,
-  canLoadSheet: PropTypes.bool,
-  isNextStepAvailable: PropTypes.bool,
-};
 
 export default connect(DataInput.mapStateToProps)(DataInput);

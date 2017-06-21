@@ -5,7 +5,14 @@ import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 import modules from './modules';
 import customModules from './modules/custom';
 
-class ChartSettings extends Component {
+export default class ChartSettings extends Component {
+  static propTypes = {
+    metadata: PropTypes.object.isRequired,
+    options: PropTypes.object.isRequired,
+    data: PropTypes.array.isRequired,
+    typeConfig: PropTypes.object.isRequired,
+  };
+
   componentWillMount() {
     this.setState({
       modules: this.props.typeConfig.modules.settings,
@@ -72,12 +79,3 @@ class ChartSettings extends Component {
     );
   }
 }
-
-ChartSettings.propTypes = {
-  metadata: PropTypes.object.isRequired,
-  options: PropTypes.object.isRequired,
-  data: PropTypes.array.isRequired,
-  typeConfig: PropTypes.object.isRequired,
-};
-
-export default ChartSettings;

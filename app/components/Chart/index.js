@@ -8,6 +8,15 @@ import { defaultBreakpoint } from '../../constants/chartTypes';
 import { debounce } from '../../utils/misc';
 
 class Chart extends Component {
+  static propTypes = {
+    options: PropTypes.object.isRequired,
+    rulers: PropTypes.bool.isRequired,
+    widget: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]).isRequired,
+  };
+
   /**
    * Setting width or height to -1 will hide that ruler and
    * prevent inline CSS from fixing the box's width/height
@@ -138,14 +147,5 @@ class Chart extends Component {
     );
   }
 }
-
-Chart.propTypes = {
-  options: PropTypes.object.isRequired,
-  rulers: PropTypes.bool.isRequired,
-  widget: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]).isRequired,
-};
 
 export default Chart;

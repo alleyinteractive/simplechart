@@ -12,6 +12,15 @@ import ErrorMessage from './ErrorMessage';
 import { getIsNextStepAvailable } from '../../selectors';
 
 class Header extends Component {
+  static propTypes = {
+    currentStep: PropTypes.number.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    unsavedChanges: PropTypes.bool.isRequired,
+    errorCode: PropTypes.string.isRequired,
+    cmsStatus: PropTypes.string.isRequired,
+    isNextStepAvailable: PropTypes.bool.isRequired,
+  };
+
   static mapStateToProps(state) {
     return Object.assign({}, state, {
       isNextStepAvailable: getIsNextStepAvailable(state),
@@ -123,14 +132,5 @@ class Header extends Component {
     );
   }
 }
-
-Header.propTypes = {
-  currentStep: PropTypes.number.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  unsavedChanges: PropTypes.bool.isRequired,
-  errorCode: PropTypes.string.isRequired,
-  cmsStatus: PropTypes.string.isRequired,
-  isNextStepAvailable: PropTypes.bool.isRequired,
-};
 
 export default connect(Header.mapStateToProps)(Header);

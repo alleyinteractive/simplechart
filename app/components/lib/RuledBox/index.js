@@ -8,6 +8,11 @@ import * as styles from './RuledBox.css';
 import rulerDefaults from './rulerDefaults';
 
 class RuledBox extends Component {
+  static propTypes = {
+    children: PropTypes.any.isRequired,
+    width: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
+    height: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
+  };
 
   /**
    * Get a <span> for each tick for insertion into the ruler element
@@ -87,11 +92,5 @@ class RuledBox extends Component {
     );
   }
 }
-
-RuledBox.propTypes = {
-  children: PropTypes.any.isRequired,
-  width: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
-  height: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
-};
 
 export default RuledBox;

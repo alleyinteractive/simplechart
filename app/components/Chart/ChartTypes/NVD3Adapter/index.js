@@ -8,6 +8,19 @@ import applyYDomain from '../../../../reducers/utils/applyYDomain.js';
 import applyTickFormatters from '../../../../reducers/utils/applyTickFormatters';
 
 export default class NVD3Adapter extends Component {
+  static propTypes = {
+    data: PropTypes.array.isRequired,
+    options: PropTypes.object.isRequired,
+    widget: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
+  };
+
+  static defaultProps = {
+    widget: false,
+  };
+
   /**
    * Apply any special formatting specfic to a chart type
    */
@@ -58,16 +71,3 @@ export default class NVD3Adapter extends Component {
     return <NVD3Chart key={Math.random()} {...chartProps} />;
   }
 }
-
-NVD3Adapter.defaultProps = {
-  widget: false,
-};
-
-NVD3Adapter.propTypes = {
-  data: PropTypes.array.isRequired,
-  options: PropTypes.object.isRequired,
-  widget: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-};

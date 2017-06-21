@@ -7,6 +7,19 @@ import actionTrigger from '../../actions';
 import buildDeepObject from '../../utils/buildDeepObject';
 
 class DispatchField extends Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    action: PropTypes.string,
+    fieldProps: PropTypes.object.isRequired,
+    fieldType: PropTypes.string.isRequired,
+    handler: PropTypes.func,
+  };
+
+  static defaultProps = {
+    action: '',
+    handler: () => {},
+  };
+
   componentWillMount() {
     this.setState({
       fieldProps: update(this.props.fieldProps,
@@ -59,18 +72,5 @@ class DispatchField extends Component {
         Rebass[this.props.fieldType], this.state.fieldProps);
   }
 }
-
-DispatchField.defaultProps = {
-  action: '',
-  handler: () => {},
-};
-
-DispatchField.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  action: PropTypes.string,
-  fieldProps: PropTypes.object.isRequired,
-  fieldType: PropTypes.string.isRequired,
-  handler: PropTypes.func,
-};
 
 export default connect()(DispatchField);

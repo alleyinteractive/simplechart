@@ -7,6 +7,21 @@ import upSvg from '../../../img/icons/chevron-circle-up.svg';
 import * as styles from './AccordionBlock.css';
 
 class AccordionBlock extends Component {
+  static propTypes = {
+    children: PropTypes.any.isRequired,
+    title: PropTypes.string.isRequired,
+    defaultExpand: PropTypes.bool.isRequired,
+    updateExpandOnProps: PropTypes.bool,
+    tooltip: PropTypes.string,
+    toggleCallback: PropTypes.func,
+  };
+
+  static defaultProps = {
+    updateExpandOnProps: false,
+    toggleCallback: () => {},
+    tooltip: '',
+  };
+
   static svgIcon(svgString, iconClass = '') {
     return (
       <span
@@ -79,20 +94,5 @@ class AccordionBlock extends Component {
       this.renderExpanded() : this.renderCollapsed();
   }
 }
-
-AccordionBlock.defaultProps = {
-  updateExpandOnProps: false,
-  toggleCallback: () => {},
-  tooltip: '',
-};
-
-AccordionBlock.propTypes = {
-  children: PropTypes.any.isRequired,
-  title: PropTypes.string.isRequired,
-  defaultExpand: PropTypes.bool.isRequired,
-  updateExpandOnProps: PropTypes.bool,
-  tooltip: PropTypes.string,
-  toggleCallback: PropTypes.func,
-};
 
 export default AccordionBlock;

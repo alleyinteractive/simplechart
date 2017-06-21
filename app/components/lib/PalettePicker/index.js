@@ -12,6 +12,12 @@ import actionTrigger from '../../../actions';
 import * as styles from './PalettePicker.css';
 
 class PalettePicker extends Component {
+  static propTypes = {
+    palette: PropTypes.array.isRequired,
+    data: PropTypes.array.isRequired, // eslint-disable-line react/no-unused-prop-types
+    dispatch: PropTypes.func.isRequired,
+  };
+
   /**
    * Keys containing non-alphanumeric characters might be enclosed in double quotes
    * so we just strip those.
@@ -132,12 +138,6 @@ class PalettePicker extends Component {
     );
   }
 }
-
-PalettePicker.propTypes = {
-  palette: PropTypes.array.isRequired,
-  data: PropTypes.array.isRequired, // eslint-disable-line react/no-unused-prop-types
-  dispatch: PropTypes.func.isRequired,
-};
 
 // Redux connection
 export default connect()(PalettePicker);

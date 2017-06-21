@@ -4,6 +4,12 @@ import { connect } from 'react-redux';
 import Chart from './Chart';
 
 class Widget extends Component {
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+    widget: PropTypes.string.isRequired,
+    placeholder: PropTypes.string.isRequired,
+  };
+
   static renderMetadata(widget, metadata) {
     Object.keys(metadata).forEach((key) => {
       const el = widget.querySelectorAll(`.simplechart-${key}`);
@@ -77,12 +83,6 @@ class Widget extends Component {
     );
   }
 }
-
-Widget.propTypes = {
-  data: PropTypes.object.isRequired,
-  widget: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
-};
 
 // Which props to inject from the global atomic state
 export default connect((state) =>
