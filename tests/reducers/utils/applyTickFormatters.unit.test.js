@@ -1,5 +1,5 @@
 import applyTickFormatters, { _getXAxis, _getYAxis }
-  from '../../../app/middleware/utils/applyTickFormatters';
+  from '../../../app/reducers/utils/applyTickFormatters';
 import * as dateUtils from '../../../app/utils/parseDate';
 
 test('Test Y Axis formatting functions', () => {

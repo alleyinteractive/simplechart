@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import DispatchField from '../../lib/DispatchField';
 import {
@@ -65,8 +66,8 @@ class Metadata extends Component {
 }
 
 Metadata.propTypes = {
-  metadata: React.PropTypes.object,
-  defaultExpand: React.PropTypes.bool,
+  metadata: PropTypes.object,
+  defaultExpand: PropTypes.bool,
 };
 
 export default Metadata;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'rebass';
 import { UPDATE_CURRENT_STEP } from '../../../constants';
 import actionTrigger from '../../../actions';
@@ -61,12 +62,12 @@ class NextPrevButton extends Component {
 }
 
 NextPrevButton.propTypes = {
-  text: React.PropTypes.string,
-  currentStep: React.PropTypes.number,
-  dir: React.PropTypes.string,
-  shouldEnable: React.PropTypes.bool,
-  callback: React.PropTypes.func,
-  dispatch: React.PropTypes.func,
+  text: PropTypes.string,
+  currentStep: PropTypes.number,
+  dir: PropTypes.string,
+  shouldEnable: PropTypes.bool,
+  callback: PropTypes.func,
+  dispatch: PropTypes.func,
 };
 
 export default connect()(NextPrevButton);

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Fixed, Button, SequenceMap } from 'rebass';
 import logoSvg from '!!raw-loader!../../img/simplechartLogo.svg';
 import * as styles from './Header.css';
 import { appSteps } from '../../constants/appSteps';
 import { connect } from 'react-redux';
-import actionTrigger from '../../actions';
+import actionTrigger, { closeApp } from '../../actions';
 import { UPDATE_CURRENT_STEP } from '../../constants';
 import SaveChart from '../SaveChart';
-import { sendMessage } from '../../utils/postMessage';
 import ErrorMessage from './ErrorMessage';
 import { getIsNextStepAvailable } from '../../selectors';
 
@@ -61,7 +61,7 @@ class Header extends Component {
 
   _cancelEdits() {
     if (!this.props.unsavedChanges) {
-      sendMessage('closeApp');
+      this.props.dispatch(closeApp());
       return;
     }
     this.setState({ showUnsavedWarning: true });
@@ -69,7 +69,7 @@ class Header extends Component {
 
   _closeUnsavedWarning(evt) {
     if (evt.target.hasAttribute('data-closeApp')) {
-      sendMessage('closeApp');
+      this.props.dispatch(closeApp());
     }
     this.setState({ showUnsavedWarning: false });
   }
@@ -135,12 +135,12 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  currentStep: React.PropTypes.number,
-  dispatch: React.PropTypes.func,
-  unsavedChanges: React.PropTypes.bool,
-  errorCode: React.PropTypes.string,
-  cmsStatus: React.PropTypes.string,
-  isNextStepAvailable: React.PropTypes.bool,
+  currentStep: PropTypes.number,
+  dispatch: PropTypes.func,
+  unsavedChanges: PropTypes.bool,
+  errorCode: PropTypes.string,
+  cmsStatus: PropTypes.string,
+  isNextStepAvailable: PropTypes.bool,
 };
 
 export default connect(Header.mapStateToProps)(Header);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import chartTypeLoader from '../../utils/chartTypeLoader';
 import RuledBox from '../lib/RuledBox';
 import { getChartTypeObject } from '../../utils/chartTypeUtils';
@@ -141,12 +142,12 @@ class Chart extends Component {
 }
 
 Chart.propTypes = {
-  data: React.PropTypes.array,
-  options: React.PropTypes.object,
-  rulers: React.PropTypes.bool,
-  widget: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.bool,
+  data: PropTypes.array,
+  options: PropTypes.object,
+  rulers: PropTypes.bool,
+  widget: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
   ]),
 };
 

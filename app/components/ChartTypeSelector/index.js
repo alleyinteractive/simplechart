@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  CLEAR_ERROR,
-  RECEIVE_ERROR,
-  RECEIVE_CHART_TYPE,
-} from '../../constants';
+import { RECEIVE_ERROR, RECEIVE_CHART_TYPE } from '../../constants';
 import actionTrigger from '../../actions';
 import { Radio } from 'rebass';
 import * as styles from './ChartTypeSelector.css';
@@ -21,12 +18,6 @@ class ChartTypeSelector extends Component {
     this._getChartType = this._getChartType.bind(this);
   }
 
-  componentWillMount() {
-    if (this._getChartType()) {
-      this._selectChartType(this._getChartType());
-    }
-  }
-
   _getChartType() {
     if (!this.props.typeObj.config || !this.props.typeObj.config.type) {
       return null;
@@ -38,7 +29,6 @@ class ChartTypeSelector extends Component {
     const typeObj = getChartTypeObject(selectedName);
     if (typeObj) {
       this.props.dispatch(actionTrigger(RECEIVE_CHART_TYPE, typeObj));
-      this.props.dispatch(actionTrigger(CLEAR_ERROR));
     } else {
       this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e003'));
     }
@@ -86,9 +76,9 @@ class ChartTypeSelector extends Component {
 }
 
 ChartTypeSelector.propTypes = {
-  transformedData: React.PropTypes.object,
-  typeObj: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
+  transformedData: PropTypes.object,
+  typeObj: PropTypes.object,
+  dispatch: PropTypes.func,
 };
 
 export default connect()(ChartTypeSelector);

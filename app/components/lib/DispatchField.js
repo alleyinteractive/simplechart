@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Rebass from 'rebass';
 import update from 'immutability-helper';
 import { connect } from 'react-redux';
@@ -66,11 +67,11 @@ class DispatchFields extends Component {
 }
 
 DispatchFields.propTypes = {
-  dispatch: React.PropTypes.func,
-  action: React.PropTypes.string,
-  fieldProps: React.PropTypes.object,
-  fieldType: React.PropTypes.string,
-  handler: React.PropTypes.func,
+  dispatch: PropTypes.func,
+  action: PropTypes.string,
+  fieldProps: PropTypes.object,
+  fieldType: PropTypes.string,
+  handler: PropTypes.func,
 };
 
 export default connect()(DispatchFields);

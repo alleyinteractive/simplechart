@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AccordionBlock from '../../../Layout/AccordionBlock';
 import DispatchField from '../../../lib/DispatchField';
 import {
   RECEIVE_CHART_OPTIONS,
 } from '../../../../constants';
 
-class Legend extends Component {
+export default class Legend extends Component {
   render() {
     return (
       <AccordionBlock
@@ -28,8 +29,6 @@ class Legend extends Component {
 }
 
 Legend.propTypes = {
-  options: React.PropTypes.object,
-  defaultExpand: React.PropTypes.bool,
+  options: PropTypes.object,
+  defaultExpand: PropTypes.bool,
 };
-
-export default Legend;

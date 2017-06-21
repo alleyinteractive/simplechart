@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 import { locales } from '../../constants/d3Locales';
@@ -158,8 +159,8 @@ class ChartDataFormatter extends Component {
 }
 
 ChartDataFormatter.propTypes = {
-  options: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
+  options: PropTypes.object,
+  dispatch: PropTypes.func,
 };
 
 export default connect()(ChartDataFormatter);

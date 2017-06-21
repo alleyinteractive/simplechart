@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { sendMessage } from '../../utils/postMessage';
 import { Button } from 'rebass';
 import { connect } from 'react-redux';
@@ -44,10 +45,10 @@ class SaveChart extends Component {
 }
 
 SaveChart.propTypes = {
-  saveData: React.PropTypes.object,
-  buttonStyleAttr: React.PropTypes.object,
-  cmsStatus: React.PropTypes.string,
-  dispatch: React.PropTypes.func,
+  saveData: PropTypes.object,
+  buttonStyleAttr: PropTypes.object,
+  cmsStatus: PropTypes.string,
+  dispatch: PropTypes.func,
 };
 
 export default connect(SaveChart.mapStateToProps)(SaveChart);

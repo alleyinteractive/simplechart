@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import NVD3Chart from 'react-nvd3';
 import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
 import { getChartTypeObject, getChartTypeDefaultOpts } from '../../../../utils/chartTypeUtils';
-import applyYDomain from '../../../../middleware/utils/applyYDomain.js';
-import applyTickFormatters from '../../../../middleware/utils/applyTickFormatters';
+import applyYDomain from '../../../../reducers/utils/applyYDomain.js';
+import applyTickFormatters from '../../../../reducers/utils/applyTickFormatters';
 
 export default class NVD3Adapter extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ export default class NVD3Adapter extends Component {
     // Widgets need to recreate function-based options
     const typeConfig = getChartTypeObject(options.type).config;
     const defaultOpts = getChartTypeDefaultOpts(options.type);
-    chartProps = Object.assign({}, chartProps, typeConfig, defaultOpts);
+    chartProps = Object.assign({}, defaultOpts, chartProps, typeConfig);
     chartProps = applyYDomain(chartProps, typeConfig, data);
 
     return applyTickFormatters(chartProps, typeConfig);
@@ -64,10 +65,10 @@ export default class NVD3Adapter extends Component {
 }
 
 NVD3Adapter.propTypes = {
-  data: React.PropTypes.array,
-  options: React.PropTypes.object,
-  widget: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.bool,
+  data: PropTypes.array,
+  options: PropTypes.object,
+  widget: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
   ]),
 };

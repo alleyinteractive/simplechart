@@ -6,9 +6,11 @@ const validState = {
   dataStatus: {
     status: 'success',
   },
-  dataFormat: {
-    enabled: true,
-    validated: true,
+  chartOptions: {
+    dataFormat: {
+      enabled: true,
+      validated: true,
+    },
   },
   chartType: {
     config: {},

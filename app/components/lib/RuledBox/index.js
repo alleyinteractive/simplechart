@@ -3,6 +3,7 @@
  * horizontal and vertical rulers
  */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import * as styles from './RuledBox.css';
 import rulerDefaults from './rulerDefaults';
 
@@ -91,9 +92,9 @@ class RuledBox extends Component {
 }
 
 RuledBox.propTypes = {
-  children: React.PropTypes.any.isRequired,
-  width: React.PropTypes.number,
-  height: React.PropTypes.number,
+  children: PropTypes.any.isRequired,
+  width: PropTypes.number,
+  height: PropTypes.number,
 };
 
 export default RuledBox;

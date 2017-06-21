@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Use Mapbox's colorpickr component
 import ColorPicker from '@mapbox/react-colorpickr';
@@ -137,9 +138,9 @@ class PalettePicker extends Component {
 }
 
 PalettePicker.propTypes = {
-  palette: React.PropTypes.array,
-  data: React.PropTypes.array,
-  dispatch: React.PropTypes.func,
+  palette: PropTypes.array,
+  data: PropTypes.array,
+  dispatch: PropTypes.func,
 };
 
 // Redux connection

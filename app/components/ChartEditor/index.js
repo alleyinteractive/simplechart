@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AppComponent from '../Layout/AppComponent';
 import Chart from '../Chart/';
 import ChartDataFormatter from '../ChartDataFormatter';
@@ -13,6 +14,8 @@ export default class ChartEditor extends AppComponent {
   constructor(props) {
     super(props);
     this._updateDimensions = this._updateDimensions.bind(this);
+    this._displayChart = this._displayChart.bind(this);
+    this.state = {};
   }
 
   componentDidMount() {
@@ -110,5 +113,5 @@ export default class ChartEditor extends AppComponent {
 }
 
 ChartEditor.propTypes = {
-  appState: React.PropTypes.object,
+  appState: PropTypes.object,
 };
