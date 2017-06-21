@@ -7,12 +7,6 @@ import actionTrigger from '../../actions';
 import buildDeepObject from '../../utils/buildDeepObject';
 
 class DispatchField extends Component {
-  constructor() {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-    this.dispatchField = this.dispatchField.bind(this);
-  }
-
   componentWillMount() {
     this.setState({
       fieldProps: update(this.props.fieldProps,
@@ -27,7 +21,7 @@ class DispatchField extends Component {
     });
   }
 
-  handleChange(evt) {
+  handleChange = (evt) => {
     let fieldValue;
     if ('Checkbox' === this.props.fieldType) {
       fieldValue = evt.target.checked;
@@ -41,9 +35,9 @@ class DispatchField extends Component {
         parseFloat(fieldValue, 10) : parseInt(fieldValue, 10);
     }
     this.dispatchField(fieldValue);
-  }
+  };
 
-  dispatchField(value) {
+  dispatchField = (value) => {
     // If no action provided, just call the handler
     if ('' === this.props.action && this.props.handler) {
       this.props.handler(this.props.fieldProps, value);
@@ -56,7 +50,7 @@ class DispatchField extends Component {
         this.props.handler(this.props.fieldProps, value) :
         buildDeepObject(this.props.fieldProps.name, value)
     ));
-  }
+  };
 
   render() {
     return !Rebass[this.props.fieldType] ?

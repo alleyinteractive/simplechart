@@ -13,8 +13,6 @@ import * as styles from './ChartEditor.css';
 export default class ChartEditor extends AppComponent {
   constructor(props) {
     super(props);
-    this.updateDimensions = this.updateDimensions.bind(this);
-    this.displayChart = this.displayChart.bind(this);
     this.state = {};
   }
 
@@ -23,7 +21,7 @@ export default class ChartEditor extends AppComponent {
     this.updateDimensions();
   }
 
-  updateDimensions() {
+  updateDimensions = () => {
     const appComponent = document.querySelector('[class*=appComponent]');
     const subCompWidth =
       document.querySelector('[class*=subcomponentContainer]').clientWidth;
@@ -32,9 +30,9 @@ export default class ChartEditor extends AppComponent {
     const left = subCompWidth + offsetLeft + 20;
 
     this.setState({ width, left });
-  }
+  };
 
-  renderSubcomponent(step) {
+  renderSubcomponent = (step) => {
     let subcomponent;
     switch (step) {
       case 1:
@@ -67,12 +65,12 @@ export default class ChartEditor extends AppComponent {
         break;
     }
     return subcomponent;
-  }
+  };
 
   /**
    * Once a chart type has been selected, we can begin showing the chart
    */
-  displayChart(state) {
+  displayChart = (state) => {
     if (!state.chartOptions.type) {
       return null;
     }
@@ -94,7 +92,7 @@ export default class ChartEditor extends AppComponent {
         </p>
       </div>
     );
-  }
+  };
 
   render() {
     return (

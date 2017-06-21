@@ -16,14 +16,6 @@ class AccordionBlock extends Component {
     );
   }
 
-  constructor() {
-    super();
-    this.toggleExpanded = this.toggleExpanded.bind(this);
-    this.renderExpanded = this.renderExpanded.bind(this);
-    this.renderCollapsed = this.renderCollapsed.bind(this);
-    this.renderPanelHeader = this.renderPanelHeader.bind(this);
-  }
-
   componentWillMount() {
     this.setState({
       expanded: !!this.props.defaultExpand,
@@ -39,54 +31,48 @@ class AccordionBlock extends Component {
     }
   }
 
-  toggleExpanded() {
+  toggleExpanded = () => {
     this.setState({
       expanded: !this.state.expanded,
     });
 
     this.props.toggleCallback(!this.state.expanded);
-  }
+  };
 
-  renderPanelHeader(toggleIcon) {
-    return (
-      <div>
-        <PanelHeader
-          inverted
-          theme="info"
+  renderPanelHeader = (toggleIcon) => (
+    <div>
+      <PanelHeader
+        inverted
+        theme="info"
+      >
+        {this.props.title}
+        <Tooltip
+          title={this.props.tooltip}
         >
-          {this.props.title}
-          <Tooltip
-            title={this.props.tooltip}
-          >
-            {AccordionBlock.svgIcon(infoSvg, 'info')}
-          </Tooltip>
-          <Space auto x={1} />
-          <span onClick={this.toggleExpanded} role="button" tabIndex={0}>
-            {AccordionBlock.svgIcon(toggleIcon)}
-          </span>
-        </PanelHeader>
-      </div>
-    );
-  }
+          {AccordionBlock.svgIcon(infoSvg, 'info')}
+        </Tooltip>
+        <Space auto x={1} />
+        <span onClick={this.toggleExpanded} role="button" tabIndex={0}>
+          {AccordionBlock.svgIcon(toggleIcon)}
+        </span>
+      </PanelHeader>
+    </div>
+  );
 
-  renderExpanded() {
-    return (
-      <div>
-        <Panel theme="info">
-          {this.renderPanelHeader(upSvg)}
-          {this.props.children}
-        </Panel>
-      </div>
-    );
-  }
+  renderExpanded = () => (
+    <div>
+      <Panel theme="info">
+        {this.renderPanelHeader(upSvg)}
+        {this.props.children}
+      </Panel>
+    </div>
+  );
 
-  renderCollapsed() {
-    return (
-      <div className={styles.padCollapsed}>
-        {this.renderPanelHeader(downSvg)}
-      </div>
-    );
-  }
+  renderCollapsed = () => (
+    <div className={styles.padCollapsed}>
+      {this.renderPanelHeader(downSvg)}
+    </div>
+  );
 
   render() {
     return this.state.expanded ?

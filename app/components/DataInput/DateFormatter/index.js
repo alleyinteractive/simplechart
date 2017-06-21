@@ -10,13 +10,6 @@ import * as dateUtils from '../../../utils/parseDate';
 import actionTrigger from '../../../actions';
 
 class DateFormatter extends Component {
-  constructor() {
-    super();
-    this.toggleFormatter = this.toggleFormatter.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.validate = this.validate.bind(this);
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.dates.toString() !== this.props.dates.toString()) {
       this.validate(nextProps.dateFormat.formatString, nextProps.dates);
@@ -29,25 +22,25 @@ class DateFormatter extends Component {
     }
   }
 
-  toggleFormatter(evt) {
+  toggleFormatter = (evt) => {
     evt.preventDefault();
     this.props.dispatch(actionTrigger(RECEIVE_DATE_FORMAT, {
       enabled: !this.props.dateFormat.enabled,
     }));
-  }
+  };
 
-  handleChange(fieldProps, newValue) {
+  handleChange = (fieldProps, newValue) => {
     this.validate(newValue, this.props.dates);
-  }
+  };
 
-  validate(formatString, dates) {
+  validate = (formatString, dates) => {
     const testResult = dateUtils.disproveList(formatString, dates);
     this.props.dispatch(actionTrigger(RECEIVE_DATE_FORMAT, {
       validated: !testResult,
       failedAt: testResult,
       formatString,
     }));
-  }
+  };
 
   render() {
     const containerClass =

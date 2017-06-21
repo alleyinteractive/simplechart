@@ -18,14 +18,6 @@ class Header extends Component {
     });
   }
 
-  constructor() {
-    super();
-    this.sequenceSteps = this.sequenceSteps.bind(this);
-    this.cancelEdits = this.cancelEdits.bind(this);
-    this.renderUnsavedWarning = this.renderUnsavedWarning.bind(this);
-    this.closeUnsavedWarning = this.closeUnsavedWarning.bind(this);
-  }
-
   componentWillMount() {
     this.setState({
       currentStep: this.props.currentStep || 0,
@@ -40,7 +32,7 @@ class Header extends Component {
     });
   }
 
-  updateCurrentStep(step, evt) {
+  updateCurrentStep = (step, evt) => {
     if (step > this.state.currentStep && !this.props.isNextStepAvailable) {
       return;
     }
@@ -50,34 +42,32 @@ class Header extends Component {
       UPDATE_CURRENT_STEP,
       step
     ));
-  }
+  };
 
-  sequenceSteps() {
-    return appSteps.map((label, i) => ({
-      children: label,
-      onClick: this.updateCurrentStep.bind(this, i),
-    }));
-  }
+  sequenceSteps = () => appSteps.map((label, i) => ({
+    children: label,
+    onClick: this.updateCurrentStep.bind(this, i),
+  }));
 
-  cancelEdits() {
+  cancelEdits = () => {
     if (!this.props.unsavedChanges) {
       this.props.dispatch(closeApp());
       return;
     }
     this.setState({ showUnsavedWarning: true });
-  }
+  };
 
-  closeUnsavedWarning(evt) {
+  closeUnsavedWarning = (evt) => {
     if (evt.target.hasAttribute('data-closeApp')) {
       this.props.dispatch(closeApp());
     }
     this.setState({ showUnsavedWarning: false });
-  }
+  };
 
   /**
    * Special case since we need to render JSX inside the ErrorMessage component
    */
-  renderUnsavedWarning() {
+  renderUnsavedWarning = () => {
     if (!this.state.showUnsavedWarning) {
       return '';
     }
@@ -94,7 +84,7 @@ class Header extends Component {
         <a href="#0" onClick={this.closeUnsavedWarning}>keep working</a>.
       </ErrorMessage>
     );
-  }
+  };
 
   render() {
     return (

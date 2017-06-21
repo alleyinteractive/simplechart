@@ -65,9 +65,8 @@ class Chart extends Component {
     return getChartTypeObject(props.options.type).config.componentName;
   }
 
-  constructor() {
-    super();
-    this.loadChartType = this.loadChartType.bind(this);
+  constructor(props) {
+    super(props);
     this.state = {};
   }
 
@@ -116,12 +115,12 @@ class Chart extends Component {
     });
   }
 
-  loadChartType(type) {
+  loadChartType = (type) => {
     chartTypeLoader(getChartTypeObject(type).config.componentName)
       .then((component) => {
         this.setState({ chartTypeComponent: component });
       });
-  }
+  };
 
   render() {
     if (!this.state.chartTypeComponent) {

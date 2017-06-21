@@ -6,29 +6,20 @@ import { UPDATE_CURRENT_STEP } from '../../../constants';
 import actionTrigger from '../../../actions';
 
 class NextPrevButton extends Component {
-  constructor() {
-    super();
-    this.changeStep = this.changeStep.bind(this);
-    this.enableButton = this.enableButton.bind(this);
-    this.disableStyles = this.disableStyles.bind(this);
-  }
-
   /**
    * Default to enabling button
    */
-  enableButton() {
-    return this.props.shouldEnable;
-  }
+  enableButton = () => this.props.shouldEnable;
 
-  disableStyles() {
-    return this.enableButton() ? {} :
+  disableStyles = () => (
+    this.enableButton() ? {} :
     {
       cursor: 'default',
       backgroundColor: 'rgb(136, 136, 136)',
-    };
-  }
+    }
+  );
 
-  changeStep() {
+  changeStep = () => {
     const buttonIsEnabled = this.enableButton();
 
     // Change the currentStep if the button is enabled
@@ -42,7 +33,7 @@ class NextPrevButton extends Component {
     }
 
     this.props.callback(buttonIsEnabled);
-  }
+  };
 
   render() {
     return (

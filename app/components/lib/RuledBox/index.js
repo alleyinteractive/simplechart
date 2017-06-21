@@ -54,16 +54,11 @@ class RuledBox extends Component {
     return inlineStyle;
   }
 
-  constructor() {
-    super();
-    this.renderRuler = this.renderRuler.bind(this);
-  }
-
   /**
    * Validate the dimension (width or height)
    * then render the ruler element
    */
-  renderRuler(dimension) {
+  renderRuler = (dimension) => {
     // validate dimension exists and is a positive number
     if (('width' !== dimension && 'height' !== dimension) ||
       'number' !== typeof this.props[dimension] ||
@@ -77,7 +72,7 @@ class RuledBox extends Component {
         {RuledBox.renderTicks(this.props[dimension])}
       </div>
     );
-  }
+  };
 
   render() {
     return (

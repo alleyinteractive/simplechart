@@ -9,12 +9,7 @@ import { getObjArrayKey } from '../../../utils/misc';
 
 export default class YAxis extends Component {
 
-  constructor() {
-    super();
-    this.handleYDomain = this.handleYDomain.bind(this);
-  }
-
-  handleYDomain(fieldProps, value) {
+  handleYDomain = (fieldProps, value) => {
     let domain = this.props.options.yDomain || [];
     if ('yDomain.min' === fieldProps.name) {
       domain[0] = value;
@@ -24,7 +19,7 @@ export default class YAxis extends Component {
       domain[1] = value;
     }
     return { yDomain: domain };
-  }
+  };
 
   render() {
     return (

@@ -20,11 +20,8 @@ class PalettePicker extends Component {
     return /^"?(.*?)"?$/i.exec(series.key || series.label)[1];
   }
 
-  constructor() {
-    super();
-    this.seriesChange = this.seriesChange.bind(this);
-    this.pickerChange = this.pickerChange.bind(this);
-    this.handleProps = this.handleProps.bind(this);
+  constructor(props) {
+    super(props);
     this.state = {
       data: [], // label, current, original for each data series
       selectedIdx: 0, // current selected series in the picker
@@ -44,7 +41,7 @@ class PalettePicker extends Component {
  /**
   * Build/rebuild state.data array when props are received
   */
-  handleProps(props, setOriginal = false) {
+  handleProps = (props, setOriginal = false) => {
     this.setState({
       data: props.data.map((series, idx) => {
         const seriesColor = loopArrayItemAtIndex(idx, props.palette);
@@ -63,12 +60,12 @@ class PalettePicker extends Component {
         return seriesForState;
       }),
     });
-  }
+  };
 
   /**
    * Handle when a new color is selected in the picker
    */
-  pickerChange() {
+  pickerChange = () => {
     // debouncing messes with the function args, so get current color this way
     const newColor = `#${this.picker.state.color.hex}`;
     let paletteArray = this.state.data.map(({ current }) => current);
@@ -89,12 +86,12 @@ class PalettePicker extends Component {
       { color: paletteArray },
       'PalettePicker'
     ));
-  }
+  };
 
   /**
    * Handle when a new series is selected in the dropdown
    */
-  seriesChange(evt) {
+  seriesChange = (evt) => {
     const newValue = parseInt(evt.target.value, 10);
     if (isNaN(newValue)) {
       return;
@@ -108,7 +105,7 @@ class PalettePicker extends Component {
         originalValue: this.state.data[newValue].original,
       });
     }
-  }
+  };
 
   render() {
     if (!this.state.data || !this.state.data.length) {

@@ -24,16 +24,11 @@ export default class NVD3Adapter extends Component {
     }
   }
 
-  constructor(props) {
-    super(props);
-    this.mapToChartProps = this.mapToChartProps.bind(this);
-  }
-
   /**
    * In editor, merge data into options and add a ref
    * In widget, also recreate function-based options that can't be sent as JSON
    */
-  mapToChartProps() {
+  mapToChartProps = () => {
     const { options, data, widget } = this.props;
     let chartProps = update(options, {
       datum: { $set: NVD3Adapter.dataTransform(options.type, data) },
@@ -52,7 +47,7 @@ export default class NVD3Adapter extends Component {
     chartProps = applyYDomain(chartProps, typeConfig, data);
 
     return applyTickFormatters(chartProps, typeConfig);
-  }
+  };
 
   render() {
     // We clone the props, because nvd3 will mutate the datum that you pass to it.

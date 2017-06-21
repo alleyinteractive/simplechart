@@ -18,9 +18,8 @@ class ErrorMessage extends Component {
     };
   }
 
-  constructor() {
-    super();
-    this.closeErrorMessage = this.closeErrorMessage.bind(this);
+  constructor(props) {
+    super(props);
     this.state = { open: false, children: false };
   }
 
@@ -32,10 +31,10 @@ class ErrorMessage extends Component {
     this.setState(ErrorMessage.toSetState(nextProps));
   }
 
-  closeErrorMessage() {
+  closeErrorMessage = () => {
     this.setState({ open: false, children: false });
     this.props.dispatch(actionTrigger(CLEAR_ERROR));
-  }
+  };
 
   render() {
     if (!this.state.open) {

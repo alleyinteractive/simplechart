@@ -16,8 +16,8 @@ class ChartLayout extends Component {
   /**
    * Determine if a "no max width" breakpoint can be added
    *
-   * @param {array} breakpoints
-   * @return bool False if any breakpoint has noMaxWidth -> true; otherwise true
+   * @param {Array} breakpoints
+   * @return {Boolean} False if any breakpoint has noMaxWidth -> true; otherwise true
    */
   static canAddNoMaxWidth(breakpoints) {
     return 0 === breakpoints.filter((point) => point.noMaxWidth).length;
@@ -39,16 +39,8 @@ class ChartLayout extends Component {
       ).length;
   }
 
-  constructor() {
-    super();
-    this.renderBreakpoint = this.renderBreakpoint.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.addBreakpoint = this.addBreakpoint.bind(this);
-    this.removeBreakpoint = this.removeBreakpoint.bind(this);
-    this.dispatchValues = this.dispatchValues.bind(this);
-    this.updateActiveBreakpoint = this.updateActiveBreakpoint.bind(this);
-    this.isSingleBp = this.isSingleBp.bind(this);
-
+  constructor(props) {
+    super(props);
     this.state = {
       active: 0,
       values: [],
@@ -82,7 +74,7 @@ class ChartLayout extends Component {
     }
   }
 
-  handleChange(fieldProps, newValue) {
+  handleChange = (fieldProps, newValue) => {
     // break field name into index and key
     const fieldNameParts = fieldProps.name.split('.');
 
@@ -107,9 +99,9 @@ class ChartLayout extends Component {
     this.dispatchValues(update(this.state.values, {
       [fieldNameParts[0]]: { $merge: { [fieldNameParts[1]]: newValue } },
     }));
-  }
+  };
 
-  removeBreakpoint(evt) {
+  removeBreakpoint = (evt) => {
     const idx = parseInt(evt.target.getAttribute('data-index'), 10);
     if (isNaN(idx)) {
       return;
@@ -117,25 +109,25 @@ class ChartLayout extends Component {
     this.dispatchValues(update(this.state.values, {
       $splice: [[idx, 1]],
     }));
-  }
+  };
 
-  addBreakpoint() {
+  addBreakpoint = () => {
     this.dispatchValues(update(this.state.values, {
       $push: [
         update(defaultBreakpoint, { noMaxWidth: { $set: false } }),
       ],
     }));
-  }
+  };
 
-  dispatchValues(values) {
+  dispatchValues = (values) => {
     this.setState({ values });
     this.props.dispatch(actionTrigger(
       RECEIVE_CHART_OPTIONS,
       { breakpoints: { values } }
     ));
-  }
+  };
 
-  updateActiveBreakpoint(idx, isExpanded) {
+  updateActiveBreakpoint = (idx, isExpanded) => {
     if (isExpanded) {
       this.setState({ active: idx });
     }
@@ -143,13 +135,11 @@ class ChartLayout extends Component {
       RECEIVE_CHART_OPTIONS,
       { breakpoints: { active: idx } }
     ));
-  }
+  };
 
-  isSingleBp() {
-    return 1 >= this.state.values.length;
-  }
+  isSingleBp = () => 1 >= this.state.values.length;
 
-  renderBreakpoint(point, idx) {
+  renderBreakpoint = (point, idx) => {
     const pointTitle = `Breakpoint ${1 + idx}`;
     const callback = (isExpanded) => {
       this.updateActiveBreakpoint(idx, isExpanded);
@@ -209,7 +199,7 @@ class ChartLayout extends Component {
         )}
       </AccordionBlock>
     );
-  }
+  };
 
   render() {
     return (

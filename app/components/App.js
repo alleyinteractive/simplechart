@@ -25,12 +25,6 @@ class App extends Component {
     }
   }
 
-  constructor() {
-    super();
-    this.renderAppComponent = this.renderAppComponent.bind(this);
-    this.firstParsedCol = this.firstParsedCol.bind(this);
-  }
-
   componentDidMount() {
     App.captureClicks(this.props.state.cmsStatus);
   }
@@ -39,12 +33,12 @@ class App extends Component {
     App.captureClicks(this.props.state.cmsStatus);
   }
 
-  firstParsedCol() {
+  firstParsedCol = () => {
     const firstColKey = this.props.state.dataFields[0];
     return this.props.state.parsedData.map((row) => row[firstColKey]);
-  }
+  };
 
-  renderAppComponent() {
+  renderAppComponent = () => {
     if (0 === this.props.state.currentStep) {
       return React.createElement(DataInput, {
         metadata: this.props.state.chartMetadata,
@@ -57,7 +51,7 @@ class App extends Component {
     return React.createElement(ChartEditor, {
       appState: this.props.state,
     });
-  }
+  };
 
   render() {
     return (

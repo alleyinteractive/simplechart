@@ -6,32 +6,23 @@ import modules from './modules';
 import customModules from './modules/custom';
 
 class ChartSettings extends Component {
-  constructor() {
-    super();
-    this.hasModule = this.hasModule.bind(this);
-    this.renderModule = this.renderModule.bind(this);
-    this.shouldDefaultExpand = this.shouldDefaultExpand.bind(this);
-  }
-
   componentWillMount() {
     this.setState({
       modules: this.props.typeConfig.modules.settings,
     });
   }
 
-  hasModule(name) {
-    return -1 !== this.state.modules.indexOf(name);
-  }
+  hasModule = (name) => -1 !== this.state.modules.indexOf(name);
 
-  shouldDefaultExpand() {
+  shouldDefaultExpand = () => {
     let nModules = this.state.modules.length;
     if (this.props.typeConfig.settingsComponent) {
       nModules += 1;
     }
     return 1 === nModules;
-  }
+  };
 
-  renderCustomSettings(config) {
+  renderCustomSettings = (config) => {
     if (!config.settingsComponent) {
       return null;
     }
@@ -42,9 +33,9 @@ class ChartSettings extends Component {
         defaultExpand={this.shouldDefaultExpand()}
       />
     );
-  }
+  };
 
-  renderModule(name) {
+  renderModule = (name) => {
     if (!this.hasModule(name)) {
       return null;
     }
@@ -59,7 +50,7 @@ class ChartSettings extends Component {
 
     const Module = modules[name];
     return <Module {...moduleProps} />;
-  }
+  };
 
   render() {
     return (

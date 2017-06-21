@@ -23,11 +23,6 @@ class ChartDataFormatter extends Component {
     }));
   }
 
-  constructor() {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-  }
-
   componentWillMount() {
     this.setState(
       ChartDataFormatter.handleProps(
@@ -45,12 +40,12 @@ class ChartDataFormatter extends Component {
   /**
    * Return full tickFormatSettings object after any element is changed
    */
-  handleChange(fieldProps, value) {
+  handleChange = (fieldProps, value) => {
     const field = fieldProps.name.split('.').pop();
     return {
       tickFormatSettings: update(this.state, { [field]: { $set: value } }),
     };
-  }
+  };
 
   render() {
     return (

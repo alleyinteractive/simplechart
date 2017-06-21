@@ -37,16 +37,6 @@ class DataInput extends AppComponent {
 
   constructor(props) {
     super(props);
-    this.submitData = this.submitData.bind(this);
-    this.loadSampleData = this.loadSampleData.bind(this);
-    this.requestSheet = this.requestSheet.bind(this);
-    this.setSampleDataSet = this.setSampleDataSet.bind(this);
-    this.setSheetId = this.setSheetId.bind(this);
-    this.nextCallback = this.nextCallback.bind(this);
-    this.handleInputBlur = this.handleInputBlur.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.getDataClass = this.getDataClass.bind(this);
-    this.getDataMessage = this.getDataMessage.bind(this);
 
     this.state = {
       rawData: props.rawData,
@@ -72,100 +62,92 @@ class DataInput extends AppComponent {
     }
   }
 
-  submitData(data) {
+  submitData = (data) => {
     const rawData = data.trim();
     this.setState({ rawData }, () =>
       this.props.dispatch(actionTrigger(RECEIVE_RAW_DATA, rawData))
     );
-  }
+  };
 
-  loadSampleData() {
+  loadSampleData = () => {
     this.submitData(sampleData[this.state.sampleDataSet].data);
-  }
+  };
 
-  requestSheet() {
+  requestSheet = () => {
     this.props.dispatch(requestGoogleSheet(this.state.googleSheetId));
-  }
+  };
 
-  setSampleDataSet(evt) {
+  setSampleDataSet = (evt) => {
     this.setState({ sampleDataSet: evt.target.value });
-  }
+  };
 
-  setSheetId(evt) {
+  setSheetId = (evt) => {
     this.setState({ googleSheetId: evt.target.value });
-  }
+  };
 
-  nextCallback(success) {
+  nextCallback = (success) => {
     if (!success) {
       this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e002'));
     } else {
       this.props.dispatch(actionTrigger(CLEAR_ERROR));
     }
-  }
+  };
 
-  handleInputBlur() {
+  handleInputBlur = () => {
     this.submitData(this.state.rawData);
-  }
+  };
 
-  handleInputChange(evt) {
+  handleInputChange = (evt) => {
     this.setState({ rawData: evt.target.value });
-  }
+  };
 
-  getDataMessage() {
-    return this.props.dataStatus.message || 'Waiting for data input';
-  }
+  getDataMessage = () => this.props.dataStatus.message || 'Waiting for data input';
 
-  getDataClass() {
-    return this.props.dataStatus.status || 'initial';
-  }
+  getDataClass = () => this.props.dataStatus.status || 'initial';
 
-  renderSampleDataSelect() {
-    return (
-      <div>
-        <Select
-          className={styles.inputBuilderMargin}
-          label="Use sample data"
-          name="sample-data-select"
-          options={DataInput.sampleDataOptions()}
-          onChange={this.setSampleDataSet}
+  renderSampleDataSelect = () => (
+    <div>
+      <Select
+        className={styles.inputBuilderMargin}
+        label="Use sample data"
+        name="sample-data-select"
+        options={DataInput.sampleDataOptions()}
+        onChange={this.setSampleDataSet}
+      />
+      <div className={styles.actionsContainer}>
+        <Button
+          theme="warning"
+          onClick={this.loadSampleData}
+        >
+          Load
+        </Button>
+      </div>
+    </div>
+  );
+
+  renderGoogleSheetInput = () => (
+    <div>
+      <Divider style={{ marginTop: '20px' }} />
+      <div className={styles.loadSheetContainer}>
+        <Input
+          label="Google Sheet ID or Link"
+          name="google-sheets-id"
+          onChange={this.setSheetId}
+          style={{ marginBottom: 0 }}
+          value={this.state.googleSheetId}
         />
-        <div className={styles.actionsContainer}>
-          <Button
-            theme="warning"
-            onClick={this.loadSampleData}
-          >
-            Load
-          </Button>
-        </div>
+        <HelpTrigger docName="googleSheets" />
       </div>
-    );
-  }
-
-  renderGoogleSheetInput() {
-    return (
-      <div>
-        <Divider style={{ marginTop: '20px' }} />
-        <div className={styles.loadSheetContainer}>
-          <Input
-            label="Google Sheet ID or Link"
-            name="google-sheets-id"
-            onChange={this.setSheetId}
-            style={{ marginBottom: 0 }}
-            value={this.state.googleSheetId}
-          />
-          <HelpTrigger docName="googleSheets" />
-        </div>
-        <div className={styles.actionsContainer}>
-          <Button
-            theme="warning"
-            onClick={this.requestSheet}
-          >
-            Load
-          </Button>
-        </div>
+      <div className={styles.actionsContainer}>
+        <Button
+          theme="warning"
+          onClick={this.requestSheet}
+        >
+          Load
+        </Button>
       </div>
-    );
-  }
+    </div>
+  );
 
   render() {
     const { rawData } = this.state;

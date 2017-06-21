@@ -7,11 +7,6 @@ import HelpTrigger from '../../lib/HelpTrigger';
 import * as styles from './ChartTitle.css';
 
 class ChartTitle extends Component {
-  constructor() {
-    super();
-    this.handleInput = this.handleInput.bind(this);
-  }
-
   componentWillMount() {
     this.setState({ title: this.props.metadata.title || '' });
   }
@@ -20,17 +15,15 @@ class ChartTitle extends Component {
     this.setState({ title: nextProps.metadata.title || '' });
   }
 
-  handleInput(fieldProps, value) {
-    return {
-      title: value,
-      caption: this.props.metadata.caption || '',
-      credit: this.props.metadata.credit || '',
-    };
-  }
+  handleInput = (fieldProps, value) => ({
+    title: value,
+    caption: this.props.metadata.caption || '',
+    credit: this.props.metadata.credit || '',
+  });
 
   render() {
     return (
-      <div className={styles.container} >
+      <div className={styles.container}>
         <DispatchField
           action={RECEIVE_CHART_METADATA}
           fieldType="Input"

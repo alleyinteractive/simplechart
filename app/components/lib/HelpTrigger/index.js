@@ -11,16 +11,11 @@ import * as styles from './HelpTrigger.css';
  * by sending the name of a Markdown doc to Redux
  */
 class HelpTrigger extends Component {
-  constructor() {
-    super();
-    this.dispatch = this.dispatch.bind(this);
-  }
-
-  dispatch() {
+  dispatch = () => {
     // Toggling the panel is handled in middleware
     this.props.dispatch(
       actionTrigger(RECEIVE_HELP_DOCUMENT, this.props.docName));
-  }
+  };
 
   render() {
     return (

@@ -12,10 +12,8 @@ import helpPages from '../../pages/help';
  * Show Help content from Markdown file
  */
 class Help extends Component {
-  constructor() {
-    super();
-    this.getHtml = this.getHtml.bind(this);
-    this.clearDoc = this.clearDoc.bind(this);
+  constructor(props) {
+    super(props);
     this.state = { content: '' };
   }
 
@@ -33,7 +31,7 @@ class Help extends Component {
    * @param {string} docName
    * @return {string} Empty string or HTML content from Markdown file
    */
-  getHtml(docName) {
+  getHtml = (docName) => {
     if (!docName) {
       return '';
     }
@@ -44,11 +42,11 @@ class Help extends Component {
     }
 
     return content;
-  }
+  };
 
-  clearDoc() {
+  clearDoc = () => {
     this.props.dispatch(actionTrigger(CLEAR_HELP_DOCUMENT));
-  }
+  };
 
   render() {
     return !this.state.content ? null : (

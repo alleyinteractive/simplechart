@@ -14,40 +14,33 @@ import { getChartTypeObject } from '../../utils/chartTypeUtils';
 
 class ChartTypeSelector extends Component {
 
-  constructor() {
-    super();
-    this.selectChartType = this.selectChartType.bind(this);
-    this.renderTypeOption = this.renderTypeOption.bind(this);
-    this.getChartType = this.getChartType.bind(this);
-  }
-
   componentWillMount() {
     if (this.getChartType()) {
       this.selectChartType(this.getChartType());
     }
   }
 
-  getChartType() {
+  getChartType = () => {
     if (!this.props.typeObj.config || !this.props.typeObj.config.type) {
       return null;
     }
     return this.props.typeObj.config.type;
-  }
+  };
 
-  selectChartType(selectedName) {
+  selectChartType = (selectedName) => {
     const typeObj = getChartTypeObject(selectedName);
     if (typeObj) {
       this.props.dispatch(actionTrigger(RECEIVE_CHART_TYPE, typeObj));
     } else {
       this.props.dispatch(actionTrigger(RECEIVE_ERROR, 'e003'));
     }
-  }
+  };
 
   /**
    * The idea is to enable chart types where data is compatible
    * and disable chart types where data is incompatible
    */
-  renderTypeOption(typeConfig) {
+  renderTypeOption = (typeConfig) => {
     // Disable the chart type when transformed data is not available for its dataFormat
     const disabled = !this.props.transformedData[typeConfig.dataFormat];
 
@@ -63,7 +56,7 @@ class ChartTypeSelector extends Component {
       onChange: (evt) => this.selectChartType(evt.target.value),
       style: disabled ? { cursor: 'default' } : {},
     });
-  }
+  };
 
   render() {
     return (

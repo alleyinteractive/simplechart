@@ -14,9 +14,8 @@ class Widget extends Component {
     });
   }
 
-  constructor() {
-    super();
-    this.renderChart = this.renderChart.bind(this);
+  constructor(props) {
+    super(props);
     this.state = {
       data: null,
     };
@@ -48,7 +47,7 @@ class Widget extends Component {
     }
   }
 
-  renderChart() {
+  renderChart = () => {
     if (this.state.data) {
       return (
         <Chart
@@ -67,7 +66,7 @@ class Widget extends Component {
         {this.props.placeholder || this.defaultPlaceholder}
       </span>
     );
-  }
+  };
 
   render() {
     return (

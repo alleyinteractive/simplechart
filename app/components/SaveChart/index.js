@@ -20,15 +20,10 @@ class SaveChart extends Component {
     return saveChartLabels[cmsStatus] || saveChartLabels.default;
   }
 
-  constructor(props) {
-    super(props);
-    this.sendDataToParent = this.sendDataToParent.bind(this);
-  }
-
-  sendDataToParent() {
+  sendDataToParent = () => {
     this.props.dispatch(actionTrigger(UNSAVED_CHANGES, false));
     sendMessage('saveChart', this.props.saveData);
-  }
+  };
 
   render() {
     return (

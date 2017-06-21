@@ -9,9 +9,8 @@ import {
 import { getObjArrayKey, capitalize } from '../../../utils/misc';
 
 export default class Metadata extends Component {
-  constructor() {
-    super();
-    this.handler = this.handler.bind(this);
+  constructor(props) {
+    super(props);
     this.state = {
       title: '',
       caption: '',
@@ -27,7 +26,7 @@ export default class Metadata extends Component {
     this.setState(nextProps.metadata);
   }
 
-  handler(fieldProps, value) {
+  handler = (fieldProps, value) => {
     const theUpdate = {
       [fieldProps.name]: value,
     };
@@ -35,7 +34,7 @@ export default class Metadata extends Component {
     // setState() is async so we also need to return copy with update()
     this.setState(theUpdate);
     return update(this.state, { $merge: theUpdate });
-  }
+  };
 
   render() {
     return (
