@@ -12,7 +12,7 @@ import {
 import update from 'immutability-helper';
 import { getChartTypeObject, getChartTypeDefaultOpts } from './chartTypeUtils';
 import defaultPalette from '../constants/defaultPalette';
-import applyTickFormatters from '../middleware/utils/applyTickFormatters';
+import applyTickFormatters from '../reducers/utils/applyTickFormatters';
 import { defaultTickFormatSettings } from '../constants/defaultTickFormatSettings';
 
 /**

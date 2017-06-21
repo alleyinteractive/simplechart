@@ -8,7 +8,6 @@ import { AppContainer } from 'react-hot-loader';
 // Middleware
 import thunk from 'redux-thunk';
 import receiveRawData from './middleware/receiveRawData';
-import receiveChartOptions from './middleware/receiveChartOptions';
 import receiveHelpDocument from './middleware/receiveHelpDocument';
 import actionLogging from './middleware/actionLogging';
 
@@ -32,7 +31,6 @@ const store = createStore(
     applyMiddleware(
       thunk,
       receiveRawData,
-      receiveChartOptions,
       receiveHelpDocument,
       actionLogging
     )

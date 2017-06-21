@@ -1,21 +1,29 @@
+import cloneDeep from 'lodash/fp/cloneDeep';
+import get from 'lodash/fp/get';
 import merge from 'lodash/fp/merge';
+import set from 'lodash/fp/set';
 import {
   RECEIVE_CHART_OPTIONS,
   RECEIVE_CHART_TYPE,
   RECEIVE_DATE_FORMAT,
 } from '../constants';
-import applyChartTypeDefaults from '../middleware/utils/applyChartTypeDefaults';
-import applyTickFormatters from '../middleware/utils/applyTickFormatters';
-import applyYDomain from '../middleware/utils/applyYDomain';
+import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
+import applyTickFormatters from './utils/applyTickFormatters';
+import applyYDomain from './utils/applyYDomain';
+import { defaultBreakpointsOpt } from '../constants/chartTypes';
+import defaultPalette from '../constants/defaultPalette';
 import { transformParsedData } from '../utils/rawDataHelpers';
 
 export default function chartOptionsReducer(state, action) {
   switch (action.type) {
     case RECEIVE_CHART_OPTIONS:
-      return merge(state, { chartOptions: action.data });
+      return reduceReceiveChartOptions(state, action);
 
-    case RECEIVE_CHART_TYPE:
-      return reduceReceiveChartType(state, action);
+    case RECEIVE_CHART_TYPE: {
+      const newState = reduceReceiveChartType(state, action);
+      // Reduce chart options, so default options are applied.
+      return reduceReceiveChartOptions(newState, { data: {}, src: action.src });
+    }
 
     case RECEIVE_DATE_FORMAT:
       return reduceReceiveDateFormat(state, action);
@@ -26,63 +34,76 @@ export default function chartOptionsReducer(state, action) {
   return state;
 }
 
-function reduceReceiveChartType(state, { data, src }) {
-  let chartOptions = state.chartOptions;
-  const { config } = data;
+export function reduceReceiveChartOptions(state, { data, src }) {
+  const { chartData, chartType: { config } } = state;
+  let newOptions = cloneDeep(data);
+  const currentOptions = state.chartOptions;
+  const isBootstrap = 0 === src.indexOf('bootstrap');
 
-  // Setup chart type default options if NOT bootstrapping from postMessage
-  if (0 !== src.indexOf('bootstrap')) {
-    chartOptions = applyChartTypeDefaults(
-      config,
-      state.chartOptions,
-      state.defaultsAppliedTo
-    );
-
-    // set yDomain if chartData is set up
-    if (0 < state.chartData.length) {
-      chartOptions = applyYDomain(
-        chartOptions,
-        config,
-        state.transformedData[config.dataFormat]
-      );
+  if (!isBootstrap) {
+    const shouldApplyDefaultPallette = !get('color.length', currentOptions);
+    if (shouldApplyDefaultPallette) {
+      newOptions = merge(newOptions, { color: defaultPalette });
     }
 
-    // Apply tick formatting and return cloned opts object
-    chartOptions = applyTickFormatters(
-      chartOptions,
-      config,
-      state.dateFormat
-    );
+    const shouldApplyTickFormatters = newOptions.tickFormatSettings && config;
+    if (shouldApplyTickFormatters) {
+      newOptions = applyTickFormatters(newOptions, config);
+    }
   }
 
-  const hasChanged = state.chartType.type !== config.type;
-  const isScatter = 'nvd3ScatterMultiSeries' === config.dataFormat;
-  if (hasChanged && isScatter) {
-    chartOptions = applyAxisLabels(chartOptions, state.dataFields);
+  const shouldApplyYDomain = chartData.length && config && !newOptions.yDomain;
+  if (shouldApplyYDomain) {
+    newOptions = applyYDomain(newOptions, config, chartData);
+  }
+
+  const shouldApplyBreakpoints = !newOptions.breakpoints;
+  if (shouldApplyBreakpoints) {
+    const breakpoints = merge(defaultBreakpointsOpt, {
+      values: [{ height: newOptions.height || currentOptions.height }],
+    });
+    newOptions = merge(newOptions, { breakpoints });
   }
 
   return merge(state, {
-    chartType: data,
-    chartOptions,
-    defaultsAppliedTo: config.type,
+    chartOptions: newOptions,
     errorCode: '',
   });
 }
 
-function applyAxisLabels(chartOptions, dataFields) {
-  const [, xLabel, yLabel] = dataFields;
-  return merge(chartOptions, {
-    xAxis: {
-      axisLabel: xLabel,
-    },
-    yAxis: {
-      axisLabel: yLabel,
-    },
-  });
+export function reduceReceiveChartType(state, { data, src }) {
+  const { chartOptions, chartType, dataFields } = state;
+  const typeChanged = get('config.type', chartType) !== data.config.type;
+  const isBootstrap = 0 === src.indexOf('bootstrap');
+
+  if (isBootstrap || !typeChanged) {
+    return merge(state, { chartType: cloneDeep(data) });
+  }
+
+  let newOptions = applyChartTypeDefaults(data.config, chartOptions);
+
+  // Clear yDomain on chart type change to have a default one generated.
+  newOptions = set('yDomain', null, newOptions);
+
+  // Prepopulate labels for scatter charts
+  if ('nvd3ScatterMultiSeries' === data.config.dataFormat) {
+    const [, xLabel, yLabel] = dataFields;
+    newOptions = merge(newOptions, {
+      xAxis: {
+        axisLabel: xLabel,
+      },
+      yAxis: {
+        axisLabel: yLabel,
+      },
+    });
+  }
+
+  const newState = set('chartType', cloneDeep(data), state);
+  return merge(newState, { chartOptions: newOptions });
 }
 
-function reduceReceiveDateFormat(state, action) {
-  const dateFormat = merge(state.chartOptions.dateFormat, action.data);
+export function reduceReceiveDateFormat(state, { data }) {
+  const dateFormat = merge(state.chartOptions.dateFormat, data);
 
   const isValid = dateFormat.enabled && dateFormat.validated;
   if (!isValid) {
