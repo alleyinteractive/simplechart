@@ -30,8 +30,8 @@ class Help extends Component {
   /**
    * Get Markdown help doc contents as HTML
    *
-   * @param {string} docName
-   * @return {string} Empty string or HTML content from Markdown file
+   * @param {String} docName
+   * @return {String} Empty string or HTML content from Markdown file
    */
   getHtml = (docName) => {
     if (!docName) {

@@ -59,10 +59,10 @@ function getChangeKind(changeCode) {
 
 /**
  * Create change log for array and objects
- * @param {(object|array)} oldVal
- * @param {(object|array)} newVal
- * @param {string} actionType received
- * @return {string} Change log
+ * @param {(Object|Array)} oldVal
+ * @param {(Object|Array)} newVal
+ * @param {String} actionType received
+ * @return {String} Change log
  */
 function getDiff(oldVal, newVal, actionType) {
   const calcDiff = diff(oldVal, newVal);
@@ -95,9 +95,9 @@ function getDiff(oldVal, newVal, actionType) {
 /**
  * Compare keys that changed in received data vs store
  *
- * @param {object} action Received type and data
- * @param {function} getState
- * @return {object} Return type of data received and change log
+ * @param {Object} action Received type and data
+ * @param {Function} getState
+ * @return {Object} Return type of data received and change log
  */
 function getChanges(action, getState) {
   if (!actionsMap[action.type]) {

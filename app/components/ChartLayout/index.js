@@ -31,10 +31,10 @@ class ChartLayout extends Component {
   /**
    * Determine if a breakpoint already exists with a certain max width
    *
-   * @param {(int|string)} updateIdx Index in breakpoints array that we are attempting to overwrite
+   * @param {(int|String)} updateIdx Index in breakpoints array that we are attempting to overwrite
    * @param {int} maxWidth Max width value we are attempting to set
-   * @param {array} breakpoints List of all current breakpoints
-   * @return {boolean} True is max width already exists, false if not
+   * @param {Array} breakpoints List of all current breakpoints
+   * @return {Boolean} True is max width already exists, false if not
    */
   static maxWidthIsSet(updateIdx, maxWidth, breakpoints) {
     return 0 !== breakpoints.filter((point, idx) =>
