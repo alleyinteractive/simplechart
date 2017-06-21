@@ -16,11 +16,12 @@ class Widget extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      data: null,
-    };
     this.defaultPlaceholder = 'Loading';
   }
+
+  state = {
+    data: null,
+  };
 
   componentWillMount() {
     if (this.props.data.data[this.props.widget]) {

@@ -12,10 +12,7 @@ import helpPages from '../../pages/help';
  * Show Help content from Markdown file
  */
 class Help extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { content: '' };
-  }
+  state = { content: '' };
 
   componentWillMount() {
     this.setState({ content: this.getHtml(this.props.docName) });

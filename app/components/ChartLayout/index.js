@@ -39,13 +39,10 @@ class ChartLayout extends Component {
       ).length;
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      active: 0,
-      values: [],
-    };
-  }
+  state = {
+    active: 0,
+    values: [],
+  };
 
   componentWillMount() {
     if (this.props.options.breakpoints) {

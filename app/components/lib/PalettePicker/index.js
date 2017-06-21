@@ -20,14 +20,11 @@ class PalettePicker extends Component {
     return /^"?(.*?)"?$/i.exec(series.key || series.label)[1];
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [], // label, current, original for each data series
-      selectedIdx: 0, // current selected series in the picker
-      defaultPalette: [], // original received palette
-    };
-  }
+  state = {
+    data: [], // label, current, original for each data series
+    selectedIdx: 0, // current selected series in the picker
+    defaultPalette: [], // original received palette
+  };
 
   componentWillMount() {
     this.handleProps(this.props, true);

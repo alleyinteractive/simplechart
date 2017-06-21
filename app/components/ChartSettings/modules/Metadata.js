@@ -9,14 +9,11 @@ import {
 import { getObjArrayKey, capitalize } from '../../../utils/misc';
 
 export default class Metadata extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: '',
-      caption: '',
-      credit: '',
-    };
-  }
+  state = {
+    title: '',
+    caption: '',
+    credit: '',
+  };
 
   componentWillMount() {
     this.setState(this.props.metadata);

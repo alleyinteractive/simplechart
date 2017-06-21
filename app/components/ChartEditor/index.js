@@ -11,10 +11,7 @@ import appSteps from '../../constants/appSteps';
 import * as styles from './ChartEditor.css';
 
 export default class ChartEditor extends AppComponent {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {};
 
   componentDidMount() {
     window.addEventListener('resize', this.updateDimensions);

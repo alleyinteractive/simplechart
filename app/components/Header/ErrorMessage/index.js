@@ -18,10 +18,7 @@ class ErrorMessage extends Component {
     };
   }
 
-  constructor(props) {
-    super(props);
-    this.state = { open: false, children: false };
-  }
+  state = { open: false, children: false };
 
   componentWillMount() {
     this.setState(ErrorMessage.toSetState(this.props));

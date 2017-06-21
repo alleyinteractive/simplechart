@@ -65,10 +65,7 @@ class Chart extends Component {
     return getChartTypeObject(props.options.type).config.componentName;
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {};
 
   componentWillMount() {
     if (this.props.options.type) {
