@@ -56,7 +56,7 @@ export default class NVD3Adapter extends Component {
     // Widgets need to recreate function-based options
     const typeConfig = getChartTypeObject(options.type).config;
     const defaultOpts = getChartTypeDefaultOpts(options.type);
-    chartProps = Object.assign({}, chartProps, typeConfig, defaultOpts);
+    chartProps = Object.assign({}, defaultOpts, chartProps, typeConfig);
     chartProps = applyYDomain(chartProps, typeConfig, data);
 
     return applyTickFormatters(chartProps, typeConfig);
