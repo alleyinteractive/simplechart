@@ -35,7 +35,7 @@ test('dispatches error if no api key in state', (done) => {
 });
 
 test('handles request to fetch sheet data', (done) => {
-  const mockCSV = `Group,Count\nGroup A,3\n`;
+  const mockCSV = `Group,Count\nGroup A,3`;
   const mockResponse = {
     status: '200',
     json() {

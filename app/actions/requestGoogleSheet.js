@@ -68,5 +68,5 @@ function parseId(input) {
  * @returns {String}
  */
 function toCSV(responseData) {
-  return responseData.values.reduce((acc, row) => `${acc + row.join(',')}\n`, '');
+  return responseData.values.reduce((acc, row) => `${acc + row.join(',')}\n`, '').trim();
 }
