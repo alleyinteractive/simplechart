@@ -151,7 +151,7 @@ class DataInput extends AppComponent {
             name="google-sheets-id"
             onChange={this._setSheetId}
             style={{ marginBottom: 0 }}
-            value={this.state.googleSheetId}
+            value={this.state.googleSheetId || ''}
           />
           <HelpTrigger docName="googleSheets" />
         </div>
