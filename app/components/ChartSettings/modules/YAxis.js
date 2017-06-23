@@ -36,6 +36,8 @@ class YAxis extends Component {
       <AccordionBlock
         title="Y Axis"
         defaultExpand={this.props.defaultExpand}
+        toggleCallback={this.props.toggleCallback}
+        updateExpandOnProps
       >
         <DispatchField
           action={RECEIVE_CHART_OPTIONS}
@@ -78,6 +80,7 @@ class YAxis extends Component {
 YAxis.propTypes = {
   options: PropTypes.object,
   defaultExpand: PropTypes.bool,
+  toggleCallback: PropTypes.func,
 };
 
 export default YAxis;

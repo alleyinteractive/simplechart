@@ -19,6 +19,8 @@ class XAxis extends Component {
         title="X Axis"
         tooltip="Settings for the X axis"
         defaultExpand={this.props.defaultExpand}
+        toggleCallback={this.props.toggleCallback}
+        updateExpandOnProps
       >
         <DispatchField
           action={RECEIVE_CHART_OPTIONS}
@@ -48,6 +50,7 @@ class XAxis extends Component {
 XAxis.propTypes = {
   options: PropTypes.object,
   defaultExpand: PropTypes.bool,
+  toggleCallback: PropTypes.func,
 };
 
 export default XAxis;
