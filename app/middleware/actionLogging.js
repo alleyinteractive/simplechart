@@ -106,7 +106,7 @@ function getChanges(action, getState) {
   }
 
   // e.g. if action.type is RECEIVE_CHART_DATA, we want getState().chartData
-  if (!ownsProperties(getState(), actionsMap[action.type])) {
+  if (!ownsProperties(getState(), [actionsMap[action.type]])) {
     return { dataType: 'Unknown', changeLog: 'Unknown' };
   }
 
