@@ -18,6 +18,7 @@ export default class Metadata extends Component {
     title: '',
     caption: '',
     credit: '',
+    subtitle: '',
   };
 
   componentWillMount() {
@@ -42,7 +43,7 @@ export default class Metadata extends Component {
     return (
       <AccordionBlock
         title="Metadata"
-        tooltip="Title, caption, credit"
+        tooltip="Title, subtitle, caption, credit"
         defaultExpand={this.props.defaultExpand}
       >
         {Object.keys(this.state).map((key) =>

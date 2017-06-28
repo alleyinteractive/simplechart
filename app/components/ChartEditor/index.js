@@ -81,6 +81,7 @@ export default class ChartEditor extends AppComponent {
     return (
       <div className={styles.chartContainer} style={{ width, left }}>
         <h3>{state.chartMetadata.title}</h3>
+        <h2>{state.chartMetaData.subtitle}</h2>
         <Chart
           data={state.chartData}
           options={state.chartOptions}
