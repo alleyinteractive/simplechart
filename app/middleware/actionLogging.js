@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
+import diff from 'deep-diff';
 import enableActionLogging from '../constants/enableActionLogging';
 import * as actions from '../constants';
-import { actionsMap } from '../constants/actionsStateKeysMap';
-import diff from 'deep-diff';
+import actionsMap from '../constants/actionsStateKeysMap';
+import { ownsProperties } from '../utils/misc';
 
-function _getStringChange(oldVal, newVal) {
+function getStringChange(oldVal, newVal) {
   if (oldVal === newVal) {
     return 'No change';
   } else if (!oldVal.length && newVal.length) {
@@ -15,7 +16,7 @@ function _getStringChange(oldVal, newVal) {
   return 'Updated';
 }
 
-function _getBoolChange(oldVal, newVal) {
+function getBoolChange(oldVal, newVal) {
   if (oldVal && newVal) {
     return 'true -> true';
   } else if (!oldVal && !newVal) {
@@ -26,7 +27,7 @@ function _getBoolChange(oldVal, newVal) {
   return 'false -> true';
 }
 
-function _getNumberChange(oldVal, newVal) {
+function getNumberChange(oldVal, newVal) {
   let dir;
   if (oldVal === newVal) {
     return 'No change';
@@ -38,7 +39,7 @@ function _getNumberChange(oldVal, newVal) {
   return `${dir} ${oldVal} -> ${newVal}`;
 }
 
-function _getChangeKind(changeCode) {
+function getChangeKind(changeCode) {
   switch (changeCode) {
     case 'N':
       return 'Addition';
@@ -59,19 +60,19 @@ function _getChangeKind(changeCode) {
 
 /**
  * Create change log for array and objects
- * @param obj|array oldVal
- * @param obj|array newVal
- * @param string Action type received
- * @return string Change log
+ * @param {(Object|Array)} oldVal
+ * @param {(Object|Array)} newVal
+ * @param {String} actionType received
+ * @return {String} Change log
  */
-function _getDiff(oldVal, newVal, actionType) {
+function getDiff(oldVal, newVal, actionType) {
   const calcDiff = diff(oldVal, newVal);
   if (!calcDiff || !calcDiff.length) {
     return 'No changes';
   }
 
   return calcDiff.reduce((log, change) => {
-    let kind = _getChangeKind(change.kind);
+    let kind = getChangeKind(change.kind);
     let location;
 
     // Special case to skip RECEIVE_CHART_OPTIONS* since it merges in new fields
@@ -84,7 +85,7 @@ function _getDiff(oldVal, newVal, actionType) {
       location = change.path.join('.');
     } else {
       // If an array change
-      kind = _getChangeKind(change.item.kind);
+      kind = getChangeKind(change.item.kind);
       location = `index ${change.index}`;
     }
 
@@ -95,17 +96,17 @@ function _getDiff(oldVal, newVal, actionType) {
 /**
  * Compare keys that changed in received data vs store
  *
- * @param obj action Received type and data
- * @param func getState
- * @return obj Return tyep of data received and change log
+ * @param {Object} action Received type and data
+ * @param {Function} getState
+ * @return {Object} Return type of data received and change log
  */
-function _getChanges(action, getState) {
+function getChanges(action, getState) {
   if (!actionsMap[action.type]) {
     return {};
   }
 
   // e.g. if action.type is RECEIVE_CHART_DATA, we want getState().chartData
-  if (!getState().hasOwnProperty(actionsMap[action.type])) {
+  if (!ownsProperties(getState(), [actionsMap[action.type]])) {
     return { dataType: 'Unknown', changeLog: 'Unknown' };
   }
 
@@ -115,37 +116,37 @@ function _getChanges(action, getState) {
   switch (true) {
     case 'boolean' === typeof stateVal:
       changes.dataType = 'boolean';
-      changes.changeLog = _getBoolChange(stateVal, action.data);
+      changes.changeLog = getBoolChange(stateVal, action.data);
       break;
 
     case 'string' === typeof stateVal:
       changes.dataType = 'string';
-      changes.changeLog = _getStringChange(stateVal, action.data);
+      changes.changeLog = getStringChange(stateVal, action.data);
       break;
 
     case 'number' === typeof stateVal:
       changes.dataType = 'number';
-      changes.changeLog = _getNumberChange(stateVal, action.data);
+      changes.changeLog = getNumberChange(stateVal, action.data);
       break;
 
     case 'function' === typeof stateVal.concat:
       changes.dataType = 'array';
-      changes.changeLog = _getDiff(stateVal, action.data, action.type);
+      changes.changeLog = getDiff(stateVal, action.data, action.type);
       break;
 
     default:
       changes.dataType = 'object';
-      changes.changeLog = _getDiff(stateVal, action.data, action.type);
+      changes.changeLog = getDiff(stateVal, action.data, action.type);
       break;
   }
   return changes;
 }
 
-function _isEnabled() {
+function isEnabled() {
   if (!enableActionLogging.enabled) {
     return false;
   }
-  return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+  return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? // eslint-disable-line no-underscore-dangle
     enableActionLogging.enableIfReduxDevTools : true;
 }
 
@@ -163,8 +164,8 @@ export default function middleware({ getState }) {
       actions.UPDATE_CURRENT_STEP,
       actions.UNSAVED_CHANGES,
     ];
-    if (_isEnabled() && -1 === skipLogging.indexOf(action.type)) {
-      const changes = _getChanges(action, getState);
+    if (isEnabled() && -1 === skipLogging.indexOf(action.type)) {
+      const changes = getChanges(action, getState);
       console.log(`Received ${action.type} with data type ${changes.dataType}:`);
       console.log(changes.changeLog);
       console.log('--------------');

@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import update from 'immutability-helper';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
+import modules from './modules';
+import customModules from './modules/custom';
 
-class ChartSettings extends Component {
-  constructor() {
-    super();
-    this._hasModule = this._hasModule.bind(this);
-    this._renderModule = this._renderModule.bind(this);
-    this._shouldDefaultExpand = this._shouldDefaultExpand.bind(this);
-  }
+export default class ChartSettings extends Component {
+  static propTypes = {
+    metadata: PropTypes.object.isRequired,
+    options: PropTypes.object.isRequired,
+    data: PropTypes.array.isRequired,
+    typeConfig: PropTypes.object.isRequired,
+  };
 
   componentWillMount() {
     this.setState({
@@ -17,55 +19,56 @@ class ChartSettings extends Component {
     });
   }
 
-  _hasModule(name) {
-    return -1 !== this.state.modules.indexOf(name);
-  }
+  hasModule = (name) => -1 !== this.state.modules.indexOf(name);
 
-  _renderModule(name) {
-    if (!this._hasModule(name)) {
+  shouldDefaultExpand = () => {
+    let nModules = this.state.modules.length;
+    if (this.props.typeConfig.settingsComponent) {
+      nModules += 1;
+    }
+    return 1 === nModules;
+  };
+
+  renderCustomSettings = (config) => {
+    if (!config.settingsComponent) {
+      return null;
+    }
+    const Module = customModules[config.settingsComponent];
+    return (
+      <Module
+        options={this.props.options}
+        defaultExpand={this.shouldDefaultExpand()}
+      />
+    );
+  };
+
+  renderModule = (name) => {
+    if (!this.hasModule(name)) {
       return null;
     }
 
     // Setup props, handling special cases for Metadata and ColorPalette
     const moduleProps = update({}, {
-      defaultExpand: { $set: this._shouldDefaultExpand() },
+      defaultExpand: { $set: this.shouldDefaultExpand() },
       options: { $set: 'Metadata' !== name ? this.props.options : {} },
       metadata: { $set: 'Metadata' === name ? this.props.metadata : {} },
       data: { $set: 'ColorPalette' === name ? this.props.data : [] },
     });
-    const module = require(`./modules/${name}`).default;
-    return React.createElement(module, moduleProps);
-  }
 
-  _shouldDefaultExpand() {
-    let nModules = this.state.modules.length;
-    if (this.props.typeConfig.settingsComponent) {
-      nModules++;
-    }
-    return 1 === nModules;
-  }
-
-  _renderCustomSettings(config) {
-    if (!config.settingsComponent) {
-      return null;
-    }
-    const module = require(`./modules/custom/${config.settingsComponent}`).default;
-    return React.createElement(module, {
-      options: this.props.options,
-      defaultExpand: this._shouldDefaultExpand(),
-    });
-  }
+    const Module = modules[name];
+    return <Module {...moduleProps} />;
+  };
 
   render() {
     return (
       <div>
         <div>
-          {this._renderModule('XAxis')}
-          {this._renderModule('YAxis')}
-          {this._renderModule('Legend')}
-          {this._renderModule('Metadata')}
-          {this._renderModule('ColorPalette')}
-          {this._renderCustomSettings(this.props.typeConfig)}
+          {this.renderModule('XAxis')}
+          {this.renderModule('YAxis')}
+          {this.renderModule('Legend')}
+          {this.renderModule('Metadata')}
+          {this.renderModule('ColorPalette')}
+          {this.renderCustomSettings(this.props.typeConfig)}
         </div>
         <NextPrevButton
           text="Next"
@@ -76,12 +79,3 @@ class ChartSettings extends Component {
     );
   }
 }
-
-ChartSettings.propTypes = {
-  metadata: PropTypes.object,
-  options: PropTypes.object,
-  data: PropTypes.array,
-  typeConfig: PropTypes.object,
-};
-
-export default ChartSettings;

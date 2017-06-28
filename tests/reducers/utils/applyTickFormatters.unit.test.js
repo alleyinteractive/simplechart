@@ -1,34 +1,37 @@
-import applyTickFormatters, { _getXAxis, _getYAxis }
-  from '../../../app/reducers/utils/applyTickFormatters';
+import applyTickFormatters, {
+  getXAxis,
+  getYAxis,
+} from '../../../app/reducers/utils/applyTickFormatters';
 import * as dateUtils from '../../../app/utils/parseDate';
 
 test('Test Y Axis formatting functions', () => {
   // empty -> empty
-  expect(_getYAxis()).toEqual({});
+  expect(getYAxis()).toEqual({});
 
   // No YAxis setting
-  expect(_getYAxis({}, 'formatter func', { modules: { settings: ['XAxis'] } }))
+  expect(getYAxis({}, 'formatter func', { modules: { settings: ['XAxis'] } }))
     .toEqual({});
 
   // Merge into empty input object
-  expect(_getYAxis({}, 'formatter func', { modules: { settings: ['YAxis'] } }))
-    .toEqual({ tickFormat: 'formatter func'});
+  expect(getYAxis({}, 'formatter func', { modules: { settings: ['YAxis'] } }))
+    .toEqual({ tickFormat: 'formatter func' });
 
   // Merge into non-empty input object
-  expect(_getYAxis({ foo: 'bar' }, 'formatter func', { modules: { settings: ['YAxis'] } }))
-    .toEqual({ foo: 'bar', tickFormat: 'formatter func'});
+  expect(getYAxis({ foo: 'bar' }, 'formatter func', { modules: { settings: ['YAxis'] } }))
+    .toEqual({ foo: 'bar', tickFormat: 'formatter func' });
 });
 
 test('Test X Axis formatting functions', () => {
   const formatString = 'YYYYMMDD';
-  const mergeTest = _getXAxis({ foo: 'bar' }, formatString);
+  const mergeTest = getXAxis({ foo: 'bar' }, formatString);
   // Test that object set up correctly
   expect(Object.keys(mergeTest)).toHaveLength(2);
   expect(Object.keys(mergeTest)).toContain('foo');
   expect(Object.keys(mergeTest)).toContain('tickFormat');
 
   // Test output for tickFormat function
-  expect(mergeTest.tickFormat(Date.now)).toEqual(dateUtils.format(Date.now, formatString));
+  expect(mergeTest.tickFormat(Date.now))
+    .toEqual(dateUtils.format(Date.now, formatString));
 });
 
 test('applyTickFormatters function', () => {
@@ -40,14 +43,14 @@ test('applyTickFormatters function', () => {
       foo: 'bar', // will cause default tickFormat func to be returned
     },
     other: {
-      misc: 'other miscellaneous options'
+      misc: 'other miscellaneous options',
     },
   };
 
   const typeConfig = {
     dataFormat: 'nvd3SingleSeries',
     modules: {
-      settings: [ 'YAxis' ],
+      settings: ['YAxis'],
     },
   };
 

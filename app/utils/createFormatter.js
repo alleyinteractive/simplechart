@@ -1,8 +1,8 @@
 import { format, formatLocale } from 'd3-format';
-import { locales, defaultLocaleIndex } from '../constants/d3Locales';
 import update from 'immutability-helper';
+import { locales, defaultLocaleIndex } from '../constants/d3Locales';
 
-function _getLocaleSettings(idx) {
+function getLocaleSettings(idx) {
   let localeData;
   if (isNaN(idx) || !locales[idx]) {
     localeData = locales[defaultLocaleIndex];
@@ -22,7 +22,7 @@ function _getLocaleSettings(idx) {
 /**
  * Build specifier string per https://github.com/d3/d3-format#locale_format
  */
-function _buildD3FormatSpecifier(settings) {
+function buildD3FormatSpecifier(settings) {
   let parts = '';
   if (settings.showCurrencySymbol) {
     parts += '$';
@@ -35,11 +35,11 @@ function _buildD3FormatSpecifier(settings) {
   return parts;
 }
 
-function _buildD3Format(settings) {
+function buildD3Format(settings) {
   const locale = formatLocale(
-    _getLocaleSettings(parseInt(settings.locale, 10))
+    getLocaleSettings(parseInt(settings.locale, 10))
   );
-  return locale.format(_buildD3FormatSpecifier(settings));
+  return locale.format(buildD3FormatSpecifier(settings));
 }
 
 /**
@@ -61,7 +61,7 @@ export default function createFormatter(settings) {
   try {
     formatter = (value) => [
       settings.prepend,
-      _buildD3Format(settings)(value * settings.multiplier),
+      buildD3Format(settings)(value * settings.multiplier),
       settings.append,
     ].join('');
   } catch (err) {

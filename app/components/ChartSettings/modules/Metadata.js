@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import update from 'immutability-helper';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import DispatchField from '../../lib/DispatchField';
 import {
   RECEIVE_CHART_METADATA,
 } from '../../../constants';
 import { getObjArrayKey, capitalize } from '../../../utils/misc';
-import update from 'immutability-helper';
 
-class Metadata extends Component {
-  constructor() {
-    super();
-    this._handler = this._handler.bind(this);
-    this.state = {
-      title: '',
-      caption: '',
-      credit: '',
-    };
-  }
+export default class Metadata extends Component {
+  static propTypes = {
+    metadata: PropTypes.object.isRequired,
+    defaultExpand: PropTypes.bool.isRequired,
+  };
+
+  state = {
+    title: '',
+    caption: '',
+    credit: '',
+  };
 
   componentWillMount() {
     this.setState(this.props.metadata);
@@ -27,7 +28,7 @@ class Metadata extends Component {
     this.setState(nextProps.metadata);
   }
 
-  _handler(fieldProps, value) {
+  handler = (fieldProps, value) => {
     const theUpdate = {
       [fieldProps.name]: value,
     };
@@ -35,7 +36,7 @@ class Metadata extends Component {
     // setState() is async so we also need to return copy with update()
     this.setState(theUpdate);
     return update(this.state, { $merge: theUpdate });
-  }
+  };
 
   render() {
     return (
@@ -55,7 +56,7 @@ class Metadata extends Component {
                   name: key,
                   value: getObjArrayKey(this.state, key, ''),
                 }}
-                handler={this._handler}
+                handler={this.handler}
               />
             </div>
           )
@@ -64,10 +65,3 @@ class Metadata extends Component {
     );
   }
 }
-
-Metadata.propTypes = {
-  metadata: PropTypes.object,
-  defaultExpand: PropTypes.bool,
-};
-
-export default Metadata;

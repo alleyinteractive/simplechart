@@ -3,9 +3,9 @@
  * { foo: { bar: { bop: value } } }
  * to use with https://facebook.github.io/react/docs/update.html
  *
- * @param string tree Use dots to indicate multiple levels for depth
- * @param any value Value to apply to the deepest level of the tree
- * @return obj
+ * @param {String} treeString Use dots to indicate multiple levels for depth
+ * @param {*} value Value to apply to the deepest level of the tree
+ * @return {Object}
  */
 export default function (treeString, value) {
   let treeObj;

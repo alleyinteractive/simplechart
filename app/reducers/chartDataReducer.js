@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import update from 'immutability-helper';
 import { RECEIVE_CHART_OPTIONS, RECEIVE_CHART_TYPE, TRANSFORM_DATA } from '../constants';
-import { dataIsMultiSeries, loopArrayItemAtIndex } from '../utils/misc';
+import { dataIsMultiSeries, loopArrayItemAtIndex, ownsProperties } from '../utils/misc';
 
 export default function chartDataReducer(state, action) {
   const { chartData, chartOptions, chartType, transformedData } = state;
@@ -60,7 +60,7 @@ function reduceChartData(chartData, dataFormat, transformedData, colors = []) {
 }
 
 function checkShouldApplyColors(state, action) {
-  if (!action.data.hasOwnProperty('color')) {
+  if (!ownsProperties(action.data, ['color'])) {
     return false;
   }
 
@@ -75,7 +75,7 @@ function checkShouldApplyColors(state, action) {
   }
 
   // Test if at least one series doesn't have a color already
-  const hasNoColor = state.chartData.find((series) => !series.hasOwnProperty('color'));
+  const hasNoColor = state.chartData.find((series) => !ownsProperties(series, ['color']));
   return !!hasNoColor;
 }
 

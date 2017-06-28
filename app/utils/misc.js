@@ -40,12 +40,14 @@ export function dataIsMultiSeries(data) {
 /**
  * get value from key or default if not set, also works for arrays
  *
- * @param obj obj Basic object or array
- * @param str key Key to look for
- * @param any defaultValue Default to return if key is not set
+ * @param {Object} obj Basic object or array
+ * @param {String} key Key to look for
+ * @param {*} defaultValue Default to return if key is not set
  */
 export function getObjArrayKey(obj, key, defaultValue = '') {
-  return (obj && obj.hasOwnProperty(key)) ? obj[key] : defaultValue;
+  return obj && Object.prototype.hasOwnProperty.call(obj, key) ?
+    obj[key] :
+    defaultValue;
 }
 
 /**
@@ -65,4 +67,14 @@ export function capitalize(input) {
  */
 export function loopArrayItemAtIndex(idx, list) {
   return list[idx % list.length];
+}
+
+/**
+ * @param {object} obj
+ * @param {string|string[]} properties
+ * @returns {boolean}
+ */
+export function ownsProperties(obj, properties) {
+  return properties.every((property) =>
+    Object.prototype.hasOwnProperty.call(obj, property));
 }

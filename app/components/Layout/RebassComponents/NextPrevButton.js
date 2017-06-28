@@ -1,34 +1,39 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'rebass';
+import { connect } from 'react-redux';
 import { UPDATE_CURRENT_STEP } from '../../../constants';
 import actionTrigger from '../../../actions';
-import { connect } from 'react-redux';
 
 class NextPrevButton extends Component {
-  constructor() {
-    super();
-    this.changeStep = this.changeStep.bind(this);
-    this.enableButton = this.enableButton.bind(this);
-    this.disableStyles = this.disableStyles.bind(this);
-  }
+  static propTypes = {
+    text: PropTypes.string.isRequired,
+    currentStep: PropTypes.number.isRequired,
+    dir: PropTypes.string.isRequired,
+    shouldEnable: PropTypes.bool,
+    callback: PropTypes.func,
+    dispatch: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    shouldEnable: true,
+    callback: () => {},
+  };
 
   /**
    * Default to enabling button
    */
-  enableButton() {
-    return !this.props.hasOwnProperty('shouldEnable') || this.props.shouldEnable;
-  }
+  enableButton = () => this.props.shouldEnable;
 
-  disableStyles() {
-    return this.enableButton() ? {} :
-      {
-        cursor: 'default',
-        backgroundColor: 'rgb(136, 136, 136)',
-      };
-  }
+  disableStyles = () => (
+    this.enableButton() ? {} :
+    {
+      cursor: 'default',
+      backgroundColor: 'rgb(136, 136, 136)',
+    }
+  );
 
-  changeStep() {
+  changeStep = () => {
     const buttonIsEnabled = this.enableButton();
 
     // Change the currentStep if the button is enabled
@@ -41,11 +46,8 @@ class NextPrevButton extends Component {
       );
     }
 
-    // If a callback is provided, call it
-    if ('function' === typeof this.props.callback) {
-      this.props.callback(buttonIsEnabled);
-    }
-  }
+    this.props.callback(buttonIsEnabled);
+  };
 
   render() {
     return (
@@ -60,14 +62,5 @@ class NextPrevButton extends Component {
     );
   }
 }
-
-NextPrevButton.propTypes = {
-  text: PropTypes.string,
-  currentStep: PropTypes.number,
-  dir: PropTypes.string,
-  shouldEnable: PropTypes.bool,
-  callback: PropTypes.func,
-  dispatch: PropTypes.func,
-};
 
 export default connect()(NextPrevButton);

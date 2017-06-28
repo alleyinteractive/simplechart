@@ -4,7 +4,7 @@ const titles = {
   lineChart: 'Sample Line Chart',
 };
 
-function _chartTypeMetadata(type) {
+function chartTypeMetadata(type) {
   return {
     title: titles[type],
     caption: `Caption for ${titles[type]}`,
@@ -13,7 +13,7 @@ function _chartTypeMetadata(type) {
 }
 
 export default {
-  pieChart: _chartTypeMetadata('pieChart'),
-  discreteBarChart: _chartTypeMetadata('discreteBarChart'),
-  lineChart: _chartTypeMetadata('lineChart'),
+  pieChart: chartTypeMetadata('pieChart'),
+  discreteBarChart: chartTypeMetadata('discreteBarChart'),
+  lineChart: chartTypeMetadata('lineChart'),
 };

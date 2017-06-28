@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Fixed, Button, SequenceMap } from 'rebass';
-import logoSvg from '!!raw-loader!../../img/simplechartLogo.svg';
-import * as styles from './Header.css';
-import { appSteps } from '../../constants/appSteps';
 import { connect } from 'react-redux';
+import logoSvg from '../../img/simplechartLogo.svg';
+import * as styles from './Header.css';
+import appSteps from '../../constants/appSteps';
 import actionTrigger, { closeApp } from '../../actions';
 import { UPDATE_CURRENT_STEP } from '../../constants';
 import SaveChart from '../SaveChart';
@@ -12,18 +12,19 @@ import ErrorMessage from './ErrorMessage';
 import { getIsNextStepAvailable } from '../../selectors';
 
 class Header extends Component {
+  static propTypes = {
+    currentStep: PropTypes.number.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    unsavedChanges: PropTypes.bool.isRequired,
+    errorCode: PropTypes.string.isRequired,
+    cmsStatus: PropTypes.string.isRequired,
+    isNextStepAvailable: PropTypes.bool.isRequired,
+  };
+
   static mapStateToProps(state) {
     return Object.assign({}, state, {
       isNextStepAvailable: getIsNextStepAvailable(state),
     });
-  }
-
-  constructor() {
-    super();
-    this._sequenceSteps = this._sequenceSteps.bind(this);
-    this._cancelEdits = this._cancelEdits.bind(this);
-    this._renderUnsavedWarning = this._renderUnsavedWarning.bind(this);
-    this._closeUnsavedWarning = this._closeUnsavedWarning.bind(this);
   }
 
   componentWillMount() {
@@ -40,7 +41,7 @@ class Header extends Component {
     });
   }
 
-  _updateCurrentStep(step, evt) {
+  updateCurrentStep = (step, evt) => {
     if (step > this.state.currentStep && !this.props.isNextStepAvailable) {
       return;
     }
@@ -50,34 +51,32 @@ class Header extends Component {
       UPDATE_CURRENT_STEP,
       step
     ));
-  }
+  };
 
-  _sequenceSteps() {
-    return appSteps.map((label, i) => ({
-      children: label,
-      onClick: this._updateCurrentStep.bind(this, i),
-    }));
-  }
+  sequenceSteps = () => appSteps.map((label, i) => ({
+    children: label,
+    onClick: this.updateCurrentStep.bind(this, i),
+  }));
 
-  _cancelEdits() {
+  cancelEdits = () => {
     if (!this.props.unsavedChanges) {
       this.props.dispatch(closeApp());
       return;
     }
     this.setState({ showUnsavedWarning: true });
-  }
+  };
 
-  _closeUnsavedWarning(evt) {
+  closeUnsavedWarning = (evt) => {
     if (evt.target.hasAttribute('data-closeApp')) {
       this.props.dispatch(closeApp());
     }
     this.setState({ showUnsavedWarning: false });
-  }
+  };
 
   /**
    * Special case since we need to render JSX inside the ErrorMessage component
    */
-  _renderUnsavedWarning() {
+  renderUnsavedWarning = () => {
     if (!this.state.showUnsavedWarning) {
       return '';
     }
@@ -88,13 +87,13 @@ class Header extends Component {
         <a
           href="#0"
           data-closeApp
-          onClick={this._closeUnsavedWarning}
+          onClick={this.closeUnsavedWarning}
         >Exit without saving</a>
         &nbsp;or&nbsp;
-        <a href="#0" onClick={this._closeUnsavedWarning}>keep working</a>.
+        <a href="#0" onClick={this.closeUnsavedWarning}>keep working</a>.
       </ErrorMessage>
     );
-  }
+  };
 
   render() {
     return (
@@ -102,13 +101,13 @@ class Header extends Component {
         <div className={styles.inner}>
           <div
             className={styles.logoContainer}
-            dangerouslySetInnerHTML={{ __html: logoSvg }}
+            dangerouslySetInnerHTML={{ __html: logoSvg }} // eslint-disable-line react/no-danger
           />
 
           <div className={styles.sequenceContainer}>
             <SequenceMap
               active={this.state.currentStep}
-              steps={this._sequenceSteps()}
+              steps={this.sequenceSteps()}
             />
           </div>
 
@@ -121,26 +120,17 @@ class Header extends Component {
             <Button
               theme="error"
               rounded
-              onClick={this._cancelEdits}
+              onClick={this.cancelEdits}
             >Exit</Button>
           </div>
         </div>
         {this.props.errorCode ?
           (<ErrorMessage code={this.props.errorCode}>{false}</ErrorMessage>) :
-          this._renderUnsavedWarning()
+          this.renderUnsavedWarning()
         }
       </Fixed>
     );
   }
 }
-
-Header.propTypes = {
-  currentStep: PropTypes.number,
-  dispatch: PropTypes.func,
-  unsavedChanges: PropTypes.bool,
-  errorCode: PropTypes.string,
-  cmsStatus: PropTypes.string,
-  isNextStepAvailable: PropTypes.bool,
-};
 
 export default connect(Header.mapStateToProps)(Header);

@@ -1,11 +1,11 @@
-import singleSeries from '!!raw-loader!./singleSeries.csv';
-import countriesByYear from '!!raw-loader!./countriesByYear.csv';
-import emissionsPerCountry from '!!raw-loader!./emissionsPerCountry.csv';
-import stockMarkets from '!!raw-loader!./stockMarkets.csv';
-import engineMpg from '!!raw-loader!./engineMpg.csv';
-import products from '!!raw-loader!./productsRevenueRatingProductionCost.csv';
+import singleSeries from './singleSeries.csv';
+import countriesByYear from './countriesByYear.csv';
+import emissionsPerCountry from './emissionsPerCountry.csv';
+import stockMarkets from './stockMarkets.csv';
+import engineMpg from './engineMpg.csv';
+import products from './productsRevenueRatingProductionCost.csv';
 
-export const sampleData = [
+export default [
   {
     label: 'Single Data Series',
     data: singleSeries,
