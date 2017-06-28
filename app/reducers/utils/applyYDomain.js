@@ -1,5 +1,6 @@
 import update from 'immutability-helper';
 import getRangeDomain from '../../utils/dataFormats/getRangeDomain';
+import { ownsProperties } from '../../utils/misc';
 
 /**
  * Need to setup yDomain for NVD3 chart that requires YAXis
@@ -24,7 +25,7 @@ export default function applyYDomain(chartOptions, typeConfig, chartData) {
   }
 
   let yDomain;
-  if (typeConfig.getNiceDomain) {
+  if (ownsProperties(typeConfig, ['getNiceDomain'])) {
     yDomain = typeConfig.getNiceDomain(typeConfig.dataFormat, chartData);
   } else {
     yDomain = getRangeDomain(typeConfig.dataFormat, chartData);

@@ -68,3 +68,13 @@ export function capitalize(input) {
 export function loopArrayItemAtIndex(idx, list) {
   return list[idx % list.length];
 }
+
+/**
+ * @param {object} obj
+ * @param {string|string[]} properties
+ * @returns {boolean}
+ */
+export function ownsProperties(obj, properties) {
+  return properties.every((property) =>
+    Object.prototype.hasOwnProperty.call(obj, property));
+}

@@ -11,6 +11,7 @@ import {
 } from '../constants';
 import { receiveMessage, setupPostMessage, sendMessage } from '../utils/postMessage';
 import bootstrapStore from '../utils/bootstrapStore';
+import { ownsProperties } from '../utils/misc';
 
 // For IE11 support
 polyfill();
@@ -31,9 +32,7 @@ export function bootstrapAppData() {
      * Confirm data formatting then bootstrap the store
      */
     function validateEvt(evt) {
-      return evt.data &&
-        evt.data.data &&
-        evt.data.messageType;
+      return evt.data && ownsProperties(evt.data, ['data', 'messageType']);
     }
 
     function initBootstrap(evt) {

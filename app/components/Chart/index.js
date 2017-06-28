@@ -5,7 +5,7 @@ import chartTypeLoader from '../../utils/chartTypeLoader';
 import RuledBox from '../lib/RuledBox';
 import { getChartTypeObject } from '../../utils/chartTypeUtils';
 import { defaultBreakpoint } from '../../constants/chartTypes';
-import { debounce } from '../../utils/misc';
+import { debounce, ownsProperties } from '../../utils/misc';
 
 class Chart extends Component {
   static propTypes = {
@@ -66,7 +66,7 @@ class Chart extends Component {
       return Chart.breakpointForWindow(breakpoints.values) || defaultBreakpoint;
     }
 
-    const idx = breakpoints.active ? breakpoints.active : 0;
+    const idx = ownsProperties(breakpoints, ['active']) ? breakpoints.active : 0;
     return breakpoints.values[idx] || defaultBreakpoint;
   }
 

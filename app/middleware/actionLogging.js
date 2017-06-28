@@ -3,6 +3,7 @@ import diff from 'deep-diff';
 import enableActionLogging from '../constants/enableActionLogging';
 import * as actions from '../constants';
 import actionsMap from '../constants/actionsStateKeysMap';
+import { ownsProperties } from '../utils/misc';
 
 function getStringChange(oldVal, newVal) {
   if (oldVal === newVal) {
@@ -105,7 +106,7 @@ function getChanges(action, getState) {
   }
 
   // e.g. if action.type is RECEIVE_CHART_DATA, we want getState().chartData
-  if (!getState()[actionsMap[action.type]]) {
+  if (!ownsProperties(getState(), actionsMap[action.type])) {
     return { dataType: 'Unknown', changeLog: 'Unknown' };
   }
 
