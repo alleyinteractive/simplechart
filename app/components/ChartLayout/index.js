@@ -161,7 +161,7 @@ class ChartLayout extends Component {
         key={`breakpoint.${idx}`}
         defaultExpand={this.state.active === idx}
         updateExpandOnProps
-        toggleCallback={callback}
+        onToggle={callback}
       >
         <DispatchField
           fieldType="Checkbox"

@@ -13,7 +13,7 @@ class Legend extends Component {
         title="Legend"
         tooltip="Settings for the chart legend"
         defaultExpand={this.props.defaultExpand}
-        toggleCallback={this.props.toggleCallback}
+        onToggle={this.props.onToggle}
         updateExpandOnProps
       >
         <DispatchField
@@ -33,7 +33,7 @@ class Legend extends Component {
 Legend.propTypes = {
   options: PropTypes.object,
   defaultExpand: PropTypes.bool,
-  toggleCallback: PropTypes.func,
+  onToggle: PropTypes.func,
 };
 
 export default Legend;

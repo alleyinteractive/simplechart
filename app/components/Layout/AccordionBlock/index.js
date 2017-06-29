@@ -35,8 +35,8 @@ class AccordionBlock extends Component {
     this.setState({
       expanded: !this.state.expanded,
     });
-    if (this.props.toggleCallback) {
-      this.props.toggleCallback(!this.state.expanded);
+    if (this.props.onToggle) {
+      this.props.onToggle(!this.state.expanded);
     }
   }
 
@@ -55,6 +55,7 @@ class AccordionBlock extends Component {
         <PanelHeader
           inverted
           theme="info"
+          onClick={this.toggleExpanded}
         >
           {this.props.title}
           <Tooltip
@@ -102,7 +103,7 @@ AccordionBlock.propTypes = {
   defaultExpand: PropTypes.bool,
   updateExpandOnProps: PropTypes.bool,
   tooltip: PropTypes.string,
-  toggleCallback: PropTypes.func,
+  onToggle: PropTypes.func,
 };
 
 export default AccordionBlock;
