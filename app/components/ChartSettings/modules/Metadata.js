@@ -1,33 +1,45 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import update from 'immutability-helper';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import DispatchField from '../../lib/DispatchField';
 import {
   RECEIVE_CHART_METADATA,
 } from '../../../constants';
-import { getObjArrayKey, capitalize } from '../../../utils/misc';
-import update from 'immutability-helper';
+import { getObjArrayKeyStringOnly, capitalize } from '../../../utils/misc';
 
-class Metadata extends Component {
-  constructor() {
-    super();
-    this._handler = this._handler.bind(this);
-    this.state = {
-      title: '',
-      caption: '',
-      credit: '',
-    };
-  }
+export default class Metadata extends Component {
+  static propTypes = {
+    metadata: PropTypes.object.isRequired,
+    defaultExpand: PropTypes.bool.isRequired,
+  };
+
+  state = {
+    title: '',
+    caption: '',
+    credit: '',
+    subtitle: false,
+  };
 
   componentWillMount() {
     this.setState(this.props.metadata);
+    if (false !== this.props.metadata.subtitle) {
+      this.shouldShowMetadata.subtitle = true;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState(nextProps.metadata);
   }
 
-  _handler(fieldProps, value) {
+  shouldShowMetadata = {
+    title: true,
+    caption: true,
+    credit: true,
+    subtitle: false,
+  }
+
+  handler = (fieldProps, value) => {
     const theUpdate = {
       [fieldProps.name]: value,
     };
@@ -35,13 +47,16 @@ class Metadata extends Component {
     // setState() is async so we also need to return copy with update()
     this.setState(theUpdate);
     return update(this.state, { $merge: theUpdate });
-  }
+  };
 
   render() {
+    if (!this.shouldShowMetadata.subtitle) {
+      delete this.state.subtitle;
+    }
     return (
       <AccordionBlock
         title="Metadata"
-        tooltip="Title, caption, credit"
+        tooltip="Title, subtitle, caption, credit"
         defaultExpand={this.props.defaultExpand}
       >
         {Object.keys(this.state).map((key) =>
@@ -53,9 +68,9 @@ class Metadata extends Component {
                 fieldProps={{
                   label: capitalize(key),
                   name: key,
-                  value: getObjArrayKey(this.state, key, ''),
+                  value: getObjArrayKeyStringOnly(this.state, key, ''),
                 }}
-                handler={this._handler}
+                handler={this.handler}
               />
             </div>
           )
@@ -64,10 +79,3 @@ class Metadata extends Component {
     );
   }
 }
-
-Metadata.propTypes = {
-  metadata: PropTypes.object,
-  defaultExpand: PropTypes.bool,
-};
-
-export default Metadata;

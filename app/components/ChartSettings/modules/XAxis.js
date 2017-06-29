@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import DispatchField from '../../lib/DispatchField';
@@ -7,47 +7,38 @@ import {
 } from '../../../constants';
 import { getObjArrayKey } from '../../../utils/misc';
 
-class XAxis extends Component {
+export default function XAxis(props) {
+  return (
+    <AccordionBlock
+      title="X Axis"
+      tooltip="Settings for the X axis"
+      defaultExpand={props.defaultExpand}
+    >
+      <DispatchField
+        action={RECEIVE_CHART_OPTIONS}
+        fieldType="Input"
+        fieldProps={{
+          label: 'Axis Label',
+          name: 'xAxis.axisLabel',
+          value: getObjArrayKey(props.options.xAxis, 'axisLabel'),
+        }}
+      />
 
-  _getOptsKey(axisOpts, key, defaultValue = '') {
-    return axisOpts && axisOpts[key] ? axisOpts[key] : defaultValue;
-  }
-
-  render() {
-    return (
-      <AccordionBlock
-        title="X Axis"
-        tooltip="Settings for the X axis"
-        defaultExpand={this.props.defaultExpand}
-      >
-        <DispatchField
-          action={RECEIVE_CHART_OPTIONS}
-          fieldType="Input"
-          fieldProps={{
-            label: 'Axis Label',
-            name: 'xAxis.axisLabel',
-            value: getObjArrayKey(this.props.options.xAxis, 'axisLabel'),
-          }}
-        />
-
-        <DispatchField
-          action={RECEIVE_CHART_OPTIONS}
-          fieldType="Input"
-          fieldProps={{
-            label: 'Rotate Labels (degrees +/-)',
-            name: 'xAxis.rotateLabels',
-            type: 'number',
-            value: getObjArrayKey(this.props.options.xAxis, 'rotateLabels'),
-          }}
-        />
-      </AccordionBlock>
-    );
-  }
+      <DispatchField
+        action={RECEIVE_CHART_OPTIONS}
+        fieldType="Input"
+        fieldProps={{
+          label: 'Rotate Labels (degrees +/-)',
+          name: 'xAxis.rotateLabels',
+          type: 'number',
+          value: getObjArrayKey(props.options.xAxis, 'rotateLabels'),
+        }}
+      />
+    </AccordionBlock>
+  );
 }
 
 XAxis.propTypes = {
-  options: PropTypes.object,
-  defaultExpand: PropTypes.bool,
+  options: PropTypes.object.isRequired,
+  defaultExpand: PropTypes.bool.isRequired,
 };
-
-export default XAxis;

@@ -7,19 +7,13 @@ import {
 } from '../../../constants';
 import { getObjArrayKey } from '../../../utils/misc';
 
-class YAxis extends Component {
+export default class YAxis extends Component {
+  static propTypes = {
+    options: PropTypes.object.isRequired,
+    defaultExpand: PropTypes.bool.isRequired,
+  };
 
-  constructor() {
-    super();
-    this._handleYDomain = this._handleYDomain.bind(this);
-  }
-
-  _getOptsKey(axisOpts, key, defaultValue = '') {
-    return (axisOpts && axisOpts.hasOwnProperty(key)) ?
-      axisOpts[key] : defaultValue;
-  }
-
-  _handleYDomain(fieldProps, value) {
+  handleYDomain = (fieldProps, value) => {
     let domain = this.props.options.yDomain || [];
     if ('yDomain.min' === fieldProps.name) {
       domain[0] = value;
@@ -29,7 +23,7 @@ class YAxis extends Component {
       domain[1] = value;
     }
     return { yDomain: domain };
-  }
+  };
 
   render() {
     return (
@@ -56,7 +50,7 @@ class YAxis extends Component {
             step: 'any',
             value: getObjArrayKey(this.props.options.yDomain, 0),
           }}
-          handler={this._handleYDomain}
+          handler={this.handleYDomain}
         />
         <DispatchField
           action={RECEIVE_CHART_OPTIONS}
@@ -68,16 +62,9 @@ class YAxis extends Component {
             step: 'any',
             value: getObjArrayKey(this.props.options.yDomain, 1),
           }}
-          handler={this._handleYDomain}
+          handler={this.handleYDomain}
         />
       </AccordionBlock>
     );
   }
 }
-
-YAxis.propTypes = {
-  options: PropTypes.object,
-  defaultExpand: PropTypes.bool,
-};
-
-export default YAxis;

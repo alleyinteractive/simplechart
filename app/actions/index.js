@@ -1,3 +1,5 @@
+import fetch from 'isomorphic-fetch';
+import { polyfill } from 'es6-promise';
 import {
   RECEIVE_ERROR,
   RECEIVE_CMS_STATUS,
@@ -7,15 +9,12 @@ import {
   RECEIVE_WIDGET_METADATA,
   UPDATE_CURRENT_STEP,
 } from '../constants';
-import { receiveMessage, setupPostMessage } from '../utils/postMessage';
+import { receiveMessage, setupPostMessage, sendMessage } from '../utils/postMessage';
 import bootstrapStore from '../utils/bootstrapStore';
+import { ownsProperties } from '../utils/misc';
 
-/**
- * For IE11 support
- */
-import fetch from 'isomorphic-fetch';
-import { polyfill } from 'es6-promise'; polyfill();
-import { sendMessage } from '../utils/postMessage';
+// For IE11 support
+polyfill();
 
 export default function actionTrigger(type, data, src = '') {
   return { type, data, src };
@@ -32,14 +31,12 @@ export function bootstrapAppData() {
     /**
      * Confirm data formatting then bootstrap the store
      */
-    function _validateEvt(evt) {
-      return evt.data &&
-        evt.data.hasOwnProperty('data') &&
-        evt.data.hasOwnProperty('messageType');
+    function validateEvt(evt) {
+      return evt.data && ownsProperties(evt.data, ['data', 'messageType']);
     }
 
-    function _initBootstrap(evt) {
-      if (_validateEvt(evt)) {
+    function initBootstrap(evt) {
+      if (validateEvt(evt)) {
         bootstrapStore(dispatch, evt.data.messageType, evt.data.data);
       } else {
         dispatch(actionTrigger(RECEIVE_ERROR, 'e005'));
@@ -47,10 +44,10 @@ export function bootstrapAppData() {
     }
 
     // Bootstrap chart editor from plugin postMessage
-    receiveMessage('bootstrap.edit', _initBootstrap);
-    receiveMessage('bootstrap.new', _initBootstrap);
+    receiveMessage('bootstrap.edit', initBootstrap);
+    receiveMessage('bootstrap.new', initBootstrap);
     receiveMessage('cms.isSaving', (evt) => {
-      if (_validateEvt(evt)) {
+      if (validateEvt(evt)) {
         dispatch(actionTrigger(RECEIVE_CMS_STATUS, 'cms.isSaving'));
       }
     });

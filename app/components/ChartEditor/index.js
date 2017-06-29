@@ -1,29 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Heading } from 'rebass';
 import AppComponent from '../Layout/AppComponent';
 import Chart from '../Chart/';
 import ChartDataFormatter from '../ChartDataFormatter';
 import ChartSettings from '../ChartSettings';
 import ChartTypeSelector from '../ChartTypeSelector';
 import ChartLayout from '../ChartLayout';
-import { Heading } from 'rebass';
-import { appSteps } from '../../constants/appSteps';
+import appSteps from '../../constants/appSteps';
 import * as styles from './ChartEditor.css';
 
 export default class ChartEditor extends AppComponent {
-  constructor(props) {
-    super(props);
-    this._updateDimensions = this._updateDimensions.bind(this);
-    this._displayChart = this._displayChart.bind(this);
-    this.state = {};
-  }
+  static propTypes = {
+    appState: PropTypes.object,
+  };
+
+  state = {};
 
   componentDidMount() {
-    window.addEventListener('resize', this._updateDimensions);
-    this._updateDimensions();
+    window.addEventListener('resize', this.updateDimensions);
+    this.updateDimensions();
   }
 
-  _updateDimensions() {
+  updateDimensions = () => {
     const appComponent = document.querySelector('[class*=appComponent]');
     const subCompWidth =
       document.querySelector('[class*=subcomponentContainer]').clientWidth;
@@ -32,9 +31,9 @@ export default class ChartEditor extends AppComponent {
     const left = subCompWidth + offsetLeft + 20;
 
     this.setState({ width, left });
-  }
+  };
 
-  _renderSubcomponent(step) {
+  renderSubcomponent = (step) => {
     let subcomponent;
     switch (step) {
       case 1:
@@ -67,12 +66,12 @@ export default class ChartEditor extends AppComponent {
         break;
     }
     return subcomponent;
-  }
+  };
 
   /**
    * Once a chart type has been selected, we can begin showing the chart
    */
-  _displayChart(state) {
+  displayChart = (state) => {
     if (!state.chartOptions.type) {
       return null;
     }
@@ -82,11 +81,11 @@ export default class ChartEditor extends AppComponent {
     return (
       <div className={styles.chartContainer} style={{ width, left }}>
         <h3>{state.chartMetadata.title}</h3>
+        <h4>{state.chartMetadata.subtitle}</h4>
         <Chart
           data={state.chartData}
           options={state.chartOptions}
           widget={false}
-          ref="chartComponent"
           rulers={4 === state.currentStep}
         />
         <p>{state.chartMetadata.caption}</p>
@@ -95,7 +94,7 @@ export default class ChartEditor extends AppComponent {
         </p>
       </div>
     );
-  }
+  };
 
   render() {
     return (
@@ -103,15 +102,11 @@ export default class ChartEditor extends AppComponent {
         <Heading level={2}>{appSteps[this.props.appState.currentStep]}</Heading>
         <div className={styles.builderContainer}>
           <div className={styles.subcomponentContainer}>
-            {this._renderSubcomponent(this.props.appState.currentStep)}
+            {this.renderSubcomponent(this.props.appState.currentStep)}
           </div>
-          {this._displayChart(this.props.appState)}
+          {this.displayChart(this.props.appState)}
         </div>
       </div>
     );
   }
 }
-
-ChartEditor.propTypes = {
-  appState: PropTypes.object,
-};

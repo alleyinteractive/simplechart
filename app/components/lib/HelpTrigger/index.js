@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import actionTrigger from '../../../actions';
 import { RECEIVE_HELP_DOCUMENT } from '../../../constants';
-import infoSvg from '!!raw-loader!../../../img/icons/info-circle.svg';
+import infoSvg from '../../../img/icons/info-circle.svg';
 import * as styles from './HelpTrigger.css';
 
 /**
@@ -11,33 +11,34 @@ import * as styles from './HelpTrigger.css';
  * by sending the name of a Markdown doc to Redux
  */
 class HelpTrigger extends Component {
-  constructor() {
-    super();
-    this._dispatch = this._dispatch.bind(this);
-  }
+  static propTypes = {
+    docName: PropTypes.string.isRequired,
+    style: PropTypes.object,
+    dispatch: PropTypes.func.isRequired,
+  };
 
-  _dispatch() {
+  static defaultProps = {
+    style: {},
+  };
+
+  dispatch = () => {
     // Toggling the panel is handled in middleware
     this.props.dispatch(
       actionTrigger(RECEIVE_HELP_DOCUMENT, this.props.docName));
-  }
+  };
 
   render() {
     return (
       <span
-        style={ this.props.style || null }
+        style={Object.keys(this.props.style).length ? this.props.style : null}
         className={styles.icon}
-        dangerouslySetInnerHTML={{ __html: infoSvg }}
-        onClick={this._dispatch}
+        dangerouslySetInnerHTML={{ __html: infoSvg }} // eslint-disable-line react/no-danger
+        onClick={this.dispatch}
+        role="button"
+        tabIndex={0}
       />
     );
   }
 }
-
-HelpTrigger.propTypes = {
-  docName: PropTypes.string,
-  style: PropTypes.object,
-  dispatch: PropTypes.func,
-};
 
 export default connect()(HelpTrigger);

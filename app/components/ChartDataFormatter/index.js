@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import update from 'immutability-helper';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 import { locales } from '../../constants/d3Locales';
 import { RECEIVE_CHART_OPTIONS } from '../../constants';
@@ -9,46 +10,46 @@ import {
   defaultTickFormatSettings,
   multiplierOptions,
 } from '../../constants/defaultTickFormatSettings';
-import update from 'immutability-helper';
 
 class ChartDataFormatter extends Component {
-  constructor() {
-    super();
-    this._handleChange = this._handleChange.bind(this);
-  }
+  static propTypes = {
+    options: PropTypes.object.isRequired,
+  };
 
-  componentWillMount() {
-    this.setState(
-      this._handleProps(this.props.options.tickFormatSettings || {})
-    );
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState(
-      this._handleProps(nextProps.options.tickFormatSettings || {})
-    );
-  }
-
-  _handleProps(settings) {
+  static handleProps(settings) {
     return update(defaultTickFormatSettings, { $merge: settings });
   }
 
-  _localeOptions() {
+  static localeOptions() {
     return locales.map((locale, idx) => ({
       children: `${locale.emoji} ${locale.name}`,
       value: idx,
     }));
   }
 
+  componentWillMount() {
+    this.setState(
+      ChartDataFormatter.handleProps(
+        this.props.options.tickFormatSettings || {}
+      )
+    );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(
+      ChartDataFormatter.handleProps(nextProps.options.tickFormatSettings || {})
+    );
+  }
+
   /**
    * Return full tickFormatSettings object after any element is changed
    */
-  _handleChange(fieldProps, value) {
+  handleChange = (fieldProps, value) => {
     const field = fieldProps.name.split('.').pop();
     return {
       tickFormatSettings: update(this.state, { [field]: { $set: value } }),
     };
-  }
+  };
 
   render() {
     return (
@@ -60,10 +61,10 @@ class ChartDataFormatter extends Component {
             fieldProps={{
               label: 'Format currency and thousands separator as:',
               name: 'tickFormatSettings.locale',
-              options: this._localeOptions(),
+              options: ChartDataFormatter.localeOptions(),
               value: this.state.locale,
             }}
-            handler={this._handleChange}
+            handler={this.handleChange}
           />
 
           <DispatchField
@@ -74,7 +75,7 @@ class ChartDataFormatter extends Component {
               name: 'tickFormatSettings.showCurrencySymbol',
               checked: this.state.showCurrencySymbol,
             }}
-            handler={this._handleChange}
+            handler={this.handleChange}
           />
 
           <DispatchField
@@ -85,7 +86,7 @@ class ChartDataFormatter extends Component {
               name: 'tickFormatSettings.groupThousands',
               checked: this.state.groupThousands,
             }}
-            handler={this._handleChange}
+            handler={this.handleChange}
           />
 
           <DispatchField
@@ -96,7 +97,7 @@ class ChartDataFormatter extends Component {
               name: 'tickFormatSettings.usePercent',
               checked: this.state.usePercent,
             }}
-            handler={this._handleChange}
+            handler={this.handleChange}
           />
 
           <DispatchField
@@ -107,7 +108,7 @@ class ChartDataFormatter extends Component {
               name: 'tickFormatSettings.prepend',
               value: this.state.prepend,
             }}
-            handler={this._handleChange}
+            handler={this.handleChange}
           />
 
           <DispatchField
@@ -118,7 +119,7 @@ class ChartDataFormatter extends Component {
               name: 'tickFormatSettings.append',
               value: this.state.append,
             }}
-            handler={this._handleChange}
+            handler={this.handleChange}
           />
 
           <DispatchField
@@ -132,7 +133,7 @@ class ChartDataFormatter extends Component {
               name: 'tickFormatSettings.decimalPlaces',
               value: this.state.decimalPlaces,
             }}
-            handler={this._handleChange}
+            handler={this.handleChange}
           />
 
           <DispatchField
@@ -144,7 +145,7 @@ class ChartDataFormatter extends Component {
               options: multiplierOptions,
               value: this.state.multiplier,
             }}
-            handler={this._handleChange}
+            handler={this.handleChange}
           />
 
         </div>
@@ -157,10 +158,5 @@ class ChartDataFormatter extends Component {
     );
   }
 }
-
-ChartDataFormatter.propTypes = {
-  options: PropTypes.object,
-  dispatch: PropTypes.func,
-};
 
 export default connect()(ChartDataFormatter);

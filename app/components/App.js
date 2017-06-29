@@ -5,30 +5,19 @@ import DataInput from './DataInput';
 import ChartEditor from './ChartEditor';
 import Header from './Header';
 import Help from './Help';
-import * as rebassHover from '../styles/RebassHover.css'; // eslint-disable-line no-unused-vars
+import '../styles/RebassHover.css';
 import { appCover } from '../styles/App.css';
 
 class App extends Component {
-
-  constructor() {
-    super();
-    this._renderAppComponent = this._renderAppComponent.bind(this);
-    this._firstParsedCol = this._firstParsedCol.bind(this);
-  }
-
-  componentDidMount() {
-    this._captureClicks(this.props.state.cmsStatus);
-  }
-
-  componentDidUpdate() {
-    this._captureClicks(this.props.state.cmsStatus);
-  }
+  static propTypes = {
+    state: PropTypes.object.isRequired,
+  };
 
   /**
    * Overlay should capture all clicks to prevent interaction
    * with the editor while the CMS parent page is saving
    */
-  _captureClicks(cmsStatus) {
+  static captureClicks(cmsStatus) {
     if ('cms.isSaving' === cmsStatus) {
       const cover = document.getElementById('appCover');
       if (cover) {
@@ -40,25 +29,33 @@ class App extends Component {
     }
   }
 
-  _firstParsedCol() {
-    const firstColKey = this.props.state.dataFields[0];
-    return this.props.state.parsedData.map((row) => row[firstColKey]);
+  componentDidMount() {
+    App.captureClicks(this.props.state.cmsStatus);
   }
 
-  _renderAppComponent() {
+  componentDidUpdate() {
+    App.captureClicks(this.props.state.cmsStatus);
+  }
+
+  firstParsedCol = () => {
+    const firstColKey = this.props.state.dataFields[0];
+    return this.props.state.parsedData.map((row) => row[firstColKey]);
+  };
+
+  renderAppComponent = () => {
     if (0 === this.props.state.currentStep) {
       return React.createElement(DataInput, {
         metadata: this.props.state.chartMetadata,
         rawData: this.props.state.rawData,
         dataStatus: this.props.state.dataStatus,
         dateFormat: this.props.state.chartOptions.dateFormat,
-        firstCol: this._firstParsedCol(),
+        firstCol: this.firstParsedCol(),
       });
     }
     return React.createElement(ChartEditor, {
       appState: this.props.state,
     });
-  }
+  };
 
   render() {
     return (
@@ -70,7 +67,7 @@ class App extends Component {
           errorCode={this.props.state.errorCode}
           cmsStatus={this.props.state.cmsStatus}
         />
-        {this._renderAppComponent()}
+        {this.renderAppComponent()}
         <Help docName={this.props.state.helpDocument} />
         { 'cms.isSaving' !== this.props.state.cmsStatus ? null :
           (<div id="appCover" className={appCover} />)
@@ -79,10 +76,6 @@ class App extends Component {
     );
   }
 }
-
-App.propTypes = {
-  state: PropTypes.object,
-};
 
 // Which props to inject from the global atomic state
 export default connect((state) =>

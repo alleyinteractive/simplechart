@@ -7,10 +7,9 @@ import HelpTrigger from '../../lib/HelpTrigger';
 import * as styles from './ChartTitle.css';
 
 class ChartTitle extends Component {
-  constructor() {
-    super();
-    this._handleInput = this._handleInput.bind(this);
-  }
+  static propTypes = {
+    metadata: PropTypes.object.isRequired,
+  };
 
   componentWillMount() {
     this.setState({ title: this.props.metadata.title || '' });
@@ -20,17 +19,16 @@ class ChartTitle extends Component {
     this.setState({ title: nextProps.metadata.title || '' });
   }
 
-  _handleInput(fieldProps, value) {
-    return {
-      title: value,
-      caption: this.props.metadata.caption || '',
-      credit: this.props.metadata.credit || '',
-    };
-  }
+  handleInput = (fieldProps, value) => ({
+    title: value,
+    caption: this.props.metadata.caption || '',
+    credit: this.props.metadata.credit || '',
+    subtitle: this.props.metadata.subtitle || false,
+  });
 
   render() {
     return (
-      <div className={styles.container} >
+      <div className={styles.container}>
         <DispatchField
           action={RECEIVE_CHART_METADATA}
           fieldType="Input"
@@ -40,17 +38,12 @@ class ChartTitle extends Component {
             value: this.state.title,
             style: { marginBottom: '0px' }, // override default Rebass style
           }}
-          handler={this._handleInput}
+          handler={this.handleInput}
         />
         <HelpTrigger docName="chartMetadata" />
       </div>
     );
   }
 }
-
-ChartTitle.propTypes = {
-  metadata: PropTypes.object,
-  dispatch: PropTypes.func,
-};
 
 export default connect()(ChartTitle);

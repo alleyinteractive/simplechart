@@ -5,7 +5,7 @@ import * as dateUtils from '../../utils/parseDate';
 /**
  * Merge formatter func into yAxis settings
  */
-export function _getYAxis(axisSettings, formatter, typeConfig) {
+export function getYAxis(axisSettings, formatter, typeConfig) {
   if (
     formatter &&
     typeConfig.modules &&
@@ -20,7 +20,7 @@ export function _getYAxis(axisSettings, formatter, typeConfig) {
 /**
  * Merge date formatting func into xAxis
  */
-export function _getXAxis(axisSettings, dateFormatString) {
+export function getXAxis(axisSettings, dateFormatString) {
   return update(axisSettings, { $merge: {
     tickFormat: (ts) => dateUtils.format(ts, dateFormatString),
   } });
@@ -37,7 +37,7 @@ export default function applyTickFormatters(chartOptions, typeConfig) {
   // Y Axis formatting
   if (chartOptions.tickFormatSettings) {
     formatter = createFormatter(chartOptions.tickFormatSettings);
-    toUpdate.yAxis = _getYAxis(
+    toUpdate.yAxis = getYAxis(
       chartOptions.yAxis || {},
       formatter,
       typeConfig
@@ -46,7 +46,7 @@ export default function applyTickFormatters(chartOptions, typeConfig) {
 
   // X Axis date formatting
   if (chartOptions.xAxis && chartOptions.xAxis.dateFormatString) {
-    toUpdate.xAxis = _getXAxis(
+    toUpdate.xAxis = getXAxis(
       chartOptions.xAxis || {},
       chartOptions.xAxis.dateFormatString
     );

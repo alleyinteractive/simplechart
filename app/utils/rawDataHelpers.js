@@ -1,4 +1,4 @@
-import { dataTransformers } from '../constants/dataTransformers';
+import dataTransformers from '../constants/dataTransformers';
 
 /**
  * Parse data and check for errors

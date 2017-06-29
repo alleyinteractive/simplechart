@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import actionTrigger from '../actions';
 import {
   BOOTSTRAP_APP,
@@ -9,7 +10,6 @@ import {
   RECEIVE_CHART_TYPE,
   RECEIVE_CHART_METADATA,
 } from '../constants';
-import update from 'immutability-helper';
 import { getChartTypeObject, getChartTypeDefaultOpts } from './chartTypeUtils';
 import defaultPalette from '../constants/defaultPalette';
 import applyTickFormatters from '../reducers/utils/applyTickFormatters';
@@ -71,7 +71,7 @@ export default function bootstrapStore(dispatch, messageType, recdData) {
   /**
    * Reset tick formatting
    */
-  if (!nextOpts.hasOwnProperty('tickFormatSettings')) {
+  if (!Object.prototype.hasOwnProperty.call(nextOpts, 'tickFormatSettings')) {
     // Applies static defaults if needed
     nextOpts.tickFormatSettings = defaultTickFormatSettings;
   } else {
