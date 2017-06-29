@@ -6,7 +6,7 @@ import DispatchField from '../../lib/DispatchField';
 import {
   RECEIVE_CHART_METADATA,
 } from '../../../constants';
-import { getObjArrayKey, capitalize } from '../../../utils/misc';
+import { getObjArrayKeyStringOnly, capitalize } from '../../../utils/misc';
 
 export default class Metadata extends Component {
   static propTypes = {
@@ -18,15 +18,25 @@ export default class Metadata extends Component {
     title: '',
     caption: '',
     credit: '',
-    subtitle: '',
+    subtitle: false,
   };
 
   componentWillMount() {
     this.setState(this.props.metadata);
+    if (false !== this.props.metadata.subtitle) {
+      this.shouldShowMetadata.subtitle = true;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState(nextProps.metadata);
+  }
+
+  shouldShowMetadata = {
+    title: true,
+    caption: true,
+    credit: true,
+    subtitle: false,
   }
 
   handler = (fieldProps, value) => {
@@ -40,6 +50,9 @@ export default class Metadata extends Component {
   };
 
   render() {
+    if (!this.shouldShowMetadata.subtitle) {
+      delete this.state.subtitle;
+    }
     return (
       <AccordionBlock
         title="Metadata"
@@ -55,7 +68,7 @@ export default class Metadata extends Component {
                 fieldProps={{
                   label: capitalize(key),
                   name: key,
-                  value: getObjArrayKey(this.state, key, ''),
+                  value: getObjArrayKeyStringOnly(this.state, key, ''),
                 }}
                 handler={this.handler}
               />
