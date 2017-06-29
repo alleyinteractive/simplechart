@@ -23,7 +23,8 @@ export default class Metadata extends Component {
 
   componentWillMount() {
     this.setState(this.props.metadata);
-    if (false !== this.props.metadata.subtitle) {
+    if ('undefined' !== typeof this.props.metadata.subtitle &&
+      false !== this.props.metadata.subtitle) {
       this.shouldShowMetadata.subtitle = true;
     }
   }
