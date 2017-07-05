@@ -45,3 +45,11 @@ export default function transform(data, fields, dateFormat) {
 
   return getSeries(data);
 }
+
+export function scatterDataHasSizes(data) {
+  return Array.isArray(data) &&
+   data.length &&
+   data[0].values.length &&
+   data[0].values[0].size &&
+   !isNaN(data[0].values[0].size);
+}
