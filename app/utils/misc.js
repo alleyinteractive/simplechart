@@ -78,3 +78,15 @@ export function ownsProperties(obj, properties) {
   return properties.every((property) =>
     Object.prototype.hasOwnProperty.call(obj, property));
 }
+
+/**
+ * Determine if action src is defined and contains a string, e.g. 'bootstrap'
+ *
+ * @param {String} src Action source
+ * @param {String} key Keyword to look for
+ * @return {Boolean}
+ */
+export function actionSourceContains(src, key) {
+  return 'undefined' !== typeof src &&
+    -1 < src.toLowerCase().indexOf(key.toLowerCase());
+}
