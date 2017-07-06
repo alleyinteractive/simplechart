@@ -51,6 +51,22 @@ export function getObjArrayKey(obj, key, defaultValue = '') {
 }
 
 /**
+ * get value from key or default if not set or not a string,
+ * also works for arrays
+ *
+ * @param {Object} obj Basic object or array
+ * @param {String} key Key to look for
+ * @param {*} defaultValue Default to return if key is not set
+ */
+export function getObjArrayKeyStringOnly(obj, key, defaultValue = '') {
+  return obj &&
+    Object.prototype.hasOwnProperty.call(obj, key) &&
+    'string' === typeof obj[key] ?
+    obj[key] :
+    defaultValue;
+}
+
+/**
  * Capitalize the first char of a string, assumes first char is a letter
  */
 export function capitalize(input) {

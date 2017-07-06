@@ -7,6 +7,7 @@ const titles = {
 function chartTypeMetadata(type) {
   return {
     title: titles[type],
+    subtitle: `Subtitle for ${titles[type]}`,
     caption: `Caption for ${titles[type]}`,
     source: `Data source for ${titles[type]}`,
   };
