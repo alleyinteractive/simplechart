@@ -54,9 +54,6 @@ export default class Metadata extends Component {
   };
 
   render() {
-    if (!this.shouldShowMetadata.subtitle) {
-      delete this.state.subtitle;
-    }
     return (
       <AccordionBlock
         title="Metadata"
