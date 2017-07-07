@@ -13,6 +13,7 @@ import applyYDomain from './utils/applyYDomain';
 import { defaultBreakpointsOpt } from '../constants/chartTypes';
 import defaultPalette from '../constants/defaultPalette';
 import { transformParsedData } from '../utils/rawDataHelpers';
+import { actionSourceContains } from '../utils/misc';
 
 export default function chartOptionsReducer(state, action) {
   switch (action.type) {
@@ -38,9 +39,8 @@ export function reduceReceiveChartOptions(state, { data, src }) {
   const { chartData, chartType: { config } } = state;
   let newOptions = cloneDeep(data);
   const currentOptions = state.chartOptions;
-  const isBootstrap = 0 === src.indexOf('bootstrap');
 
-  if (!isBootstrap) {
+  if (!actionSourceContains(src, 'bootstrap')) {
     const shouldApplyDefaultPallette = !get('color.length', currentOptions);
     if (shouldApplyDefaultPallette) {
       newOptions = merge(newOptions, { color: defaultPalette });
@@ -74,13 +74,16 @@ export function reduceReceiveChartOptions(state, { data, src }) {
 export function reduceReceiveChartType(state, { data, src }) {
   const { chartOptions, chartType, dataFields } = state;
   const typeChanged = get('config.type', chartType) !== data.config.type;
-  const isBootstrap = 0 === src.indexOf('bootstrap');
 
-  if (isBootstrap || !typeChanged) {
+  if (actionSourceContains(src, 'bootstrap') || !typeChanged) {
     return merge(state, { chartType: cloneDeep(data) });
   }
 
   let newOptions = applyChartTypeDefaults(data.config, chartOptions);
+
+  if ('function' === typeof data.conditionalOpts) {
+    newOptions = merge(newOptions, data.conditionalOpts(state));
+  }
 
   // Clear yDomain on chart type change to have a default one generated.
   newOptions = set('yDomain', null, newOptions);

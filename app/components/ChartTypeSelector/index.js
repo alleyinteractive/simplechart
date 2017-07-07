@@ -45,19 +45,20 @@ class ChartTypeSelector extends Component {
    * The idea is to enable chart types where data is compatible
    * and disable chart types where data is incompatible
    */
-  renderTypeOption = (typeConfig) => {
+  renderTypeOption = ({ type, dataFormat, label }) => {
     // Disable the chart type when transformed data is not available for its dataFormat
-    const disabled = !this.props.transformedData[typeConfig.dataFormat];
+    const disabled = !this.props.transformedData[dataFormat];
 
     return React.createElement(Radio, {
-      key: typeConfig.type,
+      key: type,
       circle: true,
-      label: typeConfig.label,
+      label: (label instanceof Function) ?
+        label(this.props.transformedData) : label,
       name: 'chartTypeSelect',
-      value: typeConfig.type,
+      value: type,
       backgroundColor: !disabled ? 'primary' : 'secondary',
       disabled,
-      checked: (typeConfig.type === this.getChartType()),
+      checked: (type === this.getChartType()),
       onChange: (evt) => this.selectChartType(evt.target.value),
       style: disabled ? { cursor: 'default' } : {},
     });

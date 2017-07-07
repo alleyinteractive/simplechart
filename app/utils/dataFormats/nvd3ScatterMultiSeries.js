@@ -45,3 +45,19 @@ export default function transform(data, fields, dateFormat) {
 
   return getSeries(data);
 }
+
+/**
+ * Determine if points in scatter data have a size attribute
+ * If they do, data represents a bubble chart.
+ * If not, data is a regular scatter chart.
+ *
+ * @param {Array} data
+ * @return {Bool}
+ */
+export function scatterDataHasSizes(data) {
+  return Array.isArray(data) &&
+   data.length &&
+   data[0].values.length &&
+   data[0].values[0].size &&
+   !isNaN(data[0].values[0].size);
+}

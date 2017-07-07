@@ -12,12 +12,12 @@ class DispatchField extends Component {
     action: PropTypes.string,
     fieldProps: PropTypes.object.isRequired,
     fieldType: PropTypes.string.isRequired,
-    handler: PropTypes.func,
+    handler: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   };
 
   static defaultProps = {
     action: '',
-    handler: () => {},
+    handler: false,
   };
 
   componentWillMount() {
@@ -59,7 +59,7 @@ class DispatchField extends Component {
 
     this.props.dispatch(actionTrigger(
       this.props.action || 'UNSPECIFIED_ACTION',
-      this.props.handler ?
+      this.props.handler instanceof Function ?
         this.props.handler(this.props.fieldProps, value) :
         buildDeepObject(this.props.fieldProps.name, value)
     ));
