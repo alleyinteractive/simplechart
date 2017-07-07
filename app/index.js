@@ -13,6 +13,7 @@ import thunk from 'redux-thunk';
 import receiveRawData from './middleware/receiveRawData';
 import receiveHelpDocument from './middleware/receiveHelpDocument';
 import actionLogging from './middleware/actionLogging';
+import conditionalChartOptions from './middleware/conditionalChartOptions';
 
 // Other stuff
 import { bootstrapAppData } from './actions';
@@ -32,6 +33,7 @@ const store = createStore(
       thunk,
       receiveRawData,
       receiveHelpDocument,
+      conditionalChartOptions,
       actionLogging
     )
   )
