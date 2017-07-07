@@ -23,6 +23,7 @@ class ChartTitle extends Component {
     title: value,
     caption: this.props.metadata.caption || '',
     credit: this.props.metadata.credit || '',
+    subtitle: this.props.metadata.subtitle || false,
   });
 
   render() {

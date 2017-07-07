@@ -6,25 +6,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css"/>
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <style>
-        header > h1 {
-            text-align: center;
-            font-family: sans-serif;
-        }
+      header > h1 {
+        text-align: center;
+        font-family: sans-serif;
+      }
     </style>
   </head>
   <body>
     <header>
-        <h1>Simplechart-React widget</h1>
+      <h1>Simplechart-React widget</h1>
     </header>
 
     <h2>Widget 1</h2>
     <figure
-      id='widget1'
-      class='simplechart-widget'
-      data-url='/api/pieChart'
-      data-placeholder='Custom Placeholder Message'
+        id='widget1'
+        class='simplechart-widget'
+        data-url='/api/pieChart'
+        data-placeholder='Custom Placeholder Message'
     >
       <p class='simplechart-title'></p>
+      <p class='simplechart-subtitle'></p>
       <p class='simplechart-caption'></p>
       <div class='simplechart-chart'></div>
       <p class='simplechart-credit'></p>
@@ -32,16 +33,17 @@
 
     <h2>Widget 2</h2>
     <figure
-      id='widget2'
-      class='simplechart-widget'
-      data-url='/api/lineChart'
+        id='widget2'
+        class='simplechart-widget'
+        data-url='/api/lineChart'
     >
       <p class='simplechart-title'></p>
+      <p class='simplechart-subtitle'></p>
       <p class='simplechart-caption'></p>
       <div class='simplechart-chart'></div>
       <p class='simplechart-credit'></p>
     </figure>
 
-    <script src="/static/widget.js"></script>
+    <script type="text/javascript" src="/static/widget.js"></script>
   </body>
 </html>

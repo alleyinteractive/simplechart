@@ -6,7 +6,7 @@ import DispatchField from '../../lib/DispatchField';
 import {
   RECEIVE_CHART_METADATA,
 } from '../../../constants';
-import { getObjArrayKey, capitalize } from '../../../utils/misc';
+import { getObjArrayKeyStringOnly, capitalize } from '../../../utils/misc';
 
 export default class Metadata extends Component {
   static propTypes = {
@@ -18,10 +18,25 @@ export default class Metadata extends Component {
     title: '',
     caption: '',
     credit: '',
+    subtitle: false,
   };
+
+  /* eslint-disable react/sort-comp */
+  shouldShowMetadata = {
+    title: true,
+    caption: true,
+    credit: true,
+    subtitle: false,
+  }
+  /* eslint-enable react/sort-comp */
 
   componentWillMount() {
     this.setState(this.props.metadata);
+    if ('undefined' !== typeof this.props.metadata.subtitle &&
+      ('' === this.props.metadata.subtitle || this.props.metadata.subtitle)
+    ) {
+      this.shouldShowMetadata.subtitle = true;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,25 +57,28 @@ export default class Metadata extends Component {
     return (
       <AccordionBlock
         title="Metadata"
-        tooltip="Title, caption, credit"
+        tooltip="Title and other metadata fields"
         defaultExpand={this.props.defaultExpand}
       >
-        {Object.keys(this.state).map((key) =>
-          (
-            <div key={`metadata-${key}`}>
-              <DispatchField
-                action={RECEIVE_CHART_METADATA}
-                fieldType="Input"
-                fieldProps={{
-                  label: capitalize(key),
-                  name: key,
-                  value: getObjArrayKey(this.state, key, ''),
-                }}
-                handler={this.handler}
-              />
-            </div>
-          )
-        )}
+        {Object.keys(this.state).map((key) => {
+          if (this.shouldShowMetadata[key]) {
+            return (
+              <div key={`metadata-${key}`}>
+                <DispatchField
+                  action={RECEIVE_CHART_METADATA}
+                  fieldType="Input"
+                  fieldProps={{
+                    label: capitalize(key),
+                    name: key,
+                    value: getObjArrayKeyStringOnly(this.state, key, ''),
+                  }}
+                  handler={this.handler}
+                />
+              </div>
+            );
+          }
+          return '';
+        })}
       </AccordionBlock>
     );
   }
