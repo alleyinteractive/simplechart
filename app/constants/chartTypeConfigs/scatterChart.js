@@ -30,7 +30,7 @@ const scatterChartPointRange = [60, 60];
  *   {Object} transformedData State deconstructed
  * @return {Object} Object to merge into chart options, may be empty
  */
-export const getConditionalOpts = ({ transformedData }) => {
+export const conditionalOpts = ({ transformedData }) => {
   if (!scatterDataHasSizes(transformedData.nvd3ScatterMultiSeries)) {
     // Set point size for scatter charts
     return { pointRange: scatterChartPointRange };

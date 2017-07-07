@@ -12,7 +12,6 @@ import 'nvd3/build/nv.d3.css';
 import thunk from 'redux-thunk';
 import receiveRawData from './middleware/receiveRawData';
 import receiveHelpDocument from './middleware/receiveHelpDocument';
-import conditionalChartOptions from './middleware/conditionalChartOptions';
 
 // Other stuff
 import { bootstrapAppData } from './actions';
@@ -31,8 +30,7 @@ const store = createStore(
     applyMiddleware(
       thunk,
       receiveRawData,
-      receiveHelpDocument,
-      conditionalChartOptions
+      receiveHelpDocument
     )
   )
 );
