@@ -19,12 +19,21 @@ class ChartTitle extends Component {
     this.setState({ title: nextProps.metadata.title || '' });
   }
 
-  handleInput = (fieldProps, value) => ({
-    title: value,
-    caption: this.props.metadata.caption || '',
-    credit: this.props.metadata.credit || '',
-    subtitle: this.props.metadata.subtitle || false,
-  });
+  handleInput = (fieldProps, value) => {
+    let subtitle = '';
+    if ('undefined' !== typeof this.props.metadata.subtitle &&
+      ('' === this.props.metadata.subtitle || this.props.metadata.subtitle)) {
+      subtitle = this.props.metadata.subtitle;
+    } else {
+      subtitle = false;
+    }
+    return ({
+      title: value,
+      caption: this.props.metadata.caption || '',
+      credit: this.props.metadata.credit || '',
+      subtitle,
+    });
+  };
 
   render() {
     return (
