@@ -19,6 +19,11 @@ export const defaultOpts = {
 };
 
 /**
+ * Defines size of points for scatter chart
+ */
+const scatterChartPointRange = [60, 60];
+
+/**
  * Similar to default opts but dependent on state
  * called by conditionalChartOptions middleware
  * @param {Object} state Redux application state
@@ -27,8 +32,8 @@ export const defaultOpts = {
  */
 export const getConditionalOpts = ({ transformedData }) => {
   if (!scatterDataHasSizes(transformedData.nvd3ScatterMultiSeries)) {
-    // Force larger point size for scatter charts
-    return { pointRange: [60, 60] };
+    // Set point size for scatter charts
+    return { pointRange: scatterChartPointRange };
   }
   // Do nothing for bubble charts
   return {};
