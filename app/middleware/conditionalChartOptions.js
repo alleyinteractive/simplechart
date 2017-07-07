@@ -16,12 +16,14 @@ export default function conditionalChartOptions({ getState }) {
     }
 
     if (!(data.getConditionalOpts instanceof Function)) {
+      // eslint-disable-next-line no-console
       console.warn(`getConditionalOpts for chart type ${data.config.type} must be a function`);
       return dispatch(actionTrigger(type, data, src));
     }
 
+    // Apply conditional opts and remove getter function
     const newOpts = update(data, {
-      conditionalOpts : {
+      conditionalOpts: {
         $set: data.getConditionalOpts(getState()),
       },
       $unset: ['getConditionalOpts'],

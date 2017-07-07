@@ -81,6 +81,10 @@ export function reduceReceiveChartType(state, { data, src }) {
 
   let newOptions = applyChartTypeDefaults(data.config, chartOptions);
 
+  if (data.conditionalOpts) {
+    newOptions = merge(newOptions, data.conditionalOpts);
+  }
+
   // Clear yDomain on chart type change to have a default one generated.
   newOptions = set('yDomain', null, newOptions);
 
