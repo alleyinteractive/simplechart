@@ -10,11 +10,15 @@ import { debounce, ownsProperties } from '../../utils/misc';
 class Chart extends Component {
   static propTypes = {
     options: PropTypes.object.isRequired,
-    rulers: PropTypes.bool.isRequired,
+    rulers: PropTypes.bool,
     widget: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]).isRequired,
+  };
+
+  static defaultProps = {
+    rulers: false,
   };
 
   /**
