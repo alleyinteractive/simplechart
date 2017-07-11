@@ -58,9 +58,6 @@ class Widget extends Component {
     if (this.state.data) {
       return (
         <Chart
-          ref={(node) => {
-            this.node = node;
-          }}
           data={this.state.data.data}
           options={this.state.data.options}
           metadata={this.state.data.metadata}
@@ -77,7 +74,10 @@ class Widget extends Component {
 
   render() {
     return (
-      <div>
+      <div ref={(node) => {
+        this.node = node;
+      }}
+      >
         {this.renderChart()}
       </div>
     );
