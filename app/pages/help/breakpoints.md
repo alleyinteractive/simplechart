@@ -8,11 +8,12 @@ The default breakpoint sets a height of 400 pixels at all screen widths. At that
 
 And this on a mobile device:
 
-<p style="max-width: 225px">
+<img
+  alt="400px chart height on mobile"
+  src="http://simplechart.io/lib/images/help-docs/breakpoints/embed_mobile_400.png"
+  style="max-width: 225px !important"
+/>
 
-![400px chart height on mobile](http://simplechart.io/lib/images/help-docs/breakpoints/embed_mobile_400.png)
-
-</p>
 
 If you wanted the chart to take up less of the screen on mobile devices, here's how you would change the height to 250 pixels on devices up to 400 pixels wide:
 
@@ -20,11 +21,11 @@ If you wanted the chart to take up less of the screen on mobile devices, here's 
 
 Now, the chart looks like this:
 
-<p style="max-width: 225px">
-
-![250px chart height on mobile](http://simplechart.io/lib/images/help-docs/breakpoints/embed_mobile_250.png)
-
-</p>
+<img
+  alt="250px chart height on mobile"
+  src="http://simplechart.io/lib/images/help-docs/breakpoints/embed_mobile_250.png"
+  style="max-width: 225px !important"
+/>
 
 We did this by:
 
