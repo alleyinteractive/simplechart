@@ -10,6 +10,7 @@ import {
 import actionTrigger from '../../actions';
 import AccordionBlock from '../Layout/AccordionBlock';
 import DispatchField from '../lib/DispatchField';
+import HelpTrigger from '../lib/HelpTrigger';
 import { defaultBreakpoint } from '../../constants/chartTypes';
 
 class ChartLayout extends Component {
@@ -207,11 +208,14 @@ class ChartLayout extends Component {
     return (
       <div>
         {this.state.values.map(this.renderBreakpoint)}
-        <Button
-          theme="success"
-          big
-          onClick={this.addBreakpoint}
-        >Add Breakpoint</Button>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Button
+            theme="success"
+            big
+            onClick={this.addBreakpoint}
+          >Add Breakpoint</Button>
+          <HelpTrigger style={{ marginLeft: '12px' }} docName="breakpoints" />
+        </div>
       </div>
     );
   }
