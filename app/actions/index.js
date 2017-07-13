@@ -121,8 +121,10 @@ export function ajaxWidgetData(widgetId, fetchUrl, headersAttr = null) {
         headers = {};
       }
     }
-    return fetch(fetchUrl, { headers })
-      .then(handleResponse)
+    return fetch(fetchUrl, {
+      headers,
+      credentials: 'same-origin',
+    }).then(handleResponse)
       .then(handleJson);
   };
 }
