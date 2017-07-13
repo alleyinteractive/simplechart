@@ -5,7 +5,7 @@
 /**
  * Check for local dev server
  */
-function _isLocalDev() {
+function isLocalDev() {
   return 'localhost:8080' === window.location.host;
 }
 
@@ -13,7 +13,7 @@ function _isLocalDev() {
  * Check for being a child iframe.
  * Three cases: top window (true), same-origin iframe (false), cross-origin iframe (false)
  */
-function _isTopLevelWindow() {
+function isTopLevelWindow() {
   try {
     // presence of window.frameElement indicates a same-origin iframe
     if (window.frameElement) {
@@ -30,32 +30,32 @@ function _isTopLevelWindow() {
 /**
  * store for message handle callbacks
  */
-const _callbacks = {};
+const callbacks = {};
 
 /**
  * Setup postMessage receive callbacks
  */
 export function setupPostMessage() {
-  function _messageHandler(evt) {
+  function messageHandler(evt) {
     // validate same-origin except if local dev server
     if (evt.origin !== window.location.origin &&
-      !_isLocalDev()) {
+      !isLocalDev()) {
       throw new Error(`Illegal postMessage from ${evt.origin}`);
     }
 
-    if (!evt.data.messageType || !_callbacks[evt.data.messageType]) {
+    if (!evt.data.messageType || !callbacks[evt.data.messageType]) {
       return;
     }
 
     // loop through callbacks for message type
-    _callbacks[evt.data.messageType].forEach((callback) =>
+    callbacks[evt.data.messageType].forEach((callback) =>
       callback(evt)
     );
   }
 
   // set up listener
   window.addEventListener('message', (evt) =>
-    _messageHandler(evt)
+    messageHandler(evt)
   );
 }
 
@@ -67,10 +67,10 @@ export function setupPostMessage() {
  * @return none
  */
 export function receiveMessage(messageType, callback) {
-  if (!_callbacks[messageType]) {
-    _callbacks[messageType] = [];
+  if (!callbacks[messageType]) {
+    callbacks[messageType] = [];
   }
-  _callbacks[messageType].push(callback);
+  callbacks[messageType].push(callback);
 }
 
 /**
@@ -81,8 +81,8 @@ export function receiveMessage(messageType, callback) {
  * @return none
  */
 export function sendMessage(messageType, data = null) {
-  if (_isTopLevelWindow()) {
-    if (!_isLocalDev()) {
+  if (isTopLevelWindow()) {
+    if (!isLocalDev()) {
       throw new Error(
         `No parent window available for postMessage type ${messageType}`);
     } else {
@@ -95,5 +95,5 @@ export function sendMessage(messageType, data = null) {
   window.parent.postMessage({
     messageType,
     data: JSON.parse(JSON.stringify(data)), // handles functions in the data
-  }, _isLocalDev() ? '*' : window.location.origin);
+  }, isLocalDev() ? '*' : window.location.origin);
 }

@@ -4,10 +4,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import 'nvd3/build/nv.d3.css';
+
 import actionTrigger, { ajaxWidgetData, listenerWidgetData } from './actions';
 import { RECEIVE_WIDGET } from './constants';
 import Widget from './components/Widget';
-import * as NVD3Styles from '!!style-loader!raw-loader!nvd3/build/nv.d3.css'; // eslint-disable-line no-unused-vars
 import rootReducer from './reducers/widget/rootReducer';
 import getPublicPath from './utils/getPublicPath';
 
@@ -21,7 +22,7 @@ const store = createStore(rootReducer, compose(
 // Make reducers hot reloadable, see http://stackoverflow.com/questions/34243684/make-redux-reducers-and-other-non-components-hot-loadable
 if (module.hot) {
   module.hot.accept('./reducers/widget/rootReducer', () => {
-    const nextRootReducer = require('./reducers/widget/rootReducer').default;
+    const nextRootReducer = require('./reducers/widget/rootReducer').default; // eslint-disable-line global-require
     store.replaceReducer(nextRootReducer);
   });
 }
@@ -30,7 +31,7 @@ if (module.hot) {
 function initWidgets() {
   const widgets = document.querySelectorAll('.simplechart-widget');
   if (widgets.length) {
-    for (let i = 0; i < widgets.length; ++i) {
+    for (let i = 0; i < widgets.length; i += 1) {
       renderWidget(widgets[i]);
     }
   }
@@ -54,10 +55,11 @@ function renderWidget(el) {
     );
   } else if (el.hasAttribute('data-var')) {
     // Data from global variable if available
-    if (window._SimplechartWidgetData && window._SimplechartWidgetData[el.id]) {
+    const widgetData = window._SimplechartWidgetData; // eslint-disable-line no-underscore-dangle
+    if (widgetData && widgetData[el.id]) {
       store.dispatch(actionTrigger(RECEIVE_WIDGET, {
         widget: el.id,
-        data: window._SimplechartWidgetData[el.id],
+        data: widgetData[el.id],
       }));
     }
   } else {

@@ -17,7 +17,7 @@ export default function rawDataMiddleware(store) {
       return next(action);
     }
 
-    const dateFormat = store.getState().dateFormat;
+    const dateFormat = store.getState().chartOptions.dateFormat;
     const state = {
       dataFields: [],
       dataStatus: {},

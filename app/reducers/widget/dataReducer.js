@@ -12,14 +12,13 @@
  * To add a new reducer, add a file like this one to the reducers folder and
  * add it in rootReducer.js.
  */
-
+import update from 'immutability-helper';
 import {
   RECEIVE_WIDGET,
   RECEIVE_WIDGET_DATA,
   RECEIVE_WIDGET_OPTIONS,
   RECEIVE_WIDGET_METADATA,
 } from '../../constants';
-import update from 'immutability-helper';
 
 export default function dataReducer(state = {}, action) {
   switch (action.type) {

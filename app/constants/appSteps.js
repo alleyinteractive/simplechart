@@ -1,4 +1,4 @@
-export const appSteps = [
+export default [
   'Data Input',
   'Chart Type',
   'Settings',

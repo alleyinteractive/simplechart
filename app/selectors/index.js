@@ -1,9 +1,10 @@
 import pick from 'lodash/fp/pick';
 import { createSelector } from 'reselect';
+import { ownsProperties } from '../utils/misc';
 
 const checkDataValid = createSelector(
   (state) => state.dataStatus.status,
-  (state) => state.dateFormat,
+  (state) => state.chartOptions.dateFormat,
   (status, dateFormat = {}) => {
     // Check for valid data input
     // Errors w/ invalid data would have already surfaced in rawDataMiddleware
@@ -18,7 +19,7 @@ const checkDataValid = createSelector(
 );
 
 const checkChartTypeSelected = ({ chartType }) =>
-  chartType.hasOwnProperty('config') && chartType.hasOwnProperty('defaultOpts');
+  ownsProperties(chartType, ['config', 'defaultOpts']);
 
 export const getIsNextStepAvailable = createSelector(
   (state) => state.currentStep,

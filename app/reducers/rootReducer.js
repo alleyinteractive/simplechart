@@ -13,12 +13,17 @@ import * as actions from '../constants';
 export const initialState = {
   chartData: [],
   chartMetadata: {},
-  chartOptions: {},
+  chartOptions: {
+    dateFormat: {
+      enabled: false,
+      validated: false,
+      formatString: '',
+    },
+    color: [],
+  },
   chartType: {},
   cmsStatus: '',
   currentStep: 0,
-  dateFormat: {},
-  defaultsAppliedTo: '',
   dataFields: [],
   dataStatus: {},
   errorCode: '',
@@ -33,11 +38,9 @@ export const initialState = {
 
 const setActionReducer = createGenericReducer('$set', {
   [actions.RECEIVE_CHART_METADATA]: 'chartMetadata',
-  [actions.RECEIVE_CHART_TYPE]: 'chartType',
   [actions.RECEIVE_CMS_STATUS]: 'cmsStatus',
   [actions.UPDATE_CURRENT_STEP]: 'currentStep',
-  [actions.RECEIVE_DEFAULTS_APPLIED_TO]: 'defaultsAppliedTo',
-  [actions.PARSE_DATA_FIELDS]: 'dataField',
+  [actions.PARSE_DATA_FIELDS]: 'dataFields',
   [actions.PARSE_DATA_STATUS]: 'dataStatus',
   [actions.RECEIVE_ERROR]: 'errorCode',
   [actions.RECEIVE_HELP_DOCUMENT]: 'helpDocument',
@@ -58,14 +61,9 @@ const clearActionReducer = createGenericReducer(
   (data, property) => initialState[property]
 );
 
-const mergeActionReducer = createGenericReducer('$merge', {
-  [actions.RECEIVE_DATE_FORMAT]: 'dateFormat',
-});
-
 export default createComposedReducer([
   setActionReducer,
   clearActionReducer,
-  mergeActionReducer,
   unsavedChangesReducer,
   bootstrapReducer,
   rawDataReducer,

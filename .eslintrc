@@ -2,14 +2,15 @@
 {
   // Extend the AirBnb lint config
   "extends": "airbnb",
+  "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 7,
     "ecmaFeatures": {
       "globalReturn": true,
       "impliedStrict": true,
       "jsx": true
     },
-    "sourceType": "module",
+    "sourceType": "module"
   },
   "env": {
     "es6": true,
@@ -24,7 +25,7 @@
   },
   "globals": {
     "jQuery": true,
-    "angular": false, // Enable if using Angular
+    "angular": false // Enable if using Angular
   },
   // Do NOT change these rules
   "rules": {
@@ -33,7 +34,7 @@
       "ignoreComments": true,
       "ignoreUrls": true,
       "ignoreTemplateLiterals": true,
-      "ignoreStrings": true,
+      "ignoreStrings": true
     }],
     "quotes": [2, "single"], // Allows template literals if they have substitutions or line breaks
     "semi": [2, "always"],
@@ -61,6 +62,14 @@
     "no-confusing-arrow": ["error", {"allowParens": true}], // See eslint config for reasons
     "no-constant-condition": ["error"],
     "arrow-parens": ["error", "always"],
-    "operator-linebreak": ["error", "after"]
+    "operator-linebreak": ["error", "after"],
+    "import/newline-after-import": [0],
+    "react/jsx-filename-extension": [0],
+    "react/forbid-prop-types": [0],
+    "import/no-named-as-default": [0],
+    "import/no-named-as-default-member": [0],
+    "import/no-extraneous-dependencies": [0], // Disabled since it doesn't work with webpack alias
+    "import/no-unresolved": [0], // Disabled since it doesn't work with webpack alias
+    "import/extensions": [0] // Disabled since it doesn't work with webpack alias
   }
 }

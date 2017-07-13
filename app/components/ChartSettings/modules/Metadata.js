@@ -1,32 +1,49 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import update from 'immutability-helper';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import DispatchField from '../../lib/DispatchField';
 import {
   RECEIVE_CHART_METADATA,
 } from '../../../constants';
-import { getObjArrayKey, capitalize } from '../../../utils/misc';
-import update from 'immutability-helper';
+import { getObjArrayKeyStringOnly, capitalize } from '../../../utils/misc';
 
-class Metadata extends Component {
-  constructor() {
-    super();
-    this._handler = this._handler.bind(this);
-    this.state = {
-      title: '',
-      caption: '',
-      credit: '',
-    };
+export default class Metadata extends Component {
+  static propTypes = {
+    metadata: PropTypes.object.isRequired,
+    defaultExpand: PropTypes.bool.isRequired,
+  };
+
+  state = {
+    title: '',
+    caption: '',
+    credit: '',
+    subtitle: false,
+  };
+
+  /* eslint-disable react/sort-comp */
+  shouldShowMetadata = {
+    title: true,
+    caption: true,
+    credit: true,
+    subtitle: false,
   }
+  /* eslint-enable react/sort-comp */
 
   componentWillMount() {
     this.setState(this.props.metadata);
+    if ('undefined' !== typeof this.props.metadata.subtitle &&
+      ('' === this.props.metadata.subtitle || this.props.metadata.subtitle)
+    ) {
+      this.shouldShowMetadata.subtitle = true;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState(nextProps.metadata);
   }
 
-  _handler(fieldProps, value) {
+  handler = (fieldProps, value) => {
     const theUpdate = {
       [fieldProps.name]: value,
     };
@@ -34,39 +51,35 @@ class Metadata extends Component {
     // setState() is async so we also need to return copy with update()
     this.setState(theUpdate);
     return update(this.state, { $merge: theUpdate });
-  }
+  };
 
   render() {
     return (
       <AccordionBlock
         title="Metadata"
-        tooltip="Title, caption, credit"
+        tooltip="Title and other metadata fields"
         defaultExpand={this.props.defaultExpand}
       >
-        {Object.keys(this.state).map((key) =>
-          (
-            <div key={`metadata-${key}`}>
-              <DispatchField
-                action={RECEIVE_CHART_METADATA}
-                fieldType="Input"
-                fieldProps={{
-                  label: capitalize(key),
-                  name: key,
-                  value: getObjArrayKey(this.state, key, ''),
-                }}
-                handler={this._handler}
-              />
-            </div>
-          )
-        )}
+        {Object.keys(this.state).map((key) => {
+          if (this.shouldShowMetadata[key]) {
+            return (
+              <div key={`metadata-${key}`}>
+                <DispatchField
+                  action={RECEIVE_CHART_METADATA}
+                  fieldType="Input"
+                  fieldProps={{
+                    label: capitalize(key),
+                    name: key,
+                    value: getObjArrayKeyStringOnly(this.state, key, ''),
+                  }}
+                  handler={this.handler}
+                />
+              </div>
+            );
+          }
+          return '';
+        })}
       </AccordionBlock>
     );
   }
 }
-
-Metadata.propTypes = {
-  metadata: React.PropTypes.object,
-  defaultExpand: React.PropTypes.bool,
-};
-
-export default Metadata;

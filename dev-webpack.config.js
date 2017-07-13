@@ -1,9 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const modulesDir = path.resolve(__dirname, 'node_modules');
 const entry = {
   widget: [
-    path.resolve('./app/widget'),
+    path.resolve(__dirname, 'app/widget'),
   ],
 };
 
@@ -12,7 +13,7 @@ if (!process.env.MOCKAPI) {
     'react-hot-loader/patch',
     'webpack/hot/only-dev-server',
     'webpack-dev-server/client?http://localhost:8080',
-    path.resolve('./app/index'),
+    path.resolve(__dirname, 'app/index'),
   ];
 }
 
@@ -20,7 +21,7 @@ module.exports = {
   devtool: 'sourcemap',
   entry,
   output: {
-    path: path.join(__dirname, 'static'),
+    path: path.resolve(__dirname, 'static'),
     publicPath: 'http://localhost:8080/static/',
     filename: '[name].js',
     chunkFilename: '[id].chunk.js',
@@ -41,27 +42,19 @@ module.exports = {
       {
         test: /\.js$/,
         enforce: 'pre',
-        exclude: /node_modules/,
-        use: {
-          loader: 'eslint-loader',
-        },
+        exclude: modulesDir,
+        use: ['eslint-loader'],
       },
       {
         test: /\.js$/,
-        include: path.join(__dirname, 'app'),
-        use: [
-          {
-            loader: 'babel-loader',
-          },
-        ],
+        include: path.resolve(__dirname, 'app'),
+        use: ['babel-loader'],
       },
       {
         test: /\.css$/,
-        exclude: '/node_modules/',
+        exclude: modulesDir,
         use: [
-          {
-            loader: 'style-loader',
-          },
+          'style-loader',
           {
             loader: 'css-loader',
             options: {
@@ -69,13 +62,11 @@ module.exports = {
               localIdentName: '[name]__[local]___[hash:base64:5]',
             },
           },
-          {
-            loader: 'postcss-loader',
-          },
+          'postcss-loader',
         ],
       },
       {
-        test: /\.(png|jpg)$/,
+        test: /\.(png|jpg|gif)$/,
         use: [
           {
             loader: 'url-loader',
@@ -88,13 +79,25 @@ module.exports = {
       {
         test: /\.md$/,
         use: [
-          {
-            loader: 'html-loader',
-          },
-          {
-            loader: 'markdown-loader',
-          },
+          'html-loader',
+          'markdown-loader',
         ],
+      },
+      {
+        test: /\.css$/,
+        include: modulesDir,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.(svg|csv)$/,
+        include: [
+          path.resolve(__dirname, 'app/img'),
+          path.resolve(__dirname, 'app/constants/sampleData')
+        ],
+        use: ['raw-loader'],
       },
     ],
   },

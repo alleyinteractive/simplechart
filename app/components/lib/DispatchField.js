@@ -1,32 +1,40 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Rebass from 'rebass';
 import update from 'immutability-helper';
 import { connect } from 'react-redux';
 import actionTrigger from '../../actions';
 import buildDeepObject from '../../utils/buildDeepObject';
 
-class DispatchFields extends Component {
-  constructor() {
-    super();
-    this._handleChange = this._handleChange.bind(this);
-    this._dispatchField = this._dispatchField.bind(this);
-  }
+class DispatchField extends Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    action: PropTypes.string,
+    fieldProps: PropTypes.object.isRequired,
+    fieldType: PropTypes.string.isRequired,
+    handler: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+  };
+
+  static defaultProps = {
+    action: '',
+    handler: false,
+  };
 
   componentWillMount() {
     this.setState({
       fieldProps: update(this.props.fieldProps,
-        { $merge: { onChange: this._handleChange } }),
+        { $merge: { onChange: this.handleChange } }),
     });
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       fieldProps: update(nextProps.fieldProps,
-        { $merge: { onChange: this._handleChange } }),
+        { $merge: { onChange: this.handleChange } }),
     });
   }
 
-  _handleChange(evt) {
+  handleChange = (evt) => {
     let fieldValue;
     if ('Checkbox' === this.props.fieldType) {
       fieldValue = evt.target.checked;
@@ -39,23 +47,23 @@ class DispatchFields extends Component {
       fieldValue = ('any' === evt.target.step) ?
         parseFloat(fieldValue, 10) : parseInt(fieldValue, 10);
     }
-    this._dispatchField(fieldValue);
-  }
+    this.dispatchField(fieldValue);
+  };
 
-  _dispatchField(value) {
+  dispatchField = (value) => {
     // If no action provided, just call the handler
-    if (undefined === this.props.action && this.props.handler) {
+    if ('' === this.props.action && this.props.handler) {
       this.props.handler(this.props.fieldProps, value);
       return;
     }
 
     this.props.dispatch(actionTrigger(
       this.props.action || 'UNSPECIFIED_ACTION',
-      this.props.handler ?
+      this.props.handler instanceof Function ?
         this.props.handler(this.props.fieldProps, value) :
         buildDeepObject(this.props.fieldProps.name, value)
     ));
-  }
+  };
 
   render() {
     return !Rebass[this.props.fieldType] ?
@@ -65,12 +73,4 @@ class DispatchFields extends Component {
   }
 }
 
-DispatchFields.propTypes = {
-  dispatch: React.PropTypes.func,
-  action: React.PropTypes.string,
-  fieldProps: React.PropTypes.object,
-  fieldType: React.PropTypes.string,
-  handler: React.PropTypes.func,
-};
-
-export default connect()(DispatchFields);
+export default connect()(DispatchField);

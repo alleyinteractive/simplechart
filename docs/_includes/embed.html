@@ -5,13 +5,15 @@
   data-placeholder='Waiting for chart data to be saved...'
 >
   <p class='simplechart-title'></p>
+  <p class='simplechart-subtitle'></p>
   <p class='simplechart-caption'></p>
   <div class='simplechart-chart'></div>
   <p class='simplechart-credit'></p>
 </figure>
+<script src="/static/vendor.ddc7fc5.js"></script>
 <script>
   var widgetSrc = window.location.search === '?localhost' ?
-    'http://localhost:8080/static/widget.js' : 'static/widget.js';
+    'http://localhost:8080/static/widget.ddc7fc5.js' : 'static/widget.ddc7fc5.js';
 
   // Render a chart directly on smaller screens
   // since we don't include the editor iframe

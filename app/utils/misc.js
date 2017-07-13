@@ -40,12 +40,30 @@ export function dataIsMultiSeries(data) {
 /**
  * get value from key or default if not set, also works for arrays
  *
- * @param obj obj Basic object or array
- * @param str key Key to look for
- * @param any defaultValue Default to return if key is not set
+ * @param {Object} obj Basic object or array
+ * @param {String} key Key to look for
+ * @param {*} defaultValue Default to return if key is not set
  */
 export function getObjArrayKey(obj, key, defaultValue = '') {
-  return (obj && obj.hasOwnProperty(key)) ? obj[key] : defaultValue;
+  return obj && Object.prototype.hasOwnProperty.call(obj, key) ?
+    obj[key] :
+    defaultValue;
+}
+
+/**
+ * get value from key or default if not set or not a string,
+ * also works for arrays
+ *
+ * @param {Object} obj Basic object or array
+ * @param {String} key Key to look for
+ * @param {*} defaultValue Default to return if key is not set
+ */
+export function getObjArrayKeyStringOnly(obj, key, defaultValue = '') {
+  return obj &&
+    Object.prototype.hasOwnProperty.call(obj, key) &&
+    'string' === typeof obj[key] ?
+    obj[key] :
+    defaultValue;
 }
 
 /**
@@ -65,4 +83,26 @@ export function capitalize(input) {
  */
 export function loopArrayItemAtIndex(idx, list) {
   return list[idx % list.length];
+}
+
+/**
+ * @param {object} obj
+ * @param {string|string[]} properties
+ * @returns {boolean}
+ */
+export function ownsProperties(obj, properties) {
+  return properties.every((property) =>
+    Object.prototype.hasOwnProperty.call(obj, property));
+}
+
+/**
+ * Determine if action src is defined and contains a string, e.g. 'bootstrap'
+ *
+ * @param {String} src Action source
+ * @param {String} key Keyword to look for
+ * @return {Boolean}
+ */
+export function actionSourceContains(src, key) {
+  return 'undefined' !== typeof src &&
+    -1 < src.toLowerCase().indexOf(key.toLowerCase());
 }

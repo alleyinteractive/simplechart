@@ -1,17 +1,33 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Chart from './Chart';
-import ReactDOM from 'react-dom';
 
 class Widget extends Component {
-  constructor() {
-    super();
-    this._renderChart = this._renderChart.bind(this);
-    this.state = {
-      data: null,
-    };
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+    widget: PropTypes.string.isRequired,
+    placeholder: PropTypes.string.isRequired,
+  };
+
+  static renderMetadata(widget, metadata) {
+    Object.keys(metadata).forEach((key) => {
+      const el = widget.querySelectorAll(`.simplechart-${key}`);
+      if (!el.length) {
+        return;
+      }
+      el[0].innerText = metadata[key];
+    });
+  }
+
+  constructor(props) {
+    super(props);
     this.defaultPlaceholder = 'Loading';
   }
+
+  state = {
+    data: null,
+  };
 
   componentWillMount() {
     if (this.props.data.data[this.props.widget]) {
@@ -27,27 +43,18 @@ class Widget extends Component {
 
   componentDidUpdate() {
     let widget;
-    try {
-      widget = ReactDOM.findDOMNode(this).parentElement.parentElement;
-    } catch (err) {
+    if (this.node) {
+      widget = this.node.parentElement.parentElement;
+    } else {
       return;
     }
+
     if (this.state.data) {
-      this._renderMetadata(widget, this.state.data.metadata || {});
+      Widget.renderMetadata(widget, this.state.data.metadata || {});
     }
   }
 
-  _renderMetadata(widget, metadata) {
-    Object.keys(metadata).forEach((key) => {
-      const el = widget.querySelectorAll(`.simplechart-${key}`);
-      if (!el.length) {
-        return;
-      }
-      el[0].innerText = metadata[key];
-    });
-  }
-
-  _renderChart() {
+  renderChart = () => {
     if (this.state.data) {
       return (
         <Chart
@@ -63,22 +70,19 @@ class Widget extends Component {
         {this.props.placeholder || this.defaultPlaceholder}
       </span>
     );
-  }
+  };
 
   render() {
     return (
-      <div>
-        {this._renderChart()}
+      <div ref={(node) => {
+        this.node = node;
+      }}
+      >
+        {this.renderChart()}
       </div>
     );
   }
 }
-
-Widget.propTypes = {
-  data: React.PropTypes.object,
-  widget: React.PropTypes.string,
-  placeholder: React.PropTypes.string,
-};
 
 // Which props to inject from the global atomic state
 export default connect((state) =>
