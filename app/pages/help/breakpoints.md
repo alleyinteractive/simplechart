@@ -1,6 +1,6 @@
 ## Using Breakpoints
 
-Simplechart is designed to draw charts with a fixed height and variable width. Sometimes, this requires special handling for different screen sizes, e.g. desktop vs. mobile. The **Breakpoints** feature allows you specify the chart's height depending on the available width of the screen or page design.
+Simplechart is designed to draw charts with a fixed height and variable width. Sometimes, this requires special handling for different screen sizes, e.g. desktop vs. mobile. The **Breakpoints** feature allows you to specify the chart's height depending on the available width of the screen or page design.
 
 The default breakpoint sets a height of 400 pixels at all screen widths. At that height, a chart might look like this on a desktop monitor:
 
