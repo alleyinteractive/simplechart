@@ -113,10 +113,9 @@ class ChartDataFormatter extends Component {
             fieldType="Checkbox"
             fieldProps={{
               label: 'Show currency symbol?',
-              name: 'tickFormatSettings.showCurrencySymbol',
-              checked: this.state.showCurrencySymbol,
+              name: getFieldName('showCurrencySymbol'),
+              checked: getScopeProperty('showCurrencySymbol'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
