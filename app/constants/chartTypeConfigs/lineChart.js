@@ -11,3 +11,8 @@ export const config = {
 export const defaultOpts = {
   showLegend: true,
 };
+
+export default {
+  config,
+  defaultOpts,
+};
