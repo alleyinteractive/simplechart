@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import NVD3Chart from 'react-nvd3';
 import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
-import { getChartTypeObject, getChartTypeDefaultOpts } from '../../../../utils/chartTypeUtils';
+import {
+  getChartTypeObject,
+  getChartTypeDefaultOpts,
+  getNvd3Type,
+} from '../../../../utils/chartTypeUtils';
 import applyYDomain from '../../../../reducers/utils/applyYDomain.js';
 import applyTickFormatters from '../../../../reducers/utils/applyTickFormatters';
 
@@ -43,7 +47,9 @@ export default class NVD3Adapter extends Component {
    */
   mapToChartProps = () => {
     const { options, data, widget } = this.props;
+    const type = getNvd3Type(options.type);
     let chartProps = update(options, {
+      type: { $set: type },
       datum: { $set: NVD3Adapter.dataTransform(options.type, data) },
       ref: { $set: 'chartNode' },
     });
@@ -56,7 +62,9 @@ export default class NVD3Adapter extends Component {
     // Widgets need to recreate function-based options
     const typeConfig = getChartTypeObject(options.type).config;
     const defaultOpts = getChartTypeDefaultOpts(options.type);
-    chartProps = Object.assign({}, defaultOpts, chartProps, typeConfig);
+    chartProps = Object.assign(
+      {}, defaultOpts, chartProps, typeConfig, { type }
+    );
     chartProps = applyYDomain(chartProps, typeConfig, data);
 
     return applyTickFormatters(chartProps, typeConfig);
