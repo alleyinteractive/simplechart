@@ -2,7 +2,6 @@ import cloneDeep from 'lodash/fp/cloneDeep';
 import get from 'lodash/fp/get';
 import merge from 'lodash/fp/merge';
 import set from 'lodash/fp/set';
-import update from 'immutability-helper';
 import {
   RECEIVE_CHART_OPTIONS,
   RECEIVE_CHART_TYPE,
@@ -10,12 +9,16 @@ import {
   RECEIVE_TICK_FORMAT,
 } from '../constants';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
-import applyTickFormatters from './utils/applyTickFormatters';
+// import { applyScopedTickFormatters } from './utils/applyTickFormatters';
 import applyYDomain from './utils/applyYDomain';
 import { defaultBreakpointsOpt } from '../constants/chartTypes';
 import defaultPalette from '../constants/defaultPalette';
 import { transformParsedData } from '../utils/rawDataHelpers';
 import { actionSourceContains } from '../utils/misc';
+import {
+  defaultTickFormatSettings,
+  formatScopes,
+} from '../constants/defaultTickFormatSettings';
 
 export default function chartOptionsReducer(state, action) {
   switch (action.type) {
@@ -32,14 +35,8 @@ export default function chartOptionsReducer(state, action) {
       return reduceReceiveDateFormat(state, action);
 
     case RECEIVE_TICK_FORMAT: {
-      const tickFormatScopedSettings = reduceReceiveTickFormat(state, action);
-      const updateAction = !state.chartOptions.tickFormatSettings ?
-        '$set' : '$merge';
-      return update(state, {
-        chartOptions: {
-          tickFormatSettings: { [updateAction]: tickFormatScopedSettings },
-        },
-      });
+      return reduceReceiveTickFormat(state, action);
+      // return applyScopedTickFormatters(newState);
     }
 
     default:
@@ -146,13 +143,31 @@ export function reduceReceiveDateFormat(state, { data }) {
  */
 export function reduceReceiveTickFormat(state, { data }) {
   const scope = Object.keys(data)[0];
-  if (!state.chartOptions.tickFormatSettings ||
-    !state.chartOptions.tickFormatSettings[scope]
-  ) {
-    return data;
+  const receivedUpdate = data[scope];
+  const oldSettings = state.chartOptions.tickFormatSettings || {};
+  let newSettings;
+
+  const getMergedSettings = (scopeName) => Object.assign(
+    {},
+    defaultTickFormatSettings,
+    (oldSettings[scopeName] || {}),
+    receivedUpdate
+  );
+
+  if ('all' === scope) {
+    const globalSettings = getMergedSettings('all');
+    newSettings = formatScopes.reduce((acc, { name }) => {
+      acc[name] = globalSettings;
+      return acc;
+    }, {});
+  } else {
+    newSettings = Object.assign(
+      {},
+      oldSettings,
+      set(scope, getMergedSettings(scope), {})
+    );
   }
-  // if scope settings already exist, merge new item into them and return
-  return {
-    [scope]: merge(state.chartOptions.tickFormatSettings[scope], data[scope]),
-  };
+
+  // Now we have a complete object to replace chartOptions.tickFormatSettings
+  return set('chartOptions.tickFormatSettings', newSettings, state);
 }
