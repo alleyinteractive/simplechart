@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import update from 'immutability-helper';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 import { locales } from '../../constants/d3Locales';
-import { RECEIVE_CHART_OPTIONS } from '../../constants';
+import { RECEIVE_TICK_FORMAT } from '../../constants';
 import DispatchField from '../lib/DispatchField';
 import {
   defaultTickFormatSettings,
@@ -14,6 +14,9 @@ import FormatScopeSelect from './FormatScopeSelect';
 
 const defaultFormatScope = 'all';
 
+/**
+ * @todo Pull these from the chart type config
+ */
 const buttonOpts = [
   { name: 'all', label: 'All' },
   { name: 'xAxis', label: 'X Axis' },
@@ -38,9 +41,17 @@ class ChartDataFormatter extends Component {
   }
 
   componentWillMount() {
-    const initState = ChartDataFormatter.handleProps(
-      this.props.options.tickFormatSettings || {}
-    );
+    const settings = this.props.options.tickFormatSettings;
+
+    const initState = buttonOpts.reduce((acc, { name }) => {
+      acc[name] = ChartDataFormatter.handleProps(
+        'undefined' !== typeof settings ?
+          (settings[name] || settings) : // looks for scope settings then fallback to legacy format
+          {} // default to empty object if no settings provided
+      );
+      return acc;
+    }, {});
+
     initState.formatScope = defaultFormatScope;
     this.setState(initState);
   }
@@ -66,6 +77,13 @@ class ChartDataFormatter extends Component {
   };
 
   render() {
+    debugger;
+
+    const getScopeProperty =
+      (key) => this.state[this.state.formatScope][key];
+    const getFieldName =
+      (key) => `tickFormatSettings.${this.state.formatScope}.${key}`;
+
     return (
       <div>
         <div>
@@ -76,19 +94,18 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Select"
             fieldProps={{
               label: 'Format currency and thousands separator as:',
-              name: 'tickFormatSettings.locale',
+              name: getFieldName('locale'),
               options: ChartDataFormatter.localeOptions(),
-              value: this.state.locale,
+              value: getScopeProperty('locale'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Checkbox"
             fieldProps={{
               label: 'Show currency symbol?',
@@ -99,7 +116,7 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Checkbox"
             fieldProps={{
               label: 'Use thousands separator',
@@ -110,7 +127,7 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Checkbox"
             fieldProps={{
               label: 'Display as percentage',
@@ -121,7 +138,7 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Input"
             fieldProps={{
               label: 'Leading text',
@@ -132,7 +149,7 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Input"
             fieldProps={{
               label: 'Trailing text',
@@ -143,7 +160,7 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Input"
             fieldProps={{
               label: 'Decimal places',
@@ -157,7 +174,7 @@ class ChartDataFormatter extends Component {
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Select"
             fieldProps={{
               label: 'Multiply/divide values',
