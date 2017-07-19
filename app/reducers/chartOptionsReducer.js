@@ -2,10 +2,12 @@ import cloneDeep from 'lodash/fp/cloneDeep';
 import get from 'lodash/fp/get';
 import merge from 'lodash/fp/merge';
 import set from 'lodash/fp/set';
+import update from 'immutability-helper';
 import {
   RECEIVE_CHART_OPTIONS,
   RECEIVE_CHART_TYPE,
   RECEIVE_DATE_FORMAT,
+  RECEIVE_TICK_FORMAT,
 } from '../constants';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
 import applyTickFormatters from './utils/applyTickFormatters';
@@ -29,6 +31,17 @@ export default function chartOptionsReducer(state, action) {
     case RECEIVE_DATE_FORMAT:
       return reduceReceiveDateFormat(state, action);
 
+    case RECEIVE_TICK_FORMAT: {
+      const tickFormatScopedSettings = reduceReceiveTickFormat(state, action);
+      const updateAction = !state.chartOptions.tickFormatSettings ?
+        '$set' : '$merge';
+      return update(state, {
+        chartOptions: {
+          tickFormatSettings: { [updateAction]: tickFormatScopedSettings },
+        },
+      });
+    }
+
     default:
   }
 
@@ -46,10 +59,10 @@ export function reduceReceiveChartOptions(state, { data, src }) {
       newOptions = merge(newOptions, { color: defaultPalette });
     }
 
-    const shouldApplyTickFormatters = newOptions.tickFormatSettings && config;
-    if (shouldApplyTickFormatters) {
-      newOptions = applyTickFormatters(newOptions, config);
-    }
+    // const shouldApplyTickFormatters = newOptions.tickFormatSettings && config;
+    // if (shouldApplyTickFormatters) {
+    //   newOptions = applyTickFormatters(newOptions, config);
+    // }
   }
 
   const shouldApplyYDomain = chartData.length && config && !newOptions.yDomain;
@@ -126,4 +139,20 @@ export function reduceReceiveDateFormat(state, { data }) {
       dateFormat
     ),
   });
+}
+
+/**
+ * Merge scoped format update into scoped format settings, e.g. { xAxis: { locale: 12 } }
+ */
+export function reduceReceiveTickFormat(state, { data }) {
+  const scope = Object.keys(data)[0];
+  if (!state.chartOptions.tickFormatSettings ||
+    !state.chartOptions.tickFormatSettings[scope]
+  ) {
+    return data;
+  }
+  // if scope settings already exist, merge new item into them and return
+  return {
+    [scope]: merge(state.chartOptions.tickFormatSettings[scope], data[scope]),
+  };
 }

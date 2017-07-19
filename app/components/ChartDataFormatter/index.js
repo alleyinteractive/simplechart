@@ -24,14 +24,28 @@ const buttonOpts = [
   { name: 'tooltip', label: 'Tooptip' },
 ];
 
+/**
+ * For each available format settings scope (axes, tooltip, etc)
+ * merge received tickFormatSettings into default settings.
+ * Look for scope-specific options with fallback
+ * to legacy format that had only one set of options
+ *
+ * @param {Object} settings Received settings object
+ * @return {Object} Options per scope
+ */
+function mergePropsIntoDefaults(settings) {
+  return buttonOpts.reduce((acc, { name }) => {
+    const scopeSettings = ('undefined' !== typeof settings) ?
+      (settings[name] || settings) : {};
+    acc[name] = update(defaultTickFormatSettings, { $merge: scopeSettings });
+    return acc;
+  }, {});
+}
+
 class ChartDataFormatter extends Component {
   static propTypes = {
     options: PropTypes.object.isRequired,
   };
-
-  static handleProps(settings) {
-    return update(defaultTickFormatSettings, { $merge: settings });
-  }
 
   static localeOptions() {
     return locales.map((locale, idx) => ({
@@ -41,16 +55,8 @@ class ChartDataFormatter extends Component {
   }
 
   componentWillMount() {
-    const settings = this.props.options.tickFormatSettings;
-
-    const initState = buttonOpts.reduce((acc, { name }) => {
-      acc[name] = ChartDataFormatter.handleProps(
-        'undefined' !== typeof settings ?
-          (settings[name] || settings) : // looks for scope settings then fallback to legacy format
-          {} // default to empty object if no settings provided
-      );
-      return acc;
-    }, {});
+    const initState = mergePropsIntoDefaults(
+      this.props.options.tickFormatSettings);
 
     initState.formatScope = defaultFormatScope;
     this.setState(initState);
@@ -58,7 +64,7 @@ class ChartDataFormatter extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState(
-      ChartDataFormatter.handleProps(nextProps.options.tickFormatSettings || {})
+      mergePropsIntoDefaults(nextProps.options.tickFormatSettings)
     );
   }
 
@@ -74,15 +80,13 @@ class ChartDataFormatter extends Component {
     return {
       tickFormatSettings: update(this.state, { [field]: { $set: value } }),
     };
-  };
+  }
 
   render() {
-    debugger;
-
     const getScopeProperty =
       (key) => this.state[this.state.formatScope][key];
     const getFieldName =
-      (key) => `tickFormatSettings.${this.state.formatScope}.${key}`;
+      (key) => `${this.state.formatScope}.${key}`;
 
     return (
       <div>
