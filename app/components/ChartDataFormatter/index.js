@@ -10,6 +10,16 @@ import {
   defaultTickFormatSettings,
   multiplierOptions,
 } from '../../constants/defaultTickFormatSettings';
+import FormatScopeSelect from './FormatScopeSelect';
+
+const defaultFormatScope = 'all';
+
+const buttonOpts = [
+  { name: 'all', label: 'All' },
+  { name: 'xAxis', label: 'X Axis' },
+  { name: 'yAxis', label: 'Y Axis' },
+  { name: 'tooltip', label: 'Tooptip' },
+];
 
 class ChartDataFormatter extends Component {
   static propTypes = {
@@ -28,17 +38,21 @@ class ChartDataFormatter extends Component {
   }
 
   componentWillMount() {
-    this.setState(
-      ChartDataFormatter.handleProps(
-        this.props.options.tickFormatSettings || {}
-      )
+    const initState = ChartDataFormatter.handleProps(
+      this.props.options.tickFormatSettings || {}
     );
+    initState.formatScope = defaultFormatScope;
+    this.setState(initState);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState(
       ChartDataFormatter.handleProps(nextProps.options.tickFormatSettings || {})
     );
+  }
+
+  setFormatScope = (formatScope) => {
+    this.setState({ formatScope });
   }
 
   /**
@@ -55,6 +69,12 @@ class ChartDataFormatter extends Component {
     return (
       <div>
         <div>
+          <FormatScopeSelect
+            buttonOpts={buttonOpts}
+            value={this.state.formatScope}
+            handler={this.setFormatScope}
+          />
+
           <DispatchField
             action={RECEIVE_CHART_OPTIONS}
             fieldType="Select"
