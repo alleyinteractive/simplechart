@@ -1,5 +1,3 @@
-import getSumDomain from '../../utils/dataFormats/getSumDomain';
-
 export const config = {
   type: 'groupedBarChart',
   label: 'Grouped Bar Chart',
@@ -8,7 +6,6 @@ export const config = {
   modules: {
     settings: ['XAxis', 'YAxis', 'Legend', 'Metadata', 'ColorPalette'],
   },
-  getNiceDomain: getSumDomain,
 };
 
 export const defaultOpts = {
