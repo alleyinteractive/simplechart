@@ -9,20 +9,11 @@ import DispatchField from '../lib/DispatchField';
 import {
   defaultTickFormatSettings,
   multiplierOptions,
+  formatScopes,
 } from '../../constants/defaultTickFormatSettings';
 import FormatScopeSelect from './FormatScopeSelect';
 
 const defaultFormatScope = 'all';
-
-/**
- * @todo Pull these from the chart type config
- */
-const buttonOpts = [
-  { name: 'all', label: 'All' },
-  { name: 'xAxis', label: 'X Axis' },
-  { name: 'yAxis', label: 'Y Axis' },
-  { name: 'tooltip', label: 'Tooltip' },
-];
 
 /**
  * For each available format settings scope (axes, tooltip, etc)
@@ -34,7 +25,7 @@ const buttonOpts = [
  * @return {Object} Options per scope
  */
 function mergePropsIntoDefaults(settings) {
-  return buttonOpts.reduce((acc, { name }) => {
+  return formatScopes.reduce((acc, { name }) => {
     const scopeSettings = ('undefined' !== typeof settings) ?
       (settings[name] || settings) : {};
     acc[name] = update(defaultTickFormatSettings, { $merge: scopeSettings });
@@ -92,7 +83,7 @@ class ChartDataFormatter extends Component {
       <div>
         <div>
           <FormatScopeSelect
-            buttonOpts={buttonOpts}
+            buttonOpts={formatScopes}
             value={this.state.formatScope}
             handler={this.setFormatScope}
           />
