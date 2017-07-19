@@ -102,8 +102,8 @@ class ChartDataFormatter extends Component {
             fieldType="Select"
             fieldProps={{
               label: 'Format currency and thousands separator as:',
-              name: getFieldName('locale'),
               options: ChartDataFormatter.localeOptions(),
+              name: getFieldName('locale'),
               value: getScopeProperty('locale'),
             }}
           />
@@ -123,10 +123,9 @@ class ChartDataFormatter extends Component {
             fieldType="Checkbox"
             fieldProps={{
               label: 'Use thousands separator',
-              name: 'tickFormatSettings.groupThousands',
-              checked: this.state.groupThousands,
+              name: getFieldName('groupThousands'),
+              checked: getScopeProperty('groupThousands'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
@@ -134,10 +133,9 @@ class ChartDataFormatter extends Component {
             fieldType="Checkbox"
             fieldProps={{
               label: 'Display as percentage',
-              name: 'tickFormatSettings.usePercent',
-              checked: this.state.usePercent,
+              name: getFieldName('usePercent'),
+              checked: getScopeProperty('usePercent'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
@@ -145,10 +143,9 @@ class ChartDataFormatter extends Component {
             fieldType="Input"
             fieldProps={{
               label: 'Leading text',
-              name: 'tickFormatSettings.prepend',
-              value: this.state.prepend,
+              name: getFieldName('prepend'),
+              value: getScopeProperty('prepend'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
@@ -156,10 +153,9 @@ class ChartDataFormatter extends Component {
             fieldType="Input"
             fieldProps={{
               label: 'Trailing text',
-              name: 'tickFormatSettings.append',
-              value: this.state.append,
+              name: getFieldName('append'),
+              value: getScopeProperty('append'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
@@ -170,10 +166,9 @@ class ChartDataFormatter extends Component {
               type: 'number',
               step: 1,
               min: 0,
-              name: 'tickFormatSettings.decimalPlaces',
-              value: this.state.decimalPlaces,
+              name: getFieldName('decimalPlaces'),
+              value: getScopeProperty('decimalPlaces'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
@@ -181,11 +176,10 @@ class ChartDataFormatter extends Component {
             fieldType="Select"
             fieldProps={{
               label: 'Multiply/divide values',
-              name: 'tickFormatSettings.multiplier',
               options: multiplierOptions,
-              value: this.state.multiplier,
+              name: getFieldName('multiplier'),
+              value: getScopeProperty('multiplier'),
             }}
-            handler={this.handleChange}
           />
 
         </div>
