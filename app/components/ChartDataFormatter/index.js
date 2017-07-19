@@ -21,7 +21,7 @@ const buttonOpts = [
   { name: 'all', label: 'All' },
   { name: 'xAxis', label: 'X Axis' },
   { name: 'yAxis', label: 'Y Axis' },
-  { name: 'tooltip', label: 'Tooptip' },
+  { name: 'tooltip', label: 'Tooltip' },
 ];
 
 /**
