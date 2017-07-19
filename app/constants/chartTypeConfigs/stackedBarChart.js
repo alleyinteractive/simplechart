@@ -13,7 +13,9 @@ export const config = {
 
 export const defaultOpts = {
   showLegend: true,
-  showControls: true,
+  showControls: false,
+  stacked: true,
+  staggerLabels: true,
 };
 
 export default {

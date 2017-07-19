@@ -13,7 +13,7 @@ export const config = {
 
 export const defaultOpts = {
   showLegend: true,
-  showControls: true,
+  showControls: false,
 };
 
 export default {
