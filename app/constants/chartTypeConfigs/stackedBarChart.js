@@ -15,7 +15,7 @@ export const defaultOpts = {
   showLegend: true,
   showControls: false,
   stacked: true,
-  staggerLabels: true,
+  reduceXTicks: false,
 };
 
 export default {
