@@ -39,3 +39,8 @@ export const conditionalOpts = ({ transformedData }) => {
   // Do nothing for bubble charts
   return {};
 };
+
+export default {
+  config,
+  defaultOpts,
+};
