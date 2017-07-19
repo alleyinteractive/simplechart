@@ -12,7 +12,7 @@ export const defaultOpts = {
   showLegend: true,
   showControls: false,
   stacked: false,
-  staggerLabels: true,
+  reduceXTicks: false,
 };
 
 export default {
