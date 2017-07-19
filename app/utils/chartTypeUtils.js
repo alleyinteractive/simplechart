@@ -3,6 +3,8 @@
  */
 import update from 'immutability-helper';
 import { selectableChartTypes, nvd3Defaults } from '../constants/chartTypes';
+import groupedBarChart from '../constants/chartTypeConfigs/groupedBarChart';
+import stackedBarChart from '../constants/chartTypeConfigs/stackedBarChart';
 
 export function getChartTypeObject(type) {
   return selectableChartTypes.reduce((prev, current) =>
@@ -28,4 +30,17 @@ export function getChartTypeDefaultOpts(type) {
 
   // non-NVD3 data formats would do something else here
   return {};
+}
+
+export function getNvd3Type(type) {
+  const isMultiBar = -1 < [
+    stackedBarChart.config.type,
+    groupedBarChart.config.type,
+  ].indexOf(type);
+
+  if (isMultiBar) {
+    return 'multiBarChart';
+  }
+
+  return type;
 }

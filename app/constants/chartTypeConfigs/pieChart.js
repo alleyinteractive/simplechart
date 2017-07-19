@@ -14,3 +14,8 @@ export const defaultOpts = {
   showLegend: true,
   showLabels: false,
 };
+
+export default {
+  config,
+  defaultOpts,
+};

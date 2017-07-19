@@ -1,8 +1,8 @@
 import getSumDomain from '../../utils/dataFormats/getSumDomain';
 
 export const config = {
-  type: 'stackedAreaChart',
-  label: 'Stacked Area Chart',
+  type: 'stackedBarChart',
+  label: 'Stacked Bar Chart',
   dataFormat: 'nvd3MultiSeries',
   componentName: 'NVD3Adapter',
   modules: {
@@ -14,6 +14,8 @@ export const config = {
 export const defaultOpts = {
   showLegend: true,
   showControls: false,
+  stacked: true,
+  staggerLabels: true,
 };
 
 export default {

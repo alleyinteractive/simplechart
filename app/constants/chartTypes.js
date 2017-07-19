@@ -1,12 +1,13 @@
 /**
  * Chart types registry
  */
-import * as pieChart from './chartTypeConfigs/pieChart';
-import * as discreteBarChart from './chartTypeConfigs/discreteBarChart';
-import * as lineChart from './chartTypeConfigs/lineChart';
-import * as stackedAreaChart from './chartTypeConfigs/stackedAreaChart';
-import * as scatterChart from './chartTypeConfigs/scatterChart';
-import * as multiBarChart from './chartTypeConfigs/multiBarChart';
+import pieChart from './chartTypeConfigs/pieChart';
+import discreteBarChart from './chartTypeConfigs/discreteBarChart';
+import lineChart from './chartTypeConfigs/lineChart';
+import stackedAreaChart from './chartTypeConfigs/stackedAreaChart';
+import scatterChart from './chartTypeConfigs/scatterChart';
+import groupedBarChart from './chartTypeConfigs/groupedBarChart';
+import stackedBarChart from './chartTypeConfigs/stackedBarChart';
 
 export const selectableChartTypes = [
   pieChart,
@@ -14,7 +15,8 @@ export const selectableChartTypes = [
   lineChart,
   stackedAreaChart,
   scatterChart,
-  multiBarChart,
+  groupedBarChart,
+  stackedBarChart,
 ];
 
 export const defaultBreakpoint = {

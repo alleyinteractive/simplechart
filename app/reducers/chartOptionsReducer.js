@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash/fp/cloneDeep';
+import compose from 'lodash/fp/flow';
 import get from 'lodash/fp/get';
 import merge from 'lodash/fp/merge';
 import set from 'lodash/fp/set';
@@ -82,14 +83,14 @@ export function reduceReceiveChartOptions(state, { data, src }) {
 }
 
 export function reduceReceiveChartType(state, { data, src }) {
-  const { chartOptions, chartType, dataFields } = state;
+  const { chartType, dataFields } = state;
   const typeChanged = get('config.type', chartType) !== data.config.type;
 
   if (actionSourceContains(src, 'bootstrap') || !typeChanged) {
     return merge(state, { chartType: cloneDeep(data) });
   }
 
-  let newOptions = applyChartTypeDefaults(data.config, chartOptions);
+  let newOptions = applyChartTypeDefaults(data.config, {});
 
   if ('function' === typeof data.conditionalOpts) {
     newOptions = merge(newOptions, data.conditionalOpts(state));
@@ -111,8 +112,10 @@ export function reduceReceiveChartType(state, { data, src }) {
     });
   }
 
-  const newState = set('chartType', cloneDeep(data), state);
-  return merge(newState, { chartOptions: newOptions });
+  return compose(
+    set('chartType', cloneDeep(data)),
+    set('chartOptions', newOptions)
+  )(state);
 }
 
 export function reduceReceiveDateFormat(state, { data }) {
