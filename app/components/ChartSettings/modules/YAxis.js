@@ -25,6 +25,15 @@ export default class YAxis extends Component {
     return { yDomain: domain };
   };
 
+  handleWidth = (fieldProps, value) => ({
+    yAxis: {
+      width: value,
+    },
+    margin: {
+      left: value,
+    },
+  });
+
   render() {
     return (
       <AccordionBlock
@@ -72,8 +81,9 @@ export default class YAxis extends Component {
             label: 'Width',
             name: 'margin.left',
             type: 'number',
-            value: getObjArrayKey(this.props.options.margin, 'left', 50),
+            value: getObjArrayKey(this.props.options.margin, 'left', 75),
           }}
+          handler={this.handleWidth}
         />
       </AccordionBlock>
     );
