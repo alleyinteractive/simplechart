@@ -137,15 +137,10 @@ class Chart extends Component {
       return null;
     }
 
-    let chartHeight = this.state.activeBp.height;
-    if (this.props.options.margin && this.props.options.margin.bottom) {
-      chartHeight += this.props.options.margin.bottom;
-    }
-
     const chartTypeComponent = React.createElement(
       this.state.chartTypeComponent,
       update(this.props, {
-        options: { height: { $set: chartHeight } },
+        options: { height: { $set: this.state.activeBp.height } },
       })
     );
     return React.createElement(
