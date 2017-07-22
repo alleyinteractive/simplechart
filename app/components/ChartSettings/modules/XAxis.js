@@ -31,7 +31,18 @@ export default function XAxis(props) {
           label: 'Rotate Labels (degrees +/-)',
           name: 'xAxis.rotateLabels',
           type: 'number',
-          value: getObjArrayKey(props.options.xAxis, 'rotateLabels'),
+          value: getObjArrayKey(props.options.xAxis, 'rotateLabels', 0),
+        }}
+      />
+
+      <DispatchField
+        action={RECEIVE_CHART_OPTIONS}
+        fieldType="Input"
+        fieldProps={{
+          label: 'Bottom Margin',
+          name: 'margin.bottom',
+          type: 'number',
+          value: getObjArrayKey(props.options.margin, 'bottom', 0),
         }}
       />
     </AccordionBlock>
