@@ -56,7 +56,9 @@ export function reduceReceiveChartOptions(state, { data, src }) {
     config
   );
 
-  const shouldApplyYDomain = chartData.length && config && !newOptions.yDomain;
+  const shouldApplyYDomain = chartData.length &&
+    'undefined' !== typeof config &&
+    !newOptions.yDomain;
   if (shouldApplyYDomain) {
     newOptions = applyYDomain(newOptions, config, chartData);
   }
