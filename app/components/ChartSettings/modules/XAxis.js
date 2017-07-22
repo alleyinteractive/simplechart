@@ -39,10 +39,10 @@ export default function XAxis(props) {
         action={RECEIVE_CHART_OPTIONS}
         fieldType="Input"
         fieldProps={{
-          label: 'Bottom Margin',
+          label: 'Height',
           name: 'margin.bottom',
           type: 'number',
-          value: getObjArrayKey(props.options.margin, 'bottom', 0),
+          value: getObjArrayKey(props.options.margin, 'bottom', 50),
         }}
       />
     </AccordionBlock>

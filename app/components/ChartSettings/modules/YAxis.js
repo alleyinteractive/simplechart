@@ -64,6 +64,17 @@ export default class YAxis extends Component {
           }}
           handler={this.handleYDomain}
         />
+
+        <DispatchField
+          action={RECEIVE_CHART_OPTIONS}
+          fieldType="Input"
+          fieldProps={{
+            label: 'Width',
+            name: 'margin.left',
+            type: 'number',
+            value: getObjArrayKey(this.props.options.margin, 'left', 50),
+          }}
+        />
       </AccordionBlock>
     );
   }
