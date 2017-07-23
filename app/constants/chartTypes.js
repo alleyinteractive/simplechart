@@ -44,3 +44,8 @@ export const nvd3Defaults = {
     y: (point) => point.y,
   },
 };
+
+// On chart type change, the chart options are replaced to clear out chart type
+// specific options. These options are not coupled to a specific chart type,
+// and should persist through chart type changes.
+export const globalChartOptions = ['dateFormat', 'xAxis', 'yDomain'];

@@ -25,6 +25,15 @@ export default class YAxis extends Component {
     return { yDomain: domain };
   };
 
+  handleWidth = (fieldProps, value) => ({
+    yAxis: {
+      width: value,
+    },
+    margin: {
+      left: value,
+    },
+  });
+
   render() {
     return (
       <AccordionBlock
@@ -63,6 +72,18 @@ export default class YAxis extends Component {
             value: getObjArrayKey(this.props.options.yDomain, 1),
           }}
           handler={this.handleYDomain}
+        />
+
+        <DispatchField
+          action={RECEIVE_CHART_OPTIONS}
+          fieldType="Input"
+          fieldProps={{
+            label: 'Width',
+            name: 'margin.left',
+            type: 'number',
+            value: getObjArrayKey(this.props.options.margin, 'left', 75),
+          }}
+          handler={this.handleWidth}
         />
       </AccordionBlock>
     );

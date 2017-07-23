@@ -2,6 +2,7 @@ import cloneDeep from 'lodash/fp/cloneDeep';
 import compose from 'lodash/fp/flow';
 import get from 'lodash/fp/get';
 import merge from 'lodash/fp/merge';
+import pick from 'lodash/fp/pick';
 import set from 'lodash/fp/set';
 import {
   RECEIVE_CHART_OPTIONS,
@@ -10,9 +11,10 @@ import {
   RECEIVE_TICK_FORMAT,
 } from '../constants';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
-// import { applyScopedTickFormatters } from './utils/applyTickFormatters';
+import applyTickFormatters from './utils/applyTickFormatters';
 import applyYDomain from './utils/applyYDomain';
-import { defaultBreakpointsOpt } from '../constants/chartTypes';
+import getXDomain from './utils/getXDomain';
+import { defaultBreakpointsOpt, globalChartOptions } from '../constants/chartTypes';
 import defaultPalette from '../constants/defaultPalette';
 import { transformParsedData } from '../utils/rawDataHelpers';
 import { actionSourceContains } from '../utils/misc';
@@ -20,6 +22,9 @@ import {
   defaultTickFormatSettings,
   formatScopes,
 } from '../constants/defaultTickFormatSettings';
+
+const mergeWithGlobal = (chartOptions, newOptions) =>
+  merge(pick(globalChartOptions, chartOptions), newOptions);
 
 export default function chartOptionsReducer(state, action) {
   switch (action.type) {
@@ -51,19 +56,20 @@ export function reduceReceiveChartOptions(state, { data, src }) {
   let newOptions = cloneDeep(data);
   const currentOptions = state.chartOptions;
 
-  if (!actionSourceContains(src, 'bootstrap')) {
-    const shouldApplyDefaultPallette = !get('color.length', currentOptions);
-    if (shouldApplyDefaultPallette) {
-      newOptions = merge(newOptions, { color: defaultPalette });
-    }
-
-    // const shouldApplyTickFormatters = newOptions.tickFormatSettings && config;
-    // if (shouldApplyTickFormatters) {
-    //   newOptions = applyTickFormatters(newOptions, config);
-    // }
+  const shouldApplyDefaultPalette = !get('color.length', currentOptions) &&
+    !actionSourceContains(src, 'bootstrap');
+  if (shouldApplyDefaultPalette) {
+    newOptions = merge(newOptions, { color: defaultPalette });
   }
 
-  const shouldApplyYDomain = chartData.length && config && !newOptions.yDomain;
+  newOptions = applyTickFormatters(
+    mergeWithGlobal(currentOptions, newOptions),
+    config
+  );
+
+  const shouldApplyYDomain = chartData.length &&
+    'undefined' !== typeof config &&
+    !newOptions.yDomain;
   if (shouldApplyYDomain) {
     newOptions = applyYDomain(newOptions, config, chartData);
   }
@@ -99,7 +105,7 @@ export function reduceReceiveChartType(state, { data, src }) {
   // Clear yDomain on chart type change to have a default one generated.
   newOptions = set('yDomain', null, newOptions);
 
-  // Prepopulate labels for scatter charts
+  // Prepopulate labels and xDomain for scatter/bubble charts
   if ('nvd3ScatterMultiSeries' === data.config.dataFormat) {
     const [, xLabel, yLabel] = dataFields;
     newOptions = merge(newOptions, {
@@ -110,11 +116,18 @@ export function reduceReceiveChartType(state, { data, src }) {
         axisLabel: yLabel,
       },
     });
+
+    // Set up xDomain if unset
+    if ('undefined' === typeof get('chartOptions.xDomain', state)) {
+      newOptions = merge(newOptions, {
+        xDomain: getXDomain(state.chartData),
+      });
+    }
   }
 
   return compose(
     set('chartType', cloneDeep(data)),
-    set('chartOptions', newOptions)
+    set('chartOptions', mergeWithGlobal(state.chartOptions, newOptions))
   )(state);
 }
 
