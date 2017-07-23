@@ -28,10 +28,32 @@ export default function XAxis(props) {
         action={RECEIVE_CHART_OPTIONS}
         fieldType="Input"
         fieldProps={{
+          label: 'Height',
+          name: 'margin.bottom',
+          type: 'number',
+          value: getObjArrayKey(props.options.margin, 'bottom', 50),
+        }}
+      />
+
+      <DispatchField
+        action={RECEIVE_CHART_OPTIONS}
+        fieldType="Input"
+        fieldProps={{
           label: 'Rotate Labels (degrees +/-)',
           name: 'xAxis.rotateLabels',
           type: 'number',
-          value: getObjArrayKey(props.options.xAxis, 'rotateLabels'),
+          value: getObjArrayKey(props.options.xAxis, 'rotateLabels', 0),
+        }}
+      />
+
+      <DispatchField
+        action={RECEIVE_CHART_OPTIONS}
+        fieldType="Input"
+        fieldProps={{
+          label: 'Right Margin',
+          name: 'margin.right',
+          type: 'number',
+          value: getObjArrayKey(props.options.margin, 'right', 0),
         }}
       />
     </AccordionBlock>
