@@ -20,6 +20,7 @@ import { transformParsedData } from '../utils/rawDataHelpers';
 import { actionSourceContains } from '../utils/misc';
 import {
   defaultTickFormatSettings,
+  formatScopes,
 } from '../constants/defaultTickFormatSettings';
 
 const mergeWithGlobal = (chartOptions, newOptions) =>
@@ -171,10 +172,10 @@ export function reduceReceiveTickFormat(state, { data }) {
 
   if ('all' === scope) {
     const globalSettings = getMergedSettings('all');
-    newSettings = {
-      xAxis: globalSettings,
-      yAxis: globalSettings,
-    };
+    newSettings = formatScopes.reduce((acc, { name }) => {
+      acc[name] = globalSettings;
+      return acc;
+    }, {});
   } else {
     newSettings = Object.assign(
       {},
