@@ -25,5 +25,4 @@ export const formatScopes = [
   { name: 'all', label: 'All' },
   { name: 'xAxis', label: 'X Axis' },
   { name: 'yAxis', label: 'Y Axis' },
-  { name: 'tooltip', label: 'Tooltip' },
 ];
