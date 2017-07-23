@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import DispatchField from '../../lib/DispatchField';
@@ -7,12 +8,24 @@ import {
 } from '../../../constants';
 import { getObjArrayKey } from '../../../utils/misc';
 
-export default function XAxis(props) {
+function XAxis({ defaultExpand, options, dataFormat }) {
+  const handleXDomain = ({ name }, value) => {
+    let domain = options.xDomain || [];
+    if ('xDomain.min' === name) {
+      domain[0] = value;
+    } else if (0 === domain.length) {
+      domain = [0, value];
+    } else {
+      domain[1] = value;
+    }
+    return { xDomain: domain };
+  };
+
   return (
     <AccordionBlock
       title="X Axis"
       tooltip="Settings for the X axis"
-      defaultExpand={props.defaultExpand}
+      defaultExpand={defaultExpand}
     >
       <DispatchField
         action={RECEIVE_CHART_OPTIONS}
@@ -20,9 +33,37 @@ export default function XAxis(props) {
         fieldProps={{
           label: 'Axis Label',
           name: 'xAxis.axisLabel',
-          value: getObjArrayKey(props.options.xAxis, 'axisLabel'),
+          value: getObjArrayKey(options.xAxis, 'axisLabel'),
         }}
       />
+
+      {'nvd3ScatterMultiSeries' === dataFormat && (<div>
+        <DispatchField
+          action={RECEIVE_CHART_OPTIONS}
+          fieldType="Input"
+          fieldProps={{
+            label: 'Minimum value',
+            name: 'xDomain.min',
+            type: 'number',
+            step: 'any',
+            value: getObjArrayKey(options.xDomain, 0),
+          }}
+          handler={handleXDomain}
+        />
+
+        <DispatchField
+          action={RECEIVE_CHART_OPTIONS}
+          fieldType="Input"
+          fieldProps={{
+            label: 'Maximum value',
+            name: 'xDomain.max',
+            type: 'number',
+            step: 'any',
+            value: getObjArrayKey(options.xDomain, 1),
+          }}
+          handler={handleXDomain}
+        />
+      </div>)}
 
       <DispatchField
         action={RECEIVE_CHART_OPTIONS}
@@ -31,7 +72,7 @@ export default function XAxis(props) {
           label: 'Height',
           name: 'margin.bottom',
           type: 'number',
-          value: getObjArrayKey(props.options.margin, 'bottom', 50),
+          value: getObjArrayKey(options.margin, 'bottom', 50),
         }}
       />
 
@@ -42,7 +83,7 @@ export default function XAxis(props) {
           label: 'Rotate Labels (degrees +/-)',
           name: 'xAxis.rotateLabels',
           type: 'number',
-          value: getObjArrayKey(props.options.xAxis, 'rotateLabels', 0),
+          value: getObjArrayKey(options.xAxis, 'rotateLabels', 0),
         }}
       />
 
@@ -53,7 +94,7 @@ export default function XAxis(props) {
           label: 'Right Margin',
           name: 'margin.right',
           type: 'number',
-          value: getObjArrayKey(props.options.margin, 'right', 0),
+          value: getObjArrayKey(options.margin, 'right', 0),
         }}
       />
     </AccordionBlock>
@@ -63,4 +104,11 @@ export default function XAxis(props) {
 XAxis.propTypes = {
   options: PropTypes.object.isRequired,
   defaultExpand: PropTypes.bool.isRequired,
+  dataFormat: PropTypes.string.isRequired,
 };
+
+const mapStateToProps = ({ chartType }) => ({
+  dataFormat: chartType.config.dataFormat || '',
+});
+
+export default connect(mapStateToProps)(XAxis);
