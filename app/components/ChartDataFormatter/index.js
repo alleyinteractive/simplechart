@@ -36,6 +36,7 @@ function mergePropsIntoDefaults(settings) {
 class ChartDataFormatter extends Component {
   static propTypes = {
     options: PropTypes.object.isRequired,
+    dataFormat: PropTypes.string.isRequired,
   };
 
   static localeOptions() {
@@ -82,11 +83,13 @@ class ChartDataFormatter extends Component {
     return (
       <div>
         <div>
-          <FormatScopeSelect
-            buttonOpts={formatScopes}
-            value={this.state.formatScope}
-            handler={this.setFormatScope}
-          />
+          {'nvd3SingleSeries' !== this.props.dataFormat && (
+            <FormatScopeSelect
+              buttonOpts={formatScopes}
+              value={this.state.formatScope}
+              handler={this.setFormatScope}
+            />
+          )}
 
           <DispatchField
             action={RECEIVE_TICK_FORMAT}
@@ -184,4 +187,8 @@ class ChartDataFormatter extends Component {
   }
 }
 
-export default connect()(ChartDataFormatter);
+const mapStateToProps = ({ chartType }) => ({
+  dataFormat: chartType.config.dataFormat || '',
+});
+
+export default connect(mapStateToProps)(ChartDataFormatter);
