@@ -40,10 +40,8 @@ export default function chartOptionsReducer(state, action) {
     case RECEIVE_DATE_FORMAT:
       return reduceReceiveDateFormat(state, action);
 
-    case RECEIVE_TICK_FORMAT: {
+    case RECEIVE_TICK_FORMAT:
       return reduceReceiveTickFormat(state, action);
-      // return applyScopedTickFormatters(newState);
-    }
 
     default:
   }
@@ -184,6 +182,11 @@ export function reduceReceiveTickFormat(state, { data }) {
     );
   }
 
-  // Now we have a complete object to replace chartOptions.tickFormatSettings
-  return set('chartOptions.tickFormatSettings', newSettings, state);
+  // Update tickFormatSettings then applyTickFormatters
+  const newState = set('chartOptions.tickFormatSettings', newSettings, state);
+  return set(
+    'chartOptions',
+    applyTickFormatters(newState.chartOptions, newState.chartType.config),
+    newState
+  );
 }
