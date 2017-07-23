@@ -26,6 +26,10 @@ export function getSeriesMinMax(values) {
  * @return {Array} [min, max]
  */
 export default function getXDomain(data) {
+  if (!Array.isArray(data)) {
+    return false;
+  }
+
   return data.reduce((acc, { values }, idx) => {
     const seriesMinMax = getSeriesMinMax(values);
     if (0 === idx) {
