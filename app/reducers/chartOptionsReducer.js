@@ -12,6 +12,7 @@ import {
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
 import applyTickFormatters from './utils/applyTickFormatters';
 import applyYDomain from './utils/applyYDomain';
+import getXDomain from './utils/getXDomain';
 import { defaultBreakpointsOpt, globalChartOptions } from '../constants/chartTypes';
 import defaultPalette from '../constants/defaultPalette';
 import { transformParsedData } from '../utils/rawDataHelpers';
@@ -94,7 +95,7 @@ export function reduceReceiveChartType(state, { data, src }) {
   // Clear yDomain on chart type change to have a default one generated.
   newOptions = set('yDomain', null, newOptions);
 
-  // Prepopulate labels for scatter charts
+  // Prepopulate labels and xDomain for scatter/bubble charts
   if ('nvd3ScatterMultiSeries' === data.config.dataFormat) {
     const [, xLabel, yLabel] = dataFields;
     newOptions = merge(newOptions, {
@@ -105,6 +106,13 @@ export function reduceReceiveChartType(state, { data, src }) {
         axisLabel: yLabel,
       },
     });
+
+    // Set up xDomain if unset
+    if ('undefined' === typeof get('chartOptions.xDomain', state)) {
+      newOptions = merge(newOptions, {
+        xDomain: getXDomain(state.chartData),
+      });
+    }
   }
 
   return compose(
