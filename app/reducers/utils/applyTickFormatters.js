@@ -1,3 +1,4 @@
+import get from 'lodash/fp/get';
 import update from 'immutability-helper';
 import createFormatter from '../../utils/createFormatter';
 import * as dateUtils from '../../utils/parseDate';
@@ -20,10 +21,8 @@ export function getYAxis(axisSettings, formatter, typeConfig) {
 /**
  * Merge date formatting func into xAxis
  */
-export function getXAxis(axisSettings, dateFormatString) {
-  return update(axisSettings, { $merge: {
-    tickFormat: (ts) => dateUtils.format(ts, dateFormatString),
-  } });
+export function getXAxis(axisSettings, formatter) {
+  return update(axisSettings, { $merge: { tickFormat: formatter } });
 }
 
 export default function applyTickFormatters(chartOptions, typeConfig) {
@@ -32,29 +31,41 @@ export default function applyTickFormatters(chartOptions, typeConfig) {
   }
 
   const toUpdate = {};
-  let formatter = null;
 
-  // Y Axis formatting
-  if (chartOptions.tickFormatSettings) {
-    formatter = createFormatter(chartOptions.tickFormatSettings);
+  // Handle yAxis tickFormat and single data series valueFormat
+  const ySettings = get('tickFormatSettings.yAxis', chartOptions);
+  if ('undefined' !== typeof ySettings) {
+    const yFormatter = createFormatter(ySettings);
     toUpdate.yAxis = getYAxis(
       chartOptions.yAxis || {},
-      formatter,
+      yFormatter,
       typeConfig
     );
+
+    if ('nvd3SingleSeries' === typeConfig.dataFormat) {
+      toUpdate.valueFormat = yFormatter;
+    }
   }
 
-  // X Axis date formatting
-  if (chartOptions.xAxis && chartOptions.xAxis.dateFormatString) {
-    toUpdate.xAxis = getXAxis(
-      chartOptions.xAxis || {},
-      chartOptions.xAxis.dateFormatString
-    );
-  }
+  if ('nvd3SingleSeries' !== typeConfig.dataFormat) {
+    // X Axis can have date formatting or data format func
+    const dateFormatString = get('xAxis.dateFormatString', chartOptions);
+    const dateFormatEnabled = get('dateFormat.enabled', chartOptions) || false;
+    const xSettings = get('tickFormatSettings.xAxis', chartOptions);
 
-  // set single series valueFormat if applicable
-  if ('nvd3SingleSeries' === typeConfig.dataFormat && formatter) {
-    toUpdate.valueFormat = formatter;
+    let xFormatter;
+    if ('undefined' !== typeof dateFormatString && dateFormatEnabled) {
+      xFormatter = (ts) => dateUtils.format(ts, dateFormatString);
+    } else if ('undefined' !== typeof xSettings) {
+      xFormatter = createFormatter(xSettings);
+    }
+
+    if ('undefined' !== typeof xFormatter) {
+      toUpdate.xAxis = getXAxis(
+        chartOptions.xAxis || {},
+        xFormatter
+      );
+    }
   }
 
   return update(chartOptions, { $merge: toUpdate });

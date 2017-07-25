@@ -20,3 +20,9 @@ export const multiplierOptions = [
   { value: '.01', children: '1/100' },
   { value: '.001', children: '1/1000' },
 ];
+
+export const formatScopes = [
+  { name: 'all', label: 'All' },
+  { name: 'xAxis', label: 'X Axis' },
+  { name: 'yAxis', label: 'Y Axis' },
+];

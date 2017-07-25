@@ -82,8 +82,9 @@ function writeFile(locales, defaultIdx) {
  */
 function shouldSkipFile(filename) {
   switch (filename) {
-    // Use en-CA instead, sorry Quebec
+    // Skip duplicates for multi-language countries.
     case 'fr-CA.json':
+    case 'ca-ES.json':
       return true;
 
     default:
