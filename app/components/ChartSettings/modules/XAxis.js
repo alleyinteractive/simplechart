@@ -9,6 +9,9 @@ import {
 import { getObjArrayKey } from '../../../utils/misc';
 
 function XAxis({ defaultExpand, options, dataFormat }) {
+  /**
+   * @todo Abstract since it's the same as handleYDomain
+   */
   const handleXDomain = ({ name }, value) => {
     let domain = options.xDomain || [];
     if ('xDomain.min' === name) {
