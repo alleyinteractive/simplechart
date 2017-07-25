@@ -4,21 +4,42 @@ import { connect } from 'react-redux';
 import update from 'immutability-helper';
 import NextPrevButton from '../Layout/RebassComponents/NextPrevButton';
 import { locales } from '../../constants/d3Locales';
-import { RECEIVE_CHART_OPTIONS } from '../../constants';
+import { RECEIVE_TICK_FORMAT } from '../../constants';
 import DispatchField from '../lib/DispatchField';
 import {
   defaultTickFormatSettings,
   multiplierOptions,
+  formatScopes,
 } from '../../constants/defaultTickFormatSettings';
+import FormatScopeSelect from './FormatScopeSelect';
+
+const defaultFormatScope = 'all';
+
+/**
+ * For each available format settings scope (axes, tooltip, etc)
+ * merge received tickFormatSettings into default settings.
+ * Look for scope-specific options with fallback
+ * to legacy format that had only one set of options
+ *
+ * @TODO Move this logic into mapStateToProps()
+ *
+ * @param {Object} settings Received settings object
+ * @return {Object} Options per scope
+ */
+function mergePropsIntoDefaults(settings) {
+  return formatScopes.reduce((acc, { name }) => {
+    const scopeSettings = ('undefined' !== typeof settings) ?
+      (settings[name] || settings) : {};
+    acc[name] = update(defaultTickFormatSettings, { $merge: scopeSettings });
+    return acc;
+  }, {});
+}
 
 class ChartDataFormatter extends Component {
   static propTypes = {
     options: PropTypes.object.isRequired,
+    dataFormat: PropTypes.string.isRequired,
   };
-
-  static handleProps(settings) {
-    return update(defaultTickFormatSettings, { $merge: settings });
-  }
 
   static localeOptions() {
     return locales.map((locale, idx) => ({
@@ -28,17 +49,21 @@ class ChartDataFormatter extends Component {
   }
 
   componentWillMount() {
-    this.setState(
-      ChartDataFormatter.handleProps(
-        this.props.options.tickFormatSettings || {}
-      )
-    );
+    const initState = mergePropsIntoDefaults(
+      this.props.options.tickFormatSettings);
+
+    initState.formatScope = defaultFormatScope;
+    this.setState(initState);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState(
-      ChartDataFormatter.handleProps(nextProps.options.tickFormatSettings || {})
+      mergePropsIntoDefaults(nextProps.options.tickFormatSettings)
     );
+  }
+
+  setFormatScope = (formatScope) => {
+    this.setState({ formatScope });
   }
 
   /**
@@ -49,103 +74,108 @@ class ChartDataFormatter extends Component {
     return {
       tickFormatSettings: update(this.state, { [field]: { $set: value } }),
     };
-  };
+  }
 
   render() {
+    const getScopeProperty =
+      (key) => this.state[this.state.formatScope][key];
+    const getFieldName =
+      (key) => `${this.state.formatScope}.${key}`;
+
     return (
       <div>
         <div>
+          {'nvd3SingleSeries' !== this.props.dataFormat && (
+            <FormatScopeSelect
+              buttonOpts={formatScopes}
+              value={this.state.formatScope}
+              handler={this.setFormatScope}
+            />
+          )}
+
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Select"
             fieldProps={{
               label: 'Format currency and thousands separator as:',
-              name: 'tickFormatSettings.locale',
               options: ChartDataFormatter.localeOptions(),
-              value: this.state.locale,
+              name: getFieldName('locale'),
+              value: getScopeProperty('locale'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Checkbox"
             fieldProps={{
               label: 'Show currency symbol?',
-              name: 'tickFormatSettings.showCurrencySymbol',
-              checked: this.state.showCurrencySymbol,
+              name: getFieldName('showCurrencySymbol'),
+              checked: getScopeProperty('showCurrencySymbol'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Checkbox"
             fieldProps={{
               label: 'Use thousands separator',
-              name: 'tickFormatSettings.groupThousands',
-              checked: this.state.groupThousands,
+              name: getFieldName('groupThousands'),
+              checked: getScopeProperty('groupThousands'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Checkbox"
             fieldProps={{
               label: 'Display as percentage',
-              name: 'tickFormatSettings.usePercent',
-              checked: this.state.usePercent,
+              name: getFieldName('usePercent'),
+              checked: getScopeProperty('usePercent'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Input"
             fieldProps={{
               label: 'Leading text',
-              name: 'tickFormatSettings.prepend',
-              value: this.state.prepend,
+              name: getFieldName('prepend'),
+              value: getScopeProperty('prepend'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Input"
             fieldProps={{
               label: 'Trailing text',
-              name: 'tickFormatSettings.append',
-              value: this.state.append,
+              name: getFieldName('append'),
+              value: getScopeProperty('append'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Input"
             fieldProps={{
               label: 'Decimal places',
               type: 'number',
               step: 1,
               min: 0,
-              name: 'tickFormatSettings.decimalPlaces',
-              value: this.state.decimalPlaces,
+              name: getFieldName('decimalPlaces'),
+              value: getScopeProperty('decimalPlaces'),
             }}
-            handler={this.handleChange}
           />
 
           <DispatchField
-            action={RECEIVE_CHART_OPTIONS}
+            action={RECEIVE_TICK_FORMAT}
             fieldType="Select"
             fieldProps={{
               label: 'Multiply/divide values',
-              name: 'tickFormatSettings.multiplier',
               options: multiplierOptions,
-              value: this.state.multiplier,
+              name: getFieldName('multiplier'),
+              value: getScopeProperty('multiplier'),
             }}
-            handler={this.handleChange}
           />
 
         </div>
@@ -159,4 +189,8 @@ class ChartDataFormatter extends Component {
   }
 }
 
-export default connect()(ChartDataFormatter);
+const mapStateToProps = ({ chartType }) => ({
+  dataFormat: chartType.config.dataFormat || '',
+});
+
+export default connect(mapStateToProps)(ChartDataFormatter);

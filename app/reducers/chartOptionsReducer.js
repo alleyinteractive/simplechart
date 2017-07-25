@@ -8,6 +8,7 @@ import {
   RECEIVE_CHART_OPTIONS,
   RECEIVE_CHART_TYPE,
   RECEIVE_DATE_FORMAT,
+  RECEIVE_TICK_FORMAT,
 } from '../constants';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
 import applyTickFormatters from './utils/applyTickFormatters';
@@ -17,6 +18,10 @@ import { defaultBreakpointsOpt, globalChartOptions } from '../constants/chartTyp
 import defaultPalette from '../constants/defaultPalette';
 import { transformParsedData } from '../utils/rawDataHelpers';
 import { actionSourceContains } from '../utils/misc';
+import {
+  defaultTickFormatSettings,
+  formatScopes,
+} from '../constants/defaultTickFormatSettings';
 
 const mergeWithGlobal = (chartOptions, newOptions) =>
   merge(pick(globalChartOptions, chartOptions), newOptions);
@@ -34,6 +39,9 @@ export default function chartOptionsReducer(state, action) {
 
     case RECEIVE_DATE_FORMAT:
       return reduceReceiveDateFormat(state, action);
+
+    case RECEIVE_TICK_FORMAT:
+      return reduceReceiveTickFormat(state, action);
 
     default:
   }
@@ -142,4 +150,43 @@ export function reduceReceiveDateFormat(state, { data }) {
       dateFormat
     ),
   });
+}
+
+/**
+ * Merge scoped format update into scoped format settings, e.g. { xAxis: { locale: 12 } }
+ */
+export function reduceReceiveTickFormat(state, { data }) {
+  const scope = Object.keys(data)[0];
+  const receivedUpdate = data[scope];
+  const oldSettings = state.chartOptions.tickFormatSettings || {};
+  let newSettings;
+
+  const getMergedSettings = (scopeName) => Object.assign(
+    {},
+    defaultTickFormatSettings,
+    (oldSettings[scopeName] || {}),
+    receivedUpdate
+  );
+
+  if ('all' === scope) {
+    const globalSettings = getMergedSettings('all');
+    newSettings = formatScopes.reduce((acc, { name }) => {
+      acc[name] = globalSettings;
+      return acc;
+    }, {});
+  } else {
+    newSettings = Object.assign(
+      {},
+      oldSettings,
+      set(scope, getMergedSettings(scope), {})
+    );
+  }
+
+  // Update tickFormatSettings then applyTickFormatters
+  const newState = set('chartOptions.tickFormatSettings', newSettings, state);
+  return set(
+    'chartOptions',
+    applyTickFormatters(newState.chartOptions, newState.chartType.config),
+    newState
+  );
 }
