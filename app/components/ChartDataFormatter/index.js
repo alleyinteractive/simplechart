@@ -21,6 +21,8 @@ const defaultFormatScope = 'all';
  * Look for scope-specific options with fallback
  * to legacy format that had only one set of options
  *
+ * @TODO Move this logic into mapStateToProps()
+ *
  * @param {Object} settings Received settings object
  * @return {Object} Options per scope
  */
