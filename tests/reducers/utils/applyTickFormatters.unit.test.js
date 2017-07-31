@@ -60,8 +60,7 @@ test('applyTickFormatters function', () => {
   const applied = applyTickFormatters(chartOptions, typeConfig);
 
   expect(applyTickFormatters(chartOptions, null)).toBe(chartOptions);
-  // Should have created a yAxis.tickFormat function
-  // Shoudl have kept date format string in xAxis
+  // Should have kept date format string in xAxis
   expect(applied.xAxis.dateFormatString).toEqual('YYYYMMDD');
   // Should have kept other values in the options object
   expect(applied.other.misc).toEqual('other miscellaneous options');
