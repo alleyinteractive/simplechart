@@ -23,7 +23,10 @@ test('Test Y Axis formatting functions', () => {
 
 test('Test X Axis formatting functions', () => {
   const formatString = 'YYYYMMDD';
-  const mergeTest = getXAxis({ foo: 'bar' }, formatString);
+  const mergeTest = getXAxis(
+    { foo: 'bar' },
+    (ts) => dateUtils.format(ts, formatString)
+  );
   // Test that object set up correctly
   expect(Object.keys(mergeTest)).toHaveLength(2);
   expect(Object.keys(mergeTest)).toContain('foo');
@@ -57,14 +60,8 @@ test('applyTickFormatters function', () => {
   const applied = applyTickFormatters(chartOptions, typeConfig);
 
   expect(applyTickFormatters(chartOptions, null)).toBe(chartOptions);
-  // Should have created a yAxis.tickFormat function
-  expect(applied.yAxis.tickFormat).toBeTruthy();
-  // Shoudl have kept date format string in xAxis
+  // Should have kept date format string in xAxis
   expect(applied.xAxis.dateFormatString).toEqual('YYYYMMDD');
-  // x Axis tickformat should work as expected
-  expect(applied.xAxis.tickFormat(Date.now)).toEqual(dateUtils.format(Date.now, 'YYYYMMDD'));
   // Should have kept other values in the options object
   expect(applied.other.misc).toEqual('other miscellaneous options');
-  // Should have created a value format function
-  expect(applied.valueFormat).toBeTruthy();
 });

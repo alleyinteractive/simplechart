@@ -44,17 +44,6 @@ describe('reduceReceiveChartOptions', () => {
     expect(result.chartOptions.color).toEqual(defaultPalette);
   });
 
-  test('applies tick formatters', () => {
-    const action = actionTrigger(RECEIVE_CHART_OPTIONS, {
-      tickFormatSettings: {
-        locale: 23,
-      },
-    });
-
-    const result = reduceReceiveChartOptions(mockState, action);
-    expect(result.chartOptions).toHaveProperty('yAxis');
-  });
-
   test('applies y domain', () => {
     const action = actionTrigger(RECEIVE_CHART_OPTIONS);
     const result = reduceReceiveChartOptions(mockState, action);
