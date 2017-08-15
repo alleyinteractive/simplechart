@@ -1,0 +1,6 @@
+/**
+ * NVD3 style overrides
+ */
+ :global(.nv-stackedAreaChart .nv-legend .nv-series) {
+  cursor: default;
+ }

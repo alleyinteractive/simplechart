@@ -10,6 +10,7 @@ import {
 } from '../../../../utils/chartTypeUtils';
 import applyYDomain from '../../../../reducers/utils/applyYDomain.js';
 import applyTickFormatters from '../../../../reducers/utils/applyTickFormatters';
+import './nvd3Styles.css';
 
 export default class NVD3Adapter extends Component {
   static propTypes = {

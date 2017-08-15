@@ -14,6 +14,9 @@ export const config = {
 export const defaultOpts = {
   showLegend: true,
   showControls: false,
+  legend: {
+    updateState: false,
+  },
 };
 
 export default {
