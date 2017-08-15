@@ -8,14 +8,20 @@ import {
   RECEIVE_CHART_OPTIONS,
   RECEIVE_CHART_TYPE,
   RECEIVE_DATE_FORMAT,
+  RECEIVE_TICK_FORMAT,
 } from '../constants';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
 import applyTickFormatters from './utils/applyTickFormatters';
 import applyYDomain from './utils/applyYDomain';
+import getXDomain from './utils/getXDomain';
 import { defaultBreakpointsOpt, globalChartOptions } from '../constants/chartTypes';
 import defaultPalette from '../constants/defaultPalette';
 import { transformParsedData } from '../utils/rawDataHelpers';
 import { actionSourceContains } from '../utils/misc';
+import {
+  defaultTickFormatSettings,
+  formatScopes,
+} from '../constants/defaultTickFormatSettings';
 
 const mergeWithGlobal = (chartOptions, newOptions) =>
   merge(pick(globalChartOptions, chartOptions), newOptions);
@@ -33,6 +39,9 @@ export default function chartOptionsReducer(state, action) {
 
     case RECEIVE_DATE_FORMAT:
       return reduceReceiveDateFormat(state, action);
+
+    case RECEIVE_TICK_FORMAT:
+      return reduceReceiveTickFormat(state, action);
 
     default:
   }
@@ -56,7 +65,9 @@ export function reduceReceiveChartOptions(state, { data, src }) {
     config
   );
 
-  const shouldApplyYDomain = chartData.length && config && !newOptions.yDomain;
+  const shouldApplyYDomain = chartData.length &&
+    'undefined' !== typeof config &&
+    !newOptions.yDomain;
   if (shouldApplyYDomain) {
     newOptions = applyYDomain(newOptions, config, chartData);
   }
@@ -92,7 +103,7 @@ export function reduceReceiveChartType(state, { data, src }) {
   // Clear yDomain on chart type change to have a default one generated.
   newOptions = set('yDomain', null, newOptions);
 
-  // Prepopulate labels for scatter charts
+  // Prepopulate labels and xDomain for scatter/bubble charts
   if ('nvd3ScatterMultiSeries' === data.config.dataFormat) {
     const [, xLabel, yLabel] = dataFields;
     newOptions = merge(newOptions, {
@@ -103,6 +114,13 @@ export function reduceReceiveChartType(state, { data, src }) {
         axisLabel: yLabel,
       },
     });
+
+    // Set up xDomain if unset
+    if ('undefined' === typeof get('chartOptions.xDomain', state)) {
+      newOptions = merge(newOptions, {
+        xDomain: getXDomain(state.chartData),
+      });
+    }
   }
 
   return compose(
@@ -132,4 +150,43 @@ export function reduceReceiveDateFormat(state, { data }) {
       dateFormat
     ),
   });
+}
+
+/**
+ * Merge scoped format update into scoped format settings, e.g. { xAxis: { locale: 12 } }
+ */
+export function reduceReceiveTickFormat(state, { data }) {
+  const scope = Object.keys(data)[0];
+  const receivedUpdate = data[scope];
+  const oldSettings = state.chartOptions.tickFormatSettings || {};
+  let newSettings;
+
+  const getMergedSettings = (scopeName) => Object.assign(
+    {},
+    defaultTickFormatSettings,
+    (oldSettings[scopeName] || {}),
+    receivedUpdate
+  );
+
+  if ('all' === scope) {
+    const globalSettings = getMergedSettings('all');
+    newSettings = formatScopes.reduce((acc, { name }) => {
+      acc[name] = globalSettings;
+      return acc;
+    }, {});
+  } else {
+    newSettings = Object.assign(
+      {},
+      oldSettings,
+      set(scope, getMergedSettings(scope), {})
+    );
+  }
+
+  // Update tickFormatSettings then applyTickFormatters
+  const newState = set('chartOptions.tickFormatSettings', newSettings, state);
+  return set(
+    'chartOptions',
+    applyTickFormatters(newState.chartOptions, newState.chartType.config),
+    newState
+  );
 }

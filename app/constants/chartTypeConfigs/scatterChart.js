@@ -43,4 +43,5 @@ export const conditionalOpts = ({ transformedData }) => {
 export default {
   config,
   defaultOpts,
+  conditionalOpts,
 };
