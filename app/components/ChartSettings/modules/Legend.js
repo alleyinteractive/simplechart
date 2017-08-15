@@ -5,13 +5,14 @@ import DispatchField from '../../lib/DispatchField';
 import {
   RECEIVE_CHART_OPTIONS,
 } from '../../../constants';
+import { getObjArrayKey } from '../../../utils/misc';
 
-export default function Legend(props) {
+export default function Legend({ options, defaultExpand }) {
   return (
     <AccordionBlock
       title="Legend"
       tooltip="Settings for the chart legend"
-      defaultExpand={props.defaultExpand}
+      defaultExpand={defaultExpand}
     >
       <DispatchField
         action={RECEIVE_CHART_OPTIONS}
@@ -19,7 +20,18 @@ export default function Legend(props) {
         fieldProps={{
           label: 'Show legend',
           name: 'showLegend',
-          checked: props.options.showLegend,
+          checked: options.showLegend,
+        }}
+      />
+
+      <DispatchField
+        action={RECEIVE_CHART_OPTIONS}
+        fieldType="Input"
+        fieldProps={{
+          label: 'Max Key Length',
+          name: 'legend.maxKeyLength',
+          type: 'number',
+          value: getObjArrayKey(options.legend, 'maxKeyLength', 20),
         }}
       />
     </AccordionBlock>
