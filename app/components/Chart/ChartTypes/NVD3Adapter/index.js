@@ -43,6 +43,15 @@ export default class NVD3Adapter extends Component {
   }
 
   /**
+   * Set up click listener for stacked area
+   */
+  static onReady(chart) {
+    if (this.type && 'stackedAreaChart' === this.type && chart.stacked) {
+      chart.stacked.dispatch.on('areaClick.toggle', null);
+    }
+  }
+
+  /**
    * In editor, merge data into options and add a ref
    * In widget, also recreate function-based options that can't be sent as JSON
    */
@@ -77,6 +86,10 @@ export default class NVD3Adapter extends Component {
 
     // Key prop is for forcing re-render of the chart to avoid chart refresh issue when the chart type changes.
     // https://github.com/NuCivic/react-nvd3/issues/59
-    return <NVD3Chart key={Math.random()} {...chartProps} />;
+    return (<NVD3Chart
+      key={Math.random()}
+      ready={NVD3Adapter.onReady}
+      {...chartProps}
+    />);
   }
 }
