@@ -39,6 +39,10 @@ export const nvd3Defaults = {
     x: (point) => point.x,
     y: (point) => point.y,
   },
+  nvd3BarMultiSeries: {
+    x: (point) => point.x,
+    y: (point) => point.y,
+  },
   nvd3ScatterMultiSeries: {
     x: (point) => point.x,
     y: (point) => point.y,

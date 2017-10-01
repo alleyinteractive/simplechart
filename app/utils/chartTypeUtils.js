@@ -32,6 +32,10 @@ export function getChartTypeDefaultOpts(type) {
   return {};
 }
 
+/**
+ * Translate Simplechart-only types groupedBarChart and stackedBarChart
+ * to NVD3's multiBarChart
+ */
 export function getNvd3Type(type) {
   const isMultiBar = -1 < [
     stackedBarChart.config.type,

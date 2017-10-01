@@ -1,8 +1,8 @@
 import * as dateUtils from '../parseDate';
 /**
- * Transform multi-column CSV into data series
- * *REQUIRES* a numeric sequence along the X axis
- * Used for lineChart, etc
+ * Transform parsed CSV into data series for NVD3
+ * Unlike nvd3MultiSeries, this does *NOT* require a numeric sequence
+ * along the X axis.
  *
  * @param {Object} data Parsed data input
  * @param {Array} fields List of fields/columns in order
@@ -17,11 +17,7 @@ export default function transformer(data, fields, dateFormat) {
   function getDataPoint(row, field) {
     const xValue = (dateFormat.enabled && dateFormat.validated) ?
       dateUtils.parse(row[xAxisLabel], dateFormat.formatString) :
-      parseFloat(row[xAxisLabel]);
-
-    if (!xValue) {
-      return false;
-    }
+      row[xAxisLabel];
 
     return {
       x: xValue,
@@ -29,19 +25,35 @@ export default function transformer(data, fields, dateFormat) {
     };
   }
 
+  /**
+   * Transform into individual data series
+   *
+   * @return {Object|Bool} key and value, or false if error
+   */
   function createDataSeries(field) {
-    const series = {
-      key: field,
-      values: [],
-    };
-    data.forEach((row) =>
-      series.values.push(getDataPoint(row, field, xAxisLabel))
-    );
+    let foundDuplicateLabel = false;
+    const seriesXVals = [];
+    const values = [];
 
-    if (-1 !== series.values.indexOf(false)) {
+    data.forEach((row) => {
+      const point = getDataPoint(row, field, xAxisLabel);
+      // Check if label has already been used
+      if (-1 !== seriesXVals.indexOf(point.x)) {
+        foundDuplicateLabel = true;
+      }
+      seriesXVals.push(point.x);
+      values.push(point);
+    });
+
+    // Invalid data if duplicate label found
+    if (foundDuplicateLabel) {
       return false;
     }
-    return series;
+
+    return {
+      key: field,
+      values,
+    };
   }
 
   // create array of keys and values for each field
@@ -52,10 +64,8 @@ export default function transformer(data, fields, dateFormat) {
   // first item in array is the x-axis column
   dataSeries.shift();
 
-  // return false if any data series didn't validate
-  // e.g. if the first column didn't contain numbers or parseable Date
-  // which would prevent us from doing a chart with an x-axis
-  if (-1 !== dataSeries.indexOf(false)) {
+  // Requires more than one series
+  if (-1 !== dataSeries.indexOf(false) || 1 === dataSeries.length) {
     return false;
   }
 
