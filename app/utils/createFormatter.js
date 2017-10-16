@@ -68,5 +68,13 @@ export default function createFormatter(settings) {
     // Default D3 formatting if settings is misconfigured
     formatter = (value) => format(',.2f')(value);
   }
-  return formatter;
+
+  // Check if value is a number before applying formatter
+  // Helpful for labels on nvd3BarMultiSeries chart types
+  return (value) => {
+    if (isNaN(value)) {
+      return value;
+    }
+    return formatter(value);
+  };
 }
