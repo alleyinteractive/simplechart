@@ -49,9 +49,11 @@ module.exports = {
   devtool: 'sourcemap',
   entry: {
     widget: [
+      require.resolve('./polyfills'),
       path.resolve('./app/widget'),
     ],
     app: [
+      require.resolve('./polyfills'),
       path.resolve('./app/index'),
     ],
   },
