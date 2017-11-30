@@ -1,5 +1,4 @@
 import fetch from 'isomorphic-fetch';
-import { polyfill } from 'es6-promise';
 import {
   RECEIVE_ERROR,
   RECEIVE_CMS_STATUS,
@@ -12,9 +11,6 @@ import {
 import { receiveMessage, setupPostMessage, sendMessage } from '../utils/postMessage';
 import bootstrapStore from '../utils/bootstrapStore';
 import { ownsProperties } from '../utils/misc';
-
-// For IE11 support
-polyfill();
 
 export default function actionTrigger(type, data, src = '') {
   return { type, data, src };
