@@ -8,6 +8,7 @@ import chartDataReducer from './chartDataReducer';
 import rawDataReducer from './rawDataReducer';
 import unsavedChangesReducer from './unsavedChangesReducer';
 import bootstrapReducer from './bootstrapReducer';
+import chartAnnotationsReducer from './chartAnnotationsReducer';
 import * as actions from '../constants';
 
 export const initialState = {
@@ -34,6 +35,11 @@ export const initialState = {
   rawData: '',
   transformedData: {},
   unsavedChanges: false,
+  chartAnnotations: {
+    editing: false,
+    annotations: [],
+  },
+  chartReady: false,
 };
 
 const setActionReducer = createGenericReducer('$set', {
@@ -69,4 +75,5 @@ export default createComposedReducer([
   rawDataReducer,
   chartDataReducer,
   chartOptionsReducer,
+  chartAnnotationsReducer,
 ]);

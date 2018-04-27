@@ -4,11 +4,13 @@ import get from 'lodash/fp/get';
 import merge from 'lodash/fp/merge';
 import pick from 'lodash/fp/pick';
 import set from 'lodash/fp/set';
+import update from 'immutability-helper';
 import {
   RECEIVE_CHART_OPTIONS,
   RECEIVE_CHART_TYPE,
   RECEIVE_DATE_FORMAT,
   RECEIVE_TICK_FORMAT,
+  RECEIVE_CHART_READY,
 } from '../constants';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
 import applyTickFormatters from './utils/applyTickFormatters';
@@ -42,6 +44,11 @@ export default function chartOptionsReducer(state, action) {
 
     case RECEIVE_TICK_FORMAT:
       return reduceReceiveTickFormat(state, action);
+
+    case RECEIVE_CHART_READY:
+      return update(state, {
+        chartReady: { $set: action.data },
+      });
 
     default:
   }
