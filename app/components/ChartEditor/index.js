@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Heading } from 'rebass';
 import AppComponent from '../Layout/AppComponent';
+import ChartAnnotations from '../ChartAnnotations';
 import Chart from '../Chart/';
 import ChartDataFormatter from '../ChartDataFormatter';
 import ChartSettings from '../ChartSettings';
@@ -88,6 +89,7 @@ export default class ChartEditor extends AppComponent {
           widget={false}
           rulers={4 === state.currentStep}
         />
+        <ChartAnnotations />
         <p>{state.chartMetadata.caption}</p>
         <p className={styles.credit}>
           {state.chartMetadata.credit}
