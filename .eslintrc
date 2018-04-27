@@ -25,7 +25,8 @@
   },
   "globals": {
     "jQuery": true,
-    "angular": false // Enable if using Angular
+    "angular": false, // Enable if using Angular
+    "d3v4": true
   },
   // Do NOT change these rules
   "rules": {
