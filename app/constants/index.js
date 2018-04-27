@@ -64,6 +64,12 @@ export const RECEIVE_DEFAULTS_APPLIED_TO = 'RECEIVE_DEFAULTS_APPLIED_TO';
 // chart metadata
 export const RECEIVE_CHART_METADATA = 'RECEIVE_CHART_METADATA';
 
+// chart annotations
+export const EDITING_CHART_ANNOTATIONS = 'EDITING_CHART_ANNOTATIONS';
+export const RECEIVE_CHART_ANNOTATION = 'RECEIVE_CHART_ANNOTATION';
+
+// chart ready
+export const RECEIVE_CHART_READY = 'RECEIVE_CHART_READY';
 /**
  * Actions when a chart is updated
  */
