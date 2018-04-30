@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import update from 'immutability-helper';
+import { connect } from 'react-redux';
 import chartTypeLoader from '../../utils/chartTypeLoader';
 import RuledBox from '../lib/RuledBox';
 import { getChartTypeObject } from '../../utils/chartTypeUtils';
 import { defaultBreakpoint } from '../../constants/chartTypes';
 import { debounce, ownsProperties } from '../../utils/misc';
+import actionTrigger from '../../actions';
+import { RECEIVE_CHART_READY } from '../../constants';
 
 class Chart extends Component {
   static propTypes = {
@@ -15,6 +18,7 @@ class Chart extends Component {
       PropTypes.string,
       PropTypes.bool,
     ]).isRequired,
+    dispatch: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -123,6 +127,8 @@ class Chart extends Component {
         nextProps.widget
       ),
     });
+
+    this.props.dispatch(actionTrigger(RECEIVE_CHART_READY, false));
   }
 
   loadChartType = (type) => {
@@ -152,4 +158,4 @@ class Chart extends Component {
   }
 }
 
-export default Chart;
+export default connect()(Chart);
