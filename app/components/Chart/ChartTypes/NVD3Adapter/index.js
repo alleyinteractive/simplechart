@@ -58,11 +58,14 @@ class NVD3Adapter extends Component {
   }
 
   static onRenderEnd() {
-    NVD3Adapter.updateStoreOnChartReady(true);
+    console.log('end');
+    console.log(d3v4.select('.nv-chart svg').node().getBBox());
+    // NVD3Adapter.updateStoreOnChartReady(true);
   }
 
   static onRenderStart() {
-    NVD3Adapter.updateStoreOnChartReady(false);
+    console.log('start');
+    // NVD3Adapter.updateStoreOnChartReady(false);
   }
 
   static updateStoreOnChartReady(isReady) {
@@ -113,9 +116,9 @@ class NVD3Adapter extends Component {
     // https://github.com/NuCivic/react-nvd3/issues/59
     return (<NVD3Chart
       key={Math.random()}
-      renderStart={NVD3Adapter.onRenderStart}
+      // renderStart={NVD3Adapter.onRenderStart}
       ready={NVD3Adapter.onReady}
-      renderEnd={NVD3Adapter.onRenderEnd}
+      // renderEnd={NVD3Adapter.onRenderEnd}
       {...chartProps}
     />);
   }
