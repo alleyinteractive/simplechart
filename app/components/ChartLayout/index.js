@@ -77,6 +77,15 @@ class ChartLayout extends Component {
     }
   }
 
+  handleEmbedHeightChange = (fieldProps, newValue) => {
+    this.props.dispatch(actionTrigger(
+      RECEIVE_CHART_OPTIONS,
+      {
+        embedHeight: newValue,
+      }
+    ));
+  }
+
   handleChange = (fieldProps, newValue) => {
     // break field name into index and key
     const fieldNameParts = fieldProps.name.split('.');
@@ -207,6 +216,24 @@ class ChartLayout extends Component {
   render() {
     return (
       <div>
+        <AccordionBlock
+          title="Custom Embed Height"
+          tooltip="If needed, set a custom embed/iframe height for the chart"
+          defaultExpand
+        >
+          <DispatchField
+            fieldType="Input"
+            fieldProps={{
+              label: 'Iframe Embed Height',
+              name: 'embedHeight',
+              value: this.props.options.embedHeight,
+              type: 'number',
+              step: 1,
+              min: 350,
+            }}
+            handler={this.handleEmbedHeightChange}
+          />
+        </AccordionBlock>
         {this.state.values.map(this.renderBreakpoint)}
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Button
