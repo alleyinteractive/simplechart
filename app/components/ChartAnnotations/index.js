@@ -84,7 +84,7 @@ class ChartAnnotations extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { editing, chartReady, annotations } = nextProps;
-    svg = d3v4.select('.nv-chart svg .nv-barsWrap');
+    svg = d3v4.select('.nv-chart svg');
     ChartAnnotations.renderAnnotations(annotations, editing);
     if (editing && chartReady) {
       const { width, height, x, y } = svg.node().getBBox();
@@ -103,9 +103,9 @@ class ChartAnnotations extends Component {
         .attr('x', x)
         .attr('y', y)
         .attr('fill', 'transparent')
-        .attr('stroke', 'red')
-        .attr('stroke-width', '10')
-        .attr('stroke-location', 'outside')
+        // .attr('stroke', 'red')
+        // .attr('stroke-width', '10')
+        // .attr('stroke-location', 'outside')
         .on('click', ChartAnnotations.createAnnotation);
     }
 
