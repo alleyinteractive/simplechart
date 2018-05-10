@@ -21,6 +21,7 @@ export const initialState = {
       formatString: '',
     },
     color: [],
+    embedHeight: 600,
   },
   chartType: {},
   cmsStatus: '',
