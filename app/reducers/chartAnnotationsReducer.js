@@ -14,7 +14,7 @@ export default function chartAnnotationsReducer(state, action) {
           .map((annotation, index) => ({ ...annotation, id: index }));
       annotations.push({
         ...action.data,
-        id: !annotations.length ? annotations.length : annotations.length - 1,
+        id: annotations.length,
       });
       return update(state, {
         chartAnnotations: {
@@ -23,7 +23,9 @@ export default function chartAnnotationsReducer(state, action) {
       });
     }
     case RECEIVE_UPDATED_ANNOTATION_DATA: {
+      const { id } = action.data;
       const annotations = state.chartAnnotations.annotations.slice();
+      const { el } = annotations[id];
       const {
         note,
         connector,
@@ -33,7 +35,8 @@ export default function chartAnnotationsReducer(state, action) {
         dy,
         subject,
       } = action.data;
-      annotations.splice(action.data.id, 1, {
+      annotations.splice(id, 1, {
+        id,
         note,
         connector,
         x,
@@ -41,6 +44,7 @@ export default function chartAnnotationsReducer(state, action) {
         dx,
         dy,
         subject,
+        el,
       });
       return update(state, {
         chartAnnotations: {
