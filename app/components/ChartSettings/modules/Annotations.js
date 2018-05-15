@@ -45,19 +45,23 @@ class Annotations extends Component {
   }
 
   render() {
-    const editingString = this.props.editing ?
+    const { editing } = this.props;
+    const editingString = editing ?
       'Finish Editing' : 'Edit Annotations';
     return (
       <div>
         {
           this.props.annotations.map((item, index) => (
             <AccordionBlock
+              key={item.id}
               title={`Annotation ${index + 1}`}
               tooltip={`Settings for Annotation ${index + 1}`}
+              defaultExpand={false}
             >
               <DispatchField
                 fieldType="Input"
                 fieldProps={{
+                  disabled: !editing,
                   label: 'Annotation Title',
                   name: `${index}.title`,
                   value: item.note.title,
@@ -69,6 +73,7 @@ class Annotations extends Component {
               <DispatchField
                 fieldType="Input"
                 fieldProps={{
+                  disabled: !editing,
                   label: 'Annotation Label',
                   name: `${index}.label`,
                   value: item.note.label,
@@ -77,14 +82,21 @@ class Annotations extends Component {
                   this.handleLabelChange(item, newValue);
                 }}
               />
-              <Button
-                theme="error"
-                onClick={() => this.onRemoveClick(index)}
-              >
-                Remove
-              </Button>
+              {
+                editing && <Button
+                  theme="error"
+                  onClick={() => this.onRemoveClick(index)}
+                >
+                  Remove
+                </Button>
+              }
             </AccordionBlock>
           ))
+        }
+        {
+          !editing && <p>
+            To add, remove, and updating existing annotations, click Edit below.
+          </p>
         }
         <Button big theme="success" onClick={this.onEditClick}>
           {editingString}
@@ -96,8 +108,6 @@ class Annotations extends Component {
 }
 
 Annotations.propTypes = {
-  // TODO: remove if not using
-  // defaultExpand: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
   editing: PropTypes.bool.isRequired,
   annotations: PropTypes.array.isRequired,

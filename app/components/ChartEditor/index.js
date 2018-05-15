@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Heading } from 'rebass';
 import AppComponent from '../Layout/AppComponent';
 import ChartAnnotations from '../ChartAnnotations';
@@ -11,7 +12,7 @@ import ChartLayout from '../ChartLayout';
 import appSteps from '../../constants/appSteps';
 import * as styles from './ChartEditor.css';
 
-export default class ChartEditor extends AppComponent {
+class ChartEditor extends AppComponent {
   static propTypes = {
     appState: PropTypes.object,
   };
@@ -78,6 +79,7 @@ export default class ChartEditor extends AppComponent {
     }
 
     const { width, left } = this.state;
+    const { editingAnnotations } = this.props;
 
     return (
       <div className={styles.chartContainer} style={{ width, left }}>
@@ -89,7 +91,9 @@ export default class ChartEditor extends AppComponent {
           widget={false}
           rulers={4 === state.currentStep}
         />
-        <ChartAnnotations />
+        {
+          editingAnnotations && <ChartAnnotations />
+        }
         <p>{state.chartMetadata.caption}</p>
         <p className={styles.credit}>
           {state.chartMetadata.credit}
@@ -112,3 +116,10 @@ export default class ChartEditor extends AppComponent {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  const { editing } = state.chartAnnotations;
+  return { editingAnnotations: editing };
+};
+
+export default connect(mapStateToProps)(ChartEditor);

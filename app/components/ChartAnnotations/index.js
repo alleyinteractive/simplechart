@@ -7,10 +7,6 @@ import {
   RECEIVE_UPDATED_ANNOTATION_DATA,
 } from '../../constants';
 
-let svg;
-const type = d3v4.annotationCalloutCircle;
-// let bboxOld = {};
-
 class ChartAnnotations extends Component {
   static updateStoreAddAnnotation(annotation) {
     this.props.dispatch(actionTrigger(RECEIVE_CHART_ANNOTATION, annotation));
@@ -20,15 +16,21 @@ class ChartAnnotations extends Component {
     ChartAnnotations.updateAnnotation(data);
   }
 
-  static renderAnnotations(annotations, editing) {
-    svg.select('g.annotations-group').remove();
+  static renderAnnotations(annotations, editing, container, getCoords) {
+    const annotationsWithCoords = annotations.map((anno) => ({
+      ...anno,
+      ...getCoords(anno.el),
+    }));
+
+    const containerEl = d3v4.select(container);
+    containerEl.select('g.annotations-group').remove();
     const makeAnnotations = d3v4.annotation()
-      .type(type)
-      .annotations(annotations)
+      .type(d3v4.annotationCalloutElbow)
+      .annotations(annotationsWithCoords)
       .editMode(editing)
       .on('dragend', ChartAnnotations.onAnnotationDragEnd);
 
-    svg.append('g')
+    containerEl.append('g')
       .attr('class', 'annotations-group')
       .call(makeAnnotations);
   }
@@ -38,7 +40,7 @@ class ChartAnnotations extends Component {
   }
 
   static createAnnotation() {
-    const coords = d3v4.mouse(this);
+    const el = d3v4.select(this);
 
     const end = 'dot';
 
@@ -53,10 +55,9 @@ class ChartAnnotations extends Component {
         radius: 10,
       },
       connector: { end },
-      x: coords[0],
-      y: coords[1],
       dx: 30,
       dy: -30,
+      el,
     }];
 
     ChartAnnotations.updateStoreAddAnnotation(annotations[0]);
@@ -67,6 +68,7 @@ class ChartAnnotations extends Component {
 
     this.state = {
       bbox: {},
+      svgEl: d3v4.select('.nv-chart svg'),
     };
 
     // Adding an annotation
@@ -78,74 +80,46 @@ class ChartAnnotations extends Component {
   }
 
   componentDidMount() {
-    // window.addEventListener('resize', this.updateDimensions);
-    // this.updateDimensions();
+    const { svgEl } = this.state;
+
+    svgEl.selectAll(this.props.selector)
+    .on('click', ChartAnnotations.createAnnotation);
+
+    const { annotations, editing, container, getCoords } = this.props;
+    ChartAnnotations
+      .renderAnnotations(annotations, editing, container, getCoords);
+
+    // TODO - check if adding without ever removing is wise.
+    window.addEventListener('resize', this.repositionAnnotations);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { editing, chartReady, annotations } = nextProps;
-    svg = d3v4.select('.nv-chart svg');
-    ChartAnnotations.renderAnnotations(annotations, editing);
-    if (editing && chartReady) {
-      const { width, height, x, y } = svg.node().getBBox();
-      this.setState({ bbox: svg.node().getBBox() });
-      const annoCont =
-        // TODO: Ugh, this is awful.
-        svg.select('.anno-container').node() ?
-          svg.select('.anno-container').on('click', null) :
-            svg.insert('rect', 'svg > g:not(.nvd3)')
-              .attr('class', 'anno-container');
-
-      annoCont
-        .attr('class', 'anno-container')
-        .attr('width', width)
-        .attr('height', height)
-        .attr('x', x)
-        .attr('y', y)
-        .attr('fill', 'transparent')
-        // .attr('stroke', 'red')
-        // .attr('stroke-width', '10')
-        // .attr('stroke-location', 'outside')
-        .on('click', ChartAnnotations.createAnnotation);
-    }
-
-    if (!editing && chartReady) {
-      d3v4.select('.anno-container').remove();
-    }
+    const { annotations, editing, container, getCoords } = nextProps;
+    ChartAnnotations
+      .renderAnnotations(annotations, editing, container, getCoords);
   }
 
-  // componentDidUpdate() {
-  //   if (this.props.annotations.length) {
-  //     const { width: wNew = 0, height: hNew = 0 } = this.state.bbox;
-  //     const { width: wOld = 1, height: hOld = 1 } = bboxOld;
+  componentDidUpdate() {
+    const { annotations, editing, container, getCoords } = this.props;
+    ChartAnnotations
+      .renderAnnotations(annotations, editing, container, getCoords);
+  }
 
-  //     const annotationNodes = d3v4.selectAll('.annotation').nodes();
+  componentWillUnmount() {
+    const { svgEl } = this.state;
+    const { annotations, container, getCoords } = this.props;
+    ChartAnnotations
+      .renderAnnotations(annotations, false, container, getCoords);
+    svgEl.selectAll(this.props.selector).on('click', null);
+  }
 
-  //     console.log(wNew, wOld);
-
-  //     if (wNew !== wOld || hNew !== hOld) {
-  //       ChartAnnotations.renderAnnotations(
-  //         this.props.annotations.map((annotation, index) => ({
-  //           ...annotation,
-  //           x: ((wNew / wOld) * annotation.x) -
-  //             (annotationNodes[index].getBBox().width / 2),
-  //           y: (hNew / hOld) * annotation.y,
-  //         }))
-  //       );
-  //     }
-  //   }
-
-  //   bboxOld = this.state.bbox;
-  // }
-
-  // updateDimensions = () => {
-  //   setTimeout(() => {
-  //     bboxOld = this.state.bbox;
-  //     this.setState({
-  //       bbox: d3v4.select('.nv-chart svg .nv-barsWrap').node().getBBox(),
-  //     });
-  //   }, 175);
-  // };
+  repositionAnnotations = () => {
+    setTimeout(() => {
+      const { annotations, editing, container, getCoords } = this.props;
+      ChartAnnotations
+        .renderAnnotations(annotations, editing, container, getCoords);
+    }, 250);
+  };
 
   render() {
     const { editing } = this.props;
@@ -162,14 +136,32 @@ class ChartAnnotations extends Component {
 ChartAnnotations.propTypes = {
   dispatch: PropTypes.func.isRequired,
   editing: PropTypes.bool.isRequired,
-  chartReady: PropTypes.bool.isRequired,
   annotations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  selector: PropTypes.string.isRequired,
+  container: PropTypes.string.isRequired,
+  getCoords: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const { editing, annotations } = state.chartAnnotations;
-  const { chartReady } = state;
-  return { editing, annotations, chartReady };
+  const {
+    chartType: {
+      config: {
+        annotations: {
+          selector,
+          container,
+          getCoords,
+        },
+      },
+    },
+  } = state;
+  return {
+    editing,
+    annotations,
+    selector,
+    container,
+    getCoords,
+  };
 };
 
 export default connect(mapStateToProps)(ChartAnnotations);
