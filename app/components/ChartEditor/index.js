@@ -92,7 +92,10 @@ class ChartEditor extends AppComponent {
           rulers={4 === state.currentStep}
         />
         {
-          editingAnnotations && <ChartAnnotations />
+          editingAnnotations &&
+            <ChartAnnotations
+              type={state.chartOptions.type}
+            />
         }
         <p>{state.chartMetadata.caption}</p>
         <p className={styles.credit}>
