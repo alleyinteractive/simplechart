@@ -45,13 +45,13 @@ class Annotations extends Component {
   }
 
   render() {
-    const { editing } = this.props;
+    const { editing, annotationData } = this.props;
     const editingString = editing ?
       'Finish Editing' : 'Edit Annotations';
     return (
       <div>
         {
-          this.props.annotations.map((item, index) => (
+          annotationData.map((item, index) => (
             <AccordionBlock
               key={item.id}
               title={`Annotation ${index + 1}`}
@@ -110,11 +110,11 @@ class Annotations extends Component {
 Annotations.propTypes = {
   dispatch: PropTypes.func.isRequired,
   editing: PropTypes.bool.isRequired,
-  annotations: PropTypes.array.isRequired,
+  annotationData: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = ({ chartAnnotations: { editing, annotations } }) => (
-  { editing, annotations }
+const mapStateToProps = ({ chartAnnotations: { editing, annotationData } }) => (
+  { editing, annotationData }
 );
 
 export default connect(mapStateToProps)(Annotations);
