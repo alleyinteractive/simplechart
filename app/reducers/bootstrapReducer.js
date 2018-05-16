@@ -10,5 +10,6 @@ export default function bootstrapReducer(state, action) {
     chartOptions: action.data.chartOptions,
     googleApiKey: action.data.googleApiKey,
     googleSheetId: action.data.googleSheetId,
+    chartAnnotations: action.data.chartAnnotations,
   });
 }

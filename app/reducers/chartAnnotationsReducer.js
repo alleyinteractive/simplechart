@@ -25,7 +25,7 @@ export default function chartAnnotationsReducer(state, action) {
     case RECEIVE_UPDATED_ANNOTATION_DATA: {
       const { id } = action.data;
       const annotations = state.chartAnnotations.annotationData.slice();
-      const { el, data } = annotations[id];
+      const { data, color } = annotations[id];
       const {
         note,
         connector,
@@ -44,8 +44,8 @@ export default function chartAnnotationsReducer(state, action) {
         dx,
         dy,
         subject,
-        el,
         data,
+        color,
       });
       return update(state, {
         chartAnnotations: {
