@@ -10,7 +10,7 @@ export default function chartAnnotationsReducer(state, action) {
   switch (action.type) {
     case RECEIVE_CHART_ANNOTATION: {
       const annotations =
-        state.chartAnnotations.annotations.slice()
+        state.chartAnnotations.annotationData.slice()
           .map((annotation, index) => ({ ...annotation, id: index }));
       annotations.push({
         ...action.data,
@@ -18,14 +18,14 @@ export default function chartAnnotationsReducer(state, action) {
       });
       return update(state, {
         chartAnnotations: {
-          annotations: { $set: annotations },
+          annotationData: { $set: annotations },
         },
       });
     }
     case RECEIVE_UPDATED_ANNOTATION_DATA: {
       const { id } = action.data;
-      const annotations = state.chartAnnotations.annotations.slice();
-      const { el } = annotations[id];
+      const annotations = state.chartAnnotations.annotationData.slice();
+      const { el, data } = annotations[id];
       const {
         note,
         connector,
@@ -45,19 +45,20 @@ export default function chartAnnotationsReducer(state, action) {
         dy,
         subject,
         el,
+        data,
       });
       return update(state, {
         chartAnnotations: {
-          annotations: { $set: annotations },
+          annotationData: { $set: annotations },
         },
       });
     }
     case RECEIVE_REMOVE_ANNOTATION: {
-      const annotations = state.chartAnnotations.annotations.slice();
+      const annotations = state.chartAnnotations.annotationData.slice();
       annotations.splice(action.data, 1);
       return update(state, {
         chartAnnotations: {
-          annotations: { $set: annotations },
+          annotationData: { $set: annotations },
         },
       });
     }

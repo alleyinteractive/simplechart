@@ -38,7 +38,7 @@ export const initialState = {
   unsavedChanges: false,
   chartAnnotations: {
     editing: false,
-    annotations: [],
+    annotationData: [],
   },
   chartReady: false,
 };
