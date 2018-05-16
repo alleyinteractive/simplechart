@@ -6,6 +6,7 @@ import {
   RECEIVE_CHART_ANNOTATION,
   RECEIVE_UPDATED_ANNOTATION_DATA,
 } from '../../constants';
+import { getChartTypeDefaultOpts } from '../../utils/chartTypeUtils';
 
 class ChartAnnotations extends Component {
   static updateStoreAddAnnotation(annotation) {
@@ -16,11 +17,17 @@ class ChartAnnotations extends Component {
     ChartAnnotations.updateAnnotation(data);
   }
 
-  static renderAnnotations(annotations, editing, container, getCoords) {
-    const annotationsWithCoords = annotations.map((anno) => ({
-      ...anno,
-      ...getCoords(anno.el),
-    }));
+  static renderAnnotations(data, editing, container, selector, getCoords) {
+    const annotationsWithCoords = data.map((anno) => {
+      const el = d3v4.selectAll(selector)
+        .filter((itemData, index) =>
+          (index === anno.data.index ? itemData : false)
+        );
+      return {
+        ...anno,
+        ...getCoords(el),
+      };
+    });
 
     const containerEl = d3v4.select(container);
     containerEl.select('g.annotations-group').remove();
@@ -39,7 +46,7 @@ class ChartAnnotations extends Component {
     this.props.dispatch(actionTrigger(RECEIVE_UPDATED_ANNOTATION_DATA, data));
   }
 
-  static createAnnotation() {
+  static createAnnotation(data, index) {
     const el = d3v4.select(this);
 
     const end = 'dot';
@@ -58,6 +65,10 @@ class ChartAnnotations extends Component {
       dx: 30,
       dy: -30,
       el,
+      data: {
+        ...data,
+        index,
+      },
     }];
 
     ChartAnnotations.updateStoreAddAnnotation(annotations[0]);
@@ -85,40 +96,40 @@ class ChartAnnotations extends Component {
     svgEl.selectAll(this.props.selector)
     .on('click', ChartAnnotations.createAnnotation);
 
-    const { annotations, editing, container, getCoords } = this.props;
-    ChartAnnotations
-      .renderAnnotations(annotations, editing, container, getCoords);
+    this.beginRenderingAnnotations();
 
     // TODO - check if adding without ever removing is wise.
     window.addEventListener('resize', this.repositionAnnotations);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { annotations, editing, container, getCoords } = nextProps;
-    ChartAnnotations
-      .renderAnnotations(annotations, editing, container, getCoords);
-  }
-
   componentDidUpdate() {
-    const { annotations, editing, container, getCoords } = this.props;
-    ChartAnnotations
-      .renderAnnotations(annotations, editing, container, getCoords);
+    this.beginRenderingAnnotations();
   }
 
   componentWillUnmount() {
     const { svgEl } = this.state;
-    const { annotations, container, getCoords } = this.props;
-    ChartAnnotations
-      .renderAnnotations(annotations, false, container, getCoords);
+    this.beginRenderingAnnotations(false);
     svgEl.selectAll(this.props.selector).on('click', null);
+  }
+
+  beginRenderingAnnotations(isEditing = null) {
+    const {
+      annotationData: data,
+      container,
+      selector,
+      getCoords,
+    } = this.props;
+
+    const editing = null !== isEditing ? isEditing : this.props.editing;
+
+    ChartAnnotations
+      .renderAnnotations(data, editing, container, selector, getCoords);
   }
 
   repositionAnnotations = () => {
     setTimeout(() => {
-      const { annotations, editing, container, getCoords } = this.props;
-      ChartAnnotations
-        .renderAnnotations(annotations, editing, container, getCoords);
-    }, 250);
+      this.beginRenderingAnnotations();
+    }, 0);
   };
 
   render() {
@@ -136,32 +147,34 @@ class ChartAnnotations extends Component {
 ChartAnnotations.propTypes = {
   dispatch: PropTypes.func.isRequired,
   editing: PropTypes.bool.isRequired,
-  annotations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  annotationData: PropTypes.arrayOf(PropTypes.object).isRequired,
   selector: PropTypes.string.isRequired,
   container: PropTypes.string.isRequired,
   getCoords: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  const { editing, annotations } = state.chartAnnotations;
-  const {
-    chartType: {
-      config: {
-        annotations: {
-          selector,
-          container,
-          getCoords,
-        },
-      },
-    },
-  } = state;
-  return {
-    editing,
-    annotations,
-    selector,
-    container,
-    getCoords,
-  };
+const mapStateToProps = ({
+  chartAnnotations = {}, chartReady, data = {},
+}, props) => {
+  const { annotations } = getChartTypeDefaultOpts(props.type);
+  if (!props.widget) {
+    const { editing, annotationData } = chartAnnotations;
+    const {
+      selector,
+      container,
+      getCoords,
+    } = annotations;
+    return {
+      chartReady,
+      editing,
+      annotationData,
+      selector,
+      container,
+      getCoords,
+    };
+  }
+
+  return { ...props, ...annotations, chartReady: data.chartReady };
 };
 
 export default connect(mapStateToProps)(ChartAnnotations);
