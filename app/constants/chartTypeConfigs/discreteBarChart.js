@@ -1,9 +1,23 @@
 export const config = {
   type: 'discreteBarChart',
+  label: 'Bar Chart',
+  dataFormat: 'nvd3SingleSeries',
+  componentName: 'NVD3Adapter',
+  modules: {
+    settings: ['XAxis', 'YAxis', 'Metadata', 'ColorPalette', 'Annotations'],
+  },
+};
+
+export const defaultOpts = {
+  duration: 0,
+  showLegend: false,
   annotations: {
     selector: '.nv-bar rect',
     container: '.nv-barsWrap',
-    getCoords: (el) => {
+    getCoords: function getCoords(el) {
+      if (!el.node()) {
+        return { x: 0, y: 0 };
+      }
       const transform = d3v4.select(el.node().parentNode)
         .attr('transform').replace(/.*?\((.*?)\)/g, '$1').split(',')
         .map((x) => parseFloat(x, 10));
@@ -16,16 +30,6 @@ export const config = {
       };
     },
   },
-  label: 'Bar Chart',
-  dataFormat: 'nvd3SingleSeries',
-  componentName: 'NVD3Adapter',
-  modules: {
-    settings: ['XAxis', 'YAxis', 'Metadata', 'ColorPalette', 'Annotations'],
-  },
-};
-
-export const defaultOpts = {
-  showLegend: false,
 };
 
 export default {
