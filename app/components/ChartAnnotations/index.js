@@ -65,6 +65,7 @@ class ChartAnnotations extends Component {
       dx: 30,
       dy: -30,
       el,
+      color: 'black',
       data: {
         ...data,
         index,
