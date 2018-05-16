@@ -61,6 +61,9 @@ export function bootstrapAppData() {
     receiveMessage('bootstrap.chartMetadata', () =>
       dispatch(actionTrigger(RECEIVE_ERROR, 'e005'))
     );
+    receiveMessage('bootstrap.chartAnnotations', () =>
+      dispatch(actionTrigger(RECEIVE_ERROR, 'e005'))
+    );
   };
 }
 
@@ -97,6 +100,13 @@ export function ajaxWidgetData(widgetId, fetchUrl, headersAttr = null) {
 
       try {
         apiData.metadata = JSON.parse(json.data.metadata);
+      } catch (err) {
+        console.log(err.message); // eslint-disable-line no-console
+        return;
+      }
+
+      try {
+        apiData.annotations = JSON.parse(json.data.annotations);
       } catch (err) {
         console.log(err.message); // eslint-disable-line no-console
         return;
