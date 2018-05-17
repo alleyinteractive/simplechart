@@ -40,6 +40,7 @@ class ChartAnnotations extends Component {
     containerEl.append('g')
       .attr('class', 'annotations-group')
       .call(makeAnnotations);
+    console.log('rendered annos');
   }
 
   static updateAnnotation(data) {
@@ -130,7 +131,7 @@ class ChartAnnotations extends Component {
   repositionAnnotations = () => {
     setTimeout(() => {
       this.beginRenderingAnnotations();
-    }, 0);
+    }, 250);
   };
 
   render() {
