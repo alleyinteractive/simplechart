@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { Button, Panel, PanelHeader, PanelFooter, Switch } from 'rebass';
 import { Button, Divider } from 'rebass';
 import { connect } from 'react-redux';
 import AccordionBlock from '../../Layout/AccordionBlock';
@@ -45,6 +44,9 @@ class Annotations extends Component {
   }
 
   render() {
+    // New setting pane for annotations.
+    // When items here are changed, the store is updated and
+    // all annotations are re-rendered
     const { editing, annotationData } = this.props;
     const editingString = editing ?
       'Finish Editing' : 'Edit Annotations';

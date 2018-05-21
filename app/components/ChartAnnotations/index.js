@@ -9,14 +9,17 @@ import {
 import { getChartTypeDefaultOpts } from '../../utils/chartTypeUtils';
 
 class ChartAnnotations extends Component {
+  // Adding an annotation
   static updateStoreAddAnnotation(annotation) {
     this.props.dispatch(actionTrigger(RECEIVE_CHART_ANNOTATION, annotation));
   }
 
+  // Dragging an annotation - update dx/dy when drag ends
   static onAnnotationDragEnd(data) {
     ChartAnnotations.updateAnnotation(data);
   }
 
+  // Render each annotation, getting coordinates for each based on data.
   static renderAnnotations(data, editing, container, selector, getCoords) {
     const annotationsWithCoords = data.map((anno) => {
       const el = d3v4.selectAll(selector)
@@ -40,7 +43,6 @@ class ChartAnnotations extends Component {
     containerEl.append('g')
       .attr('class', 'annotations-group')
       .call(makeAnnotations);
-    console.log('rendered annos');
   }
 
   static updateAnnotation(data) {
@@ -52,6 +54,8 @@ class ChartAnnotations extends Component {
 
     const end = 'dot';
 
+    // Basic data for adding annotation.
+    // http://d3-annotation.susielu.com/#api
     const annotations = [{
       note: {
         label: `Label ${(Math.random() * 100).toFixed()}`,
