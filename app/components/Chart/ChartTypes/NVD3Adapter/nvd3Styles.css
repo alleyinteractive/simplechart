@@ -4,3 +4,12 @@
  :global(.nv-stackedAreaChart .nv-legend .nv-series) {
   cursor: default;
  }
+
+ :global(text.annotation-note-title) {
+   font-size: 13px;
+   font-weight: 700;
+ }
+
+ :global(text.annotation-note-label) {
+   font-size: 13px;
+ }

@@ -61,6 +61,9 @@ export function bootstrapAppData() {
     receiveMessage('bootstrap.chartMetadata', () =>
       dispatch(actionTrigger(RECEIVE_ERROR, 'e005'))
     );
+    receiveMessage('bootstrap.chartAnnotations', () =>
+      dispatch(actionTrigger(RECEIVE_ERROR, 'e005'))
+    );
   };
 }
 
@@ -84,21 +87,28 @@ export function ajaxWidgetData(widgetId, fetchUrl, headersAttr = null) {
       try {
         apiData.data = JSON.parse(json.data.data);
       } catch (err) {
-        console.log(err.message); // eslint-disable-line no-console
+        console.error(err.message); // eslint-disable-line no-console
         return;
       }
 
       try {
         apiData.options = JSON.parse(json.data.options);
       } catch (err) {
-        console.log(err.message); // eslint-disable-line no-console
+        console.error(err.message); // eslint-disable-line no-console
         return;
       }
 
       try {
         apiData.metadata = JSON.parse(json.data.metadata);
       } catch (err) {
-        console.log(err.message); // eslint-disable-line no-console
+        console.error(err.message); // eslint-disable-line no-console
+        return;
+      }
+
+      try {
+        apiData.annotations = JSON.parse(json.data.annotations);
+      } catch (err) {
+        console.error(err.message); // eslint-disable-line no-console
         return;
       }
 
@@ -113,7 +123,7 @@ export function ajaxWidgetData(widgetId, fetchUrl, headersAttr = null) {
       try {
         headers = JSON.parse(headersAttr);
       } catch (err) {
-        console.log(`Invalid widget headers attr: ${headersAttr}`); // eslint-disable-line no-console
+        console.error(`Invalid widget headers attr: ${headersAttr}`); // eslint-disable-line no-console
         headers = {};
       }
     }

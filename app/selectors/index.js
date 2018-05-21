@@ -47,6 +47,7 @@ export const getSaveData = (state) => {
     'chartMetadata',
     'chartOptions',
     'googleSheetId',
+    'chartAnnotations',
   ];
 
   return Object.assign(pick(properties, state), {

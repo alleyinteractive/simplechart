@@ -18,6 +18,7 @@ import {
   RECEIVE_WIDGET_DATA,
   RECEIVE_WIDGET_OPTIONS,
   RECEIVE_WIDGET_METADATA,
+  RECEIVE_CHART_READY,
 } from '../../constants';
 
 export default function dataReducer(state = {}, action) {
@@ -37,6 +38,11 @@ export default function dataReducer(state = {}, action) {
         return updated;
       } });
     }
+
+    case RECEIVE_CHART_READY:
+      return update(state, {
+        chartReady: { $set: action.data },
+      });
 
     case RECEIVE_WIDGET_OPTIONS:
     case RECEIVE_WIDGET_METADATA: {

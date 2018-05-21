@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Chart from './Chart';
+import ChartAnnotations from './ChartAnnotations';
 
 class Widget extends Component {
   static propTypes = {
@@ -57,12 +58,19 @@ class Widget extends Component {
   renderChart = () => {
     if (this.state.data) {
       return (
-        <Chart
-          data={this.state.data.data}
-          options={this.state.data.options}
-          metadata={this.state.data.metadata}
-          widget={this.props.widget}
-        />
+        <div>
+          <Chart
+            data={this.state.data.data}
+            options={this.state.data.options}
+            metadata={this.state.data.metadata}
+            widget={this.props.widget}
+          />
+          <ChartAnnotations
+            {...this.state.data.annotations}
+            widget={this.props.widget}
+            type={this.state.data.options.type}
+          />
+        </div>
       );
     }
     return (

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import NVD3Chart from 'react-nvd3';
 import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
+import { connect } from 'react-redux';
+import actionTrigger from '../../../../actions';
+import { RECEIVE_CHART_READY } from '../../../../constants';
 import {
   getChartTypeObject,
   getChartTypeDefaultOpts,
@@ -12,8 +15,9 @@ import applyYDomain from '../../../../reducers/utils/applyYDomain.js';
 import applyTickFormatters from '../../../../reducers/utils/applyTickFormatters';
 import './nvd3Styles.css';
 
-export default class NVD3Adapter extends Component {
+class NVD3Adapter extends Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     data: PropTypes.array.isRequired,
     options: PropTypes.object.isRequired,
     widget: PropTypes.oneOfType([
@@ -49,6 +53,19 @@ export default class NVD3Adapter extends Component {
     if (this.type && 'stackedAreaChart' === this.type && chart.stacked) {
       chart.stacked.dispatch.on('areaClick.toggle', null);
     }
+
+    NVD3Adapter.updateStoreOnChartReady(true);
+  }
+
+  static updateStoreOnChartReady(isReady) {
+    this.props.dispatch(actionTrigger(RECEIVE_CHART_READY, isReady));
+  }
+
+  constructor(props) {
+    super(props);
+
+    NVD3Adapter.updateStoreOnChartReady =
+      NVD3Adapter.updateStoreOnChartReady.bind(this);
   }
 
   /**
@@ -93,3 +110,5 @@ export default class NVD3Adapter extends Component {
     />);
   }
 }
+
+export default connect()(NVD3Adapter);
