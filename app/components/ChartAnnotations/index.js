@@ -154,7 +154,7 @@ ChartAnnotations.propTypes = {
 };
 
 const mapStateToProps = ({
-  chartAnnotations = {}, chartReady, data = {},
+  chartAnnotations = {}, chartReady, chartRendering, data = {},
 }, props) => {
   const { annotations } = getChartTypeDefaultOpts(props.type);
   if (!props.widget) {
@@ -166,6 +166,7 @@ const mapStateToProps = ({
     } = annotations;
     return {
       chartReady,
+      chartRendering,
       editing,
       annotationData,
       selector,
