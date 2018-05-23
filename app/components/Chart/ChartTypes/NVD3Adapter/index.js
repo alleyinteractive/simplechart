@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import NVD3Chart from '../../ReactNVD3';
-// import NVD3Chart from 'react-nvd3';
 import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
 import { connect } from 'react-redux';
