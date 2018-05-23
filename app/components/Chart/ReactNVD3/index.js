@@ -6,14 +6,10 @@ import {
   pick,
   without,
   isPlainObject,
-  bindFunctions,
-  getValueFunction,
-  propsByPrefix,
 } from './utils.js';
 
 const SETTINGS = ['x', 'y', 'type', 'datum', 'configure'];
 const SIZE = ['width', 'height'];
-const MARGIN = 'margin';
 const CONTAINER_STYLE = 'containerStyle';
 
 const RENDER_START = 'renderStart';
@@ -37,6 +33,8 @@ export default class NVD3Chart extends React.Component {
       key: PropTypes.string,
       values: PropTypes.array,
     })).isRequired,
+    x: PropTypes.func.isRequired,
+    y: PropTypes.func.isRequired,
   };
 
   /**
@@ -89,11 +87,7 @@ export default class NVD3Chart extends React.Component {
    * @param {Function} predicate  The function used to filter keys
    */
   options(keys, predicate) {
-    // DEPRECATED: this.props.chartOptions
-    const opt = this.parsedProps.options ||
-      this.parsedProps || this.props.chartOptions;
-    predicate = predicate || pick;
-    return predicate(opt, keys);
+    return (predicate || pick)(this.props, keys);
   }
 
   /**
@@ -116,20 +110,24 @@ export default class NVD3Chart extends React.Component {
     this.chart = (this.chart && !this.rendering) ?
       this.chart : nv.models[this.props.type]();
 
+    if ('pieChart' === this.props.type) {
+      dispatcher = this.chart.pie.dispatch;
+    } else {
+      dispatcher = this.chart.dispatch;
+    }
+
+    if (dispatcher.renderEnd) {
+      dispatcher.on('renderEnd', this.renderEnd.bind(this));
+    }
+
     this.props.renderStart(this.chart, RENDER_START);
 
-    this.parsedProps = bindFunctions(this.props, this.props.context);
-
     if (this.chart.x) {
-      this.chart.x(getValueFunction(this.parsedProps.x, 'x'));
+      this.chart.x(this.props.x);
     }
 
     if (this.chart.y) {
-      this.chart.y(getValueFunction(this.parsedProps.y, 'y'));
-    }
-
-    if (this.chart.margin) {
-      this.chart.margin(this.options(MARGIN, pick).margin || propsByPrefix('margin', this.props) || {});
+      this.chart.y(this.props.y);
     }
 
     // Configure componentes recursively
@@ -142,7 +140,7 @@ export default class NVD3Chart extends React.Component {
     this.props.configure(this.chart);
 
     // Render chart using d3
-    this.selection = d3.select(this.refs.svg)
+    this.selection = d3.select(this.svg)
       .datum(this.props.datum)
       .call(this.chart);
 
@@ -152,20 +150,6 @@ export default class NVD3Chart extends React.Component {
       this.resizeHandler = nv.utils.windowResize(this.chart.update);
     }
 
-    // PieCharts and lineCharts are an special case. Their dispacher is the pie component inside the chart.
-    // There are some charts do not feature the renderEnd event
-    switch (this.props.type) {
-      case 'pieChart':
-        dispatcher = this.chart.pie.dispatch;
-        break;
-      case 'lineChart':
-        dispatcher = this.chart.lines.dispatch;
-        break;
-      default:
-        dispatcher = this.chart.dispatch;
-    }
-
-    dispatcher.renderEnd && dispatcher.on('renderEnd', this.renderEnd.bind(this));
     this.rendering = true;
 
     return this.chart;
@@ -177,10 +161,9 @@ export default class NVD3Chart extends React.Component {
    */
   render() {
     const size = pick(this.props, SIZE);
-    const style = Object.assign({}, size, this.props.containerStyle);
     return (
-      <div ref="root" className="nv-chart" style={style} >
-        <svg ref="svg" {...size} />
+      <div className="nv-chart">
+        <svg ref={(svg) => { this.svg = svg; }} {...size} />
       </div>
     );
   }

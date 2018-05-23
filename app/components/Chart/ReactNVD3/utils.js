@@ -5,7 +5,7 @@
  * @return {Boolean}
  */
 export function includes(array, item) {
-  return array.indexOf(item) >= 0;
+  return 0 <= array.indexOf(item);
 }
 
 /**
@@ -13,10 +13,10 @@ export function includes(array, item) {
  * @param  {Function} f Function to be negated
  * @return {Function}   Negated function
  */
-export function negate(f) {
-  return function(){
-    return !f.apply(this, arguments);
-  }
+export function negate(fn) {
+  return function negateFn(...args) {
+    return !fn.apply(this, args);
+  };
 }
 
 /**
@@ -28,14 +28,17 @@ export function negate(f) {
  * @return {Object}
  */
 export function filterObject(obj, keys, predicate) {
-  let result = {};
-  let ks = Object.keys(obj);
+  const result = {};
+  const objKeys = Object.keys(obj);
 
-  for (let i = 0, l = ks.length; i < l; i++) {
-    let key = ks[i];
-    let value = obj[key];
-    if(predicate(keys, key)) result[key] = value;
-  };
+  for (let i = 0, len = objKeys.length; i < len;) {
+    const key = objKeys[i];
+    const value = obj[key];
+    if (predicate(keys, key)) {
+      result[key] = value;
+    }
+    i += 1;
+  }
   return result;
 }
 
@@ -67,70 +70,13 @@ export function without(obj, keys) {
  * @param  {Any}  obj    Any object to be checked
  * @return {Boolean}
  */
-export function isPlainObject(obj){
-  if (typeof obj == 'object' && obj !== null) {
-    if (typeof Object.getPrototypeOf == 'function') {
-      var proto = Object.getPrototypeOf(obj);
-      return proto === Object.prototype || proto === null;
+export function isPlainObject(obj) {
+  if ('object' === typeof obj && null !== obj) {
+    if ('function' === typeof Object.getPrototypeOf) {
+      const proto = Object.getPrototypeOf(obj);
+      return proto === Object.prototype || null === proto;
     }
-    return Object.prototype.toString.call(obj) == '[object Object]';
+    return '[object Object]' === Object.prototype.toString.call(obj);
   }
   return false;
-}
-
-/**
- * It replace all the {type:'function', name: 'nameOffunction'}
- * ocurrences in a give object by the functions stored
- * in the {context} with the name {name}
- * @param  {Object} o         The original object to be patched
- * @param  {Object} context  A dictionary with name:function
- * @return {Object}           A patched version of the object
- */
-export function bindFunctions(o, context) {
-  var out, v, key;
-  out = Array.isArray(o) ? [] : {};
-  for (key in o) {
-    v = o[key];
-    if(v == null) {
-      continue;
-    } else if(typeof v === 'object' && v !== null && v.type !== 'function') {
-      out[key] = bindFunctions(v, context);
-    } else if(v.type === 'function'){
-      out[key] = context[v.name];
-    } else {
-      out[key] = v;
-    }
-  }
-  return out;
-}
-
-/**
- * Allow to use either a value or a function to
- * @param  {[type]} v        Either a getter or a function name
- * @param  {String} _default A default string used as getter
- * @return {Function}        Returns a function to use as getter
- */
-export function getValueFunction(v, _default) {
-  if(typeof v === 'function') return v;
-  return (d) => { return typeof d[v] !== 'undefined' ? d[v] : d[_default]; }
-}
-
-/**
- * Get properties using a prefix
- * @param  {String} prefix
- * @return {[type]} Return an object with wanted keys
- * DEPRECATED: This was created only for margins and
- * since we changed the api we don't need this anymore.
- */
-export function propsByPrefix(prefix, props) {
-  console.warn('Set margin with prefixes is deprecated use an object instead');
-  prefix = prefix + '-';
-  return Object.keys(props).reduce((memo, prop) => {
-    if (prop.substr(0, prefix.length) === prefix) memo[prop.replace(prefix, '')] = props[prop];
-    return memo;
-  }, {});
-}
-
-export function isCallable(value) {
-  return value && typeof value === 'function';
 }
