@@ -15,7 +15,8 @@ export const defaultOpts = {
   annotations: {
     selector: '.nv-point-paths path',
     container: '.nv-linesWrap',
-    getCoords: function getCoords({ data }, selector) {
+    getCoords: function getCoords(annotationWithChartData, selector) {
+      const { data } = annotationWithChartData;
       const allPaths = d3v4.selectAll(selector);
 
       if (!allPaths.nodes().length) {
