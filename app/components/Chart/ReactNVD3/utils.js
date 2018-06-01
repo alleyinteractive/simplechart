@@ -1,3 +1,8 @@
+// Taken From:
+// https://github.com/NuCivic/react-nvd3
+// Brought into repo due to small size and needing to fix linechart renderEnd bug
+// Source was paired down and tailored to Simplechart's needs.
+
 /**
  * Checks if an item is present in the given array
  * @param  {Array}   array

@@ -1,3 +1,8 @@
+// Taken From:
+// https://github.com/NuCivic/react-nvd3
+// Brought into repo due to small size and needing to fix linechart renderEnd bug
+// Source was paired down and tailored to Simplechart's needs.
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import d3 from 'd3';
