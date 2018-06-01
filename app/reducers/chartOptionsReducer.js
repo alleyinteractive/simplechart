@@ -11,6 +11,7 @@ import {
   RECEIVE_DATE_FORMAT,
   RECEIVE_TICK_FORMAT,
   RECEIVE_CHART_READY,
+  RECEIVE_CHART_RENDERING,
 } from '../constants';
 import applyChartTypeDefaults from './utils/applyChartTypeDefaults';
 import applyTickFormatters from './utils/applyTickFormatters';
@@ -48,6 +49,12 @@ export default function chartOptionsReducer(state, action) {
     case RECEIVE_CHART_READY:
       return update(state, {
         chartReady: { $set: action.data },
+        chartRendering: { $set: false },
+      });
+
+    case RECEIVE_CHART_RENDERING:
+      return update(state, {
+        chartRendering: { $set: action.data },
       });
 
     default:

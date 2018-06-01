@@ -21,16 +21,10 @@ class ChartAnnotations extends Component {
 
   // Render each annotation, getting coordinates for each based on data.
   static renderAnnotations(data, editing, container, selector, getCoords) {
-    const annotationsWithCoords = data.map((anno) => {
-      const el = d3v4.selectAll(selector)
-        .filter((itemData, index) =>
-          (index === anno.data.index ? itemData : false)
-        );
-      return {
-        ...anno,
-        ...getCoords(el),
-      };
-    });
+    const annotationsWithCoords = data.map((anno) => ({
+      ...anno,
+      ...getCoords(anno, selector),
+    }));
 
     const containerEl = d3v4.select(container);
     containerEl.select('g.annotations-group').remove();
@@ -135,7 +129,7 @@ class ChartAnnotations extends Component {
   repositionAnnotations = () => {
     setTimeout(() => {
       this.beginRenderingAnnotations();
-    }, 250);
+    }, 350);
   };
 
   render() {
@@ -160,7 +154,7 @@ ChartAnnotations.propTypes = {
 };
 
 const mapStateToProps = ({
-  chartAnnotations = {}, chartReady, data = {},
+  chartAnnotations = {}, chartReady, chartRendering, data = {},
 }, props) => {
   const { annotations } = getChartTypeDefaultOpts(props.type);
   if (!props.widget) {
@@ -172,6 +166,7 @@ const mapStateToProps = ({
     } = annotations;
     return {
       chartReady,
+      chartRendering,
       editing,
       annotationData,
       selector,

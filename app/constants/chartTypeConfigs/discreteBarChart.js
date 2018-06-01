@@ -14,7 +14,11 @@ export const defaultOpts = {
   annotations: {
     selector: '.nv-bar rect',
     container: '.nv-barsWrap',
-    getCoords: function getCoords(el) {
+    getCoords: function getCoords({ data }, selector) {
+      const el = d3v4.selectAll(selector)
+        .filter((itemData, index) =>
+          (index === data.index ? itemData : false)
+        );
       if (!el.node()) {
         return { x: 0, y: 0 };
       }

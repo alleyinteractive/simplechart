@@ -70,8 +70,9 @@ export const RECEIVE_CHART_ANNOTATION = 'RECEIVE_CHART_ANNOTATION';
 export const RECEIVE_UPDATED_ANNOTATION_DATA = 'RECEIVE_UPDATED_ANNOTATION_DATA';
 export const RECEIVE_REMOVE_ANNOTATION = 'RECEIVE_REMOVE_ANNOTATION';
 
-// chart ready
+// chart ready / rendering
 export const RECEIVE_CHART_READY = 'RECEIVE_CHART_READY';
+export const RECEIVE_CHART_RENDERING = 'RECEIVE_CHART_RENDERING';
 /**
  * Actions when a chart is updated
  */

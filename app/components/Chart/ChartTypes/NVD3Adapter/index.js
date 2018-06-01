@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import NVD3Chart from 'react-nvd3';
+import NVD3Chart from '../../ReactNVD3';
 import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
 import { connect } from 'react-redux';
 import actionTrigger from '../../../../actions';
-import { RECEIVE_CHART_READY } from '../../../../constants';
+import {
+  RECEIVE_CHART_READY,
+  RECEIVE_CHART_RENDERING,
+} from '../../../../constants';
 import {
   getChartTypeObject,
   getChartTypeDefaultOpts,
@@ -57,8 +60,20 @@ class NVD3Adapter extends Component {
     NVD3Adapter.updateStoreOnChartReady(true);
   }
 
+  static onRenderStart() {
+    NVD3Adapter.updateStoreRenderStatus(true);
+  }
+
+  static onRenderEnd() {
+    NVD3Adapter.updateStoreRenderStatus(false);
+  }
+
   static updateStoreOnChartReady(isReady) {
     this.props.dispatch(actionTrigger(RECEIVE_CHART_READY, isReady));
+  }
+
+  static updateStoreRenderStatus(isRendering) {
+    this.props.dispatch(actionTrigger(RECEIVE_CHART_RENDERING, isRendering));
   }
 
   constructor(props) {
@@ -66,6 +81,8 @@ class NVD3Adapter extends Component {
 
     NVD3Adapter.updateStoreOnChartReady =
       NVD3Adapter.updateStoreOnChartReady.bind(this);
+    NVD3Adapter.updateStoreRenderStatus =
+      NVD3Adapter.updateStoreRenderStatus.bind(this);
   }
 
   /**
@@ -106,6 +123,8 @@ class NVD3Adapter extends Component {
     return (<NVD3Chart
       key={Math.random()}
       ready={NVD3Adapter.onReady}
+      renderStart={NVD3Adapter.onRenderStart}
+      renderEnd={NVD3Adapter.onRenderEnd}
       {...chartProps}
     />);
   }
