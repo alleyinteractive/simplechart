@@ -175,7 +175,14 @@ const mapStateToProps = ({
     };
   }
 
-  return { ...props, ...annotations, chartReady: data.chartReady };
+  return {
+    ...props,
+    ...annotations,
+    selector: `#${props.widget} ${annotations.selector}`,
+    container: `#${props.widget} ${annotations.container}`,
+    chartReady: data.chartReady,
+    editing: false,
+  };
 };
 
 export default connect(mapStateToProps)(ChartAnnotations);

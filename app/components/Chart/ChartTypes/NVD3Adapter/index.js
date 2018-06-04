@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import NVD3Chart from '../../ReactNVD3';
-import update from 'immutability-helper';
 import cloneDeep from 'lodash/cloneDeep';
 import { connect } from 'react-redux';
+import update from 'immutability-helper';
+import NVD3Chart from '../../ReactNVD3';
 import actionTrigger from '../../../../actions';
 import {
   RECEIVE_CHART_READY,
@@ -73,6 +73,8 @@ class NVD3Adapter extends Component {
   }
 
   static updateStoreRenderStatus(isRendering) {
+    // If chart is rendering, it is not ready.
+    NVD3Adapter.updateStoreOnChartReady(!isRendering);
     this.props.dispatch(actionTrigger(RECEIVE_CHART_RENDERING, isRendering));
   }
 
