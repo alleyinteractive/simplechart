@@ -7,6 +7,7 @@ import {
   RECEIVE_WIDGET_OPTIONS,
   RECEIVE_WIDGET_METADATA,
   UPDATE_CURRENT_STEP,
+  EDITING_CHART_ANNOTATIONS,
 } from '../constants';
 import { receiveMessage, setupPostMessage, sendMessage } from '../utils/postMessage';
 import bootstrapStore from '../utils/bootstrapStore';
@@ -171,6 +172,7 @@ export function closeApp() {
   return (dispatch) => {
     sendMessage('closeApp');
     dispatch(actionTrigger(UPDATE_CURRENT_STEP, 0));
+    dispatch(actionTrigger(EDITING_CHART_ANNOTATIONS, false));
   };
 }
 
