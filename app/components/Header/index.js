@@ -6,7 +6,7 @@ import logoSvg from '../../img/simplechartLogo.svg';
 import * as styles from './Header.css';
 import appSteps from '../../constants/appSteps';
 import actionTrigger, { closeApp } from '../../actions';
-import { UPDATE_CURRENT_STEP } from '../../constants';
+import { UPDATE_CURRENT_STEP, EDITING_CHART_ANNOTATIONS } from '../../constants';
 import SaveChart from '../SaveChart';
 import ErrorMessage from './ErrorMessage';
 import { getIsNextStepAvailable } from '../../selectors';
@@ -50,6 +50,10 @@ class Header extends Component {
     this.props.dispatch(actionTrigger(
       UPDATE_CURRENT_STEP,
       step
+    ));
+    this.props.dispatch(actionTrigger(
+      EDITING_CHART_ANNOTATIONS,
+      false
     ));
   };
 
