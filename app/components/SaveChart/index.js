@@ -29,7 +29,15 @@ class SaveChart extends Component {
 
   sendDataToParent = () => {
     this.props.dispatch(actionTrigger(UNSAVED_CHANGES, false));
-    sendMessage('saveChart', this.props.saveData);
+    // When we save, we want to ensure 'editing' is set to false
+    // for chart annotations
+    sendMessage('saveChart', {
+      ...this.props.saveData,
+      chartAnnotations: {
+        ...this.props.saveData.chartAnnotations,
+        editing: false,
+      },
+    });
   };
 
   render() {

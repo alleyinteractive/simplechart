@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'rebass';
 import { connect } from 'react-redux';
-import { UPDATE_CURRENT_STEP } from '../../../constants';
+import { UPDATE_CURRENT_STEP, EDITING_CHART_ANNOTATIONS } from '../../../constants';
 import actionTrigger from '../../../actions';
 
 class NextPrevButton extends Component {
@@ -43,6 +43,9 @@ class NextPrevButton extends Component {
 
       this.props.dispatch(
         actionTrigger(UPDATE_CURRENT_STEP, nextStep)
+      );
+      this.props.dispatch(
+        actionTrigger(EDITING_CHART_ANNOTATIONS, false)
       );
     }
 
