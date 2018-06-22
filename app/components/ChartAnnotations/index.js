@@ -79,7 +79,6 @@ class ChartAnnotations extends Component {
 
     this.state = {
       svgEl: d3v4.select('.nv-chart svg'),
-      width: window.innerWidth,
       mobile: 500 > window.innerWidth,
       showAnnotations: true,
     };
@@ -131,9 +130,8 @@ class ChartAnnotations extends Component {
   }
 
   handleWindowResize = () => {
-    const width = window.innerWidth;
     const { widget } = this.props;
-    const mobile = 500 > width;
+    const mobile = 500 > window.innerWidth;
 
     // If we are not rendering in the widget, we don't need to worry about toggling
     if (!widget) {
@@ -143,7 +141,6 @@ class ChartAnnotations extends Component {
     const toggleNode = document.querySelector(this.props.widget);
 
     this.setState({
-      width,
       mobile,
       showAnnotations: !mobile ? true : this.state.showAnnotations,
     });
