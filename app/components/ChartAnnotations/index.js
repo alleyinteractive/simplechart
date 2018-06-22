@@ -78,8 +78,9 @@ class ChartAnnotations extends Component {
     super(props);
 
     this.state = {
-      bbox: {},
       svgEl: d3v4.select('.nv-chart svg'),
+      mobile: 500 > window.innerWidth,
+      showAnnotations: true,
     };
 
     // Adding an annotation
@@ -99,7 +100,8 @@ class ChartAnnotations extends Component {
     this.beginRenderingAnnotations();
 
     // TODO - check if adding without ever removing is wise.
-    window.addEventListener('resize', this.repositionAnnotations);
+    window.addEventListener('resize', this.handleWindowResize);
+    this.handleWindowResize();
   }
 
   componentDidUpdate() {
@@ -114,16 +116,48 @@ class ChartAnnotations extends Component {
 
   beginRenderingAnnotations(isEditing = null) {
     const {
-      annotationData: data,
       container,
       selector,
       getCoords,
     } = this.props;
 
+    const data = this.state.showAnnotations ? this.props.annotationData : [];
+
     const editing = null !== isEditing ? isEditing : this.props.editing;
 
     ChartAnnotations
       .renderAnnotations(data, editing, container, selector, getCoords);
+  }
+
+  handleWindowResize = () => {
+    const { widget } = this.props;
+    const mobile = 500 > window.innerWidth;
+
+    // If we are not rendering in the widget, we don't need to worry about toggling
+    if (!widget) {
+      return;
+    }
+
+    const toggleNode = document.querySelector(this.props.widget);
+
+    this.setState({
+      mobile,
+      showAnnotations: !mobile ? true : this.state.showAnnotations,
+    });
+
+    if (mobile) {
+      toggleNode.addEventListener('click', this.toggleAnnotations);
+    } else {
+      toggleNode.removeEventListener('click', this.toggleAnnotations);
+    }
+
+    this.repositionAnnotations();
+  }
+
+  toggleAnnotations = () => {
+    this.setState({
+      showAnnotations: !this.state.showAnnotations,
+    });
   }
 
   repositionAnnotations = () => {
@@ -134,10 +168,15 @@ class ChartAnnotations extends Component {
 
   render() {
     const { editing } = this.props;
+    const { mobile } = this.state;
+
     return (
       <div>
         {
           editing && <h5>Click Chart To Add Annotations</h5>
+        }
+        {
+          mobile && <span>Click The Chart to Toggle Annotations</span>
         }
       </div>
     );
@@ -150,6 +189,7 @@ ChartAnnotations.propTypes = {
   annotationData: PropTypes.arrayOf(PropTypes.object).isRequired,
   selector: PropTypes.string.isRequired,
   container: PropTypes.string.isRequired,
+  widget: PropTypes.string.isRequired,
   getCoords: PropTypes.func.isRequired,
 };
 
@@ -172,6 +212,7 @@ const mapStateToProps = ({
       selector,
       container,
       getCoords,
+      widget: '',
     };
   }
 
@@ -182,6 +223,7 @@ const mapStateToProps = ({
     container: `#${props.widget} ${annotations.container}`,
     chartReady: data.chartReady,
     editing: false,
+    widget: `#${props.widget}`,
   };
 };
 
