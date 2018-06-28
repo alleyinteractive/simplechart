@@ -107,7 +107,13 @@ export function ajaxWidgetData(widgetId, fetchUrl, headersAttr = null) {
       }
 
       try {
-        apiData.annotations = JSON.parse(json.data.annotations);
+        const defaultAnnotations = {
+          editing: false,
+          annotationData: [],
+        };
+        const annotations =
+          json.data.annotations || JSON.stringify(defaultAnnotations);
+        apiData.annotations = JSON.parse(annotations);
       } catch (err) {
         console.error(err.message); // eslint-disable-line no-console
         return;
