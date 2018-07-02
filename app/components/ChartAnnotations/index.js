@@ -126,6 +126,11 @@ class ChartAnnotations extends Component {
     // TODO - check if adding without ever removing is wise.
     window.addEventListener('resize', this.handleWindowResize);
     this.handleWindowResize();
+    // This component can become unmounted after editing.
+    // Annotations are still rendered on window resize, however.
+    // We need a way to let the code know this component has been unmounted
+    // From:
+    // https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
     this._isMounted = true;
   }
 
