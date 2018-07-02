@@ -19,11 +19,34 @@ class ChartAnnotations extends Component {
     ChartAnnotations.updateAnnotation(data);
   }
 
+  // Ensure annotations remain inside the chart container
+  static constrainAnnotation(annotation, container) {
+    const { dx, dy } = annotation;
+    if (!d3v4.select(`${container}`).node()) {
+      return { dx, dy };
+    }
+
+    const wrapBBox = d3v4.select(`${container} .nv-wrap`).node().getBBox();
+    const containerBBox = d3v4.select(`${container}`).node().getBBox();
+    const hDiff = wrapBBox.height - containerBBox.height;
+    const wDiff = wrapBBox.width - containerBBox.width;
+    const xAdjust = 0 > dx ? Math.abs(wDiff) : wDiff;
+    const yAdjust = 0 > dy ? Math.abs(hDiff) : hDiff;
+
+    return {
+      dx: dx + xAdjust,
+      dy: dy + yAdjust,
+    };
+  }
+
   // Render each annotation, getting coordinates for each based on data.
   static renderAnnotations(data, editing, container, selector, getCoords) {
     const annotationsWithCoords = data.map((anno) => ({
       ...anno,
       ...getCoords(anno, selector),
+    })).map((anno) => ({
+      ...anno,
+      ...ChartAnnotations.constrainAnnotation(anno, container),
     }));
 
     const containerEl = d3v4.select(container);
@@ -81,6 +104,7 @@ class ChartAnnotations extends Component {
       svgEl: d3v4.select('.nv-chart svg'),
       mobile: 500 > window.innerWidth,
       showAnnotations: true,
+      editing: props.editing,
     };
 
     // Adding an annotation
@@ -102,6 +126,7 @@ class ChartAnnotations extends Component {
     // TODO - check if adding without ever removing is wise.
     window.addEventListener('resize', this.handleWindowResize);
     this.handleWindowResize();
+    this._isMounted = true;
   }
 
   componentDidUpdate() {
@@ -112,6 +137,7 @@ class ChartAnnotations extends Component {
     const { svgEl } = this.state;
     this.beginRenderingAnnotations(false);
     svgEl.selectAll(this.props.selector).on('click', null);
+    this._isMounted = false;
   }
 
   beginRenderingAnnotations(isEditing = null) {
@@ -123,7 +149,8 @@ class ChartAnnotations extends Component {
 
     const data = this.state.showAnnotations ? this.props.annotationData : [];
 
-    const editing = null !== isEditing ? isEditing : this.props.editing;
+    const editing =
+      (null !== isEditing ? isEditing : this.props.editing) && this._isMounted;
 
     ChartAnnotations
       .renderAnnotations(data, editing, container, selector, getCoords);
@@ -132,6 +159,8 @@ class ChartAnnotations extends Component {
   handleWindowResize = () => {
     const { widget } = this.props;
     const mobile = 500 > window.innerWidth;
+
+    this.repositionAnnotations();
 
     // If we are not rendering in the widget, we don't need to worry about toggling
     if (!widget) {
@@ -150,8 +179,6 @@ class ChartAnnotations extends Component {
     } else {
       toggleNode.removeEventListener('click', this.toggleAnnotations);
     }
-
-    this.repositionAnnotations();
   }
 
   toggleAnnotations = () => {
