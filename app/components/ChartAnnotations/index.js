@@ -131,7 +131,7 @@ class ChartAnnotations extends Component {
     // We need a way to let the code know this component has been unmounted
     // From:
     // https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
-    this._isMounted = true;
+    this._isMounted = true; // eslint-disable-line no-underscore-dangle
   }
 
   componentDidUpdate() {
@@ -142,7 +142,7 @@ class ChartAnnotations extends Component {
     const { svgEl } = this.state;
     this.beginRenderingAnnotations(false);
     svgEl.selectAll(this.props.selector).on('click', null);
-    this._isMounted = false;
+    this._isMounted = false; // eslint-disable-line no-underscore-dangle
   }
 
   beginRenderingAnnotations(isEditing = null) {
@@ -155,7 +155,7 @@ class ChartAnnotations extends Component {
     const data = this.state.showAnnotations ? this.props.annotationData : [];
 
     const editing =
-      (null !== isEditing ? isEditing : this.props.editing) && this._isMounted;
+      (null !== isEditing ? isEditing : this.props.editing) && this._isMounted; // eslint-disable-line no-underscore-dangle
 
     ChartAnnotations
       .renderAnnotations(data, editing, container, selector, getCoords);
