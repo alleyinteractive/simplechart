@@ -15,12 +15,21 @@ class ChartAnnotations extends Component {
   }
 
   // Dragging an annotation - update dx/dy when drag ends
-  static onAnnotationDragEnd(data) {
-    ChartAnnotations.updateAnnotation(data);
+  static onAnnotationDragEnd(data, container) {
+    ChartAnnotations.updateAnnotation({
+      ...data,
+      ...ChartAnnotations.constrainAnnotation(data, container),
+    });
   }
 
   // Ensure annotations remain inside the chart container
   static constrainAnnotation(annotation, container) {
+    // Hide all but current annotation
+    d3v4.selectAll(`${container} .annotation`).each(function (data, index) {
+      if (index !== annotation.id) {
+        d3v4.select(this).style('display', 'none');
+      }
+    });
     const { dx, dy } = annotation;
     if (!d3v4.select(`${container}`).node()) {
       return { dx, dy };
@@ -33,6 +42,10 @@ class ChartAnnotations extends Component {
     const xAdjust = 0 > dx ? Math.abs(wDiff) : wDiff;
     const yAdjust = 0 > dy ? Math.abs(hDiff) : hDiff;
 
+    d3v4.selectAll(`${container} .annotation`).each(function () {
+      d3v4.select(this).style('display', 'inline');
+    });
+
     return {
       dx: dx + xAdjust,
       dy: dy + yAdjust,
@@ -44,10 +57,14 @@ class ChartAnnotations extends Component {
     const annotationsWithCoords = data.map((anno) => ({
       ...anno,
       ...getCoords(anno, selector),
-    })).map((anno) => ({
-      ...anno,
-      ...ChartAnnotations.constrainAnnotation(anno, container),
-    }));
+    })).map((anno) => {
+      const constrained =
+        !editing ? ChartAnnotations.constrainAnnotation(anno, container) : {};
+      return {
+        ...anno,
+        ...constrained,
+      };
+    });
 
     const containerEl = d3v4.select(container);
     containerEl.select('g.annotations-group').remove();
@@ -55,7 +72,9 @@ class ChartAnnotations extends Component {
       .type(d3v4.annotationCalloutElbow)
       .annotations(annotationsWithCoords)
       .editMode(editing)
-      .on('dragend', ChartAnnotations.onAnnotationDragEnd);
+      .on('dragend', (annotation) =>
+        ChartAnnotations.onAnnotationDragEnd(annotation, container)
+      );
 
     containerEl.append('g')
       .attr('class', 'annotations-group')
@@ -190,6 +209,9 @@ class ChartAnnotations extends Component {
     this.setState({
       showAnnotations: !this.state.showAnnotations,
     });
+    if (this.state.showAnnotations) {
+      setTimeout((() => this.beginRenderingAnnotations()));
+    }
   }
 
   repositionAnnotations = () => {
