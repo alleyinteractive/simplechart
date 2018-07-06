@@ -25,6 +25,7 @@ class ChartAnnotations extends Component {
   // Ensure annotations remain inside the chart container
   static constrainAnnotation(annotation, container) {
     // Hide all but current annotation
+    // Avoiding arrow syntax due to need to preserve `this` for d3 selection
     d3v4.selectAll(`${container} .annotation`).each(function (data, index) {
       if (index !== annotation.id) {
         d3v4.select(this).style('display', 'none');
@@ -42,6 +43,7 @@ class ChartAnnotations extends Component {
     const xAdjust = 0 > dx ? Math.abs(wDiff) : wDiff;
     const yAdjust = 0 > dy ? Math.abs(hDiff) : hDiff;
 
+    // Avoiding arrow syntax due to need to preserve `this` for d3 selection
     d3v4.selectAll(`${container} .annotation`).each(function () {
       d3v4.select(this).style('display', 'inline');
     });
@@ -210,7 +212,7 @@ class ChartAnnotations extends Component {
       showAnnotations: !this.state.showAnnotations,
     });
     if (this.state.showAnnotations) {
-      setTimeout((() => this.beginRenderingAnnotations()));
+      this.beginRenderingAnnotations();
     }
   }
 
