@@ -65,11 +65,14 @@ class Widget extends Component {
             metadata={this.state.data.metadata}
             widget={this.props.widget}
           />
-          <ChartAnnotations
-            {...this.state.data.annotations}
-            widget={this.props.widget}
-            type={this.state.data.options.type}
-          />
+          {
+            this.state.data.options.annotations &&
+            <ChartAnnotations
+              {...this.state.data.annotations}
+              widget={this.props.widget}
+              type={this.state.data.options.type}
+            />
+          }
         </div>
       );
     }
