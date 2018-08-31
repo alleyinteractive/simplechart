@@ -1,4 +1,6 @@
 /* Brought this into the repo to better fix IE css issues */
+/* CHANGELOG */
+/* 08-31-18 - commented out line 264 for IE edge */
 
 /* nvd3 version 1.8.6 (https://github.com/novus/nvd3) 2017-08-23 */
 .nvd3 .nv-axis {
@@ -261,6 +263,7 @@ svg.nvd3-svg {
           user-select: none;
   display: block;
   width:100%;
+  /* height:100%; this is a Nope for Edge/IE */
 }
 
 /********************
