@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import './vendor/nv.d3.css';
-// import 'nvd3/build/nv.d3.css';
 
 import actionTrigger, { ajaxWidgetData, listenerWidgetData } from './actions';
 import { RECEIVE_WIDGET } from './constants';
