@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const hashProvided = 5 <= process.argv.length &&
   /^[a-z0-9]+$/.test(process.argv[4]);
 const modulesDir = path.resolve(__dirname, 'node_modules');
+const vendorDir = path.resolve(__dirname, 'app/vendor');
 
 const plugins = [
   new WebpackGitHash({
@@ -80,7 +81,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        exclude: modulesDir,
+        exclude: [modulesDir, vendorDir],
         use: [
           'style-loader',
           {
@@ -113,7 +114,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: modulesDir,
+        include: [modulesDir, vendorDir],
         use: [
           'style-loader',
           'css-loader',

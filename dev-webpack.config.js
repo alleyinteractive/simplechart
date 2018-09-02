@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const modulesDir = path.resolve(__dirname, 'node_modules');
+const vendorDir = path.resolve(__dirname, 'app/vendor');
 const entry = {
   widget: [
     path.resolve(__dirname, 'app/widget'),
@@ -52,7 +53,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        exclude: modulesDir,
+        exclude: [modulesDir, vendorDir],
         use: [
           'style-loader',
           {
@@ -85,7 +86,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: modulesDir,
+        include: [modulesDir, vendorDir],
         use: [
           'style-loader',
           'css-loader',
