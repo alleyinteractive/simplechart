@@ -68,6 +68,7 @@ export default class ChartSettings extends Component {
           {this.renderModule('Legend')}
           {this.renderModule('Metadata')}
           {this.renderModule('ColorPalette')}
+          {this.renderModule('MultibarSettings')}
           {this.renderModule('Annotations')}
           {this.renderCustomSettings(this.props.typeConfig)}
         </div>

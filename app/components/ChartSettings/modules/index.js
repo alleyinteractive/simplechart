@@ -4,6 +4,7 @@ import Metadata from './Metadata';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
 import Annotations from './Annotations';
+import MultibarSettings from './MultibarSettings';
 
 export default {
   ColorPalette,
@@ -12,4 +13,5 @@ export default {
   XAxis,
   YAxis,
   Annotations,
+  MultibarSettings,
 };
