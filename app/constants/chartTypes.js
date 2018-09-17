@@ -8,10 +8,12 @@ import stackedAreaChart from './chartTypeConfigs/stackedAreaChart';
 import scatterChart from './chartTypeConfigs/scatterChart';
 import groupedBarChart from './chartTypeConfigs/groupedBarChart';
 import stackedBarChart from './chartTypeConfigs/stackedBarChart';
+import multiBarHorizontalChart from './chartTypeConfigs/multiBarHorizontalChart';
 
 export const selectableChartTypes = [
   pieChart,
   discreteBarChart,
+  multiBarHorizontalChart,
   lineChart,
   stackedAreaChart,
   scatterChart,

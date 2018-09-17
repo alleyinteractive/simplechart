@@ -7,6 +7,12 @@ import products from './productsRevenueRatingProductionCost.csv';
 
 export default [
   {
+    label: 'Horizontal Multibar Test (multiple series)',
+    data: `Party,Supports The Affordable Care Act,Opposes The Affordable Care Act,Complicated Position,No Information
+    Republican,0.13,73.77,5.03,21.06
+    Democrat,36.07,0.93,25.54,37.46`,
+  },
+  {
     label: 'Single Data Series',
     data: singleSeries,
   },
