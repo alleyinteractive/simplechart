@@ -27,7 +27,9 @@ export default class NVD3Chart extends React.Component {
     renderStart: () => {},
     renderEnd: () => {},
     configure: () => {},
+    margin: {},
   }
+
   static propTypes = {
     type: PropTypes.string.isRequired,
     configure: PropTypes.func,
@@ -40,6 +42,7 @@ export default class NVD3Chart extends React.Component {
     })).isRequired,
     x: PropTypes.func.isRequired,
     y: PropTypes.func.isRequired,
+    margin: PropTypes.object,
   };
 
   /**
@@ -133,6 +136,10 @@ export default class NVD3Chart extends React.Component {
 
     if (this.chart.y) {
       this.chart.y(this.props.y);
+    }
+
+    if (this.chart.margin) {
+      this.chart.margin(this.props.margin);
     }
 
     // Configure componentes recursively
