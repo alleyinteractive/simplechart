@@ -2,10 +2,15 @@ import singleSeries from './singleSeries.csv';
 import countriesByYear from './countriesByYear.csv';
 import emissionsPerCountry from './emissionsPerCountry.csv';
 import stockMarkets from './stockMarkets.csv';
+import multibarHorizontalTest from './multibarHorizontalTest.csv';
 import engineMpg from './engineMpg.csv';
 import products from './productsRevenueRatingProductionCost.csv';
 
 export default [
+  {
+    label: 'Horizontal Multibar Test (multiple series)',
+    data: multibarHorizontalTest,
+  },
   {
     label: 'Single Data Series',
     data: singleSeries,

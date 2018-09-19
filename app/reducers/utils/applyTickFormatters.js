@@ -66,6 +66,11 @@ export default function applyTickFormatters(chartOptions, typeConfig) {
         xFormatter
       );
     }
+
+    // multiBarHorizontalChart
+    if ('multiBarHorizontalChart' === typeConfig.type) {
+      toUpdate.valueFormat = xFormatter;
+    }
   }
 
   return update(chartOptions, { $merge: toUpdate });
