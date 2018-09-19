@@ -17,7 +17,6 @@ const MultibarSettings = ({ options }) => {
 
   const onDisplayChange = ({ name }, value) => ({ [name]: 'true' === value });
 
-  // TODO:  Get Radio buttons working instead of select
   return (
     <AccordionBlock
       title={'Multibar Settings'}
