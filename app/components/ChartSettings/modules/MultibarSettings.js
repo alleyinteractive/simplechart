@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Label } from 'rebass';
 import { connect } from 'react-redux';
+import styles from './MultibarSettings.css';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import DispatchField from '../../lib/DispatchField';
 import {
@@ -23,9 +23,9 @@ const MultibarSettings = ({ options }) => {
       tooltip={'Settings for Horizontal Multibar Charts'}
       defaultExpand={false}
     >
-      <Label htmlFor="stacked">
+      <label className={styles.label} htmlFor="stacked">
         Chart Display
-      </Label>
+      </label>
       {
         viewOptions.map((option) => (
           <DispatchField
