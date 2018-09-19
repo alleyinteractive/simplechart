@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Label } from 'rebass';
 import { connect } from 'react-redux';
 import AccordionBlock from '../../Layout/AccordionBlock';
 import DispatchField from '../../lib/DispatchField';
@@ -23,17 +24,25 @@ const MultibarSettings = ({ options }) => {
       tooltip={'Settings for Horizontal Multibar Charts'}
       defaultExpand={false}
     >
-      <DispatchField
-        action={RECEIVE_CHART_OPTIONS}
-        fieldType="Select"
-        fieldProps={{
-          label: 'Chart Display',
-          options: viewOptions,
-          name: 'stacked',
-          value: getObjArrayKey(options, 'stacked', false),
-        }}
-        handler={onDisplayChange}
-      />
+      <Label htmlFor="stacked">
+        Chart Display
+      </Label>
+      {
+        viewOptions.map((option) => (
+          <DispatchField
+            action={RECEIVE_CHART_OPTIONS}
+            fieldType="Radio"
+            fieldProps={{
+              label: option.children,
+              name: 'stacked',
+              value: option.value,
+              checked: (option.value === getObjArrayKey(options, 'stacked', false)),
+              backgroundColor: 'primary',
+            }}
+            handler={onDisplayChange}
+          />
+        ))
+      }
     </AccordionBlock>
   );
 };
@@ -42,7 +51,4 @@ MultibarSettings.propTypes = {
   options: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = () => ({
-});
-
-export default connect(mapStateToProps)(MultibarSettings);
+export default connect()(MultibarSettings);
