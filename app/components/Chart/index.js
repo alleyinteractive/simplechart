@@ -113,15 +113,20 @@ class Chart extends Component {
       }, 150));
     }
 
+    // Reset all tooltip opacities and pointer events to none.
     const touchStartHandler = (event) => {
-      const tooltip = document.querySelector('.nvtooltip');
-      if (tooltip.contains(event.target)) {
-        event.preventDefault();
-      }
-      if (tooltip) {
-        tooltip.style.opacity = 0;
-        tooltip.style.pointerEvents = 'none';
-      }
+      const tooltips = document.querySelectorAll('.nvtooltip');
+      Array.prototype.forEach.call(tooltips, (tooltip) => {
+        if (tooltip.contains(event.target)) {
+          event.preventDefault();
+        }
+        if (tooltip) {
+          /* eslint-disable no-param-reassign */
+          tooltip.style.opacity = 0;
+          tooltip.style.pointerEvents = 'none';
+          /* eslint-enable no-param-reassign */
+        }
+      });
     };
 
     const attributeObserver = new MutationObserver((mutations) => {
@@ -144,7 +149,8 @@ class Chart extends Component {
         // gets erased otherwise.
         if (idx === mutations.length - 1 &&
           switchedOpacity &&
-          '1' === mutation.target.style.opacity) {
+          '1' === mutation.target.style.opacity &&
+          !mutation.target.querySelector('.close-out')) {
           // Add a visual cue to show that this can be closed by clicking anywhere
           const closeOut = document.createElement('button');
           closeOut.className = 'close-out';
