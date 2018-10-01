@@ -10,6 +10,8 @@ import { debounce, ownsProperties } from '../../utils/misc';
 import actionTrigger from '../../actions';
 import { RECEIVE_CHART_READY } from '../../constants';
 
+import './Chart.css';
+
 class Chart extends Component {
   static propTypes = {
     options: PropTypes.object.isRequired,
@@ -97,7 +99,7 @@ class Chart extends Component {
   }
 
   /**
-   * Attach listener for breakpoints
+   * Attach listener for breakpoints and tooltip modification observer
    */
   componentDidMount() {
     if (this.props.widget && this.props.options.breakpoints) {
@@ -110,6 +112,87 @@ class Chart extends Component {
         });
       }, 150));
     }
+
+    // Reset all tooltip opacities and pointer events to none.
+    const touchStartHandler = (event) => {
+      const tooltips = document.querySelectorAll('.nvtooltip');
+      Array.prototype.forEach.call(tooltips, (tooltip) => {
+        if (tooltip.contains(event.target)) {
+          event.preventDefault();
+        }
+        if (tooltip) {
+          /* eslint-disable no-param-reassign */
+          tooltip.style.opacity = 0;
+          tooltip.style.pointerEvents = 'none';
+          /* eslint-enable no-param-reassign */
+        }
+      });
+    };
+
+    const attributeObserver = new MutationObserver((mutations) => {
+      let switchedOpacity = false;
+      mutations.forEach((mutation, idx) => {
+        // If the tooltip is going invisible, remove the event listener on touchend
+        if (mutation.oldValue.match(/opacity: 1/) &&
+          '0' === mutation.target.style.opacity) {
+          switchedOpacity = true;
+          document.removeEventListener('touchstart', touchStartHandler);
+        } else if (mutation.oldValue.match(/opacity: 0/) &&
+          '1' === mutation.target.style.opacity) {
+          switchedOpacity = true;
+          // Tooltip is going visible, add the event listener back
+          document.addEventListener('touchstart', touchStartHandler);
+          mutation.target.style.pointerEvents = 'all'; // eslint-disable-line no-param-reassign
+        }
+
+        // Only add the visual cue on the last of the mutations in a set; it
+        // gets erased otherwise.
+        if (idx === mutations.length - 1 &&
+          switchedOpacity &&
+          '1' === mutation.target.style.opacity &&
+          !mutation.target.querySelector('.close-out')) {
+          // Add a visual cue to show that this can be closed by clicking anywhere
+          const closeOut = document.createElement('button');
+          closeOut.className = 'close-out';
+          closeOut.textContent = 'X';
+          closeOut.setAttribute('aria-label', 'Close Tooltip');
+          closeOut.onclick = touchStartHandler;
+
+          // Set timeout on adding button to avoid race condition on dom modification
+          mutation.target.appendChild(closeOut);
+        }
+      });
+    });
+
+    const attributeObserverOptions = {
+      attributes: true,
+      attributeFilter: ['style'],
+      attributeOldValue: true,
+    };
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if ('childList' === mutation.type) {
+          const firstAdded = mutation.addedNodes[0];
+          // Check if this is the mutation where the tooltip is added to the dom
+          if (firstAdded && firstAdded.classList.contains('nvtooltip')) {
+            // Add an event listener for touchstart to the page to close the tooltip
+            document.addEventListener('touchstart', touchStartHandler);
+
+            // Add an additional non-passive event listener to the tooltip itself
+            // This is so that we can prevent default (and thus scrolling or display of
+            // another tooltip) when someone touches the tooltip directly.
+            firstAdded.addEventListener('touchstart', touchStartHandler, { passive: false });
+
+            // Set up the attribute observer
+            attributeObserver.observe(firstAdded, attributeObserverOptions);
+          }
+        }
+      });
+    });
+    observer.observe(document.querySelector('html'), {
+      childList: true,
+    });
   }
 
   componentWillReceiveProps(nextProps) {

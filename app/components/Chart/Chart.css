@@ -1,0 +1,22 @@
+:global(.nvtooltip) {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  pointer-events: all;
+
+  @media (min-width: 1024px) {
+    pointer-events: none;
+  }
+
+  button {
+    padding-left: 0;
+  }
+
+  .close-out {
+    border: none;
+
+    @media (min-width: 1024px) {
+      display: none;
+    }
+  }
+}
