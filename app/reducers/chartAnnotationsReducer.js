@@ -34,6 +34,8 @@ export default function chartAnnotationsReducer(state, action) {
         dx,
         dy,
         subject,
+        hideConnector,
+        className,
       } = action.data;
       annotations.splice(id, 1, {
         id,
@@ -44,6 +46,8 @@ export default function chartAnnotationsReducer(state, action) {
         dx,
         dy,
         subject,
+        hideConnector,
+        className,
         data,
         color,
       });

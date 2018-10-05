@@ -1,0 +1,11 @@
+:global(.hideConnector) {
+  color: blue;
+
+  :global(.annotation-connector) {
+    display: none;
+  }
+
+  :global(.note-line) {
+    display: none;
+  }
+}

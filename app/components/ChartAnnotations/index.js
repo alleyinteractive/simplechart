@@ -8,6 +8,8 @@ import {
 } from '../../constants';
 import { getChartTypeDefaultOpts } from '../../utils/chartTypeUtils';
 
+import './ChartAnnotations.css';
+
 class ChartAnnotations extends Component {
   // Adding an annotation
   static updateStoreAddAnnotation(annotation) {
@@ -104,7 +106,9 @@ class ChartAnnotations extends Component {
       subject: {
         radius: 10,
       },
+      className: '',
       connector: { end },
+      hideConnector: false,
       dx: 30,
       dy: -30,
       el,
