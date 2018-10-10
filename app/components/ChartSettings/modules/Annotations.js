@@ -43,6 +43,15 @@ class Annotations extends Component {
     }));
   }
 
+  handleHideConnectorChange = (item, newValue) => {
+    const { dispatch } = this.props;
+    dispatch(actionTrigger(RECEIVE_UPDATED_ANNOTATION_DATA, {
+      ...item,
+      hideConnector: newValue,
+      className: newValue ? 'hideConnector' : '',
+    }));
+  }
+
   render() {
     // New setting pane for annotations.
     // When items here are changed, the store is updated and
@@ -82,6 +91,18 @@ class Annotations extends Component {
                 }}
                 handler={(fieldProps, newValue) => {
                   this.handleLabelChange(item, newValue);
+                }}
+              />
+              <DispatchField
+                fieldType="Checkbox"
+                fieldProps={{
+                  disabled: !editing,
+                  label: 'Hide annotation connector?',
+                  name: `${index}.hideConnector`,
+                  checked: item.hideConnector,
+                }}
+                handler={(fieldProps, newValue) => {
+                  this.handleHideConnectorChange(item, newValue);
                 }}
               />
               {
