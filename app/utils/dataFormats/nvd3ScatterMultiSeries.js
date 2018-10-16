@@ -31,7 +31,11 @@ export default function transform(data, fields, dateFormat) {
   });
 
   const validateSeries = (series) => {
-    const isInvalidPoint = ({ x, y }) => !x || isNaN(x) || !y || isNaN(y);
+    const isInvalidPoint = ({ x, y }) =>
+      undefined === x ||
+      isNaN(x) ||
+      undefined === y ||
+      isNaN(y);
     const isInvalidSeries = (aSeries) => aSeries.values.find(isInvalidPoint);
 
     return series.find(isInvalidSeries) ? false : series;
