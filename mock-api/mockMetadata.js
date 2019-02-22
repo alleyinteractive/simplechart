@@ -8,7 +8,7 @@ function chartTypeMetadata(type) {
   return {
     title: titles[type],
     subtitle: `Subtitle for ${titles[type]}`,
-    caption: `Caption for ${titles[type]}`,
+    notes: `Notes for ${titles[type]}`,
     source: `Data source for ${titles[type]}`,
   };
 }

@@ -13,11 +13,36 @@ class Widget extends Component {
 
   static renderMetadata(widget, metadata) {
     Object.keys(metadata).forEach((key) => {
-      const el = widget.querySelectorAll(`.simplechart-${key}`);
-      if (!el.length) {
+      let nodeList = widget.querySelectorAll(`.simplechart-${key}`);
+
+      // Metakeys 'caption' and 'credit' were changed to
+      // 'notes' and 'source' respectively.  This is to ensure current charts
+      // render metadata correctly.
+      let innerText = metadata[key];
+      if ('credit' === key) {
+        nodeList = widget.querySelectorAll('.simplechart-source');
+        innerText = metadata.source ||
+            metadata.credit.replace(/^[sS]ource[s]?:?/, '').trim();
+      } else if ('caption' === key) {
+        nodeList = widget.querySelectorAll('.simplechart-notes');
+        innerText = metadata.notes || metadata.caption;
+      }
+
+      if (!nodeList.length) {
         return;
       }
-      el[0].innerText = metadata[key];
+
+      const [el] = nodeList;
+
+      // Hide if no text for this metadata key
+      if (!innerText.length) {
+        el.style.display = 'none';
+        if (el.parentElement.className.includes(el.className)) {
+          el.parentElement.style.display = 'none';
+        }
+      }
+
+      el.innerText = innerText;
     });
   }
 

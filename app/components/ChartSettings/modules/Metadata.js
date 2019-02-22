@@ -16,19 +16,24 @@ export default class Metadata extends Component {
 
   state = {
     title: '',
-    caption: '',
-    credit: '',
+    source: '',
+    notes: '',
     subtitle: false,
   };
 
   /* eslint-disable react/sort-comp */
   shouldShowMetadata = {
     title: true,
-    caption: true,
-    credit: true,
+    source: true,
+    notes: true,
     subtitle: false,
   }
   /* eslint-enable react/sort-comp */
+
+  metaKeyFallback = {
+    source: 'credit',
+    notes: 'caption',
+  };
 
   componentWillMount() {
     this.setState(this.props.metadata);
@@ -70,7 +75,13 @@ export default class Metadata extends Component {
                   fieldProps={{
                     label: capitalize(key),
                     name: key,
-                    value: getObjArrayKeyStringOnly(this.state, key, ''),
+                    value: this.metaKeyFallback[key] ?
+                      getObjArrayKeyStringOnly(this.state, key, '') ||
+                      getObjArrayKeyStringOnly(
+                        this.state,
+                        this.metaKeyFallback[key],
+                        ''
+                      ) : getObjArrayKeyStringOnly(this.state, key, ''),
                   }}
                   handler={this.handler}
                 />

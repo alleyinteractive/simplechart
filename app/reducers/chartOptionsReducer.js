@@ -126,6 +126,7 @@ export function reduceReceiveChartType(state, { data, src }) {
       },
       yAxis: {
         axisLabel: yLabel,
+        orient: 'top',
       },
     });
 
