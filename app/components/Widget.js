@@ -14,7 +14,6 @@ class Widget extends Component {
   static renderMetadata(widget, metadata) {
     Object.keys(metadata).forEach((key) => {
       let nodeList = widget.querySelectorAll(`.simplechart-${key}`);
-
       // Metakeys 'caption' and 'credit' were changed to
       // 'notes' and 'source' respectively.  This is to ensure current charts
       // render metadata correctly.
@@ -22,7 +21,7 @@ class Widget extends Component {
       if ('credit' === key) {
         nodeList = widget.querySelectorAll('.simplechart-source');
         innerText = metadata.source ||
-            metadata.credit.replace(/^[sS]ource[s]?:?/, '').trim();
+        metadata.credit.replace(/^[sS]ource[s]?:?/, '').trim();
       } else if ('caption' === key) {
         nodeList = widget.querySelectorAll('.simplechart-notes');
         innerText = metadata.notes || metadata.caption;
@@ -33,13 +32,15 @@ class Widget extends Component {
       }
 
       const [el] = nodeList;
+      // Used to override hiding empty meta strings.
+      // This is set to false below for credit and caption as part of
+      // moving to 'notes' and 'source'
+      const hideEmpty = 0 === innerText.length && 0 === el.innerText.length;
 
       // Hide if no text for this metadata key
-      if (!innerText.length) {
-        el.style.display = 'none';
-        if (el.parentElement.className.includes(el.className)) {
-          el.parentElement.style.display = 'none';
-        }
+      el.style.display = hideEmpty ? 'none' : '';
+      if (el.parentElement.className.includes(el.className)) {
+        el.parentElement.style.display = hideEmpty ? 'none' : '';
       }
 
       el.innerText = innerText;

@@ -110,7 +110,7 @@ class ChartEditor extends AppComponent {
         {
           hasSource && (
             <p className={styles.sourceAndNotes}>
-              <strong>Sources:</strong> {source || credit}
+              <strong>Source:</strong> {source || credit}
             </p>
           )
         }
