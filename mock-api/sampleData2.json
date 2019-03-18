@@ -3,6 +3,6 @@
   "data": {
     "data": "[{\"label\":\"One\",\"value\":29.7},{\"label\":\"Two\",\"value\":18.4},{\"label\":\"Three\",\"value\":15.1}]",
     "options": "{\"type\":\"pieChart\",\"height\":500}",
-    "metadata": "{\"title\":\"Sample Pie Chart\",\"subtitle\":\"Sample Subtitle\",\"caption\":\"An example of the NVD3 pieChart\",\"credit\":\"Alley Interactive\"}"
+    "metadata": "{\"title\":\"Sample Pie Chart\",\"subtitle\":\"Sample Subtitle\",\"notes\":\"An example of the NVD3 pieChart\",\"source\":\"Alley Interactive\"}"
   }
 }

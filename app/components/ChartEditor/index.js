@@ -81,6 +81,16 @@ class ChartEditor extends AppComponent {
     const { width, left } = this.state;
     const { editingAnnotations } = this.props;
 
+    const {
+      notes,
+      source,
+      caption, // Backwards-compatibility to Notes
+      credit, // Backwards-compatibility to Source
+    } = state.chartMetadata;
+
+    const hasNotes = !!(notes || caption);
+    const hasSource = !!(source || credit);
+
     return (
       <div className={styles.chartContainer} style={{ width, left }}>
         <h3>{state.chartMetadata.title}</h3>
@@ -97,10 +107,20 @@ class ChartEditor extends AppComponent {
               type={state.chartOptions.type}
             />
         }
-        <p>{state.chartMetadata.caption}</p>
-        <p className={styles.credit}>
-          {state.chartMetadata.credit}
-        </p>
+        {
+          hasSource && (
+            <p className={styles.sourceAndNotes}>
+              <strong>Source:</strong> {source || credit}
+            </p>
+          )
+        }
+        {
+          hasNotes && (
+            <p className={styles.sourceAndNotes}>
+              <strong>Notes:</strong> {notes || caption}
+            </p>
+          )
+        }
       </div>
     );
   };

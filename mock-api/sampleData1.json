@@ -3,6 +3,6 @@
   "data": {
     "data": "[{\"label\":\"One\",\"value\":29.7},{\"label\":\"Two\",\"value\":0},{\"label\":\"Three\",\"value\":32.8},{\"label\":\"Four\",\"value\":196.4},{\"label\":\"Five\",\"value\":0.1},{\"label\":\"Six\",\"value\":98},{\"label\":\"Seven\",\"value\":13.9},{\"label\":\"Eight\",\"value\":5.1}]",
     "options": "{\"type\":\"discreteBarChart\",\"height\":500}",
-    "metadata": "{\"title\":\"Sample Bar Chart\",\"subtitle\":\"Sample Subtitle\",\"caption\":\"An example of the NVD3 discreteBarChart\",\"credit\":\"Alley Interactive\"}"
+    "metadata": "{\"title\":\"Sample Bar Chart\",\"subtitle\":\"Sample Subtitle\",\"notes\":\"An example of the NVD3 discreteBarChart\",\"source\":\"Alley Interactive\"}"
   }
 }

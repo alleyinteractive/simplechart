@@ -29,8 +29,8 @@ class ChartTitle extends Component {
     }
     return ({
       title: value,
-      caption: this.props.metadata.caption || '',
-      credit: this.props.metadata.credit || '',
+      notes: this.props.metadata.notes || '',
+      source: this.props.metadata.source || '',
       subtitle,
     });
   };
