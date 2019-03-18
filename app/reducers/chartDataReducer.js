@@ -65,7 +65,7 @@ function checkShouldApplyColors(state, action) {
   }
 
   // Don't apply if data format isn't NVD3 multi series
-  if ('nvd3MultiSeries' !== get(state, 'chartType.config.dateFormat')) {
+  if ('nvd3MultiSeries' !== get(state, 'chartType.config.dataFormat')) {
     return false;
   }
 
