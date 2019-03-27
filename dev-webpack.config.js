@@ -19,7 +19,8 @@ if (!process.env.MOCKAPI) {
 }
 
 module.exports = {
-  devtool: 'sourcemap',
+  mode: 'development',
+  devtool: 'source-map',
   entry,
   output: {
     path: path.resolve(__dirname, 'static'),
@@ -30,13 +31,6 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks(module) {
-        const context = module.context;
-        return context && 0 <= context.indexOf('node_modules');
-      },
-    }),
   ],
   module: {
     rules: [

@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const WebpackGitHash = require('webpack-git-hash');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 // If hash is passed from command line, e.g. $ npm run build abcd123
 const hashProvided = 5 <= process.argv.length &&
@@ -19,18 +20,8 @@ const plugins = [
       NODE_ENV: JSON.stringify('production'),
     },
   }),
-  new webpack.optimize.UglifyJsPlugin({
-    sourceMap: true,
-  }),
   new webpack.LoaderOptionsPlugin({
     minimize: true,
-  }),
-  new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    minChunks(module) {
-      const context = module.context;
-      return context && 0 <= context.indexOf('node_modules');
-    },
   }),
   new HtmlWebpackPlugin({
     inject: false,
@@ -47,7 +38,7 @@ const plugins = [
 ];
 
 module.exports = {
-  devtool: 'sourcemap',
+  devtool: 'source-map',
   entry: {
     widget: [
       require.resolve('./polyfills'),
@@ -56,6 +47,18 @@ module.exports = {
     app: [
       require.resolve('./polyfills'),
       path.resolve('./app/index'),
+    ],
+  },
+  optimization: {
+    // splitChunks: {
+    //   chunks: 'all',
+    // },
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true,
+      }),
     ],
   },
   output: {
