@@ -94,7 +94,7 @@
     "github-markdown-css": "2.4.x",
     "immutability-helper": "2.2.x",
     "isomorphic-fetch": "2.2.x",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "nvd3": "^1.8.6",
     "prop-types": "15.5.x",
     "react": "15.5.x",
