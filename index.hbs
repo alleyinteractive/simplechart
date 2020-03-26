@@ -29,5 +29,9 @@
   {{#each htmlWebpackPlugin.files.chunks }}
     <script type="text/javascript" src="/static/{{this.entry}}"></script>
   {{/each}}
+    <script>
+      window.d3v3 = d3;
+      window.d3 = undefined;
+    </script>
   </body>
 </html>
