@@ -5,7 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import d3 from 'd3';
+import d3 from '../../../vendor/d3v3';
 import nv from '../../../vendor/nv.d3';
 import {
   pick,
