@@ -1,4 +1,4 @@
-import { max } from 'd3';
+import { max } from '../../vendor/d3v3';
 
 export default function getSumDomain(format, data) {
   const mapSeriesToY = (datum) => datum.values.map((series) => series.y);
