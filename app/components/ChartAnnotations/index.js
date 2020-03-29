@@ -1,4 +1,10 @@
+/* eslint-disable import/no-duplicates */
 import React, { Component } from 'react';
+import {
+  annotation as d3Annotation,
+  annotationCalloutElbow,
+} from 'd3-svg-annotation';
+import * as d3Anno2 from 'd3-svg-annotation';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import actionTrigger from '../../actions';
@@ -7,6 +13,7 @@ import {
   RECEIVE_UPDATED_ANNOTATION_DATA,
 } from '../../constants';
 import { getChartTypeDefaultOpts } from '../../utils/chartTypeUtils';
+import * as d3v4 from '../../vendor/d3v4';
 
 import './ChartAnnotations.css';
 
@@ -72,8 +79,10 @@ class ChartAnnotations extends Component {
 
     const containerEl = d3v4.select(container);
     containerEl.select('g.annotations-group').remove();
-    const makeAnnotations = d3v4.annotation()
-      .type(d3v4.annotationCalloutElbow)
+    // const makeAnnotations = d3v4.annotation()
+    // .type(d3v4.annotationCalloutElbow)
+    const makeAnnotations = d3Annotation()
+      .type(annotationCalloutElbow)
       .annotations(annotationsWithCoords)
       .editMode(editing)
       .on('dragend', (annotation) =>
