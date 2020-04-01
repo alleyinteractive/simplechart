@@ -4,7 +4,6 @@ import {
   annotation as d3Annotation,
   annotationCalloutElbow,
 } from 'd3-svg-annotation';
-import * as d3Anno2 from 'd3-svg-annotation';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import actionTrigger from '../../actions';
