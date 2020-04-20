@@ -78,8 +78,8 @@ class ChartAnnotations extends Component {
 
     const containerEl = d3v4.select(container);
     containerEl.select('g.annotations-group').remove();
-    const makeAnnotations = d3Annotation()
-      .type(annotationCalloutElbow)
+    const makeAnnotations = d3v4.annotation()
+      .type(d3v4.annotationCalloutElbow)
       .annotations(annotationsWithCoords)
       .editMode(editing)
       .on('dragend', (annotation) =>
