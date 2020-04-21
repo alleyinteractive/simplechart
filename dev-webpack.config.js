@@ -37,7 +37,7 @@ module.exports = {
       {
         test: /\.js$/,
         enforce: 'pre',
-        exclude: modulesDir,
+        exclude: [modulesDir, vendorDir],
         use: ['eslint-loader'],
       },
       {

@@ -1,3 +1,5 @@
+import * as d3v4 from '../../vendor/d3v4';
+
 export const config = {
   type: 'discreteBarChart',
   label: 'Bar Chart',

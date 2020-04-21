@@ -1,4 +1,4 @@
-import { min, max, scale } from 'd3';
+import { min, max, scale } from '../../vendor/d3v3';
 
 /**
  * Get [min, max] array for data series in nvd3SingleSeries or nvd3MultiSeries format
