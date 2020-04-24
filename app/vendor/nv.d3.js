@@ -750,6 +750,7 @@ nv.models.tooltip = function() {
                     .transition()
                     .delay(hideDelay)
                     .duration(0)
+                    .style('display', 'none')
                     .style('opacity', 0);
             } else {
                 // using tooltip.style('transform') returns values un-usable for tween
@@ -762,6 +763,7 @@ nv.models.tooltip = function() {
                     .interrupt() // cancel running transitions
                     .transition()
                     .duration(is_hidden ? 0 : duration)
+                    .style('display', 'flex')
                     // using tween since some versions of d3 can't auto-tween a translate on a div
                     .styleTween('transform', function (d) {
                         return translateInterpolator;
