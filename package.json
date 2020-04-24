@@ -48,7 +48,7 @@
     "country-data": "0.0.x",
     "css-loader": "^2.1.1",
     "d3-format": "1.0.x",
-    "eslint": "^3.19.0",
+    "eslint": "^4.18.2",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-loader": "^2.1.2",
     "eslint-plugin-import": "^2.2.0",
